@@ -1,0 +1,39 @@
+*{
+    -fx-background-main: #F1F4F8;
+    -fx-background-secondary: #E1EAF9;
+    -fx-background-tertiary: #FFFFFF;
+    -fx-background-highlight: rgba(57, 210, 192, 0.4);
+    -fx-text-main: #143C4E;
+    -fx-text-secondary: #57636C;
+    -fx-text-succes: #39D2C0;
+    -fx-text-warning: #F9CF58;
+    -fx-text-danger: #FF5963;
+}
+
+.layout-pane{
+    -fx-background-color: -fx-background-main;
+}
+
+.layout-nav{
+    -fx-background-color: -fx-background-secondary;
+}
+
+.layout-separator{
+    -fx-background-color: black;
+    -fx-opacity: .5;
+}
+
+.layout-button{
+    -fx-alignment: left;
+    -fx-background-color: transparent;
+    -fx-border-radius: 20px;
+    -fx-graphic-text-gap: 10px;
+}
+
+.layout-disconnect-button {
+    -fx-text-fill: -fx-text-danger ;
+}
+
+.layout-button-selected, .layout-button:hover {
+    -fx-background-color: -fx-background-highlight;
+}
