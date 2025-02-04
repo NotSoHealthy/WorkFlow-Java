@@ -24,7 +24,7 @@
 }
 
 .layout-button{
-    -fx-alignment: left;
+    -fx-alignment: center-left;
     -fx-background-color: transparent;
     -fx-border-radius: 20px;
     -fx-graphic-text-gap: 10px;

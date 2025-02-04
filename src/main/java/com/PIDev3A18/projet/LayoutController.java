@@ -29,11 +29,40 @@ public class LayoutController {
 
     @FXML
     void initialize() {
-        System.out.println("cock");
-        InputStream input = getClass().getResourceAsStream("icons/logout.png");
-        //set the size for image
+        //Dashboard Icon
+        InputStream input = getClass().getResourceAsStream("icons/dash.png");
         Image image = new Image(input, 16, 16, true, true);
         ImageView imageView = new ImageView(image);
+        layoutDashButton.setGraphic(imageView);
+        //Projects Icon
+        input = getClass().getResourceAsStream("icons/projects.png");
+        image = new Image(input, 16, 16, true, true);
+        imageView = new ImageView(image);
+        layoutProjectsButton.setGraphic(imageView);
+        //Task Icon
+        input = getClass().getResourceAsStream("icons/tasks.png");
+        image = new Image(input, 16, 16, true, true);
+        imageView = new ImageView(image);
+        layoutTasksButton.setGraphic(imageView);
+        //Calendar Icon
+        input = getClass().getResourceAsStream("icons/calendar.png");
+        image = new Image(input, 16, 16, true, true);
+        imageView = new ImageView(image);
+        layoutCalendarButton.setGraphic(imageView);
+        //Money Icon
+        input = getClass().getResourceAsStream("icons/money.png");
+        image = new Image(input, 16, 16, true, true);
+        imageView = new ImageView(image);
+        layoutMoneyButton.setGraphic(imageView);
+        //Conge Icon
+        input = getClass().getResourceAsStream("icons/conge.png");
+        image = new Image(input, 16, 16, true, true);
+        imageView = new ImageView(image);
+        layoutLeaveButton.setGraphic(imageView);
+        //Logout Icon
+        input = getClass().getResourceAsStream("icons/logout.png");
+        image = new Image(input, 16, 16, true, true);
+        imageView = new ImageView(image);
         layoutDisconnectButton.setGraphic(imageView);
     }
 }
