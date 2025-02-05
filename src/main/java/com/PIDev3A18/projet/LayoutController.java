@@ -65,4 +65,26 @@ public class LayoutController {
         imageView = new ImageView(image);
         layoutDisconnectButton.setGraphic(imageView);
     }
+
+
+    public void layoutGoToDashboard(ActionEvent actionEvent) {
+    }
+
+    public void layoutGoToProjects(ActionEvent actionEvent) {
+    }
+
+    public void layoutGoToTasks(ActionEvent actionEvent) {
+    }
+
+    public void layoutGoToCalendar(ActionEvent actionEvent) {
+    }
+
+    public void layoutGoToMoney(ActionEvent actionEvent) {
+    }
+
+    public void layoutGoToConge(ActionEvent actionEvent) {
+    }
+
+    public void layoutDisconnect(ActionEvent actionEvent) {
+    }
 }
