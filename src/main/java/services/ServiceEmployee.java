@@ -7,9 +7,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class ServiceEmployee implements Service<Employee> {
+public class ServiceEmployee implements IService<Employee> {
     private Connection con;
 
     public ServiceEmployee() {
@@ -28,13 +29,9 @@ public class ServiceEmployee implements Service<Employee> {
         ps.setString(3, employee.getEmail());
         ps.setString(4, employee.getPhone());
         ps.setString(5, employee.getType());
-        ps.executeUpdate();
+        int r = ps.executeUpdate();
         ps.close();
-    }
-
-    @Override
-    public void update(Employee employee) throws SQLException {
-
+        System.out.println(r + " rows affected");
     }
 
     @Override
@@ -47,7 +44,7 @@ public class ServiceEmployee implements Service<Employee> {
     }
 
     @Override
-    public void update(Employee employee, int oldCIN) throws SQLException {
+    public void update(Employee employee) throws SQLException {
         String query = "update emplyees set first_name = ?, last_name = ?, email = ?, phone = ?, type = ? where id = ?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, employee.getFirstName());
@@ -60,7 +57,7 @@ public class ServiceEmployee implements Service<Employee> {
         ps.close();
     }
 
-    public Employee getEmployeeById(int id) throws SQLException {
+    public Employee readById(int id) throws SQLException {
         String query = "select * from employees where id = ?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, id);
@@ -70,5 +67,17 @@ public class ServiceEmployee implements Service<Employee> {
                     rs.getString("email"), rs.getString("phone"), rs.getString("type"));
         }
         return null;
+    }
+
+    public List<Employee> readAll() throws SQLException {
+        String query = "select * from employees";
+        PreparedStatement ps = con.prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
+        List<Employee> employees = new ArrayList<>();
+        while (rs.next()) {
+            employees.add(new Employee(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"),
+                    rs.getString("email"), rs.getString("phone"), rs.getString("type")));
+        }
+        return employees;
     }
 }
