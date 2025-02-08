@@ -13,7 +13,7 @@ import java.io.InputStream;
 public class Main extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("layout.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), AppConstants.WIDTH, AppConstants.HEIGHT);
         stage.setTitle(AppConstants.TITLE);
         InputStream input = getClass().getResourceAsStream("icons/logo.png");
