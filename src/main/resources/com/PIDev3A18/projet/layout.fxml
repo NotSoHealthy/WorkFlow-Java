@@ -19,7 +19,7 @@
             <HBox alignment="CENTER_LEFT" maxWidth="200.0" prefWidth="200.0" spacing="10.0" styleClass="layout-profile-box" VBox.vgrow="NEVER">
                <children>
                   <Circle fx:id="layoutProfilePicture" fill="DODGERBLUE" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ben Hamouda Mohamed Amin" wrappingWidth="100.0" HBox.hgrow="ALWAYS" />
+                  <Text fx:id="layoutName" strokeType="OUTSIDE" strokeWidth="0.0" text="Ben Hamouda Mohamed Amin" wrappingWidth="100.0" HBox.hgrow="ALWAYS" />
                </children>
                <VBox.margin>
                   <Insets />
@@ -34,28 +34,28 @@
                   <String fx:value="layout-button-selected" />
                   <String fx:value="layout-button" />
                </styleClass></Button>
-            <Button fx:id="layoutProjectsButton" onAction="#layoutGoToProjects" layoutX="30.0" layoutY="123.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="60.0" styleClass="layout-button" text="Projets">
+            <Button fx:id="layoutProjectsButton" layoutX="30.0" layoutY="123.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#layoutGoToProjects" prefHeight="60.0" styleClass="layout-button" text="Projets">
                <font>
                   <Font size="14.0" />
                </font></Button>
-            <Button fx:id="layoutTasksButton" onAction="#layoutGoToTasks" layoutX="30.0" layoutY="173.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="60.0" styleClass="layout-button" text="Tâches">
+            <Button fx:id="layoutTasksButton" layoutX="30.0" layoutY="173.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#layoutGoToTasks" prefHeight="60.0" styleClass="layout-button" text="Tâches">
                <font>
                   <Font size="14.0" />
                </font></Button>
-            <Button fx:id="layoutCalendarButton" onAction="#layoutGoToCalendar" layoutX="30.0" layoutY="173.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="60.0" styleClass="layout-button" text="Calendrier">
+            <Button fx:id="layoutCalendarButton" layoutX="30.0" layoutY="173.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#layoutGoToCalendar" prefHeight="60.0" styleClass="layout-button" text="Calendrier">
                <font>
                   <Font size="14.0" />
                </font></Button>
-            <Button fx:id="layoutMoneyButton" onAction="#layoutGoToMoney" layoutX="30.0" layoutY="223.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="60.0" styleClass="layout-button" text="Rémunération">
+            <Button fx:id="layoutMoneyButton" layoutX="30.0" layoutY="223.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#layoutGoToMoney" prefHeight="60.0" styleClass="layout-button" text="Rémunération">
                <font>
                   <Font size="14.0" />
                </font></Button>
-            <Button fx:id="layoutLeaveButton" onAction="#layoutGoToConge" layoutX="30.0" layoutY="273.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="60.0" styleClass="layout-button" text="Congés">
+            <Button fx:id="layoutLeaveButton" layoutX="30.0" layoutY="273.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#layoutGoToConge" prefHeight="60.0" styleClass="layout-button" text="Congés">
                <font>
                   <Font size="14.0" />
                </font></Button>
             <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS" />
-            <Button fx:id="layoutDisconnectButton" onAction="#layoutDisconnect" layoutX="30.0" layoutY="323.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="60.0" text="Se Deconnecter">
+            <Button fx:id="layoutDisconnectButton" layoutX="30.0" layoutY="323.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#layoutDisconnect" prefHeight="60.0" text="Se Deconnecter">
                <styleClass>
                   <String fx:value="layout-disconnect-button" />
                   <String fx:value="layout-button" />

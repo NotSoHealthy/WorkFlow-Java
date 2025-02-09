@@ -1,17 +1,20 @@
 package com.PIDev3A18.projet;
 
+import entity.Employee;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
 
-import java.io.IOException;
 import java.io.InputStream;
 
 public class LayoutController {
+    Employee loggedEmployee;
+
+    @FXML
+    private Text layoutName;
     @FXML
     private Button layoutDashButton;
     @FXML
@@ -66,7 +69,6 @@ public class LayoutController {
         layoutDisconnectButton.setGraphic(imageView);
     }
 
-
     public void layoutGoToDashboard(ActionEvent actionEvent) {
     }
 
@@ -86,5 +88,14 @@ public class LayoutController {
     }
 
     public void layoutDisconnect(ActionEvent actionEvent) {
+    }
+
+    public void setLoggedEmployee(Employee loggedEmployee) {
+        this.loggedEmployee = loggedEmployee;
+        layoutName.setText(loggedEmployee.getFirstName() + " " + loggedEmployee.getLastName());
+    }
+
+    public Employee getLoggedEmployee() {
+        return loggedEmployee;
     }
 }

@@ -1,9 +1,9 @@
 *{
-    -fx-background-main: #F1F4F8;
+    -fx-background-primary: #F1F4F8;
     -fx-background-secondary: #E1EAF9;
     -fx-background-tertiary: #FFFFFF;
     -fx-background-highlight: rgba(57, 210, 192, 0.4);
-    -fx-text-main: #143C4E;
+    -fx-text-primary: #143C4E;
     -fx-text-secondary: #57636C;
     -fx-text-succes: #39D2C0;
     -fx-text-warning: #F9CF58;
@@ -11,7 +11,7 @@
 }
 
 .layout-pane{
-    -fx-background-color: -fx-background-main;
+    -fx-background-color: -fx-background-primary;
 }
 
 .layout-nav{
