@@ -4,9 +4,20 @@ public class Employee {
     private int id;
     private String firstName;
     private String lastName;
+    private String password;
     private String email;
     private String phone;
     private String type;
+
+    public Employee(int id, String firstName, String lastName, String password, String email, String phone, String type) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.password = password;
+        this.email = email;
+        this.phone = phone;
+        this.type = type;
+    }
 
     public Employee(int id, String firstName, String lastName, String email, String phone, String type) {
         this.id = id;
