@@ -80,4 +80,42 @@ public class ServiceEmployee implements IService<Employee> {
         }
         return employees;
     }
+
+    public Boolean verifPassword(String email, String password) throws SQLException {
+        String query = "select * from employees where email = ? and password = ?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, email);
+        ps.setString(2, password);
+        ResultSet rs = ps.executeQuery();
+        return rs.next();
+    }
+
+    public Boolean verifEmail(String email) throws SQLException {
+        String query = "select * from employees where email = ?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, email);
+        ResultSet rs = ps.executeQuery();
+        return rs.next();
+    }
+
+    public Boolean verifPhone(String phone) throws SQLException {
+        String query = "select * from employees where phone = ?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, phone);
+        ResultSet rs = ps.executeQuery();
+        return rs.next();
+    }
+
+    public Employee readByEmailAndPassword(String email, String password) throws SQLException {
+        String query = "select * from employees where email = ? and password = ?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, email);
+        ps.setString(2, password);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            return new Employee(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"),
+                    email, password, rs.getString("phone"), rs.getString("type"));
+        }
+        return null;
+    }
 }
