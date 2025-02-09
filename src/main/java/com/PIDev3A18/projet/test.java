@@ -12,13 +12,14 @@ import java.util.List;
 
 public class test {
     public static void main(String[] args) throws SQLException {
-        Date date_inscri=Date.valueOf("2025-07-10");
+        Date date_inscri=Date.valueOf("2025-06-10");
         Date date_debut=Date.valueOf("2025-07-10");
         Date date_fin=Date.valueOf("2025-08-20");
         Formation f=new Formation(3,"yes","yesyesyes",date_debut,date_fin,10);
-        Inscription i = new Inscription(date_inscri,"terminé",f);
+        Inscription i = new Inscription(date_inscri,"en attente",f);
         ServiceInscription si = new ServiceInscription();
-        si.update(i);
+        Inscription inscriptions=si.readById(1);
+        System.out.println(inscriptions);
     }
 
 }

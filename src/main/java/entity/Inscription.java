@@ -51,7 +51,7 @@ public class Inscription {
                 "id=" + id +
                 ", date_inscription=" + date_inscription +
                 ", statut='" + statut + '\'' +
-                ", formation=" + formation +
+                ", formation= " + formation +
                 "}\n";
     }
 }
