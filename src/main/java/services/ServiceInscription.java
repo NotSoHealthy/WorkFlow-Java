@@ -19,10 +19,10 @@ public class ServiceInscription implements IService<Inscription> {
     }
     @Override
     public void add(Inscription inscription) throws SQLException {
-        String req="insert into inscription (date_inscription,statut,formation_id,user_id) values (?,?,?,?)";
+        String req="insert into inscription (date_registration,status,formation_id,user_id) values (?,?,?,?)";
         PreparedStatement ps = cnx.prepareStatement(req);
-        ps.setDate(1, inscription.getDate_inscription());
-        ps.setString(2, inscription.getStatut());
+        ps.setDate(1, inscription.getDate_registration());
+        ps.setString(2, inscription.getStatus());
         ps.setInt(3,inscription.getFormation().getFormation_ID());
         ps.setInt(4, inscription.getEmployee().getId());
         ps.executeUpdate();
@@ -31,10 +31,10 @@ public class ServiceInscription implements IService<Inscription> {
 
     @Override
     public void update(Inscription inscription) throws SQLException {
-        String req ="update inscription set date_inscription=?,statut=?,formation_id=?,user_id=? where id=?";
+        String req ="update inscription set date_registration=?,status=?,formation_id=?,user_id=? where id=?";
         PreparedStatement ps = cnx.prepareStatement(req);
-        ps.setDate(1, inscription.getDate_inscription());
-        ps.setString(2, inscription.getStatut());
+        ps.setDate(1, inscription.getDate_registration());
+        ps.setString(2, inscription.getStatus());
         ps.setInt(3,inscription.getFormation().getFormation_ID());
         ps.setInt(4, inscription.getEmployee().getId());
         ps.setInt(5,inscription.getId());
@@ -65,7 +65,7 @@ public class ServiceInscription implements IService<Inscription> {
             Employee employee= e.readById(userId);
             ServiceFormation s=new ServiceFormation();
             Formation formation = s.readById(formationId);
-            inscriptions.add(new Inscription(rs.getInt("id"),rs.getDate("date_inscription"),rs.getString("statut"),formation,employee));
+            inscriptions.add(new Inscription(rs.getInt("id"),rs.getDate("date_registration"),rs.getString("status"),formation,employee));
         }
         return inscriptions;
     }
@@ -86,7 +86,7 @@ public class ServiceInscription implements IService<Inscription> {
             ServiceFormation s=new ServiceFormation();
             Formation formation = s.readById(formationId);
 
-            return new Inscription(id,rs.getDate("date_inscription"),rs.getString("statut"),formation,employee);
+            return new Inscription(rs.getInt("id"),rs.getDate("date_registration"),rs.getString("status"),formation,employee);
         }
         return null;
     }
