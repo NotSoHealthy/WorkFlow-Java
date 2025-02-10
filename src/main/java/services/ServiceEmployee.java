@@ -27,9 +27,9 @@ public class ServiceEmployee implements IService<Employee> {
         ps.setString(1, employee.getFirstName());
         ps.setString(2, employee.getLastName());
         ps.setString(3, employee.getEmail());
-        ps.setString(4, employee.getPassword());
-        ps.setString(5, employee.getPhone());
-        ps.setString(6, employee.getType());
+        ps.setString(3, employee.getPassword());
+        ps.setString(4, employee.getPhone());
+        ps.setString(5, employee.getType());
         int r = ps.executeUpdate();
         ps.close();
         System.out.println(r + " rows affected");
@@ -46,11 +46,12 @@ public class ServiceEmployee implements IService<Employee> {
 
     @Override
     public void update(Employee employee) throws SQLException {
-        String query = "update emplyees set first_name = ?, last_name = ?, email = ?, phone = ?, type = ? where id = ?";
+        String query = "update emplyees set first_name = ?, last_name = ?, email = ?, password = ?, phone = ?, type = ? where id = ?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, employee.getFirstName());
         ps.setString(2, employee.getLastName());
         ps.setString(3, employee.getEmail());
+        ps.setString(3, employee.getPassword());
         ps.setString(4, employee.getPhone());
         ps.setString(5, employee.getType());
         ps.setInt(6, employee.getId());

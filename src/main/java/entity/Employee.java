@@ -4,10 +4,18 @@ public class Employee {
     private int id;
     private String firstName;
     private String lastName;
-    private String password;
     private String email;
+    private String password;
     private String phone;
     private String type;
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public Employee(int id, String firstName, String lastName, String password, String email, String phone, String type) {
         this.id = id;
