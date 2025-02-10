@@ -56,7 +56,7 @@ public class Inscription {
 
     @Override
     public String toString() {
-        return "Inscription{" +
+        return "Inscription {" +
                 "id = " + id +
                 ", date_inscription = " + date_registration +
                 ", statut = '" + status + '\'' +

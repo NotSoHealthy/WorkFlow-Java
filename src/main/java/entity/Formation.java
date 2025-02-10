@@ -66,7 +66,7 @@ public class Formation {
 
     @Override
     public String toString() {
-        return "Formation{" +
+        return "Formation {" +
                 "formation_ID=" + formation_ID +
                 ", titre='" + title + '\'' +
                 ", description='" + description + '\'' +

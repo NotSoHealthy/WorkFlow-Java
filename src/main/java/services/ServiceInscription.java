@@ -56,7 +56,7 @@ public class ServiceInscription implements IService<Inscription> {
         String req ="select * from inscription";
         PreparedStatement ps = cnx.prepareStatement(req);
         ResultSet rs = ps.executeQuery();
-        List<Inscription> inscriptions = new ArrayList<Inscription>();
+        List<Inscription> inscriptions = new ArrayList<>();
         while (rs.next()) {
 
             int formationId = rs.getInt("formation_id");
@@ -89,5 +89,83 @@ public class ServiceInscription implements IService<Inscription> {
             return new Inscription(rs.getInt("id"),rs.getDate("date_registration"),rs.getString("status"),formation,employee);
         }
         return null;
+    }
+    public List<Inscription> search(String str) throws SQLException {
+        String req ="SELECT i.*, e.last_name FROM inscription i JOIN employees e ON i.user_id = e.id WHERE i.status LIKE ? OR i.id = ? OR e.last_name LIKE ?";
+        PreparedStatement ps = cnx.prepareStatement(req);
+        ps.setString(1,"%"+str+"%");
+        int intValue = 1;
+        try {
+            intValue = Integer.parseInt(str);
+        } catch (NumberFormatException _) {
+        }
+        ps.setInt(2, intValue);
+        ps.setString(3, "%"+str+"%");
+        ResultSet rs = ps.executeQuery();
+        List<Inscription> inscriptions = new ArrayList<>();
+        while (rs.next()) {
+            int formationId = rs.getInt("formation_id");
+            int userId = rs.getInt("user_id");
+            ServiceEmployee e=new ServiceEmployee();
+            Employee employee= e.readById(userId);
+            ServiceFormation s=new ServiceFormation();
+            Formation formation = s.readById(formationId);
+            inscriptions.add(new Inscription(rs.getInt("id"),rs.getDate("date_registration"),rs.getString("status"),formation,employee));
+        }
+        ps.close();
+        return inscriptions;
+    }
+    public List<Inscription> searchByDate(int year) throws SQLException {
+        String req ="select * from inscription where YEAR(date_registration) = ?";
+        PreparedStatement ps = cnx.prepareStatement(req);
+        ps.setInt(1, year);
+        ResultSet rs = ps.executeQuery();
+        List<Inscription> inscriptions = new ArrayList<>();
+        while (rs.next()) {
+            int formationId = rs.getInt("formation_id");
+            int userId = rs.getInt("user_id");
+            ServiceEmployee e=new ServiceEmployee();
+            Employee employee= e.readById(userId);
+            ServiceFormation s=new ServiceFormation();
+            Formation formation = s.readById(formationId);
+            inscriptions.add(new Inscription(rs.getInt("id"),rs.getDate("date_registration"),rs.getString("status"),formation,employee));
+        }
+        ps.close();
+        return inscriptions;
+    }
+    public List<Inscription> sortDate() throws SQLException {
+        String req ="select * from inscription order by date_registration ";
+        PreparedStatement ps = cnx.prepareStatement(req);
+        ResultSet rs = ps.executeQuery();
+        List<Inscription> inscriptions = new ArrayList<>();
+        while (rs.next()) {
+            int formationId = rs.getInt("formation_id");
+            int userId = rs.getInt("user_id");
+            ServiceEmployee e=new ServiceEmployee();
+            Employee employee= e.readById(userId);
+            ServiceFormation s=new ServiceFormation();
+            Formation formation = s.readById(formationId);
+            inscriptions.add(new Inscription(rs.getInt("id"),rs.getDate("date_registration"),rs.getString("status"),formation,employee));
+        }
+        ps.close();
+        return inscriptions;
+
+    }
+    public List<Inscription> sortStatus() throws SQLException {
+        String req ="select * from inscription order by status ";
+        PreparedStatement ps = cnx.prepareStatement(req);
+        ResultSet rs = ps.executeQuery();
+        List<Inscription> inscriptions = new ArrayList<>();
+        while (rs.next()) {
+            int formationId = rs.getInt("formation_id");
+            int userId = rs.getInt("user_id");
+            ServiceEmployee e=new ServiceEmployee();
+            Employee employee= e.readById(userId);
+            ServiceFormation s=new ServiceFormation();
+            Formation formation = s.readById(formationId);
+            inscriptions.add(new Inscription(rs.getInt("id"),rs.getDate("date_registration"),rs.getString("status"),formation,employee));
+        }
+        ps.close();
+        return inscriptions;
     }
 }
