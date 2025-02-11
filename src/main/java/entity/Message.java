@@ -12,7 +12,7 @@ public class Message {
     private Reclamation reclamation;
     private Employee user;
 
-    public Message(Employee user, Reclamation reclamation, Time heure, Date date, String contenu) {
+    public Message( String contenu,Date date, Time heure,Reclamation reclamation,Employee user) {
         this.user = user;
         this.reclamation = reclamation;
         this.heure = heure;
@@ -51,6 +51,6 @@ public class Message {
                 ", heure=" + heure +
                 ", reclamation=" + reclamation +
                 ", user=" + user +
-                '}';
+                "}\n";
     }
 }

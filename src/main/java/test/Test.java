@@ -1,8 +1,10 @@
 package test;
 
 import entity.Employee;
+import entity.Message;
 import entity.Reclamation;
 import services.ServiceEmployee;
+import services.ServiceMessage;
 import services.ServiceReclamation;
 
 import java.sql.Date;
@@ -23,23 +25,38 @@ public class Test {
         //serviceEmployee.add(employee);
         ServiceReclamation sr = new ServiceReclamation();
 
-        //sr.add(new Reclamation("Reclamation 2","Une probleme avec les moniteurs",sqlDate,sqlTime,"approved",sqlDate,serviceEmployee.readById(2),serviceEmployee.readById(3)));
-        //sr.update(new Reclamation(12,"Reclamation 3","Imprimante cassée",sqlDate,sqlTime,"pending",sqlDate,serviceEmployee.readById(1),serviceEmployee.readById(3)));
-        Reclamation r = new Reclamation(13,"Reclamation 2","Une probleme avec les moniteurs",sqlDate,sqlTime,"approved",sqlDate,serviceEmployee.readById(2),serviceEmployee.readById(3));
+        //sr.add(new Reclamation("Reclamation 2","Une probleme avec les moniteurs",sqlDate,sqlTime,"REJECTED",sqlDate,serviceEmployee.readById(2),serviceEmployee.readById(3)));
+        Date new_date=Date.valueOf("2025-11-15");
+        //sr.update(new Reclamation(12,"Reclamation 3","Imprimante cassée",new_date,sqlTime,"pending",new_date,serviceEmployee.readById(1),serviceEmployee.readById(3)));
+        Reclamation r = new Reclamation(12,"Reclamation 2","Une probleme avec les moniteurs",sqlDate,sqlTime,"REJECTED",sqlDate,serviceEmployee.readById(2),serviceEmployee.readById(3));
         sr.delete(r);
 
         //System.out.println(sr.readById(12));
         //System.out.println(sr.search("Reclamation 3"));
         //System.out.println(sr.sortTitre());
-        System.out.println(sr.searchByDate(sqlDate));
+        //System.out.println(sr.searchByDate(sqlDate));
         //System.out.println(sr.searchByState("pending"));
 
-
-
         //System.out.println(serviceEmployee.readAll());
-        System.out.println(sr.readAll().toString());
+        //System.out.println(sr.readAll().toString());
         System.out.println(sqlDate);
         System.out.println(sqlTime);
+
+
+        ServiceMessage sm =  new ServiceMessage();
+        Message m = new Message("bonjour, nous aurons besoin de fichiers pour confirmer le paiement",sqlDate,sqlTime,sr.readById(11),serviceEmployee.readById(3));
+        //sm.add(m);
+        //sm.update(new Message(2,"bonjour, ",sqlDate,sqlTime,sr.readById(11),serviceEmployee.readById(3)));
+        //sm.delete(new Message(2,"bonjour, ",sqlDate,sqlTime,sr.readById(11),serviceEmployee.readById(3)));
+        System.out.println(sm.readAll());
+        System.out.println("//////////////////////////////////////////////////////////////////////////////////////////////////////");
+        System.out.println(sm.readById(3));
+
+
+
+
+
+
 
     }
 }
