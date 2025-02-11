@@ -1,15 +1,20 @@
 package test;
 
+import entity.Attendance;
+import entity.Conge;
 import entity.Employee;
+import services.ServiceAttendance;
+import services.ServiceConge;
 import services.ServiceEmployee;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class Test {
     public static void main(String[] args) throws SQLException {
-        Employee employee = new Employee("Amin","Ben Hamouda","123456","aminbenhamouda16@gmail.com","53267314","employee");
+        ServiceAttendance serviceAttendance = new ServiceAttendance();
         ServiceEmployee serviceEmployee = new ServiceEmployee();
-//        serviceEmployee.add(employee);
-        System.out.println(serviceEmployee.readAll());
+        System.out.println(serviceAttendance.readAll());
     }
 }

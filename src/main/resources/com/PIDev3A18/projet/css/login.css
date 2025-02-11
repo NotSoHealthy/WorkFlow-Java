@@ -41,3 +41,12 @@ TextField{
 .btn-connect-google{
     -fx-background-color: #EE8B60;
 }
+
+.notif-pane{
+    -fx-opacity: 0;
+    -fx-background-radius: 20px;
+    -fx-background-color: -fx-text-danger;
+}
+
+.notif-text{;
+}

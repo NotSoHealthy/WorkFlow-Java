@@ -68,6 +68,7 @@ public class ServiceEmployee implements IService<Employee> {
             return new Employee(id, rs.getString("first_name"), rs.getString("last_name"),
                     rs.getString("email"), rs.getString("phone"), rs.getString("type"));
         }
+        System.out.println("no employee found");
         return null;
     }
 
@@ -116,7 +117,7 @@ public class ServiceEmployee implements IService<Employee> {
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
             return new Employee(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"),
-                    email, password, rs.getString("phone"), rs.getString("type"));
+                    email, password, rs.getString("phone"), rs.getString("type"), rs.getString("status"));
         }
         return null;
     }

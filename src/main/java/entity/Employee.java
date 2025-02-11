@@ -8,10 +8,19 @@ public class Employee {
     private String password;
     private String phone;
     private String type;
+    private String status;
 
 
 
-    public Employee(int id, String firstName, String lastName, String password, String email, String phone, String type) {
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Employee(int id, String firstName, String lastName, String password, String email, String phone, String type, String status) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -19,6 +28,7 @@ public class Employee {
         this.email = email;
         this.phone = phone;
         this.type = type;
+        this.status = status;
     }
 
     public Employee(int id, String firstName, String lastName, String email, String phone, String type) {
