@@ -19,7 +19,7 @@ public class ServiceReservation implements IService<Reservation> {
     @Override
     public void add(Reservation reservation) {
         ServiceEvent es=new ServiceEvent();
-        Event e=es.readById(reservation.getID_Event());
+        Event e=es.readById(reservation.getEvent().getId());
         int nb=e.getNombredeplace();
         if(nb==0){
             System.out.println("Event is full");
@@ -32,7 +32,7 @@ public class ServiceReservation implements IService<Reservation> {
                 pst.setString(2,reservation.getType());
                 pst.setInt(3,reservation.getNombreDePlaces());
                 pst.setInt(4,reservation.getUID());
-                pst.setInt(5,reservation.getID_Event());
+                pst.setInt(5,reservation.getEvent().getId());
                 pst.executeUpdate();
                 es.decrementNumber(reservation);
             } catch (SQLException ex) {
@@ -73,13 +73,14 @@ public class ServiceReservation implements IService<Reservation> {
 
     @Override
     public List<Reservation> readAll() {
+        ServiceEvent es=new ServiceEvent();
         String requete="select * from reservation";
         List<Reservation> reservations=new ArrayList<Reservation>();
         try {
             ste=cnx.createStatement();
             rs=ste.executeQuery(requete);
             while(rs.next()){
-                reservations.add(new Reservation(rs.getInt("ID_Reservation"),rs.getDouble("price"),rs.getString("Type"),rs.getInt("NombreDePlaces"),rs.getInt("UID"),rs.getInt("ID_Event")));
+                reservations.add(new Reservation(rs.getInt("ID_Reservation"),rs.getDouble("price"),rs.getString("Type"),rs.getInt("NombreDePlaces"),rs.getInt("UID"),es.readById(rs.getInt("ID_Event"))));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -89,6 +90,7 @@ public class ServiceReservation implements IService<Reservation> {
 
     @Override
     public Reservation readById(int id) {
+        ServiceEvent es=new ServiceEvent();
         String requete="select * from reservation where ID_Reservation = '"+id+"'";
         Reservation r=new Reservation();
         try {
@@ -100,7 +102,7 @@ public class ServiceReservation implements IService<Reservation> {
             r.setType(rs.getString("Type"));
             r.setNombreDePlaces(rs.getInt("NombreDePlaces"));
             r.setUID(rs.getInt("UID"));
-            r.setID_Event(rs.getInt("ID_Event"));
+            r.setEvent(es.readById(rs.getInt("ID_Event")));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -6,22 +6,22 @@ public class Reservation {
     String type;
     int NombreDePlaces;
     int UID;
-    int ID_Event;
+    Event e;
     public Reservation() {}
-    public Reservation(int id, double price, String type, int NombreDePlaces,int UID, int ID_Event) {
+    public Reservation(int id, double price, String type, int NombreDePlaces,int UID, Event e) {
         this.id = id;
         this.price = price;
         this.type = type;
         this.NombreDePlaces = NombreDePlaces;
         this.UID = UID;
-        this.ID_Event = ID_Event;
+        this.e = e;
     }
-    public Reservation(double price, String type, int NombreDePlaces ,int UID, int ID_Event) {
+    public Reservation(double price, String type, int NombreDePlaces ,int UID, Event e) {
         this.price = price;
         this.type = type;
         this.NombreDePlaces = NombreDePlaces;
         this.UID = UID;
-        this.ID_Event = ID_Event;
+        this.e = e;
     }
 
     public int getId() {
@@ -60,13 +60,11 @@ public class Reservation {
         this.UID = UID;
     }
 
-    public int getID_Event() {
-        return ID_Event;
+    public Event getEvent() {
+        return e;
     }
 
-    public void setID_Event(int ID_Event) {
-        this.ID_Event = ID_Event;
-    }
+    public void setEvent(Event e) { this.e = e; }
 
     @Override
     public String toString() {
@@ -76,7 +74,7 @@ public class Reservation {
                 ", type='" + type + '\'' +
                 ", NombreDePlaces=" + NombreDePlaces +
                 ", UID=" + UID +
-                ", ID_Event=" + ID_Event +
+                ", Event=" + e +
                 '}';
     }
 }

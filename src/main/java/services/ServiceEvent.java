@@ -109,7 +109,7 @@ public class ServiceEvent implements IService<Event> {
         try {
             pst=cnx.prepareStatement(requete);
             pst.setInt(1,r.getNombreDePlaces());
-            pst.setInt(2, r.getID_Event());
+            pst.setInt(2, r.getEvent().getId());
             pst.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -119,7 +119,7 @@ public class ServiceEvent implements IService<Event> {
         try {
             pst=cnx.prepareStatement(requete);
             pst.setInt(1,r.getNombreDePlaces());
-            pst.setInt(2, r.getID_Event());
+            pst.setInt(2, r.getEvent().getId());
             pst.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
