@@ -2,6 +2,8 @@ package com.PIDev3A18.projet;
 
 import com.google.gson.Gson;
 import entity.Employee;
+import javafx.animation.FadeTransition;
+import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,21 +12,16 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
-import javafx.scene.control.Control;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import org.controlsfx.validation.Severity;
-import org.controlsfx.validation.ValidationResult;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
-import org.w3c.dom.ls.LSResourceResolver;
-import org.xml.sax.ErrorHandler;
-import org.xml.sax.SAXException;
 import services.ServiceEmployee;
 
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -37,6 +34,10 @@ public class loginController {
     private TextField passwordField;
     @FXML
     private CheckBox rememberCheckbox;
+    @FXML
+    private HBox notifHbox;
+    @FXML
+    private Text notifText;
 
     ValidationSupport validationSupport = new ValidationSupport();
 
@@ -44,6 +45,7 @@ public class loginController {
         Gson gson = new Gson();
 
         if (validationSupport.isInvalid()){
+            showNotification("Compte inexistant");
             return;
         }
 
@@ -61,11 +63,6 @@ public class loginController {
                     throw new RuntimeException(e);
                 }
             }
-            else{
-                try (FileWriter writer = new FileWriter("saved-employee.json")) {
-                    gson.toJson(null, writer);
-                }
-            }
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource("layout.fxml"));
             Parent root = loader.load();
@@ -78,7 +75,7 @@ public class loginController {
             stage.show();
         }
         else{
-            Alert alert = new Alert(Alert.AlertType.ERROR);
+            notifHbox.setVisible(true);
         }
     }
 
@@ -86,5 +83,29 @@ public class loginController {
     public void initialize() {
         validationSupport.registerValidator(emailField, Validator.createRegexValidator("Email invalide",Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE), Severity.ERROR));
         validationSupport.registerValidator(passwordField, Validator.createRegexValidator("Mot de passe invalide",Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[.@$!%*#?&])[A-Za-z\\d.@$!%*#?&]{8,}$"),Severity.ERROR));
+    }
+
+    public void showNotification(String text) {
+        notifText.setText(text);
+        notifHbox.setOpacity(0); // Start fully transparent
+        notifHbox.setVisible(true);
+
+        // Create fade-in transition
+        FadeTransition fadeIn = new FadeTransition(Duration.millis(500), notifHbox);
+        fadeIn.setFromValue(0);
+        fadeIn.setToValue(.8);
+
+        // Create fade-out transition
+        FadeTransition fadeOut = new FadeTransition(Duration.millis(500), notifHbox);
+        fadeOut.setFromValue(.8);
+        fadeOut.setToValue(0);
+        fadeOut.setDelay(Duration.seconds(3)); // Wait 3 seconds before fading out
+
+        // After fade-out, hide the HBox to free up space
+        fadeOut.setOnFinished(event -> notifHbox.setVisible(false));
+
+        // Play fade-in first, then fade-out after delay
+        fadeIn.setOnFinished(event -> fadeOut.play());
+        fadeIn.play();
     }
 }

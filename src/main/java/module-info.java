@@ -1,4 +1,5 @@
 module com.example.projet {
+    requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
     requires com.google.gson;
