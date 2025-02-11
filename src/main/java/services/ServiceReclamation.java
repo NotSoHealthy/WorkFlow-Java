@@ -37,7 +37,7 @@ public class ServiceReclamation implements IService<Reclamation> {
 
         @Override
         public void update(Reclamation reclamation) throws SQLException {
-            String req ="update formation set title=?, description=?, date_begin=?, heure=?, etat=?, date_resolution=?, id_responsable=? where id=?";
+            String req ="update reclamations set titre=?, description=?, date=?, heure=?, etat=?, date_resolution=?, id_responsable=? where id=?";
             PreparedStatement ps = cnx.prepareStatement(req);
             ps.setString(1, reclamation.getTitle());
             ps.setString(2, reclamation.getDescription());
@@ -46,13 +46,14 @@ public class ServiceReclamation implements IService<Reclamation> {
             ps.setString(5, reclamation.getEtat());
             ps.setDate(6, reclamation.getDate_resolution());
             ps.setInt(7, reclamation.getResponsable().getId());
+            ps.setInt(8, reclamation.getReclamation_ID());
             ps.executeUpdate();
             ps.close();
         }
 
         @Override
         public void delete(Reclamation reclamation) throws SQLException {
-            String req ="delete from formation where id = ?";
+            String req ="delete from reclamations where id = ?";
             PreparedStatement ps = cnx.prepareStatement(req);
             ps.setInt(1, reclamation.getReclamation_ID());
             ps.executeUpdate();
@@ -75,7 +76,7 @@ public class ServiceReclamation implements IService<Reclamation> {
 
         @Override
         public Reclamation readById(int id) throws SQLException {
-            String req ="select * from reclamation where id=?";
+            String req ="select * from reclamations where id=?";
             PreparedStatement ps = cnx.prepareStatement(req);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
@@ -85,53 +86,55 @@ public class ServiceReclamation implements IService<Reclamation> {
             ps.close();
             return null;
         }
-      /*  public List<Reclamation> search(String str) throws SQLException {
-            String req ="select * from formation where title like ? or description like ? ";
+       public List<Reclamation> search(String str) throws SQLException {
+            String req ="select * from reclamations where titre like ? or description like ? ";
             PreparedStatement ps = cnx.prepareStatement(req);
             ps.setString(1, "%"+str+"%");
             ps.setString(2, "%"+str+"%");
             ResultSet rs = ps.executeQuery();
-            List<Reclamation> formations = new ArrayList<>();
+            List<Reclamation> reclamations = new ArrayList<>();
             while (rs.next()) {
-                formations.add(new Reclamation(rs.getInt("id"),rs.getString("title"),rs.getString("description"),rs.getDate("date_begin"),rs.getDate("date_end"),rs.getInt("participants_max")));
+                reclamations.add(new Reclamation(rs.getInt("id"),rs.getString("titre"),rs.getString("description"),rs.getDate("date"),rs.getTime("heure"),rs.getString("etat"),rs.getDate("date_resolution"),new ServiceEmployee().readById(rs.getInt("id_responsable")),new ServiceEmployee().readById(rs.getInt("id_employee"))));
             }
             ps.close();
-            return formations;
+            return reclamations;
         }
-        public List<Formation> searchByDate(java.sql.Date date_start,java.sql.Date date_fin) throws SQLException {
-            String req="select * from formation where date_begin >= ? and date_end <= ?";
+        public List<Reclamation> searchByDate(java.sql.Date date) throws SQLException {
+            String req="select * from reclamations where date = ?";
             PreparedStatement ps = cnx.prepareStatement(req);
-            ps.setDate(1, date_start);
-            ps.setDate(2, date_fin);
+            ps.setDate(1, date);
             ResultSet rs = ps.executeQuery();
-            List<Formation> formations = new ArrayList<>();
+            List<Reclamation> reclamations = new ArrayList<>();
             while (rs.next()) {
-                formations.add(new Formation(rs.getInt("id"),rs.getString("title"),rs.getString("description"),rs.getDate("date_begin"),rs.getDate("date_end"),rs.getInt("participants_max")));
+                reclamations.add(new Reclamation(rs.getInt("id"),rs.getString("titre"),rs.getString("description"),rs.getDate("date"),rs.getTime("heure"),rs.getString("etat"),rs.getDate("date_resolution"),new ServiceEmployee().readById(rs.getInt("id_responsable")),new ServiceEmployee().readById(rs.getInt("id_employee"))));
             }
             ps.close();
-            return formations;
+            return reclamations;
         }
-        public List<Formation> sortId() throws SQLException {
-            String req ="select * from formation order by id";
-            PreparedStatement ps = cnx.prepareStatement(req);
-            ResultSet rs = ps.executeQuery();
-            List<Formation> formations = new ArrayList<>();
-            while (rs.next()) {
-                formations.add(new Formation(rs.getInt("id"),rs.getString("title"),rs.getString("description"),rs.getDate("date_begin"),rs.getDate("date_end"),rs.getInt("participants_max")));
-            }
-            ps.close();
-            return formations;
+
+    public List<Reclamation> searchByState(String Etat) throws SQLException {
+        String req="select * from reclamations where etat = ?";
+        PreparedStatement ps = cnx.prepareStatement(req);
+        ps.setString(1, Etat);
+        ResultSet rs = ps.executeQuery();
+        List<Reclamation> reclamations = new ArrayList<>();
+        while (rs.next()) {
+            reclamations.add(new Reclamation(rs.getInt("id"),rs.getString("titre"),rs.getString("description"),rs.getDate("date"),rs.getTime("heure"),rs.getString("etat"),rs.getDate("date_resolution"),new ServiceEmployee().readById(rs.getInt("id_responsable")),new ServiceEmployee().readById(rs.getInt("id_employee"))));
         }
-        public List<Formation> sortTitle() throws SQLException {
-            String req ="select * from formation order by title ";
+        ps.close();
+        return reclamations;
+    }
+
+        public List<Reclamation> sortTitre() throws SQLException {
+            String req ="select * from reclamations order by titre ";
             PreparedStatement ps = cnx.prepareStatement(req);
             ResultSet rs = ps.executeQuery();
-            List<Formation> formations = new ArrayList<>();
+            List<Reclamation> reclamations = new ArrayList<>();
             while (rs.next()) {
-                formations.add(new Formation(rs.getInt("id"),rs.getString("title"),rs.getString("description"),rs.getDate("date_begin"),rs.getDate("date_end"),rs.getInt("participants_max")));
+                reclamations.add(new Reclamation(rs.getInt("id"),rs.getString("titre"),rs.getString("description"),rs.getDate("date"),rs.getTime("heure"),rs.getString("etat"),rs.getDate("date_resolution"),new ServiceEmployee().readById(rs.getInt("id_responsable")),new ServiceEmployee().readById(rs.getInt("id_employee"))));
             }
             ps.close();
-            return formations;
-        }*/
+            return reclamations;
+        }
     }
 
