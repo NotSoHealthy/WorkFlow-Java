@@ -21,7 +21,7 @@ public class ServiceReclamation implements IService<Reclamation> {
 
         @Override
         public void add(Reclamation reclamation) throws SQLException {
-            String req ="insert into formation  (title,description,date,heure,etat,date_resolution,id_responsable,id_employee) values(?,?,?,?,?,?,?,?)";
+            String req ="insert into reclamations  (titre,description,date,heure,etat,date_resolution,id_responsable,id_employee) values(?,?,?,?,?,?,?,?)";
             PreparedStatement ps = cnx.prepareStatement(req);
             ps.setString(1, reclamation.getTitle());
             ps.setString(2, reclamation.getDescription());
@@ -61,12 +61,12 @@ public class ServiceReclamation implements IService<Reclamation> {
 
         @Override
         public List<Reclamation> readAll() throws SQLException {
-            String req ="select * from formation";
+            String req ="select * from reclamations";
             PreparedStatement ps = cnx.prepareStatement(req);
             ResultSet rs = ps.executeQuery();
             List<Reclamation> reclamations = new ArrayList<>();
             while (rs.next()) {
-                reclamations.add(new Reclamation(rs.getInt("id"),rs.getString("title"),rs.getString("description"),rs.getDate("date"),rs.getTime("heure"),rs.getString("etat"),rs.getDate("date_resolution"),new ServiceEmployee().readById(rs.getInt("id_responsable")),new ServiceEmployee().readById(rs.getInt("id_employee"))));
+                reclamations.add(new Reclamation(rs.getInt("id"),rs.getString("titre"),rs.getString("description"),rs.getDate("date"),rs.getTime("heure"),rs.getString("etat"),rs.getDate("date_resolution"),new ServiceEmployee().readById(rs.getInt("id_responsable")),new ServiceEmployee().readById(rs.getInt("id_employee"))));
             }
             ps.close();
             return reclamations;
@@ -80,7 +80,7 @@ public class ServiceReclamation implements IService<Reclamation> {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                return new Reclamation(rs.getInt("id"),rs.getString("title"),rs.getString("description"),rs.getDate("date"),rs.getTime("heure"),rs.getString("etat"),rs.getDate("date_resolution"),new ServiceEmployee().readById(rs.getInt("id_responsable")),new ServiceEmployee().readById(rs.getInt("id_employee")));
+                return new Reclamation(rs.getInt("id"),rs.getString("titre"),rs.getString("description"),rs.getDate("date"),rs.getTime("heure"),rs.getString("etat"),rs.getDate("date_resolution"),new ServiceEmployee().readById(rs.getInt("id_responsable")),new ServiceEmployee().readById(rs.getInt("id_employee")));
             }
             ps.close();
             return null;

@@ -75,7 +75,7 @@ public class Reclamation {
                 ", date_resolution=" + date_resolution +
                 ", responsable=" + responsable +
                 ", employee=" + employee +
-                '}';
+                "}\n";
     }
 }
 
