@@ -45,7 +45,7 @@
             <TextField fx:id="passwordField" layoutX="10.0" layoutY="374.0" prefHeight="40.0" promptText="Mot de passe" />
             <HBox alignment="CENTER">
                <children>
-                  <CheckBox minWidth="-Infinity" mnemonicParsing="false" text="Se souvenir de mon compte">
+                  <CheckBox minWidth="-Infinity" mnemonicParsing="false" text="Se souvenir de mon compte" fx:id="rememberCheckbox">
                      <font>
                         <Font size="14.0" />
                      </font>
