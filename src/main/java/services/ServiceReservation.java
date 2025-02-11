@@ -25,15 +25,16 @@ public class ServiceReservation implements IService<Reservation> {
             System.out.println("Event is full");
         }
         else{
-            String requete="insert into reservation(Price,Type,UID,ID_Event) values(?,?,?,?)";
+            String requete="insert into reservation(Price,Type,NombreDePlaces,UID,ID_Event) values(?,?,?,?,?)";
             try {
                 pst= cnx.prepareStatement(requete);
                 pst.setDouble(1,reservation.getPrice());
                 pst.setString(2,reservation.getType());
-                pst.setInt(3,reservation.getUID());
-                pst.setInt(4,reservation.getID_Event());
+                pst.setInt(3,reservation.getNombreDePlaces());
+                pst.setInt(4,reservation.getUID());
+                pst.setInt(5,reservation.getID_Event());
                 pst.executeUpdate();
-                es.decrementNumberById(reservation.getID_Event());
+                es.decrementNumber(reservation);
             } catch (SQLException ex) {
                 throw new RuntimeException(ex);
             }
@@ -48,7 +49,7 @@ public class ServiceReservation implements IService<Reservation> {
             pst=cnx.prepareStatement(requete);
             pst.setInt(1, r.getId());
             pst.executeUpdate();
-            es.incrementtNumberById(r.getID_Event());
+            es.incrementtNumber(r);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -56,13 +57,14 @@ public class ServiceReservation implements IService<Reservation> {
 
     @Override
     public void update(Reservation reservation) {
-        String requete="update reservation set Price=?,Type=?,UID=? where ID_Reservation=?";
+        String requete="update reservation set Price=?,Type=?,NombreDePlaces = ? ,UID=? where ID_Reservation=?";
         try {
             pst=cnx.prepareStatement(requete);
             pst.setDouble(1,reservation.getPrice());
             pst.setString(2,reservation.getType());
-            pst.setInt(3,reservation.getUID());
-            pst.setInt(4,reservation.getId());
+            pst.setInt(3,reservation.getNombreDePlaces());
+            pst.setInt(4,reservation.getUID());
+            pst.setInt(5,reservation.getId());
             pst.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -77,7 +79,7 @@ public class ServiceReservation implements IService<Reservation> {
             ste=cnx.createStatement();
             rs=ste.executeQuery(requete);
             while(rs.next()){
-                reservations.add(new Reservation(rs.getInt("ID_Reservation"),rs.getDouble("price"),rs.getString("Type"),rs.getInt("UID"),rs.getInt("ID_Event")));
+                reservations.add(new Reservation(rs.getInt("ID_Reservation"),rs.getDouble("price"),rs.getString("Type"),rs.getInt("NombreDePlaces"),rs.getInt("UID"),rs.getInt("ID_Event")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -96,6 +98,7 @@ public class ServiceReservation implements IService<Reservation> {
             r.setId(rs.getInt("ID_Reservation"));
             r.setPrice(rs.getFloat("price"));
             r.setType(rs.getString("Type"));
+            r.setNombreDePlaces(rs.getInt("NombreDePlaces"));
             r.setUID(rs.getInt("UID"));
             r.setID_Event(rs.getInt("ID_Event"));
         } catch (SQLException e) {

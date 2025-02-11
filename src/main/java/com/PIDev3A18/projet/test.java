@@ -15,7 +15,7 @@ public class test {
         LocalDateTime dateTime = LocalDateTime.of(2025, 2, 22, 10, 00);
         Event e=new Event("secondevent","thedescription",dateTime,"Ben Arous","WorkShop",30,4);
         ServiceReservation sr=new ServiceReservation();
-        Reservation res=new Reservation(5,14,"Accees normale",4,4);
+        Reservation res=new Reservation(9,14,"Accees normale",10,4,4);
         sr.add(res);
 
 

@@ -4,6 +4,8 @@ import entity.Event;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import entity.Reservation;
 import utils.DBConnection;
 
 import java.sql.*;
@@ -102,20 +104,22 @@ public class ServiceEvent implements IService<Event> {
         }
         return event;
     }
-    public void decrementNumberById(int id){
-        String requete="update events set NumberOfPlaces=NumberOfPlaces-1 where ID_Event = ?";
+    public void decrementNumber(Reservation r){
+        String requete="update events set NumberOfPlaces=NumberOfPlaces-? where ID_Event = ?";
         try {
             pst=cnx.prepareStatement(requete);
-            pst.setInt(1, id);
+            pst.setInt(1,r.getNombreDePlaces());
+            pst.setInt(2, r.getID_Event());
             pst.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }public void incrementtNumberById(int id){
-        String requete="update events set NumberOfPlaces=NumberOfPlaces+1 where ID_Event = ?";
+    }public void incrementtNumber(Reservation r){
+        String requete="update events set NumberOfPlaces=NumberOfPlaces+? where ID_Event = ?";
         try {
             pst=cnx.prepareStatement(requete);
-            pst.setInt(1, id);
+            pst.setInt(1,r.getNombreDePlaces());
+            pst.setInt(2, r.getID_Event());
             pst.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);

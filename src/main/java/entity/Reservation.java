@@ -4,19 +4,22 @@ public class Reservation {
     int id;
     double price;
     String type;
+    int NombreDePlaces;
     int UID;
     int ID_Event;
     public Reservation() {}
-    public Reservation(int id, double price, String type, int UID, int ID_Event) {
+    public Reservation(int id, double price, String type, int NombreDePlaces,int UID, int ID_Event) {
         this.id = id;
         this.price = price;
         this.type = type;
+        this.NombreDePlaces = NombreDePlaces;
         this.UID = UID;
         this.ID_Event = ID_Event;
     }
-    public Reservation(double price, String type, int UID, int ID_Event) {
+    public Reservation(double price, String type, int NombreDePlaces ,int UID, int ID_Event) {
         this.price = price;
         this.type = type;
+        this.NombreDePlaces = NombreDePlaces;
         this.UID = UID;
         this.ID_Event = ID_Event;
     }
@@ -45,6 +48,10 @@ public class Reservation {
         this.type = type;
     }
 
+    public int getNombreDePlaces() { return NombreDePlaces; }
+
+    public void setNombreDePlaces(int NombreDePlaces) { this.NombreDePlaces = NombreDePlaces; }
+
     public int getUID() {
         return UID;
     }
@@ -67,6 +74,7 @@ public class Reservation {
                 "id=" + id +
                 ", price=" + price +
                 ", type='" + type + '\'' +
+                ", NombreDePlaces=" + NombreDePlaces +
                 ", UID=" + UID +
                 ", ID_Event=" + ID_Event +
                 '}';
