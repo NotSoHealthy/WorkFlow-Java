@@ -22,30 +22,29 @@ public class ServiceDepartment implements IService<Department> {
         if (con==null){
             System.out.println("connection Error");
         }
-        String query = "insert into departments (Name, Year_Budget, Department_Manager, Projects) values(?,?,?,?)";
+        String query = "insert into departments (Name, Year_Budget, Department_Manager) values(?,?,?)";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, department.getName());
         ps.setFloat(2, department.getYear_Budget());
         ps.setInt(3, department.getDepartment_Manager().getId());
-        ps.setInt(4, department.getProjects().getProject_id());
-
 
         int r = ps.executeUpdate();
         ps.close();
-        System.out.println(r + " rows affected");
+        System.out.println(r + " rows added");
 
     }
 
     @Override
     public void update(Department department) throws SQLException {
-        String query = "update departments set Name = ?, Year_Budget = ?, Department_Manager = ?, Projects = ? where id = ?";
+        String query = "update departments set Name = ?, Year_Budget = ?, Department_Manager = ? where Department_Id = ?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, department.getName());
-        ps.setString(2, String.valueOf(department.getYear_Budget()));
-        ps.setString(3, String.valueOf(department.getDepartment_Manager().getId()));
-        ps.setString(4, String.valueOf(department.getProjects().getProject_id()));
-        ps.executeUpdate();
+        ps.setFloat(2, department.getYear_Budget());
+        ps.setInt(3, department.getDepartment_Manager().getId());
+        ps.setInt(4, department.getDepartment_id()); // Add this line to set the Department_Id
+        int r = ps.executeUpdate();
         ps.close();
+        System.out.println(r + " rows Updated");
     }
 
     @Override
@@ -67,9 +66,8 @@ public class ServiceDepartment implements IService<Department> {
             ServiceEmployee serviceEmployee = new ServiceEmployee();
             ServiceProject  serviceProject = new ServiceProject();
             Employee employee = serviceEmployee.readById(rs.getInt("Department_Manager"));
-            Project project = serviceProject.readById(rs.getInt("Projects"));
             departments.add(new Department(rs.getInt("Department_Id"), rs.getString("Name"), rs.getFloat("Year_Budget"),
-                    employee, project));
+                    employee));
         }
         return departments;
     }
@@ -84,9 +82,8 @@ public class ServiceDepartment implements IService<Department> {
             ServiceEmployee serviceEmployee = new ServiceEmployee();
             ServiceProject  serviceProject = new ServiceProject();
             Employee employee = serviceEmployee.readById(rs.getInt("Department_Manager"));
-            Project project = serviceProject.readById(rs.getInt("Projects"));
             return new Department(id, rs.getString("Name"), rs.getFloat("Year_Budget"),
-                    employee, project);
+                    employee);
         }
         return null;
     }
