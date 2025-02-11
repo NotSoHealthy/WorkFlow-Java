@@ -31,7 +31,7 @@ public class ServiceReservation implements IService<Reservation> {
                 pst.setDouble(1,reservation.getPrice());
                 pst.setString(2,reservation.getType());
                 pst.setInt(3,reservation.getNombreDePlaces());
-                pst.setInt(4,reservation.getUID());
+                pst.setInt(4,reservation.getEmployee().getId());
                 pst.setInt(5,reservation.getEvent().getId());
                 pst.executeUpdate();
                 es.decrementNumber(reservation);
@@ -63,7 +63,7 @@ public class ServiceReservation implements IService<Reservation> {
             pst.setDouble(1,reservation.getPrice());
             pst.setString(2,reservation.getType());
             pst.setInt(3,reservation.getNombreDePlaces());
-            pst.setInt(4,reservation.getUID());
+            pst.setInt(4,reservation.getEmployee().getId());
             pst.setInt(5,reservation.getId());
             pst.executeUpdate();
         } catch (SQLException e) {
@@ -74,13 +74,14 @@ public class ServiceReservation implements IService<Reservation> {
     @Override
     public List<Reservation> readAll() {
         ServiceEvent es=new ServiceEvent();
+        ServiceEmployee es1=new ServiceEmployee();
         String requete="select * from reservation";
         List<Reservation> reservations=new ArrayList<Reservation>();
         try {
             ste=cnx.createStatement();
             rs=ste.executeQuery(requete);
             while(rs.next()){
-                reservations.add(new Reservation(rs.getInt("ID_Reservation"),rs.getDouble("price"),rs.getString("Type"),rs.getInt("NombreDePlaces"),rs.getInt("UID"),es.readById(rs.getInt("ID_Event"))));
+                reservations.add(new Reservation(rs.getInt("ID_Reservation"),rs.getDouble("price"),rs.getString("Type"),rs.getInt("NombreDePlaces"),es1.readById(rs.getInt("UID")),es.readById(rs.getInt("ID_Event"))));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -91,6 +92,7 @@ public class ServiceReservation implements IService<Reservation> {
     @Override
     public Reservation readById(int id) {
         ServiceEvent es=new ServiceEvent();
+        ServiceEmployee es1=new ServiceEmployee();
         String requete="select * from reservation where ID_Reservation = '"+id+"'";
         Reservation r=new Reservation();
         try {
@@ -101,7 +103,7 @@ public class ServiceReservation implements IService<Reservation> {
             r.setPrice(rs.getFloat("price"));
             r.setType(rs.getString("Type"));
             r.setNombreDePlaces(rs.getInt("NombreDePlaces"));
-            r.setUID(rs.getInt("UID"));
+            r.setEmployee(es1.readById(rs.getInt("UID")));
             r.setEvent(es.readById(rs.getInt("ID_Event")));
         } catch (SQLException e) {
             throw new RuntimeException(e);

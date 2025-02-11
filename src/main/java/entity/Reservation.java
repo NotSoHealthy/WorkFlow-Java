@@ -5,22 +5,22 @@ public class Reservation {
     double price;
     String type;
     int NombreDePlaces;
-    int UID;
+    Employee employee;
     Event e;
     public Reservation() {}
-    public Reservation(int id, double price, String type, int NombreDePlaces,int UID, Event e) {
+    public Reservation(int id, double price, String type, int NombreDePlaces,Employee employee, Event e) {
         this.id = id;
         this.price = price;
         this.type = type;
         this.NombreDePlaces = NombreDePlaces;
-        this.UID = UID;
+        this.employee = employee;
         this.e = e;
     }
-    public Reservation(double price, String type, int NombreDePlaces ,int UID, Event e) {
+    public Reservation(double price, String type, int NombreDePlaces ,Employee employee, Event e) {
         this.price = price;
         this.type = type;
         this.NombreDePlaces = NombreDePlaces;
-        this.UID = UID;
+        this.employee = employee;
         this.e = e;
     }
 
@@ -52,12 +52,12 @@ public class Reservation {
 
     public void setNombreDePlaces(int NombreDePlaces) { this.NombreDePlaces = NombreDePlaces; }
 
-    public int getUID() {
-        return UID;
+    public Employee getEmployee() {
+        return employee;
     }
 
-    public void setUID(int UID) {
-        this.UID = UID;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
     public Event getEvent() {
@@ -73,7 +73,7 @@ public class Reservation {
                 ", price=" + price +
                 ", type='" + type + '\'' +
                 ", NombreDePlaces=" + NombreDePlaces +
-                ", UID=" + UID +
+                ", UID=" + employee +
                 ", Event=" + e +
                 '}';
     }
