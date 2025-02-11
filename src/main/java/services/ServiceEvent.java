@@ -29,7 +29,7 @@ public class ServiceEvent implements IService<Event> {
             pst.setString(4, evenement.getLieu());
             pst.setString(5, evenement.getType());
             pst.setInt(6,evenement.getNombredeplace());
-            pst.setInt(7, evenement.getUID());
+            pst.setInt(7, evenement.getEmployee().getId());
             pst.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -70,12 +70,13 @@ public class ServiceEvent implements IService<Event> {
     @Override
     public List<Event> readAll() {
         String requete="select * from events";
+        ServiceEmployee emp=new ServiceEmployee();
         List<Event> evenements=new ArrayList<Event>();
         try {
             ste=cnx.createStatement();
             rs=ste.executeQuery(requete);
             while(rs.next()){
-                evenements.add(new Event(rs.getInt("ID_Event"),rs.getString("Title"),rs.getString("Description"),rs.getTimestamp("DateAndTime").toLocalDateTime(),rs.getString("Location"),rs.getString("Type"),rs.getInt("NumberOfPlaces"),rs.getInt("UID")));
+                evenements.add(new Event(rs.getInt("ID_Event"),rs.getString("Title"),rs.getString("Description"),rs.getTimestamp("DateAndTime").toLocalDateTime(),rs.getString("Location"),rs.getString("Type"),rs.getInt("NumberOfPlaces"),emp.readById(rs.getInt("UID"))));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -86,6 +87,7 @@ public class ServiceEvent implements IService<Event> {
     @Override
     public Event readById(int id) {
         String requete="select * from events where ID_Event = '"+id+"'";
+        ServiceEmployee emp=new ServiceEmployee();
         Event event=new Event();
         try {
             ste=cnx.createStatement();
@@ -98,7 +100,7 @@ public class ServiceEvent implements IService<Event> {
             event.setLieu(rs.getString("Location"));
             event.setType(rs.getString("Type"));
             event.setNombredeplace(rs.getInt("NumberOfPlaces"));
-            event.setUID(rs.getInt("UID"));
+            event.setEmployee(emp.readById(rs.getInt("UID")));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

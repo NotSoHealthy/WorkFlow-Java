@@ -10,9 +10,9 @@ public class Event {
     String lieu;
     String type;
     int nombredeplace;
-    int UID;
+    Employee e;
     public Event() {}
-    public Event(int id,String titre,String description,LocalDateTime dateetheure,String lieu,String type,int nombredeplace,int UID) {
+    public Event(int id,String titre,String description,LocalDateTime dateetheure,String lieu,String type,int nombredeplace,Employee e) {
         this.id = id;
         this.titre = titre;
         this.description = description;
@@ -20,16 +20,16 @@ public class Event {
         this.lieu = lieu;
         this.type = type;
         this.nombredeplace = nombredeplace;
-        this.UID = UID;
+        this.e = e;
     }
-    public Event(String titre,String description,LocalDateTime dateetheure,String lieu,String type,int nombredeplace,int UID) {
+    public Event(String titre,String description,LocalDateTime dateetheure,String lieu,String type,int nombredeplace,Employee e) {
         this.titre = titre;
         this.description = description;
         this.dateetheure = dateetheure;
         this.lieu = lieu;
         this.type = type;
         this.nombredeplace = nombredeplace;
-        this.UID = UID;
+        this.e = e;
     }
 
     public int getId() {
@@ -88,12 +88,12 @@ public class Event {
         this.nombredeplace = nombredeplace;
     }
 
-    public int getUID() {
-        return UID;
+    public Employee getEmployee() {
+        return e;
     }
 
-    public void setUID(int UID) {
-        this.UID = UID;
+    public void setEmployee(Employee e) {
+        this.e = e;
     }
 
     @Override
@@ -106,7 +106,7 @@ public class Event {
                 ", lieu='" + lieu + '\'' +
                 ", type='" + type + '\'' +
                 ", nombredeplace=" + nombredeplace +
-                ", UID=" + UID +
+                ", Employee=" + e +
                 '}';
     }
 }
