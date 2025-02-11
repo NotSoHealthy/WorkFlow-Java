@@ -68,6 +68,7 @@ public class ServiceEmployee implements IService<Employee> {
             return new Employee(id, rs.getString("first_name"), rs.getString("last_name"),
                     rs.getString("email"), rs.getString("phone"), rs.getString("type"));
         }
+        System.out.println("no employee found");
         return null;
     }
 
