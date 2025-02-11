@@ -18,16 +18,6 @@ public class Reclamation {
         private Employee employee;
 
 
-    public Reclamation(String title, String description, Date date, Time heure, String etat, Date date_resolution, Employee responsable, Employee employee) {
-        this.title = title;
-        this.description = description;
-        this.date = date;
-        this.heure = heure;
-        this.etat = etat;
-        this.date_resolution = date_resolution;
-        this.responsable = responsable;
-        this.employee = employee;
-    }
 
     public Reclamation(int reclamation_ID, String title, String description, Date date, Time heure, String etat, Date date_resolution, Employee responsable, Employee employee) {
         this.reclamation_ID = reclamation_ID;
@@ -40,6 +30,19 @@ public class Reclamation {
         this.responsable = responsable;
         this.employee = employee;
     }
+
+    public Reclamation(String title, String description, Date date, Time heure, String etat, Date date_resolution, Employee responsable, Employee employee) {
+        this.title = title;
+        this.description = description;
+        this.date = date;
+        this.heure = heure;
+        this.etat = etat;
+        this.date_resolution = date_resolution;
+        this.responsable = responsable;
+        this.employee = employee;
+    }
+
+
 
     public Employee getEmployee() {return employee;}
     public Employee getResponsable() {return responsable;}
