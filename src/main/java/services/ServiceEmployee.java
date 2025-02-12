@@ -27,9 +27,9 @@ public class ServiceEmployee implements IService<Employee> {
         ps.setString(1, employee.getFirstName());
         ps.setString(2, employee.getLastName());
         ps.setString(3, employee.getEmail());
-        ps.setString(3, employee.getPassword());
-        ps.setString(4, employee.getPhone());
-        ps.setString(5, employee.getType());
+        ps.setString(4, employee.getPassword());
+        ps.setString(5, employee.getPhone());
+        ps.setString(6, employee.getType());
         int r = ps.executeUpdate();
         ps.close();
         System.out.println(r + " rows affected");
