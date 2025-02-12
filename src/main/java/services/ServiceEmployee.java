@@ -22,11 +22,12 @@ public class ServiceEmployee implements IService<Employee> {
         if (con==null){
             System.out.println("connection is null");
         }
-        String query = "insert into employees (first_name, last_name, email, phone, type) values(?,?,?,?,?)";
+        String query = "insert into employees (first_name, last_name, email, password, phone, type) values(?,?,?,?,?,?)";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, employee.getFirstName());
         ps.setString(2, employee.getLastName());
         ps.setString(3, employee.getEmail());
+        ps.setString(3, employee.getPassword());
         ps.setString(4, employee.getPhone());
         ps.setString(5, employee.getType());
         int r = ps.executeUpdate();
@@ -45,14 +46,15 @@ public class ServiceEmployee implements IService<Employee> {
 
     @Override
     public void update(Employee employee) throws SQLException {
-        String query = "update emplyees set first_name = ?, last_name = ?, email = ?, phone = ?, type = ? where id = ?";
+        String query = "update emplyees set first_name = ?, last_name = ?, email = ?, password = ?, phone = ?, type = ? where id = ?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, employee.getFirstName());
         ps.setString(2, employee.getLastName());
         ps.setString(3, employee.getEmail());
-        ps.setString(4, employee.getPhone());
-        ps.setString(5, employee.getType());
-        ps.setInt(6, employee.getId());
+        ps.setString(4, employee.getPassword());
+        ps.setString(5, employee.getPhone());
+        ps.setString(6, employee.getType());
+        ps.setInt(7, employee.getId());
         ps.executeUpdate();
         ps.close();
     }
@@ -66,6 +68,7 @@ public class ServiceEmployee implements IService<Employee> {
             return new Employee(id, rs.getString("first_name"), rs.getString("last_name"),
                     rs.getString("email"), rs.getString("phone"), rs.getString("type"));
         }
+        System.out.println("no employee found");
         return null;
     }
 
@@ -114,7 +117,7 @@ public class ServiceEmployee implements IService<Employee> {
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
             return new Employee(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"),
-                    email, password, rs.getString("phone"), rs.getString("type"));
+                    email, password, rs.getString("phone"), rs.getString("type"), rs.getString("status"));
         }
         return null;
     }

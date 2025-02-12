@@ -4,12 +4,23 @@ public class Employee {
     private int id;
     private String firstName;
     private String lastName;
-    private String password;
     private String email;
+    private String password;
     private String phone;
     private String type;
+    private String status;
 
-    public Employee(int id, String firstName, String lastName, String password, String email, String phone, String type) {
+
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Employee(int id, String firstName, String lastName, String password, String email, String phone, String type, String status) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -17,6 +28,7 @@ public class Employee {
         this.email = email;
         this.phone = phone;
         this.type = type;
+        this.status = status;
     }
 
     public Employee(int id, String firstName, String lastName, String email, String phone, String type) {
@@ -28,12 +40,13 @@ public class Employee {
         this.type = type;
     }
 
-    public Employee(String firstName, String lastName, String email, String phone, String type) {
+    public Employee(String firstName, String lastName,String password,String email, String phone, String type) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
         this.type = type;
+        this.password = password;
     }
 
     public String getType() {
@@ -59,6 +72,12 @@ public class Employee {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) { this.password = password; }
 
     public String getLastName() {
         return lastName;
