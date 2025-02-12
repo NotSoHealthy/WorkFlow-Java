@@ -22,12 +22,12 @@ public class ServiceEmployee implements IService<Employee> {
         if (con==null){
             System.out.println("connection is null");
         }
-        String query = "insert into employees (first_name, last_name, email, password, phone, type) values(?,?,?,?,?,?)";
+        String query = "insert into employees (first_name, last_name, email,password, phone, type) values(?,?,?,?,?,?)";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, employee.getFirstName());
         ps.setString(2, employee.getLastName());
         ps.setString(3, employee.getEmail());
-        ps.setString(4, employee.getPassword());
+        ps.setString(4, "000");
         ps.setString(5, employee.getPhone());
         ps.setString(6, employee.getType());
         int r = ps.executeUpdate();
