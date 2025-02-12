@@ -9,22 +9,25 @@ public class Formation {
     private java.sql.Date date_begin;
     private java.sql.Date date_end;
     private int participants_Max;
+    private Employee employee;
 
-    public Formation(String title, String description, java.sql.Date date_begin, java.sql.Date date_end, int participants_Max) {
+    public Formation(String title, String description, java.sql.Date date_begin, java.sql.Date date_end, int participants_Max,Employee employee) {
         this.title = title;
         this.description = description;
         this.date_begin = date_begin;
         this.date_end = date_end;
         this.participants_Max = participants_Max;
+        this.employee = employee;
     }
 
-    public Formation(int formation_ID, String title, String description, java.sql.Date date_begin, java.sql.Date date_end, int participants_Max) {
+    public Formation(int formation_ID, String title, String description, java.sql.Date date_begin, java.sql.Date date_end, int participants_Max, Employee employee) {
         this.formation_ID = formation_ID;
         this.title = title;
         this.description = description;
         this.date_begin = date_begin;
         this.date_end = date_end;
         this.participants_Max = participants_Max;
+        this.employee = employee;
     }
 
     public int getFormation_ID() {
@@ -63,16 +66,23 @@ public class Formation {
     public void setParticipants_Max(int Participants_Max) {
         this.participants_Max = Participants_Max;
     }
+    public Employee getEmployee() {
+        return employee;
+    }
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
 
     @Override
     public String toString() {
         return "Formation {" +
-                "formation_ID=" + formation_ID +
-                ", titre='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", date_Debut='" + date_begin + '\'' +
-                ", date_Fin='" + date_end + '\'' +
-                ", participants_Max=" + participants_Max +
+                "formation_ID = " + formation_ID +
+                ", titre = '" + title + '\'' +
+                ", description = '" + description + '\'' +
+                ", date_Debut = '" + date_begin + '\'' +
+                ", date_Fin = '" + date_end + '\'' +
+                ", participants_Max = " + participants_Max +
+                ", employee = " + employee +
                 "}\n";
     }
 }

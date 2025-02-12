@@ -7,7 +7,7 @@
   <groupId>com.3A18</groupId>
   <artifactId>WorkFlow</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>Projet</name>
+  <name>WorkFlow</name>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
