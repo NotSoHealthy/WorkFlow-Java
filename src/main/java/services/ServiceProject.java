@@ -104,4 +104,80 @@ public class ServiceProject implements IService<Project> {
         ps.close();
         return null;
     }
+    public List<Project> searchByDate(int year) throws SQLException {
+        String req ="select * from projects where YEAR(Start_Date) = ? OR YEAR(End_Date) = ?";
+        PreparedStatement ps = con.prepareStatement(req);
+        ps.setInt(1, year);
+        ResultSet rs = ps.executeQuery();
+        List<Project> projects = new ArrayList<>();
+        while (rs.next()) {
+            int Department_Id = rs.getInt("Department_Id");
+            int Project_Manager = rs.getInt("Project_Manager");
+            ServiceEmployee e=new ServiceEmployee();
+            Employee employee= e.readById(Project_Manager);
+            ServiceDepartment s=new ServiceDepartment();
+            Department department = s.readById(Department_Id);
+            projects.add(new Project(rs.getInt("Project_Id"), rs.getString("Name"), rs.getString("Description"),
+                    rs.getDate("Start_Date"), rs.getDate("End_Date"), rs.getFloat("Budget"),
+                    employee, department));
+        }
+        ps.close();
+        return projects;
+    }
+    public List<Project> sortDate() throws SQLException {
+        String req ="select * from projects order by Start_Date asc ";
+        PreparedStatement ps = con.prepareStatement(req);
+        ResultSet rs = ps.executeQuery();
+        List<Project> projects = new ArrayList<>();
+        while (rs.next()) {
+            int Department_Id = rs.getInt("Department_Id");
+            int Project_Manager = rs.getInt("Project_Manager");
+            ServiceEmployee e=new ServiceEmployee();
+            Employee employee= e.readById(Project_Manager);
+            ServiceDepartment s=new ServiceDepartment();
+            Department department = s.readById(Department_Id);
+            projects.add(new Project(rs.getInt("Project_Id"), rs.getString("Name"), rs.getString("Description"),
+                    rs.getDate("Start_Date"), rs.getDate("End_Date"), rs.getFloat("Budget"),
+                    employee, department));
+        }
+        ps.close();
+        return projects;
+
+    }
+    public List<Project> sortState() throws SQLException {
+        String req ="select * from projects order by state ";
+        PreparedStatement ps = con.prepareStatement(req);
+        ResultSet rs = ps.executeQuery();
+        List<Project> projects = new ArrayList<>();
+        while (rs.next()) {
+            int Department_Id = rs.getInt("Department_Id");
+            int Project_Manager = rs.getInt("Project_Manager");
+            ServiceEmployee e=new ServiceEmployee();
+            Employee employee= e.readById(Project_Manager);
+            ServiceDepartment s=new ServiceDepartment();
+            Department department = s.readById(Department_Id);
+            projects.add(new Project(rs.getInt("Project_Id"), rs.getString("Name"), rs.getString("Description"),
+                    rs.getDate("Start_Date"), rs.getDate("End_Date"), rs.getFloat("Budget"),
+                    employee, department));        }
+        ps.close();
+        return projects;
+    }
+    public List<Project> sortBudget() throws SQLException {
+        String req ="select * from projects order by Budget Desc ";
+        PreparedStatement ps = con.prepareStatement(req);
+        ResultSet rs = ps.executeQuery();
+        List<Project> projects = new ArrayList<>();
+        while (rs.next()) {
+            int Department_Id = rs.getInt("Department_Id");
+            int Project_Manager = rs.getInt("Project_Manager");
+            ServiceEmployee e=new ServiceEmployee();
+            Employee employee= e.readById(Project_Manager);
+            ServiceDepartment s=new ServiceDepartment();
+            Department department = s.readById(Department_Id);
+            projects.add(new Project(rs.getInt("Project_Id"), rs.getString("Name"), rs.getString("Description"),
+                    rs.getDate("Start_Date"), rs.getDate("End_Date"), rs.getFloat("Budget"),
+                    employee, department));        }
+        ps.close();
+        return projects;
+    }
 }

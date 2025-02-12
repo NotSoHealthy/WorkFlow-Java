@@ -31,7 +31,6 @@ public class ServiceDepartment implements IService<Department> {
         int r = ps.executeUpdate();
         ps.close();
         System.out.println(r + " rows added");
-
     }
 
     @Override
@@ -86,5 +85,36 @@ public class ServiceDepartment implements IService<Department> {
                     employee);
         }
         return null;
+    }
+    public List<Department> searchByName(String name) throws SQLException {
+        String req ="select * from departments where name = ? ";
+        PreparedStatement ps = con.prepareStatement(req);
+        ps.setString(1, name);
+        ResultSet rs = ps.executeQuery();
+        List<Department> departments = new ArrayList<>();
+        while (rs.next()) {
+            int Department_Manager = rs.getInt("Department_Manager");
+            ServiceEmployee e=new ServiceEmployee();
+            Employee employee= e.readById(Department_Manager);
+            departments.add(new Department(rs.getInt("Department_Id"), rs.getString("Name"), rs.getFloat("Year_Budget"),
+                    employee)) ;
+        }
+        ps.close();
+        return departments;
+    }
+    public List<Department> sortBudget() throws SQLException {
+        String req ="select * from projects order by Year_Budget ";
+        PreparedStatement ps = con.prepareStatement(req);
+        ResultSet rs = ps.executeQuery();
+        List<Department> departments = new ArrayList<>();
+        while (rs.next()) {
+            int Department_Manager = rs.getInt("Department_Manager");
+            ServiceEmployee e=new ServiceEmployee();
+            Employee employee= e.readById(Department_Manager);
+            departments.add(new Department(rs.getInt("Department_Id"), rs.getString("Name"), rs.getFloat("Year_Budget"),
+                    employee)) ;
+        }
+        ps.close();
+        return departments;
     }
 }
