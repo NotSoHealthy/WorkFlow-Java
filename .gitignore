@@ -38,3 +38,5 @@ build/
 .DS_Store
 .idea/misc.xml
 src/main/java/utils/DBConnection.java
+saved-employee.json
+/src/main/java/test/
