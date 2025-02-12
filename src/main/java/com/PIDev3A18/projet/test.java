@@ -1,29 +1,33 @@
 package com.PIDev3A18.projet;
 
-
-import entity.Reservation;
+import entity.Employee;
+import entity.Formation;
+import entity.Inscription;
 import services.ServiceEmployee;
-import services.ServiceEvent;
-import entity.Event;
-import services.ServiceReservation;
+import services.ServiceFormation;
+import services.ServiceInscription;
 
+import java.sql.Date;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class test {
     public static void main(String[] args) throws SQLException {
-        ServiceEvent se = new ServiceEvent();
-        ServiceEmployee emp = new ServiceEmployee();
-        LocalDateTime dateTime = LocalDateTime.of(2025, 3, 22, 10, 00);
-        Event e=new Event(5,"thirdevent","quatroDescription",dateTime,"Tunis","Hackathon",30,emp.readById(4));
-        ServiceReservation sr=new ServiceReservation();
-        Reservation res=new Reservation(14,"Accees normale",10,emp.readById(4),se.readById(4));
-        //se.add(e);
-        //se.delete(e);
-        //sr.add(res);
+        Date date_inscri=Date.valueOf("2027-12-10");
+        Date date_debut=Date.valueOf("2025-11-10");
+        Date date_fin=Date.valueOf("2026-12-20");
+        Formation f=new Formation(8,"python","Learn how to program",date_debut,date_fin,25);
+        Employee e= new Employee(12,"Fares","Abdnadher","1234","fares.Abdnadher@esprit.tn","98264251","employee");
+        Inscription i = new Inscription(date_inscri,"accepté",f,e);
+        ServiceInscription si= new ServiceInscription();
+        ServiceFormation sf=new ServiceFormation();
+        ServiceEmployee se=new ServiceEmployee();
+        System.out.println(si.sortStatus());
+
+
 
 
     }
+
 }
