@@ -1,7 +1,5 @@
 package entity;
 
-import javafx.scene.image.Image;
-
 public class Employee {
     private int id;
     private String firstName;
@@ -10,11 +8,12 @@ public class Employee {
     private String phone;
     private String password;
     private Department department;
+    private String imageUrl;
     private String type;
     private String status;
 
     //All attributes
-    public Employee(int id, String firstName, String lastName, String email, String phone, String password, Department department, String type, String status) {
+    public Employee(int id, String firstName, String lastName, String email, String phone, String password, Department department, String imageUrl, String type, String status) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -22,22 +21,24 @@ public class Employee {
         this.phone = phone;
         this.password = password;
         this.department = department;
+        this.imageUrl = imageUrl;
         this.type = type;
         this.status = status;
     }
 
     //All attributes except id and status
-    public Employee(String firstName, String lastName, String email, String phone, String password, Department department, String type) {
+    public Employee(String firstName, String lastName, String email, String phone, String password, Department department, String imageUrl, String type) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
         this.password = password;
         this.department = department;
+        this.imageUrl = imageUrl;
         this.type = type;
     }
 
-    //All attributes except id, department and status
+    //All attributes except id, department, imageUrl and status
     public Employee(String firstName, String lastName, String email, String phone, String password, String type) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -48,25 +49,27 @@ public class Employee {
     }
 
     //All attributes except id
-    public Employee(String firstName, String lastName, String email, String phone, String password, Department department, String type, String status) {
+    public Employee(String firstName, String lastName, String email, String phone, String password, Department department, String imageUrl, String type, String status) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
         this.password = password;
         this.department = department;
+        this.imageUrl = imageUrl;
         this.type = type;
         this.status = status;
     }
 
     //All attributes except password
-    public Employee(int id, String firstName, String lastName, String email, String phone, Department department, String type, String status) {
+    public Employee(int id, String firstName, String lastName, String email, String phone, Department department, String imageUrl, String type, String status) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
         this.department = department;
+        this.imageUrl = imageUrl;
         this.type = type;
         this.status = status;
     }
@@ -142,6 +145,14 @@ public class Employee {
         this.status = status;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
@@ -149,9 +160,10 @@ public class Employee {
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", phone='" + phone + '\'' +
+                ", password='" + password + '\'' +
                 ", department=" + department +
+                ", imageUrl='" + imageUrl + '\'' +
                 ", type='" + type + '\'' +
                 ", status='" + status + '\'' +
                 '}';

@@ -43,8 +43,13 @@ public class LoginController {
         if (serviceEmployee.verifPassword(email, password)){
             System.out.println("Password verified");
             Employee employee = serviceEmployee.readByEmailAndPassword(email, password);
-            if (!employee.getStatus().equals("approved")){
+            if (employee.getStatus().equals("pending")){
                 showNotification("Votre compte est toujours en cours de vérification",2, false);
+                return;
+            }
+            if (employee.getStatus().equals("denied")){
+                showNotification("Votre demande de compte a été refusée",2, false);
+                return;
             }
             if (rememberCheckbox.isSelected()) {
                 try (FileWriter writer = new FileWriter("saved-employee.json")) {
@@ -58,7 +63,7 @@ public class LoginController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("layout.fxml"));
             Parent root = loader.load();
             LayoutController layoutController = loader.getController();
-            layoutController.setLoggedEmployee(employee);
+            layoutController.setLoggedinEmployee(employee);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);

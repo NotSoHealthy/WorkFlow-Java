@@ -37,3 +37,6 @@
 .layout-button-selected, .layout-button:hover {
     -fx-background-color: -fx-background-highlight;
 }
+
+.layout-picture{
+}

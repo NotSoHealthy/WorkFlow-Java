@@ -36,7 +36,7 @@ public class Main extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("layout.fxml"));
             root = fxmlLoader.load();
             LayoutController controller= fxmlLoader.getController();
-            controller.setLoggedEmployee(loggedInUser);
+            controller.setLoggedinEmployee(loggedInUser);
         }
         scene = new Scene(root, AppConstants.WIDTH, AppConstants.HEIGHT);
         stage.setTitle(AppConstants.TITLE);
