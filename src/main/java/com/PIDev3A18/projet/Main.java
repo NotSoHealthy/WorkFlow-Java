@@ -26,7 +26,6 @@ public class Main extends Application {
         }catch (IOException e){
             loggedInUser = null;
         }
-        System.out.println(loggedInUser);
 
         if (loggedInUser == null) {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
