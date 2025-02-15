@@ -37,6 +37,7 @@ public class Main extends Application {
             root = fxmlLoader.load();
             LayoutController controller= fxmlLoader.getController();
             controller.setLoggedinEmployee(loggedInUser);
+            controller.layoutGoToDashboard(null);
         }
         scene = new Scene(root, AppConstants.WIDTH, AppConstants.HEIGHT);
         stage.setTitle(AppConstants.TITLE);
