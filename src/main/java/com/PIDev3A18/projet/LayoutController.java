@@ -46,6 +46,7 @@ public class LayoutController {
     private BorderPane layoutBorderPane;
     @FXML
     private Button layoutEvenementsButton;
+    @FXML
     private VBox layoutVbox;
 
 
