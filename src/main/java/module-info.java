@@ -9,5 +9,5 @@ module com.example.projet {
 
     opens com.PIDev3A18.projet to javafx.fxml;
     exports com.PIDev3A18.projet;
-    opens entity to com.google.gson;
+    opens entity to com.google.gson, javafx.base;
 }
