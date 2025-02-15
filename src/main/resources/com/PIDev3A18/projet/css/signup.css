@@ -54,6 +54,5 @@ TextField, PasswordField{
 }
 
 .notif-text{
-    -fx-text-alignment: center;
     -fx-alignment: center;
 }

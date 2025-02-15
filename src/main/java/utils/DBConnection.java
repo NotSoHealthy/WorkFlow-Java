@@ -7,7 +7,7 @@ import java.sql.SQLException;
 public class DBConnection {
     private final String url = "jdbc:mysql://localhost:3306/workflow";
     private final String username = "root";
-    private final String password = "";
+    private final String password = "admin";
 
     private Connection cnx;
     private static DBConnection instance;

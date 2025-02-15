@@ -26,7 +26,6 @@ public class Main extends Application {
         }catch (IOException e){
             loggedInUser = null;
         }
-        System.out.println(loggedInUser);
 
         if (loggedInUser == null) {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
@@ -37,7 +36,7 @@ public class Main extends Application {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("layout.fxml"));
             root = fxmlLoader.load();
             LayoutController controller= fxmlLoader.getController();
-            controller.setLoggedEmployee(loggedInUser);
+            controller.setLoggedinEmployee(loggedInUser);
         }
         scene = new Scene(root, AppConstants.WIDTH, AppConstants.HEIGHT);
         stage.setTitle(AppConstants.TITLE);
