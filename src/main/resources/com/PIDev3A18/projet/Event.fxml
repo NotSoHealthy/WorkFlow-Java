@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefWidth="755.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.EventController">
+   <children>
+      <HBox prefWidth="600.0">
+         <children>
+            <Label fx:id="Title" text="Title">
+               <font>
+                  <Font size="28.0" />
+               </font>
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </Label>
+            <HBox alignment="TOP_RIGHT" prefWidth="600.0" visible="false">
+               <children>
+                  <Label fx:id="ID_Event" text="Title">
+                     <font>
+                        <Font size="28.0" />
+                     </font>
+                     <padding>
+                        <Insets left="20.0" />
+                     </padding>
+                  </Label>
+               </children>
+            </HBox>
+         </children>
+      </HBox>
+      <HBox prefWidth="715.0">
+         <children>
+            <Label fx:id="Description" text="Description" wrapText="true">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <padding>
+                  <Insets left="20.0" />
+               </padding>
+            </Label>
+         </children>
+         <padding>
+            <Insets right="70.0" />
+         </padding>
+      </HBox>
+      <Pane minWidth="845.0" prefHeight="14.0" prefWidth="794.0" styleClass="Evenement-seperator" stylesheets="@css/Evenements.css" />
+   </children>
+   <padding>
+      <Insets bottom="10.0" />
+   </padding>
+</VBox>

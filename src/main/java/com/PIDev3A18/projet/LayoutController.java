@@ -41,6 +41,8 @@ public class LayoutController {
     private ImageView layoutProfilePicture;
     @FXML
     private BorderPane layoutBorderPane;
+    @FXML
+    private Button layoutEvenementsButton;
 
     @FXML
     void initialize() {
@@ -107,6 +109,17 @@ public class LayoutController {
         }
         else {
             loadFXML(getClass().getResource("conge.fxml"));
+        }
+    }
+    public void layoutGoToEvenements(ActionEvent actionEvent) {
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Evenements.fxml"));
+            layoutBorderPane.setCenter(loader.load());
+            EvenementsController controller = loader.getController();
+            controller.populateEventHolder(loggedinEmployee);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

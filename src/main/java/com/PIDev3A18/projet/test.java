@@ -1,27 +1,37 @@
 package com.PIDev3A18.projet;
 
+import com.google.gson.Gson;
+import entity.Employee;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.stage.Stage;
+import utils.Constants.AppConstants;
 
-import entity.Reservation;
-import services.ServiceEmployee;
-import services.ServiceEvent;
-import entity.Event;
-import services.ServiceReservation;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
 
-import java.sql.SQLException;
-import java.time.LocalDateTime;
+public class test extends Application {
+    Scene scene;
+    Parent root;
+    @Override
+    public void start(Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Evenements.fxml"));
+        root = fxmlLoader.load();
+        scene = new Scene(root, AppConstants.WIDTH, AppConstants.HEIGHT);
+        stage.setTitle(AppConstants.TITLE);
+        stage.setScene(scene);
+        stage.setMinHeight(AppConstants.HEIGHT);
+        stage.setMinWidth(AppConstants.WIDTH);
+        stage.show();
+    }
 
-public class test {
-    public static void main(String[] args) throws SQLException {
-        ServiceEvent se = new ServiceEvent();
-        ServiceEmployee emp = new ServiceEmployee();
-        LocalDateTime dateTime = LocalDateTime.of(2025, 3, 22, 10, 00);
-        Event e=new Event(5,"thirdevent","quatroDescription",dateTime,"Tunis","Hackathon",30,emp.readById(4));
-        ServiceReservation sr=new ServiceReservation();
-        Reservation res=new Reservation(14,"Accees normale",10,emp.readById(4),se.readById(4));
-        //se.add(e);
-        //se.delete(e);
-        //sr.add(res);
+    public static void main(String[] args) {
 
 
+        launch();
     }
 }

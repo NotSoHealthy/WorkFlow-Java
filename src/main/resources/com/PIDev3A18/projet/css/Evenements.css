@@ -1,0 +1,42 @@
+*{
+    -fx-background-primary: #F1F4F8;
+    -fx-background-secondary: #E1EAF9;
+    -fx-background-tertiary: #FFFFFF;
+    -fx-background-highlight: rgba(57, 210, 192, 0.4);
+    -fx-text-primary: #143C4E;
+    -fx-text-secondary: #57636C;
+    -fx-text-succes: #39D2C0;
+    -fx-text-warning: #F9CF58;
+    -fx-text-danger: #FF5963;
+}
+
+.Evenements-back{
+    -fx-background-color: -fx-background-secondary;
+    -fx-background-radius: 20;
+}
+.Evenement-seperator{
+    -fx-background-color: -fx-background-highlight;
+}
+.btn {
+    -fx-background-color: linear-gradient(to bottom, #143C4E, #39D2C0);
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0, 2);
+}
+
+.btn:hover {
+    -fx-background-color: linear-gradient(to bottom, #143C4E, #39D2C0);
+}
+
+.btn:pressed {
+    -fx-background-color: linear-gradient(to bottom, #143C4E, #39D2C0);
+    -fx-translate-y: 2px; /* Adds a pressed effect */
+}
+.EventPage-Background{
+    -fx-background-color: -fx-background-primary;
+}
