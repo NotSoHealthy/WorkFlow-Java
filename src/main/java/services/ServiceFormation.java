@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,8 @@ public class ServiceFormation implements IService<Formation> {
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setString(1, formation.getTitle());
         ps.setString(2, formation.getDescription());
-        ps.setDate(3, formation.getDate_Begin());
-        ps.setDate(4, formation.getDate_End());
+        ps.setDate(3, java.sql.Date.valueOf(formation.getDateBegin()));
+        ps.setDate(4, java.sql.Date.valueOf(formation.getDateEnd()));
         ps.setInt(5, formation.getParticipants_Max());
         ps.setInt(6,formation.getEmployee().getId());
         ps.executeUpdate();
@@ -37,8 +38,8 @@ public class ServiceFormation implements IService<Formation> {
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setString(1, formation.getTitle());
         ps.setString(2, formation.getDescription());
-        ps.setDate(3, formation.getDate_Begin());
-        ps.setDate(4, formation.getDate_End());
+        ps.setDate(3, java.sql.Date.valueOf(formation.getDateBegin()));
+        ps.setDate(4, java.sql.Date.valueOf(formation.getDateEnd()));
         ps.setInt(5, formation.getParticipants_Max());
         ps.setInt(6, formation.getEmployee().getId());
         ps.setInt(7, formation.getFormation_ID());
@@ -63,9 +64,11 @@ public class ServiceFormation implements IService<Formation> {
         List<Formation> formations = new ArrayList<>();
         while (rs.next()) {
             int responsable_id = rs.getInt("responsable_id");
+            LocalDate begin = rs.getDate("date_begin").toLocalDate();
+            LocalDate end = rs.getDate("date_end").toLocalDate();
             ServiceEmployee e=new ServiceEmployee();
             Employee employee= e.readById(responsable_id);
-            formations.add(new Formation(rs.getInt("id"),rs.getString("title"),rs.getString("description"),rs.getDate("date_begin"),rs.getDate("date_end"),rs.getInt("participants_max"),employee));
+            formations.add(new Formation(rs.getInt("id"),rs.getString("title"),rs.getString("description"),begin,end,rs.getInt("participants_max"),employee));
         }
         ps.close();
         return formations;
@@ -80,9 +83,11 @@ public class ServiceFormation implements IService<Formation> {
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             int responsable_id = rs.getInt("responsable_id");
+            LocalDate begin = rs.getDate("date_begin").toLocalDate();
+            LocalDate end = rs.getDate("date_end").toLocalDate();
             ServiceEmployee e=new ServiceEmployee();
             Employee employee= e.readById(responsable_id);
-            return new Formation(rs.getInt("id"),rs.getString("title"),rs.getString("description"),rs.getDate("date_begin"),rs.getDate("date_end"),rs.getInt("participants_max"),employee);
+            return new Formation(rs.getInt("id"),rs.getString("title"),rs.getString("description"),begin,end,rs.getInt("participants_max"),employee);
         }
         ps.close();
         return null;
@@ -97,8 +102,10 @@ public class ServiceFormation implements IService<Formation> {
         while (rs.next()) {
             int responsable_id = rs.getInt("responsable_id");
             ServiceEmployee e=new ServiceEmployee();
+            LocalDate begin = rs.getDate("date_begin").toLocalDate();
+            LocalDate end = rs.getDate("date_end").toLocalDate();
             Employee employee= e.readById(responsable_id);
-            formations.add(new Formation(rs.getInt("id"),rs.getString("title"),rs.getString("description"),rs.getDate("date_begin"),rs.getDate("date_end"),rs.getInt("participants_max"),employee));
+            formations.add(new Formation(rs.getInt("id"),rs.getString("title"),rs.getString("description"),begin,end,rs.getInt("participants_max"),employee));
         }
         ps.close();
         return formations;
@@ -112,9 +119,11 @@ public class ServiceFormation implements IService<Formation> {
         List<Formation> formations = new ArrayList<>();
         while (rs.next()) {
             int responsable_id = rs.getInt("responsable_id");
+            LocalDate begin = rs.getDate("date_begin").toLocalDate();
+            LocalDate end = rs.getDate("date_end").toLocalDate();
             ServiceEmployee e=new ServiceEmployee();
             Employee employee= e.readById(responsable_id);
-            formations.add(new Formation(rs.getInt("id"),rs.getString("title"),rs.getString("description"),rs.getDate("date_begin"),rs.getDate("date_end"),rs.getInt("participants_max"),employee));
+            formations.add(new Formation(rs.getInt("id"),rs.getString("title"),rs.getString("description"),begin,end,rs.getInt("participants_max"),employee));
         }
         ps.close();
         return formations;
@@ -126,9 +135,11 @@ public class ServiceFormation implements IService<Formation> {
         List<Formation> formations = new ArrayList<>();
         while (rs.next()) {
             int responsable_id = rs.getInt("responsable_id");
+            LocalDate begin = rs.getDate("date_begin").toLocalDate();
+            LocalDate end = rs.getDate("date_end").toLocalDate();
             ServiceEmployee e=new ServiceEmployee();
             Employee employee= e.readById(responsable_id);
-            formations.add(new Formation(rs.getInt("id"),rs.getString("title"),rs.getString("description"),rs.getDate("date_begin"),rs.getDate("date_end"),rs.getInt("participants_max"),employee));
+            formations.add(new Formation(rs.getInt("id"),rs.getString("title"),rs.getString("description"),begin,end,rs.getInt("participants_max"),employee));
         }
         ps.close();
         return formations;
@@ -140,9 +151,11 @@ public class ServiceFormation implements IService<Formation> {
         List<Formation> formations = new ArrayList<>();
         while (rs.next()) {
             int responsable_id = rs.getInt("responsable_id");
+            LocalDate begin = rs.getDate("date_begin").toLocalDate();
+            LocalDate end = rs.getDate("date_end").toLocalDate();
             ServiceEmployee e=new ServiceEmployee();
             Employee employee= e.readById(responsable_id);
-            formations.add(new Formation(rs.getInt("id"),rs.getString("title"),rs.getString("description"),rs.getDate("date_begin"),rs.getDate("date_end"),rs.getInt("participants_max"),employee));
+            formations.add(new Formation(rs.getInt("id"),rs.getString("title"),rs.getString("description"),begin,end,rs.getInt("participants_max"),employee));
         }
         ps.close();
         return formations;

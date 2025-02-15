@@ -20,7 +20,7 @@ public class Test {
         LocalTime localTime = LocalTime.now();
         Time sqlTime = Time.valueOf(localTime);
 
-        Employee employee = new Employee("Amine","Kerfai","aminekerfai75","12457852","employee");
+       /* Employee employee = new Employee("Amine","Kerfai","aminekerfai75","12457852","employee");
         ServiceEmployee serviceEmployee = new ServiceEmployee();
         //serviceEmployee.add(employee);
         ServiceReclamation sr = new ServiceReclamation();
@@ -53,7 +53,7 @@ public class Test {
         System.out.println(sm.readById(3));
 
 
-
+*/
 
 
 
