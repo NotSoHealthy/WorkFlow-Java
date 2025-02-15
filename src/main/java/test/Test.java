@@ -65,15 +65,9 @@ public class Test {
 
 */
 
+    }}
 
 
 
-    public static void main(String[] args) throws IOException {
-        URL url = new URL("https://i.ibb.co/d29vTTc/1734578951342000.jpg");
-        InputStream in = url.openStream();
-        Image image = new Image(url.toString());
-        System.out.println(image.getUrl());
-        System.out.println(image.getHeight());
-    }
 
-}
+
