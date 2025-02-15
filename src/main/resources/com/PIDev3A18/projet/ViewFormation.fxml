@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="550.0" prefWidth="825.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.ViewFormationController">
+<AnchorPane prefHeight="550.0" prefWidth="825.0" styleClass="page" stylesheets="@css/ViewFormation.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.ViewFormationController">
    <children>
       <TableView fx:id="tableFormation" layoutX="21.0" layoutY="125.0" prefHeight="301.0" prefWidth="783.0">
         <columns>
@@ -18,7 +18,7 @@
             <TableColumn fx:id="participants_max" prefWidth="168.0" text="Participants maximum" />
         </columns>
       </TableView>
-      <TextField fx:id="SearchFormation" layoutX="274.0" layoutY="42.0" prefHeight="25.0" prefWidth="277.0" promptText="recherche par titre ou desctription " />
+      <TextField fx:id="SearchFormation" layoutX="274.0" layoutY="35.0" prefHeight="25.0" prefWidth="277.0" promptText="recherche par titre ou desctription " />
       <Label layoutX="154.0" layoutY="47.0" text="Recherche">
          <font>
             <Font name="Arial" size="12.0" />

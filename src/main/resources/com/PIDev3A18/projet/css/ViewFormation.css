@@ -1,0 +1,22 @@
+*{
+    -fx-background-main: #F1F4F8;
+    -fx-background-secondary: #E1EAF9;
+    -fx-background-tertiary: #FFFFFF;
+    -fx-background-highlight: rgba(57, 210, 192, 0.4);
+    -fx-text-primary: #143C4E;
+    -fx-text-secondary: #57636C;
+    -fx-text-success: #39D2C0;
+    -fx-text-warning: #F9CF58;
+    -fx-text-danger: #FF5963;
+}
+.page{
+    -fx-background-color: -fx-background-main;
+    -fx-text-fill: -fx-text-primary;
+}
+TextField {
+    -fx-background-color: transparent;
+    -fx-border-radius: 5px;
+    -fx-border-color: rgba(0,0,0,0.25);
+    -fx-prompt-text-fill: derive(-fx-text-primary, 30%);
+    -fx-pref-height: 40px;
+}
