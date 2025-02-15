@@ -20,3 +20,39 @@ TextField {
     -fx-prompt-text-fill: derive(-fx-text-primary, 30%);
     -fx-pref-height: 40px;
 }
+.btn:hover{
+    -fx-cursor:hand ;
+}
+.table-view {
+    -fx-background-color:#143C4E;
+    -fx-background-radius:10 10 0 0;
+
+}
+.table-view .column-header-background{
+    -fx-background-color: rgba(57, 210, 192, 0.4);
+    -fx-background-radius:10;
+    -fx-background-insets: 0 0 10 0;
+
+
+
+}
+.table-view .column-header, .table-view .filler{
+    -fx-size:50px;
+    -fx-border-width: 0 0 10 0;
+    -fx-background-color:transparent;
+
+
+}
+.table-view .column-header .label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white ;
+}
+.table-cell {
+    -fx-alignment: CENTER;
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+}
+.table-row-cell {
+    -fx-background-color: #143C4E;
+}

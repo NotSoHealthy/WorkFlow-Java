@@ -1,28 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="550.0" prefWidth="825.0" styleClass="page" stylesheets="@css/ViewFormation.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.ViewFormationController">
-   <children>
-      <TableView fx:id="tableFormation" layoutX="21.0" layoutY="125.0" prefHeight="301.0" prefWidth="783.0">
-        <columns>
-          <TableColumn fx:id="title" prefWidth="95.0" text="Titre" />
-          <TableColumn fx:id="description" prefWidth="193.0" text="Description" />
-            <TableColumn fx:id="date_begin" prefWidth="158.0" text="Date Début" />
-            <TableColumn fx:id="date_end" prefWidth="167.0" text="Date Fin" />
-            <TableColumn fx:id="participants_max" prefWidth="168.0" text="Participants maximum" />
-        </columns>
-      </TableView>
-      <TextField fx:id="SearchFormation" layoutX="274.0" layoutY="35.0" prefHeight="25.0" prefWidth="277.0" promptText="recherche par titre ou desctription " />
-      <Label layoutX="154.0" layoutY="47.0" text="Recherche">
-         <font>
-            <Font name="Arial" size="12.0" />
-         </font>
-      </Label>
-   </children>
-</AnchorPane>
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1080.0" stylesheets="@css/ViewFormation.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.ViewFormationController">
+   <center>
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Label text="Recherche">
+                     <HBox.margin>
+                        <Insets left="10.0" right="100.0" top="20.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="16.0" />
+                     </font>
+                  </Label>
+                  <TextField prefHeight="25.0" prefWidth="800.0" promptText="Recherche par description ou titre">
+                     <HBox.margin>
+                        <Insets top="20.0" />
+                     </HBox.margin>
+                  </TextField>
+               </children>
+            </HBox>
+            <TableView fx:id="tableFormation" prefHeight="301.0" prefWidth="782.0">
+               <columns>
+                  <TableColumn fx:id="title" prefWidth="104.0" style="-fx-alignment: center;" text="Titre" />
+                  <TableColumn fx:id="description" prefWidth="302.0" style="-fx-alignment: center;" text="Description" />
+                  <TableColumn fx:id="date_begin" prefWidth="238.0" style="-fx-alignment: center;" text="Date Début" />
+                  <TableColumn fx:id="date_end" prefWidth="236.0" style="-fx-alignment: center;" text="Date Fin" />
+                  <TableColumn fx:id="participants_max" prefWidth="198.0" style="-fx-alignment: center;" text="Participants maximum" />
+               </columns>
+            </TableView>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>
