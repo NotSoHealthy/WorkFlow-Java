@@ -1,17 +1,23 @@
 package com.PIDev3A18.projet;
 
+import com.google.gson.Gson;
 import entity.Employee;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.InputStream;
 
 public class LayoutController {
-    Employee loggedEmployee;
+    Employee loggedinEmployee;
 
     @FXML
     private Text layoutName;
@@ -29,6 +35,8 @@ public class LayoutController {
     private Button layoutLeaveButton;
     @FXML
     private Button layoutDisconnectButton;
+    @FXML
+    private ImageView layoutProfilePicture;
 
     @FXML
     void initialize() {
@@ -87,15 +95,36 @@ public class LayoutController {
     public void layoutGoToConge(ActionEvent actionEvent) {
     }
 
-    public void layoutDisconnect(ActionEvent actionEvent) {
+    public void layoutDisconnect(ActionEvent actionEvent) throws IOException {
+        Gson gson = new Gson();
+        FileWriter writer = new FileWriter("saved-employee.json");
+        gson.toJson(null,writer);
+
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
+        layoutCalendarButton.getScene().setRoot(fxmlLoader.load());
     }
 
-    public void setLoggedEmployee(Employee loggedEmployee) {
-        this.loggedEmployee = loggedEmployee;
-        layoutName.setText(loggedEmployee.getFirstName() + " " + loggedEmployee.getLastName());
+    public void setLoggedinEmployee(Employee loggedinEmployee) {
+        this.loggedinEmployee = loggedinEmployee;
+        layoutName.setText(loggedinEmployee.getFirstName() + " " + loggedinEmployee.getLastName());
+
+        Image image = new Image(loggedinEmployee.getImageUrl());
+        double imageWidth = image.getWidth();
+        double imageHeight = image.getHeight();
+        double minSize = Math.min(imageWidth, imageHeight);
+        layoutProfilePicture.setViewport(new Rectangle2D(
+                (imageWidth - minSize) / 2, // Center X
+                (imageHeight - minSize) / 2, // Center Y
+                minSize, minSize // Crop size (square)
+        ));
+        layoutProfilePicture.setImage(image);
+        Circle clip = new Circle(layoutProfilePicture.getFitHeight() / 2);
+        clip.setCenterX(layoutProfilePicture.getFitHeight() / 2);
+        clip.setCenterY(layoutProfilePicture.getFitHeight() / 2);
+        layoutProfilePicture.setClip(clip);
     }
 
-    public Employee getLoggedEmployee() {
-        return loggedEmployee;
+    public Employee getLoggedinEmployee() {
+        return loggedinEmployee;
     }
 }
