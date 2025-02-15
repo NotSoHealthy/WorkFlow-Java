@@ -9,12 +9,14 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 public class LayoutController {
     Employee loggedinEmployee;
@@ -37,6 +39,8 @@ public class LayoutController {
     private Button layoutDisconnectButton;
     @FXML
     private ImageView layoutProfilePicture;
+    @FXML
+    private BorderPane layoutBorderPane;
 
     @FXML
     void initialize() {
@@ -78,21 +82,32 @@ public class LayoutController {
     }
 
     public void layoutGoToDashboard(ActionEvent actionEvent) {
+        loadFXML(getClass().getResource("dashboard.fxml"));
     }
 
     public void layoutGoToProjects(ActionEvent actionEvent) {
+        loadFXML(getClass().getResource("projects.fxml"));
     }
 
     public void layoutGoToTasks(ActionEvent actionEvent) {
+        loadFXML(getClass().getResource("tasks.fxml"));
     }
 
     public void layoutGoToCalendar(ActionEvent actionEvent) {
+        loadFXML(getClass().getResource("calendar.fxml"));
     }
 
     public void layoutGoToMoney(ActionEvent actionEvent) {
+        loadFXML(getClass().getResource("money.fxml"));
     }
 
     public void layoutGoToConge(ActionEvent actionEvent) {
+        if (loggedinEmployee.getType().equals("responsable")) {
+            loadFXML(getClass().getResource("conge_responsable.fxml"));
+        }
+        else {
+            loadFXML(getClass().getResource("conge.fxml"));
+        }
     }
 
     public void layoutDisconnect(ActionEvent actionEvent) throws IOException {
@@ -126,5 +141,15 @@ public class LayoutController {
 
     public Employee getLoggedinEmployee() {
         return loggedinEmployee;
+    }
+
+    private void loadFXML(URL url) {
+        try {
+            FXMLLoader loader = new FXMLLoader(url);
+            layoutBorderPane.setCenter(loader.load());
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
