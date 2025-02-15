@@ -41,6 +41,8 @@ public class LayoutController {
     private ImageView layoutProfilePicture;
     @FXML
     private BorderPane layoutBorderPane;
+    @FXML
+    private Button layoutJobOfferButton;
 
     @FXML
     void initialize() {
@@ -108,6 +110,12 @@ public class LayoutController {
         else {
             loadFXML(getClass().getResource("conge.fxml"));
         }
+    }
+
+    public void layoutGoToJobOffer(ActionEvent actionEvent) {
+        setSelected(layoutJobOfferButton);
+        loadFXML(getClass().getResource("JobOffer.fxml"));
+
     }
 
     public void layoutDisconnect(ActionEvent actionEvent) throws IOException {
