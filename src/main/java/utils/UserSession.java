@@ -1,47 +1,39 @@
 package utils;
 
 import entity.Employee;
-import services.ServiceEmployee;
 
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
+public class UserSession {
+    private static UserSession instance; // Singleton instance
+    private Employee loggedInEmployee;   // Store the logged-in employee
 
-public final class UserSession {
+    // Private constructor to prevent direct instantiation
+    private UserSession() {}
 
-    private static UserSession instance;
-    private Employee employee;
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    private UserSession() {
-    }
-
-    public UserSession(int id) throws SQLException {
-        ServiceEmployee serviceEmployee = new ServiceEmployee();
-        this.employee = serviceEmployee.readById(id);
-    }
-
-    public static UserSession getInstance(int id) throws SQLException {
-        if (instance == null) {
-            instance = new UserSession(id);
-        }
-        return instance;
-    }
-
+    // Method to get the single instance (Singleton Pattern)
     public static UserSession getInstance() {
         if (instance == null) {
-            throw new IllegalStateException("UserSession has not been initialized.");
+            instance = new UserSession();
         }
         return instance;
+    }
+
+    // Method to log in an employee
+    public void login(Employee employee) {
+        this.loggedInEmployee = employee;
+    }
+
+    // Method to log out the employee
+    public void logout() {
+        this.loggedInEmployee = null;
+    }
+
+    // Check if an employee is logged in
+    public boolean isLoggedIn() {
+        return loggedInEmployee != null;
+    }
+
+    // Get the logged-in employee
+    public Employee getLoggedInEmployee() {
+        return loggedInEmployee;
     }
 }
