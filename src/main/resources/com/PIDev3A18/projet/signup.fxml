@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@css/login.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.LoginController">
+<StackPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@css/signup.css" styleClass="page" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.signupController">
    <children>
       <HBox alignment="CENTER" fillHeight="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0">
          <children>
@@ -35,51 +32,46 @@
                         </Text>
                      </children>
                   </HBox>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Se Connecter">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Créer Votre compte">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Text>
-                  <Text layoutX="30.0" layoutY="299.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Faciliter votre gestion RH">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Text>
+                  <TextField fx:id="nomField" layoutX="40.0" layoutY="140.0" prefHeight="40.0" promptText="Nom" />
+                  <TextField fx:id="prenomField" layoutX="40.0" layoutY="140.0" prefHeight="40.0" promptText="Prenom" />
                   <TextField fx:id="emailField" prefHeight="40.0" promptText="Email" />
-                  <PasswordField fx:id="passwordField" promptText="Mot de passe" />
-                  <HBox alignment="CENTER">
+                  <TextField fx:id="numberField" layoutX="40.0" layoutY="250.0" prefHeight="40.0" promptText="Numéro" />
+                  <HBox alignment="CENTER_LEFT" fillHeight="false" nodeOrientation="LEFT_TO_RIGHT" spacing="10.0" styleClass="password-container">
                      <children>
-                        <CheckBox fx:id="rememberCheckbox" minWidth="-Infinity" mnemonicParsing="false" text="Se souvenir de mon compte">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </CheckBox>
-                        <Pane prefWidth="200.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="link-text" text="Mot de passe oublié?" textAlignment="RIGHT">
-                           <HBox.margin>
-                              <Insets />
-                           </HBox.margin>
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                        </Text>
+                        <StackPane alignment="BOTTOM_LEFT">
+                           <children>
+                              <PasswordField fx:id="passwordField" onKeyTyped="#passwordChange" prefWidth="310.0" promptText="Mot de passe" />
+                              <TextField fx:id="passwordText" onKeyTyped="#passwordTextChange" prefWidth="310.0" promptText="Mot de passe" visible="false" />
+                           </children>
+                        </StackPane>
+                        <Button fx:id="passwordButton" mnemonicParsing="false" onAction="#passwordView" prefHeight="20.0" prefWidth="20.0" styleClass="passwordButton" />
                      </children>
                   </HBox>
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#login" prefHeight="35.0" styleClass="btn-connect" text="Se Connecter" />
-                  <Button layoutX="30.0" layoutY="478.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="35.0" text="Se Connecter Avec Google">
-                     <styleClass>
-                        <String fx:value="btn-connect" />
-                        <String fx:value="btn-connect-google" />
-                     </styleClass>
-                  </Button>
-                  <HBox alignment="CENTER" layoutX="30.0" layoutY="426.0" spacing="10.0">
+                  <HBox alignment="CENTER_LEFT" fillHeight="false" layoutX="40.0" layoutY="359.0" nodeOrientation="LEFT_TO_RIGHT" spacing="10.0" styleClass="password-container">
                      <children>
-                        <Text layoutX="233.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Pas encore de comtpe?" textAlignment="RIGHT">
+                        <StackPane>
+                           <children>
+                              <PasswordField fx:id="confirmationField" onKeyTyped="#confirmationChange" prefWidth="310.0" promptText="Confirmer votre mot de passe" />
+                              <TextField fx:id="confirmationText" onKeyTyped="#confirmationTextChange" prefWidth="310.0" promptText="Confirmer votre mot de passe" visible="false" />
+                           </children>
+                        </StackPane>
+                        <Button fx:id="confirmationButton" mnemonicParsing="false" onAction="#confirmationView" prefHeight="20.0" prefWidth="20.0" styleClass="passwordButton" />
+                     </children>
+                  </HBox>
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#signup" prefHeight="35.0" styleClass="btn-connect" text="S'inscrire" />
+                  <HBox alignment="CENTER" spacing="10.0">
+                     <children>
+                        <Text layoutX="233.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vous avez déja un comtpe?" textAlignment="RIGHT">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Text>
-                        <Text onMouseClicked="#goToSignup" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="link-text" text="S'inscrire maintenant" textAlignment="RIGHT">
+                        <Text onMouseClicked="#goToLogin" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="link-text" text="Se connecter maintenant" textAlignment="RIGHT">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -103,7 +95,7 @@
          <children>
             <HBox fx:id="notifHbox" styleClass="notif-pane" visible="false">
                <children>
-                  <Text fx:id="notifText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="notif-text" text="Mot de passe invalide" />
+                  <Text fx:id="notifText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="notif-text" textAlignment="CENTER"/>
                </children>
                <padding>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

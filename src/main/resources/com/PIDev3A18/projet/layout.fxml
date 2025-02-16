@@ -4,21 +4,21 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" styleClass="layout-pane" stylesheets="@css/layout.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.LayoutController">
+<BorderPane fx:id="layoutBorderPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" styleClass="layout-pane" stylesheets="@css/layout.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.LayoutController">
    <left>
-      <VBox maxHeight="1.7976931348623157E308" maxWidth="200.0" prefHeight="720.0" prefWidth="200.0" spacing="25.0" styleClass="layout-nav" BorderPane.alignment="CENTER">
+      <VBox fx:id="layoutVbox" maxHeight="1.7976931348623157E308" maxWidth="200.0" prefHeight="720.0" prefWidth="200.0" spacing="25.0" styleClass="layout-nav" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="CENTER_LEFT" maxWidth="200.0" prefWidth="200.0" spacing="10.0" styleClass="layout-profile-box" VBox.vgrow="NEVER">
                <children>
-                  <Circle fx:id="layoutProfilePicture" fill="DODGERBLUE" radius="20.0" stroke="BLACK" strokeType="INSIDE" />
+                  <ImageView fx:id="layoutProfilePicture" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" styleClass="layout-picture" />
                   <Text fx:id="layoutName" strokeType="OUTSIDE" strokeWidth="0.0" text="Ben Hamouda Mohamed Amin" wrappingWidth="100.0" HBox.hgrow="ALWAYS" />
                </children>
                <VBox.margin>
@@ -31,7 +31,6 @@
                   <Font size="14.0" />
                </font>
                <styleClass>
-                  <String fx:value="layout-button-selected" />
                   <String fx:value="layout-button" />
                </styleClass></Button>
             <Button fx:id="layoutProjectsButton" layoutX="30.0" layoutY="123.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#layoutGoToProjects" prefHeight="60.0" styleClass="layout-button" text="Projets">
@@ -54,6 +53,11 @@
                <font>
                   <Font size="14.0" />
                </font></Button>
+            <Button fx:id="layoutEvenementsButton" layoutX="30.0" layoutY="418.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#layoutGoToEvenements" prefHeight="60.0" styleClass="layout-button" text="Evenements">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
             <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS" />
             <Button fx:id="layoutDisconnectButton" layoutX="30.0" layoutY="323.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#layoutDisconnect" prefHeight="60.0" text="Se Deconnecter">
                <styleClass>
