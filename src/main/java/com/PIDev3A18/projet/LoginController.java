@@ -17,6 +17,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import services.ServiceEmployee;
+import utils.UserSession;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -36,6 +37,7 @@ public class LoginController {
 
     public void login(ActionEvent event) throws SQLException, IOException {
         Gson gson = new Gson();
+        UserSession userSession = UserSession.getInstance();
 
         ServiceEmployee serviceEmployee = new ServiceEmployee();
         String email = emailField.getText();
@@ -60,10 +62,12 @@ public class LoginController {
                 }
             }
 
+            userSession.login(employee);
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("layout.fxml"));
             Parent root = loader.load();
             LayoutController layoutController = loader.getController();
-            layoutController.setLoggedinEmployee(employee);
+            layoutController.layoutGoToDashboard(null);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);

@@ -71,7 +71,7 @@ public class ServiceEmployee implements IService<Employee> {
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
             return new Employee(id, rs.getString("first_name"), rs.getString("last_name"),
-                    rs.getString("email"), rs.getString("phone"),serviceDepartment.readById(rs.getInt("department_id")), rs.getString("image_url"), rs.getString("type"), rs.getString("status"));
+                    rs.getString("email"), rs.getString("phone"),rs.getString("password"),serviceDepartment.readById(rs.getInt("department_id")), rs.getString("image_url"), rs.getString("type"), rs.getString("status"));
         }
         System.out.println("no employee found");
         return null;

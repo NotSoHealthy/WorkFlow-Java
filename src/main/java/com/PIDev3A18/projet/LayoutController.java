@@ -15,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import utils.UserSession;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -23,6 +24,7 @@ import java.net.URL;
 
 public class LayoutController {
     Employee loggedinEmployee;
+    UserSession userSession;
 
     @FXML
     private Text layoutName;
@@ -52,9 +54,27 @@ public class LayoutController {
 
     @FXML
     void initialize() {
+        //Initialization User
+        userSession = UserSession.getInstance();
+        loggedinEmployee = userSession.getLoggedInEmployee();
+        layoutName.setText(loggedinEmployee.getFirstName() + " " + loggedinEmployee.getLastName());
+        Image image = new Image(loggedinEmployee.getImageUrl());
+        double imageWidth = image.getWidth();
+        double imageHeight = image.getHeight();
+        double minSize = Math.min(imageWidth, imageHeight);
+        layoutProfilePicture.setViewport(new Rectangle2D(
+                (imageWidth - minSize) / 2, // Center X
+                (imageHeight - minSize) / 2, // Center Y
+                minSize, minSize // Crop size (square)
+        ));
+        layoutProfilePicture.setImage(image);
+        Circle clip = new Circle(layoutProfilePicture.getFitHeight() / 2);
+        clip.setCenterX(layoutProfilePicture.getFitHeight() / 2);
+        clip.setCenterY(layoutProfilePicture.getFitHeight() / 2);
+        layoutProfilePicture.setClip(clip);
         //Dashboard Icon
         InputStream input = getClass().getResourceAsStream("icons/dash.png");
-        Image image = new Image(input, 16, 16, true, true);
+        image = new Image(input, 16, 16, true, true);
         ImageView imageView = new ImageView(image);
         layoutDashButton.setGraphic(imageView);
         //Projects Icon
@@ -146,23 +166,7 @@ public class LayoutController {
     }
 
     public void setLoggedinEmployee(Employee loggedinEmployee) {
-        this.loggedinEmployee = loggedinEmployee;
-        layoutName.setText(loggedinEmployee.getFirstName() + " " + loggedinEmployee.getLastName());
 
-        Image image = new Image(loggedinEmployee.getImageUrl());
-        double imageWidth = image.getWidth();
-        double imageHeight = image.getHeight();
-        double minSize = Math.min(imageWidth, imageHeight);
-        layoutProfilePicture.setViewport(new Rectangle2D(
-                (imageWidth - minSize) / 2, // Center X
-                (imageHeight - minSize) / 2, // Center Y
-                minSize, minSize // Crop size (square)
-        ));
-        layoutProfilePicture.setImage(image);
-        Circle clip = new Circle(layoutProfilePicture.getFitHeight() / 2);
-        clip.setCenterX(layoutProfilePicture.getFitHeight() / 2);
-        clip.setCenterY(layoutProfilePicture.getFitHeight() / 2);
-        layoutProfilePicture.setClip(clip);
     }
 
     public Employee getLoggedinEmployee() {
