@@ -10,8 +10,6 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.FontWeight?>
-<?import javafx.scene.text.TextAlignment?>
 
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.MainController">
 
@@ -21,9 +19,9 @@
          <padding>
             <Insets bottom="10" left="20" right="20" top="10" />
          </padding>
-         <Button fx:id="ApplyBtn" alignment="CENTER_RIGHT" onAction="#ApplyBtn" prefHeight="36.0" prefWidth="74.0" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8px 16px; -fx-background-radius: 5;" text="Apply" />
+         <Button fx:id="ApplyBtn" alignment="CENTER_RIGHT" onAction="#ApplyBtn" prefHeight="36.0" prefWidth="85.0" style="-fx-background-color: #2ecc71; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8px 16px; -fx-background-radius: 5;" text="JobOffer" />
          <Label text=" " HBox.hgrow="ALWAYS" />
-         <Button fx:id="SignIn" onAction="#SignIn" prefHeight="36.0" prefWidth="110.0" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8px 16px; -fx-background-radius: 5;" text="Sign In" />
+         <Button fx:id="SignIn" onAction="#SignIn" prefHeight="36.0" prefWidth="86.0" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-size: 14px; -fx-padding: 8px 16px; -fx-background-radius: 5;" text="Sign In" />
       </HBox>
    </top>
 
@@ -31,7 +29,7 @@
    <center>
       <StackPane style="-fx-background-image: url('background.jpg'); -fx-background-size: cover;" BorderPane.alignment="CENTER">
          <children>
-            <VBox alignment="CENTER" spacing="20" prefHeight="200.0" prefWidth="100.0">
+            <VBox alignment="CENTER" prefHeight="593.0" prefWidth="1080.0" spacing="20">
                <children>
                   <Label text="WorkFlow" textFill="#332ad3">
                      <font>
@@ -46,12 +44,12 @@
                                  <Image url="@background.jpg" />
                               </image>
                            </ImageView>
-                           <Label text="Efficient HR Management" textFill="WHITE" textAlignment="CENTER" wrapText="true" style="-fx-font-size: 16px; -fx-font-weight: bold;">
+                           <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Efficient HR Management" textAlignment="CENTER" wrapText="true">
                               <font>
                                  <Font name="System Bold" size="16.0" />
                               </font>
                            </Label>
-                           <Label text="Streamline your HR processes with our comprehensive HR management tools." textFill="WHITE" textAlignment="CENTER" wrapText="true" style="-fx-font-size: 14px;" />
+                           <Label style="-fx-font-size: 14px;" text="Streamline your HR processes with our comprehensive HR management tools." textAlignment="CENTER" wrapText="true" />
                         </VBox>
                         <VBox alignment="CENTER" spacing="10">
                            <ImageView fitHeight="216.0" fitWidth="293.0" pickOnBounds="true">
@@ -59,12 +57,12 @@
                                  <Image url="@background2.jpg" />
                               </image>
                            </ImageView>
-                           <Label text="Employee Engagement" textFill="WHITE" textAlignment="CENTER" wrapText="true" style="-fx-font-size: 16px; -fx-font-weight: bold;">
+                           <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Employee Engagement" textAlignment="CENTER" wrapText="true">
                               <font>
                                  <Font name="System Bold" size="16.0" />
                               </font>
                            </Label>
-                           <Label text="Boost employee engagement with our innovative tools and features." textFill="WHITE" textAlignment="CENTER" wrapText="true" style="-fx-font-size: 14px;" />
+                           <Label style="-fx-font-size: 14px;" text="Boost employee engagement with our innovative tools and features." textAlignment="CENTER" wrapText="true" />
                         </VBox>
                         <VBox alignment="CENTER" spacing="10">
                            <ImageView fitHeight="216.0" fitWidth="293.0" pickOnBounds="true">
@@ -72,12 +70,12 @@
                                  <Image url="@background3.jpg" />
                               </image>
                            </ImageView>
-                           <Label text="Recruitment Made Easy" textFill="WHITE" textAlignment="CENTER" wrapText="true" style="-fx-font-size: 16px; -fx-font-weight: bold;">
+                           <Label style="-fx-font-size: 16px; -fx-font-weight: bold;" text="Recruitment Made Easy" textAlignment="CENTER" wrapText="true">
                               <font>
                                  <Font name="System Bold" size="16.0" />
                               </font>
                            </Label>
-                           <Label text="Simplify your recruitment process with our advanced hiring tools." textFill="WHITE" textAlignment="CENTER" wrapText="true" style="-fx-font-size: 14px;" />
+                           <Label style="-fx-font-size: 14px;" text="Simplify your recruitment process with our advanced hiring tools." textAlignment="CENTER" wrapText="true" />
                         </VBox>
                      </children>
                   </HBox>

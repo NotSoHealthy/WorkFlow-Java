@@ -48,6 +48,9 @@ public class LayoutController {
     private VBox layoutVbox;
     @FXML
     private Button layoutJobOfferButton;
+    @FXML
+    private Button ApplicationsButton;
+
 
 
     @FXML
@@ -87,6 +90,13 @@ public class LayoutController {
         image = new Image(input, 16, 16, true, true);
         imageView = new ImageView(image);
         layoutDisconnectButton.setGraphic(imageView);
+    }
+
+    @FXML
+    void ApplicationsButton(ActionEvent event) {
+        setSelected(ApplicationsButton);
+        loadFXML(getClass().getResource("ApplicationList.fxml"));
+
     }
 
     public void layoutGoToDashboard(ActionEvent actionEvent) {
