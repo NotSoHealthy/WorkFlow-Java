@@ -185,7 +185,7 @@ public class ServiceInscription implements IService<Inscription> {
 
     }
     public List<Inscription> SortByEmployee(int id) throws SQLException {
-        String req ="select * from inscription where employee_id = ? ";
+        String req ="select * from inscription where user_id = ? ";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setInt(1,id);
         ResultSet rs = ps.executeQuery();

@@ -186,6 +186,7 @@ public class ViewFormationController implements Initializable {
                         registerButton.setStyle("-fx-background-color: #39D2C0; -fx-text-fill: white; -fx-font-size: 14px;");
                         try {
                             registerButton.setDisable(si.isRegistered(formation, loggedinEmployee));
+
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
                         }
@@ -264,7 +265,7 @@ public class ViewFormationController implements Initializable {
     void Register(ActionEvent event) {
 
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("AddFormation.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewInscription.fxml"));
             Parent parent = loader.load();
             Scene scene = new Scene(parent);
             Stage stage = new Stage();

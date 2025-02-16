@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.stage.Stage;
 import services.ServiceInscription;
 
 import java.sql.SQLException;
@@ -38,7 +39,7 @@ public class ItemsInscriptionController {
         si.update(inscription);
         if(comboBox.getValue().equals("Refuser")) {
             si.delete(inscription);
-
+            ((Stage) TxtDateInscrit.getScene().getWindow()).close();
         }
 
     }
