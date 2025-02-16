@@ -10,12 +10,6 @@
     -fx-text-danger: #FF5963;
 }
 
-HBox{
-    -fx-background-color: -fx-background-tertiary;
-    -fx-background-radius: 10px;
-    -fx-padding: 20px;
-}
-
 Label{
     -fx-fill: -fx-text-primary;
     -fx-text-fill: -fx-text-primary;

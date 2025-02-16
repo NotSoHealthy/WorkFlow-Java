@@ -47,7 +47,7 @@ public class ServiceEmployee implements IService<Employee> {
 
     @Override
     public void update(Employee employee) throws SQLException {
-        String query = "update emplyees set first_name = ?, last_name = ?, email = ?, phone = ?, password = ?, department_id = ?, image_url = ?, type = ?, status = ? where id = ?";
+        String query = "update employees set first_name = ?, last_name = ?, email = ?, phone = ?, password = ?, department_id = ?, image_url = ?, type = ?, status = ? where id = ?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, employee.getFirstName());
         ps.setString(2, employee.getLastName());

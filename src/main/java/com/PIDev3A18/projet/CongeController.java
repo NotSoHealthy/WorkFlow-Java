@@ -12,6 +12,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import org.controlsfx.validation.ValidationSupport;
@@ -20,6 +21,7 @@ import services.ServiceConge;
 import utils.UserSession;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -35,6 +37,8 @@ public class CongeController {
     @FXML private TextField raisonField;
     @FXML private DatePicker requestDateField;
     @FXML private DatePicker startDateField;
+    @FXML private Button addButton;
+    @FXML private Button cancelButton;
 
     private ServiceConge serviceConge = new ServiceConge();
     private UserSession userSession;
@@ -46,6 +50,13 @@ public class CongeController {
 
     @FXML
     public void initialize() throws SQLException, IOException {
+        InputStream inputStream = getClass().getResourceAsStream("icons/plus.png");
+        confirmImage = new Image(inputStream, 16,16,true,true);
+        addButton.setGraphic(new ImageView(confirmImage));
+        inputStream = getClass().getResourceAsStream("icons/x.png");
+        cancelImage = new Image(inputStream, 16,16,true,true);
+        cancelButton.setGraphic(new ImageView(cancelImage));
+
         ObservableList<Node> nodeList = vbox.getChildren();
         List<Node> nodesToRemove = new ArrayList<>();
 
@@ -73,7 +84,7 @@ public class CongeController {
         congeList = congeList.stream().sorted((conge1, conge2) -> conge1.getRequest_date().compareTo(conge2.getRequest_date()) ).collect(Collectors.toList());
 
         for (Conge conge : congeList) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("congeItem.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("conge_item.fxml"));
             CongeItemController congeItemController = new CongeItemController(conge);
             fxmlLoader.setController(congeItemController);
             vbox.getChildren().add(fxmlLoader.load());

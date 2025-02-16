@@ -98,7 +98,7 @@ public class SignupController {
         validationSupport.registerValidator(nomField,Validator.createEmptyValidator("Nom invalide"));
         validationSupport.registerValidator(prenomField,Validator.createEmptyValidator("Prenom invalide"));
         validationSupport.registerValidator(numberField,Validator.createRegexValidator("Numéro invalide",Pattern.compile("^[0-9]{8}$"),Severity.ERROR));
-        validationSupport.registerValidator(emailField, Validator.createRegexValidator("Email invalide",Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE), Severity.ERROR));
+        validationSupport.registerValidator(emailField, Validator.createRegexValidator("Email invalide",Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", Pattern.CASE_INSENSITIVE), Severity.ERROR));
         validationSupport.registerValidator(passwordField, Validator.createRegexValidator("Le mot de passe doit contenir:\nUn minimum de 8 caractères\nUn nombre\nEt un caractères spéciale",Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[.@$!%*#?&])[A-Za-z\\d.@$!%*#?&]{8,}$"),Severity.ERROR));
         validationSupport.registerValidator(confirmationField, Validator.createEqualsValidator("Confirmation invalide", Collections.singletonList(passwordField.getText())));
 

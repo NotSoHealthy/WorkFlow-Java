@@ -15,12 +15,14 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import services.ServiceEmployee;
 import utils.UserSession;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.sql.SQLException;
 
 public class LayoutController {
     Employee loggedinEmployee;
@@ -145,6 +147,14 @@ public class LayoutController {
         layoutCalendarButton.getScene().setRoot(fxmlLoader.load());
     }
 
+    public void goToProfile() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("edit_profile.fxml"));
+        EditProfileController editProfileController = new EditProfileController(this);
+        fxmlLoader.setController(editProfileController);
+        layoutBorderPane.setCenter(fxmlLoader.load());
+        removeSelected();
+    }
+
     private void loadFXML(URL url) {
         try {
             FXMLLoader loader = new FXMLLoader(url);
@@ -167,5 +177,36 @@ public class LayoutController {
                }
            }
        }
+    }
+
+    public void removeSelected(){
+        ObservableList<Node> list = layoutVbox.getChildren();
+        for (Node node : list) {
+            if (node instanceof Button button) {
+                button.getStyleClass().remove("layout-button-selected");
+            }
+        }
+    }
+
+    public void refreshUser() {
+        ServiceEmployee serviceEmployee = new ServiceEmployee();
+        try {
+            userSession.login(serviceEmployee.readById(loggedinEmployee.getId()));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        loggedinEmployee = userSession.getLoggedInEmployee();
+
+        layoutName.setText(loggedinEmployee.getFirstName() + " " + loggedinEmployee.getLastName());
+        Image image = new Image(loggedinEmployee.getImageUrl());
+        double imageWidth = image.getWidth();
+        double imageHeight = image.getHeight();
+        double minSize = Math.min(imageWidth, imageHeight);
+        layoutProfilePicture.setViewport(new Rectangle2D(
+                (imageWidth - minSize) / 2, // Center X
+                (imageHeight - minSize) / 2, // Center Y
+                minSize, minSize // Crop size (square)
+        ));
+        layoutProfilePicture.setImage(image);
     }
 }

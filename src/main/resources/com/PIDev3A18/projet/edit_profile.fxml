@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@css/edit_profile.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <center>
+      <VBox spacing="10.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="profilePicture" fitHeight="100.0" fitWidth="100.0" pickOnBounds="true" preserveRatio="true" />
+            <Button mnemonicParsing="false" onAction="#uploadImage" text="Changer Image" />
+            <ProgressBar fx:id="progressBar" prefWidth="200.0" progress="0.0" />
+            <HBox alignment="CENTER_LEFT" spacing="20.0">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="150.0" text="Nom" />
+                  <TextField fx:id="nomField" onKeyTyped="#verif" prefHeight="30.0" prefWidth="150.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="30.0" layoutY="175.0" spacing="20.0">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="150.0" text="Prenom" />
+                  <TextField fx:id="prenomField" onKeyTyped="#verif" prefHeight="30.0" prefWidth="150.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="30.0" layoutY="175.0" spacing="20.0">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="150.0" text="Email" />
+                  <TextField fx:id="emailField" onKeyTyped="#verif" prefHeight="30.0" prefWidth="150.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="30.0" layoutY="210.0" spacing="20.0">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="150.0" text="Numero de Telephone" />
+                  <TextField fx:id="numField" onKeyTyped="#verif" prefHeight="30.0" prefWidth="150.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="30.0" layoutY="280.0" spacing="20.0">
+               <children>
+                  <Label prefHeight="30.0" prefWidth="150.0" text="Mot de passe" />
+                  <StackPane fx:id="passwordStackPane">
+                     <children>
+                        <PasswordField fx:id="passwordField" onKeyTyped="#passwordFieldChange" prefHeight="30.0" />
+                        <TextField fx:id="passwordText" onKeyTyped="#passwordTextChange" prefHeight="30.0" prefWidth="150.0" visible="false" />
+                     </children>
+                  </StackPane>
+                  <Button fx:id="passwordBtn" mnemonicParsing="false" onAction="#passwordClick" prefHeight="30.0" prefWidth="30.0" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" layoutX="30.0" layoutY="315.0" spacing="20.0">
+               <children>
+                  <Label prefWidth="150.0" text="Confirmation mot de passe" />
+                  <StackPane fx:id="confirmStackPane">
+                     <children>
+                        <PasswordField fx:id="confirmationField" onKeyTyped="#confirmationFieldChange" prefHeight="30.0" />
+                        <TextField fx:id="confirmationText" onKeyTyped="#confirmationTextChange" prefHeight="30.0" prefWidth="150.0" visible="false" />
+                     </children>
+                  </StackPane>
+                  <Button fx:id="confirmationBtn" mnemonicParsing="false" onAction="#confirmationClick" prefHeight="30.0" prefWidth="30.0" />
+               </children>
+            </HBox>
+            <Button mnemonicParsing="false" onAction="#updateAccount" text="Mettre a jour" />
+         </children>
+         <BorderPane.margin>
+            <Insets />
+         </BorderPane.margin>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding></VBox>
+   </center>
+</BorderPane>
