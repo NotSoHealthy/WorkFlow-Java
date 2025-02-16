@@ -40,3 +40,38 @@
 .EventPage-Background{
     -fx-background-color: -fx-background-primary;
 }
+
+.butt{
+    -fx-background-color: linear-gradient(to bottom, #cc0000, #ff6666);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0, 2);
+}
+.butt:hover{
+    -fx-background-color: linear-gradient(to bottom, #cc0000, #ff6666);
+}
+.butt:pressed{
+    -fx-background-color: linear-gradient(to bottom, #cc0000, #ff6666);
+    -fx-translate-y: 2px; /* Adds a pressed effect */
+}
+.update{
+    -fx-background-color: linear-gradient(to bottom, #047cf5, #66baff);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0, 2);
+}
+.update:hover{
+    -fx-background-color: linear-gradient(to bottom, #047cf5, #66baff);
+}
+.update:pressed{
+    -fx-background-color: linear-gradient(to bottom, #047cf5, #66baff);
+    -fx-translate-y: 2px; /* Adds a pressed effect */
+}

@@ -102,6 +102,11 @@ public class LayoutController {
         image = new Image(input, 16, 16, true, true);
         imageView = new ImageView(image);
         layoutLeaveButton.setGraphic(imageView);
+        //Event Icon
+        input = getClass().getResourceAsStream("icons/event.png");
+        image = new Image(input, 16, 16, true, true);
+        imageView = new ImageView(image);
+        layoutEvenementsButton.setGraphic(imageView);
         //Logout Icon
         input = getClass().getResourceAsStream("icons/logout.png");
         image = new Image(input, 16, 16, true, true);
@@ -145,15 +150,8 @@ public class LayoutController {
         }
     }
     public void layoutGoToEvenements(ActionEvent actionEvent) {
-    setSelected(layoutEvenementsButton);
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("Evenements.fxml"));
-            layoutBorderPane.setCenter(loader.load());
-            EvenementsController controller = loader.getController();
-            controller.populateEventHolder(loggedinEmployee);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        setSelected(layoutEvenementsButton);
+        loadFXML(getClass().getResource("Evenements.fxml"));
     }
 
     public void layoutDisconnect(ActionEvent actionEvent) throws IOException {
