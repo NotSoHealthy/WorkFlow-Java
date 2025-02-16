@@ -5,9 +5,7 @@ import javafx.animation.FadeTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -15,22 +13,19 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.validation.Severity;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 import services.ServiceEmployee;
 
-import javax.swing.text.IconView;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.regex.Pattern;
 
-public class signupController {
+public class SignupController {
     @FXML
     private TextField nomField;
     @FXML
@@ -60,7 +55,7 @@ public class signupController {
     Image eye1Image;
     Image eye2Image;
 
-    public signupController() {
+    public SignupController() {
         validationSupport = new ValidationSupport();
         InputStream stream = getClass().getResourceAsStream("icons/eye1.png");
         eye1Image = new Image(stream,20,20,true,true);
