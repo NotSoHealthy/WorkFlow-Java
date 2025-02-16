@@ -125,7 +125,7 @@ public class LayoutController {
         }
     }
     public void layoutGoToEvenements(ActionEvent actionEvent) {
-
+    setSelected(layoutEvenementsButton);
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Evenements.fxml"));
             layoutBorderPane.setCenter(loader.load());
