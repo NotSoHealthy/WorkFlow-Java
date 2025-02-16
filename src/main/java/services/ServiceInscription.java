@@ -97,7 +97,7 @@ public class ServiceInscription implements IService<Inscription> {
         int intValue = 1;
         try {
             intValue = Integer.parseInt(str);
-        } catch (NumberFormatException _) {
+        } catch (NumberFormatException e) {
         }
         ps.setInt(2, intValue);
         ps.setString(3, "%"+str+"%");

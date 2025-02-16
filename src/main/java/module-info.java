@@ -5,6 +5,7 @@ module com.example.projet {
     requires com.google.gson;
     requires org.controlsfx.controls;
     requires java.desktop;
+    requires jdk.compiler;
 
 
     opens com.PIDev3A18.projet to javafx.fxml;
