@@ -52,13 +52,13 @@ public class Formation {
     public LocalDate getDateBegin() {
         return dateBegin;
     }
-    public void setDate_Begin(LocalDate date_begin) {
+    public void setDateBegin(LocalDate date_begin) {
         this.dateBegin = date_begin;
     }
     public LocalDate getDateEnd() {
         return dateEnd;
     }
-    public void setDate_End(LocalDate date_end) {
+    public void setDateEnd(LocalDate date_end) {
         this.dateEnd = date_end;
     }
     public int getParticipants_Max() {

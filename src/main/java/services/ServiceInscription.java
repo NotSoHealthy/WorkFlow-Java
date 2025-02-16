@@ -175,4 +175,13 @@ public class ServiceInscription implements IService<Inscription> {
         ps.close();
         return inscriptions;
     }
+    public boolean isRegistered(Formation formation, Employee loggedinEmployee) throws SQLException {
+        String query = "SELECT * FROM inscription WHERE formation_id = ? AND user_id = ?";
+        PreparedStatement ps = cnx.prepareStatement(query);
+        ps.setInt(1,formation.getFormation_ID());
+        ps.setInt(2,loggedinEmployee.getId());
+        ResultSet rs = ps.executeQuery();
+        return rs.next();
+
+    }
 }

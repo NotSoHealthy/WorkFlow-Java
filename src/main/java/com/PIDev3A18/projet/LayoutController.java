@@ -46,6 +46,8 @@ public class LayoutController {
     private BorderPane layoutBorderPane;
     @FXML
     private VBox layoutVbox;
+    @FXML
+    private Button layoutFormationButton;
 
     @FXML
     void initialize() {
@@ -79,6 +81,11 @@ public class LayoutController {
         image = new Image(input, 16, 16, true, true);
         imageView = new ImageView(image);
         layoutLeaveButton.setGraphic(imageView);
+        //Formation Icon
+        input = getClass().getResourceAsStream("icons/Formation.png");
+        image = new Image(input, 16, 16, true, true);
+        imageView = new ImageView(image);
+        layoutFormationButton.setGraphic(imageView);
         //Logout Icon
         input = getClass().getResourceAsStream("icons/logout.png");
         image = new Image(input, 16, 16, true, true);
@@ -89,26 +96,31 @@ public class LayoutController {
     public void layoutGoToDashboard(ActionEvent actionEvent) {
         setSelected(layoutDashButton);
         loadFXML(getClass().getResource("dashboard.fxml"));
+
     }
 
     public void layoutGoToProjects(ActionEvent actionEvent) {
         setSelected(layoutProjectsButton);
         loadFXML(getClass().getResource("projects.fxml"));
+
     }
 
     public void layoutGoToTasks(ActionEvent actionEvent) {
         setSelected(layoutTasksButton);
         loadFXML(getClass().getResource("tasks.fxml"));
+
     }
 
     public void layoutGoToCalendar(ActionEvent actionEvent) {
         setSelected(layoutCalendarButton);
         loadFXML(getClass().getResource("calendar.fxml"));
+
     }
 
     public void layoutGoToMoney(ActionEvent actionEvent) {
         setSelected(layoutMoneyButton);
         loadFXML(getClass().getResource("money.fxml"));
+
     }
 
     public void layoutGoToConge(ActionEvent actionEvent) {
@@ -116,10 +128,26 @@ public class LayoutController {
         System.out.println(loggedinEmployee.getType());
         if (loggedinEmployee.getType().equals("responsable")) {
             loadFXML(getClass().getResource("conge_responsable.fxml"));
+
         }
         else {
             loadFXML(getClass().getResource("conge.fxml"));
         }
+    }
+    public void layoutGoToFormation(ActionEvent actionEvent) {
+        setSelected(layoutFormationButton);
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewFormation.fxml"));
+            layoutBorderPane.setCenter(loader.load());
+            ViewFormationController controller = loader.getController();
+            controller.setLoggedinEmployee(loggedinEmployee);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        setLoggedinEmployee(loggedinEmployee);
+
+
     }
 
     public void layoutDisconnect(ActionEvent actionEvent) throws IOException {
