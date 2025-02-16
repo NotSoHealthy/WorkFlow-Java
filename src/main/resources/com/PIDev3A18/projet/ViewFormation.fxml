@@ -42,14 +42,23 @@
                <children>
                   <Button fx:id="AddFormationButton" mnemonicParsing="false" onAction="#getAddView" styleClass="btn">
                      <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets right="10.0" />
                      </HBox.margin>
-                     <padding>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                     </padding>
                   </Button>
-                  <Button fx:id="RefreshButton" mnemonicParsing="false" onAction="#Refresh" styleClass="btn" />
+                  <Button fx:id="RefreshButton" mnemonicParsing="false" onAction="#Refresh" styleClass="btn">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="RegisterButton" mnemonicParsing="false" onAction="#Register" styleClass="btn">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </Button>
                </children>
+               <padding>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </padding>
             </HBox>
             <AnchorPane>
                <children>

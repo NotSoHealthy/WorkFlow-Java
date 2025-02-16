@@ -18,6 +18,7 @@ import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 
 import services.ServiceFormation;
+import utils.UserSession;
 
 
 import java.sql.SQLException;
@@ -27,7 +28,8 @@ import java.util.regex.Pattern;
 
 
 public class AddFormationController {
-    Employee loggedEmployee;
+    UserSession userSession = UserSession.getInstance();
+    Employee loggedEmployee = userSession.getLoggedInEmployee();
     @FXML
     private Button AddFormationButton;
     @FXML
@@ -77,9 +79,6 @@ public class AddFormationController {
         dateDebut.setValue(null);
         dateFin.setValue(null);
         TxtDescription.setText(null);
-    }
-    public void setLoggedinEmployee(Employee loggedinEmployee) {
-        this.loggedEmployee = loggedinEmployee;
     }
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);

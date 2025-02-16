@@ -156,16 +156,14 @@ public class LayoutController {
     }
     public void layoutGoToFormation(ActionEvent actionEvent) {
         setSelected(layoutFormationButton);
-
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewFormation.fxml"));
             layoutBorderPane.setCenter(loader.load());
-            ViewFormationController controller = loader.getController();
-            controller.setLoggedinEmployee(loggedinEmployee);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        setLoggedinEmployee(loggedinEmployee);
+        layoutFormationButton.getScene().getWindow().setWidth(1480);
+
 
 
     }

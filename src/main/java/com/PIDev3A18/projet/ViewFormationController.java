@@ -11,6 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -25,6 +26,7 @@ import javafx.util.Callback;
 import javafx.util.Duration;
 import services.ServiceFormation;
 import services.ServiceInscription;
+import utils.UserSession;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +39,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ViewFormationController implements Initializable {
-    Employee loggedinEmployee;
+
     @FXML
     private TextField SearchFormation;
 
@@ -61,9 +63,16 @@ public class ViewFormationController implements Initializable {
 
     @FXML
     private Button AddFormationButton;
+
     @FXML
     private Button RefreshButton;
+
+    @FXML
+    private Button RegisterButton;
+
     ObservableList<Formation> formations= FXCollections.observableArrayList();
+    UserSession userSession = UserSession.getInstance();
+    Employee loggedinEmployee = userSession.getLoggedInEmployee();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -73,10 +82,19 @@ public class ViewFormationController implements Initializable {
         Image image = new Image(input, 25, 25, true, true);
         ImageView imageView = new ImageView(image);
         AddFormationButton.setGraphic(imageView);
+        if(Objects.equals(loggedinEmployee.getType(), "employee")){
+            AddFormationButton.setVisible(false);
+
+        }
         input = getClass().getResourceAsStream("icons/refresh.png");
         image = new Image(input, 25, 25, true, true);
         imageView = new ImageView(image);
         RefreshButton.setGraphic(imageView);
+
+        input = getClass().getResourceAsStream("icons/registration.png");
+        image = new Image(input, 25, 25, true, true);
+        imageView = new ImageView(image);
+        RegisterButton.setGraphic(imageView);
         try {
             formations= FXCollections.observableArrayList(sf.readAll());
             tableFormation.setItems(formations);
@@ -122,7 +140,6 @@ public class ViewFormationController implements Initializable {
                                 throw new RuntimeException(e);
                             }
                             EditFormationController controller = loader.getController();
-                            controller.setLoggedinEmployee(loggedinEmployee);
                             controller.setFormationData(selectedFormation);
 
                             Stage stage = new Stage();
@@ -215,7 +232,6 @@ public class ViewFormationController implements Initializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AddFormation.fxml"));
             Parent parent =loader.load();
             AddFormationController controller = loader.getController();
-            controller.setLoggedinEmployee(loggedinEmployee);
             Scene scene = new Scene(parent);
             Stage stage = new Stage();
             stage.setScene(scene);
@@ -252,7 +268,8 @@ public class ViewFormationController implements Initializable {
         alert.setContentText(message);
         alert.showAndWait();
     }
-    public void setLoggedinEmployee(Employee loggedinEmployee) {
-        this.loggedinEmployee = loggedinEmployee;
+    @FXML
+    void Register(ActionEvent event) {
+
     }
 }

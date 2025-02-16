@@ -13,13 +13,15 @@ import org.controlsfx.validation.Severity;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 import services.ServiceFormation;
+import utils.UserSession;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.regex.Pattern;
 
 public class EditFormationController {
-    Employee loggedEmployee;
+    UserSession userSession = UserSession.getInstance();
+    Employee loggedEmployee = userSession.getLoggedInEmployee();
     @FXML
     private Button AddFormationButton;
 
@@ -91,9 +93,6 @@ public class EditFormationController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
-    }
-    public void setLoggedinEmployee(Employee loggedinEmployee) {
-        this.loggedEmployee = loggedinEmployee;
     }
     public void setFormationData(Formation formation) {
         this.currentFormation = formation;
