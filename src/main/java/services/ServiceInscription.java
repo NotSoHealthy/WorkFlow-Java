@@ -184,4 +184,23 @@ public class ServiceInscription implements IService<Inscription> {
         return rs.next();
 
     }
+    public List<Inscription> SortByEmployee(int id) throws SQLException {
+        String req ="select * from inscription where employee_id = ? ";
+        PreparedStatement ps = cnx.prepareStatement(req);
+        ps.setInt(1,id);
+        ResultSet rs = ps.executeQuery();
+        List<Inscription> inscriptions = new ArrayList<>();
+        while (rs.next()) {
+            int formationId = rs.getInt("formation_id");
+            int userId = rs.getInt("user_id");
+            LocalDate inscri = rs.getDate("date_registration").toLocalDate();
+            ServiceEmployee e=new ServiceEmployee();
+            Employee employee= e.readById(userId);
+            ServiceFormation s=new ServiceFormation();
+            Formation formation = s.readById(formationId);
+            inscriptions.add(new Inscription(rs.getInt("id"),inscri,rs.getString("status"),formation,employee));
+        }
+        ps.close();
+        return inscriptions;
+    }
 }

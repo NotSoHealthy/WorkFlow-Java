@@ -11,7 +11,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
+
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -103,7 +103,7 @@ public class ViewFormationController implements Initializable {
             date_begin.setCellValueFactory(new PropertyValueFactory<>("dateBegin"));
             date_end.setCellValueFactory(new PropertyValueFactory<>("dateEnd"));
             participants_max.setCellValueFactory(new PropertyValueFactory<>("participants_Max"));
-            Callback<TableColumn<Formation, String>, TableCell<Formation, String>> cellFactory = (TableColumn<Formation, String> param) -> new TableCell<Formation, String>() {
+            Callback<TableColumn<Formation, String>, TableCell<Formation, String>> cellFactory = (TableColumn<Formation, String> param) -> new TableCell<>() {
                 final Button editButton = new Button("✎");
                 final Button deleteButton = new Button("🗑");
 
@@ -170,7 +170,7 @@ public class ViewFormationController implements Initializable {
             actionCol.setCellFactory(cellFactory);
             tableFormation.getColumns().add(actionCol);
             actionCol.setVisible(Objects.equals(loggedinEmployee.getType(), "responsable"));
-            Callback<TableColumn<Formation, String>, TableCell<Formation, String>> inscriptionCellFactory = (TableColumn<Formation, String> param) -> new TableCell<Formation, String>() {
+            Callback<TableColumn<Formation, String>, TableCell<Formation, String>> inscriptionCellFactory = (TableColumn<Formation, String> param) -> new TableCell<>() {
                 final Button registerButton = new Button("S'inscrire");
 
                 @Override
@@ -185,14 +185,7 @@ public class ViewFormationController implements Initializable {
 
                         registerButton.setStyle("-fx-background-color: #39D2C0; -fx-text-fill: white; -fx-font-size: 14px;");
                         try {
-                            if(si.isRegistered(formation,loggedinEmployee))
-                            {
-                                registerButton.setDisable(true);
-                            }
-                            else
-                            {
-                                registerButton.setDisable(false);
-                            }
+                            registerButton.setDisable(si.isRegistered(formation, loggedinEmployee));
                         } catch (SQLException e) {
                             throw new RuntimeException(e);
                         }
@@ -231,7 +224,6 @@ public class ViewFormationController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AddFormation.fxml"));
             Parent parent =loader.load();
-            AddFormationController controller = loader.getController();
             Scene scene = new Scene(parent);
             Stage stage = new Stage();
             stage.setScene(scene);
@@ -270,6 +262,18 @@ public class ViewFormationController implements Initializable {
     }
     @FXML
     void Register(ActionEvent event) {
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("AddFormation.fxml"));
+            Parent parent = loader.load();
+            Scene scene = new Scene(parent);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.UTILITY);
+            stage.show();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }
