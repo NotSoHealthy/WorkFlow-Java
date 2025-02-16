@@ -1,130 +1,251 @@
 package com.PIDev3A18.projet;
 
-import com.google.gson.Gson;
 import entity.Employee;
+import entity.JobOffer;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.geometry.Rectangle2D;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.shape.Circle;
-import javafx.scene.text.Text;
+import javafx.scene.control.*;
+import services.JobOfferService;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.sql.SQLException;
+import java.util.List;
 
 public class JobOfferController {
-    Employee loggedinEmployee;
+    private Employee loggedinEmployee;
 
     @FXML
-    private Text layoutName;
+    private Button DeleteBtn, SubmitBtn, UpdtateBtn;
+
     @FXML
-    private Button layoutDashButton;
+    private TableView<JobOffer> ShowJobOffer;
+
     @FXML
-    private Button layoutProjectsButton;
+    private TableColumn<JobOffer, Integer> colJobID;
+
     @FXML
-    private Button layoutTasksButton;
+    private TableColumn<JobOffer, String> colTitle, colDescription, colContractType, colEmployee;
+
     @FXML
-    private Button layoutCalendarButton;
+    private TableColumn<JobOffer, Double> colSalary;
+
     @FXML
-    private Button layoutMoneyButton;
+    private TextField ContractType, Description, Salary, title;
+
     @FXML
-    private Button layoutLeaveButton;
-    @FXML
-    private Button layoutDisconnectButton;
-    @FXML
-    private ImageView layoutProfilePicture;
+    private DatePicker ExpirationDate;
+
+    private final JobOfferService jobOfferService = new JobOfferService();
+
+    private JobOffer selectedJobOffer; // Store the selected job offer
 
     @FXML
     void initialize() {
-        //Dashboard Icon
-        InputStream input = getClass().getResourceAsStream("icons/dash.png");
-        Image image = new Image(input, 16, 16, true, true);
-        ImageView imageView = new ImageView(image);
-        layoutDashButton.setGraphic(imageView);
-        //Projects Icon
-        input = getClass().getResourceAsStream("icons/projects.png");
-        image = new Image(input, 16, 16, true, true);
-        imageView = new ImageView(image);
-        layoutProjectsButton.setGraphic(imageView);
-        //Task Icon
-        input = getClass().getResourceAsStream("icons/tasks.png");
-        image = new Image(input, 16, 16, true, true);
-        imageView = new ImageView(image);
-        layoutTasksButton.setGraphic(imageView);
-        //Calendar Icon
-        input = getClass().getResourceAsStream("icons/calendar.png");
-        image = new Image(input, 16, 16, true, true);
-        imageView = new ImageView(image);
-        layoutCalendarButton.setGraphic(imageView);
-        //Money Icon
-        input = getClass().getResourceAsStream("icons/money.png");
-        image = new Image(input, 16, 16, true, true);
-        imageView = new ImageView(image);
-        layoutMoneyButton.setGraphic(imageView);
-        //Conge Icon
-        input = getClass().getResourceAsStream("icons/conge.png");
-        image = new Image(input, 16, 16, true, true);
-        imageView = new ImageView(image);
-        layoutLeaveButton.setGraphic(imageView);
-        //Logout Icon
-        input = getClass().getResourceAsStream("icons/logout.png");
-        image = new Image(input, 16, 16, true, true);
-        imageView = new ImageView(image);
-        layoutDisconnectButton.setGraphic(imageView);
+        SubmitBtn.setDisable(true);
+        setupTable();
+        loadJobOffers();
+
+        // Handle row selection in the table
+        ShowJobOffer.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                fillFormWithSelectedJobOffer(newSelection);
+                SubmitBtn.setVisible(false); // Hide Submit when selecting a job
+            }
+        });
     }
 
-    public void layoutGoToDashboard(ActionEvent actionEvent) {
-    }
+    @FXML
+    void SubmitBtn(ActionEvent event) {
+        if (loggedinEmployee == null) {
+            showAlert(Alert.AlertType.ERROR, "Error", "No logged-in employee set.");
+            return;
+        }
 
-    public void layoutGoToProjects(ActionEvent actionEvent) {
-    }
+        try {
+            String jobTitle = title.getText().trim();
+            String description = Description.getText().trim();
+            String contractType = ContractType.getText().trim();
+            String salaryText = Salary.getText().trim();
+            LocalDate expirationLocalDate = ExpirationDate.getValue();
 
-    public void layoutGoToTasks(ActionEvent actionEvent) {
-    }
+            if (!isValidText(jobTitle) || !isValidText(description) || !isValidText(contractType)) {
+                showAlert(Alert.AlertType.ERROR, "Invalid Input", "Title, Description, and Contract Type should only contain letters and spaces.");
+                return;
+            }
 
-    public void layoutGoToCalendar(ActionEvent actionEvent) {
-    }
+            double salary;
+            try {
+                salary = Double.parseDouble(salaryText);
+                if (salary <= 0) {
+                    showAlert(Alert.AlertType.ERROR, "Invalid Salary", "Salary must be a positive number.");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                showAlert(Alert.AlertType.ERROR, "Invalid Salary", "Salary must be a numeric value.");
+                return;
+            }
 
-    public void layoutGoToMoney(ActionEvent actionEvent) {
-    }
+            Date publicationDate = new Date(System.currentTimeMillis());
+            Date expirationDate = (expirationLocalDate != null) ? Date.valueOf(expirationLocalDate) : null;
 
-    public void layoutGoToConge(ActionEvent actionEvent) {
-    }
+            JobOffer jobOffer = new JobOffer(jobTitle, description, publicationDate, expirationDate, contractType, salary, loggedinEmployee);
 
-    public void layoutDisconnect(ActionEvent actionEvent) throws IOException {
-        Gson gson = new Gson();
-        FileWriter writer = new FileWriter("saved-employee.json");
-        gson.toJson(null,writer);
+            jobOfferService.add(jobOffer);
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Job offer added successfully!");
 
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
-        layoutCalendarButton.getScene().setRoot(fxmlLoader.load());
+            clearFields();
+            loadJobOffers();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while adding the job offer.");
+        }
     }
 
     public void setLoggedinEmployee(Employee loggedinEmployee) {
         this.loggedinEmployee = loggedinEmployee;
-        layoutName.setText(loggedinEmployee.getFirstName() + " " + loggedinEmployee.getLastName());
-
-        Image image = new Image(loggedinEmployee.getImageUrl());
-        double imageWidth = image.getWidth();
-        double imageHeight = image.getHeight();
-        double minSize = Math.min(imageWidth, imageHeight);
-        layoutProfilePicture.setViewport(new Rectangle2D(
-                (imageWidth - minSize) / 2, // Center X
-                (imageHeight - minSize) / 2, // Center Y
-                minSize, minSize // Crop size (square)
-        ));
-        layoutProfilePicture.setImage(image);
-        Circle clip = new Circle(layoutProfilePicture.getFitHeight() / 2);
-        clip.setCenterX(layoutProfilePicture.getFitHeight() / 2);
-        clip.setCenterY(layoutProfilePicture.getFitHeight() / 2);
-        layoutProfilePicture.setClip(clip);
+        SubmitBtn.setDisable(false);
+        System.out.println("Logged-in Employee set: " + loggedinEmployee.getId());
     }
 
-    public Employee getLoggedinEmployee() {
-        return loggedinEmployee;
+    private boolean isValidText(String text) {
+        return text.matches("^[a-zA-Z ]+$");
+    }
+
+    private void showAlert(Alert.AlertType type, String title, String message) {
+        Alert alert = new Alert(type);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void setupTable() {
+        colJobID.setCellValueFactory(cellData -> new javafx.beans.property.SimpleIntegerProperty(cellData.getValue().getJobId()).asObject());
+        colTitle.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getTitle()));
+        colDescription.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getDescription()));
+        colContractType.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getContractType()));
+        colSalary.setCellValueFactory(cellData -> new javafx.beans.property.SimpleObjectProperty<>(cellData.getValue().getSalary()));
+        colEmployee.setCellValueFactory(cellData -> new javafx.beans.property.SimpleStringProperty(cellData.getValue().getEmployeeId().getLastName()));
+    }
+
+    private void loadJobOffers() {
+        try {
+            List<JobOffer> jobOffers = jobOfferService.readAll();
+            ObservableList<JobOffer> observableList = FXCollections.observableArrayList(jobOffers);
+            ShowJobOffer.setItems(observableList);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Could not load job offers.");
+        }
+    }
+
+    @FXML
+    void DeleteBtn(ActionEvent event) {
+        JobOffer selectedOffer = ShowJobOffer.getSelectionModel().getSelectedItem();
+        if (selectedOffer == null) {
+            showAlert(Alert.AlertType.ERROR, "Error", "No job offer selected.");
+            return;
+        }
+
+        try {
+            jobOfferService.delete(selectedOffer);
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Job offer deleted successfully!");
+            loadJobOffers();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while deleting the job offer.");
+        }
+    }
+
+    @FXML
+    
+    void UpdtateBtn(ActionEvent event) {
+        if (selectedJobOffer == null) {
+            showAlert(Alert.AlertType.ERROR, "Error", "No job offer selected for update.");
+            return;
+        }
+
+        try {
+            String jobTitle = title.getText().trim();
+            String description = Description.getText().trim();
+            String contractType = ContractType.getText().trim();
+            String salaryText = Salary.getText().trim();
+            LocalDate expirationLocalDate = ExpirationDate.getValue();
+
+            // Input Validation
+            if (!isValidText(jobTitle)) {
+                showAlert(Alert.AlertType.ERROR, "Invalid Input", "Title should only contain letters and spaces.");
+                return;
+            }
+            if (!isValidText(description)) {
+                showAlert(Alert.AlertType.ERROR, "Invalid Input", "Description should only contain letters and spaces.");
+                return;
+            }
+            if (!isValidText(contractType)) {
+                showAlert(Alert.AlertType.ERROR, "Invalid Input", "Contract Type should only contain letters and spaces.");
+                return;
+            }
+
+            double salary;
+            try {
+                salary = Double.parseDouble(salaryText);
+                if (salary <= 0) {
+                    showAlert(Alert.AlertType.ERROR, "Invalid Salary", "Salary must be a positive number.");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                showAlert(Alert.AlertType.ERROR, "Invalid Salary", "Salary must be a numeric value.");
+                return;
+            }
+
+            // Check expiration date
+            if (expirationLocalDate == null) {
+                showAlert(Alert.AlertType.ERROR, "Invalid Date", "Please select an expiration date.");
+                return;
+            }
+            if (expirationLocalDate.isBefore(LocalDate.now())) {
+                showAlert(Alert.AlertType.ERROR, "Invalid Date", "Expiration date must be in the future.");
+                return;
+            }
+
+            selectedJobOffer.setTitle(jobTitle);
+            selectedJobOffer.setDescription(description);
+            selectedJobOffer.setContractType(contractType);
+            selectedJobOffer.setSalary(salary);
+            selectedJobOffer.setExpirationDate(Date.valueOf(expirationLocalDate));
+
+            jobOfferService.update(selectedJobOffer);
+            showAlert(Alert.AlertType.INFORMATION, "Success", "Job offer updated successfully!");
+
+            clearFields();
+            loadJobOffers();
+            SubmitBtn.setVisible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while updating the job offer.");
+        }
+    }
+
+    private void fillFormWithSelectedJobOffer(JobOffer jobOffer) {
+        selectedJobOffer = jobOffer;
+
+        title.setText(jobOffer.getTitle());
+        Description.setText(jobOffer.getDescription());
+        ContractType.setText(jobOffer.getContractType());
+        Salary.setText(String.valueOf(jobOffer.getSalary()));
+
+
+    }
+
+    private void clearFields() {
+        title.clear();
+        Description.clear();
+        ContractType.clear();
+        Salary.clear();
+        ExpirationDate.setValue(null);
     }
 }

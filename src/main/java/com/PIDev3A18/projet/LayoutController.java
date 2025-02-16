@@ -46,6 +46,9 @@ public class LayoutController {
     private BorderPane layoutBorderPane;
     @FXML
     private VBox layoutVbox;
+    @FXML
+    private Button layoutJobOfferButton;
+
 
     @FXML
     void initialize() {
@@ -119,6 +122,19 @@ public class LayoutController {
         }
         else {
             loadFXML(getClass().getResource("conge.fxml"));
+        }
+    }
+
+    public void layoutGoToJobOffer(ActionEvent actionEvent) {
+        setSelected(layoutJobOfferButton);
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("JobOffer.fxml"));
+            layoutBorderPane.setCenter(loader.load());
+            JobOfferController controller = loader.getController();
+            controller.setLoggedinEmployee(loggedinEmployee);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
