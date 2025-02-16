@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1080.0" stylesheets="@css/conge.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.CongeController">
+   <center>
+      <VBox fx:id="vbox" spacing="20.0" BorderPane.alignment="CENTER">
+         <children>
+            <Button mnemonicParsing="false" onAction="#addConge" styleClass="addBtn" text="Demander un congé" />
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" spacing="20.0" stylesheets="@css/conge_item.css">
+               <children>
+                  <Label alignment="CENTER" prefWidth="120.0" styleClass="top-label" text="Nom de l'employee">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="30.0" layoutY="27.0" prefWidth="120.0" styleClass="top-label" text="Raison">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="200.0" layoutY="27.0" prefWidth="120.0" styleClass="top-label" text="Date requete">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="370.0" layoutY="27.0" prefWidth="120.0" styleClass="top-label" text="Date debut">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="528.0" layoutY="27.0" prefWidth="120.0" styleClass="top-label" text="Date fin">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="582.0" layoutY="27.0" prefWidth="120.0" styleClass="top-label" text="Etat">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </Label>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+            </HBox>
+         </children>
+         <padding>
+            <Insets bottom="10.0" left="20.0" right="10.0" top="20.0" />
+         </padding></VBox>
+   </center>
+</BorderPane>

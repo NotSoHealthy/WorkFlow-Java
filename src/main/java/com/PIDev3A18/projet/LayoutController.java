@@ -133,13 +133,7 @@ public class LayoutController {
 
     public void layoutGoToConge(ActionEvent actionEvent) {
         setSelected(layoutLeaveButton);
-        System.out.println(loggedinEmployee.getType());
-        if (loggedinEmployee.getType().equals("responsable")) {
-            loadFXML(getClass().getResource("conge_responsable.fxml"));
-        }
-        else {
             loadFXML(getClass().getResource("conge.fxml"));
-        }
     }
 
     public void layoutDisconnect(ActionEvent actionEvent) throws IOException {
@@ -149,14 +143,6 @@ public class LayoutController {
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
         layoutCalendarButton.getScene().setRoot(fxmlLoader.load());
-    }
-
-    public void setLoggedinEmployee(Employee loggedinEmployee) {
-
-    }
-
-    public Employee getLoggedinEmployee() {
-        return loggedinEmployee;
     }
 
     private void loadFXML(URL url) {
