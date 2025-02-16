@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.ViewInscriptionController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1080.0" stylesheets="@css/ViewInscription.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.ViewInscriptionController">
    <center>
       <VBox fx:id="Vbox" alignment="TOP_CENTER" BorderPane.alignment="TOP_CENTER">
          <BorderPane.margin>
@@ -15,13 +15,16 @@
          <children>
             <HBox fx:id="Hbox" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="50.0" spacing="20.0">
                <children>
-                  <Label alignment="CENTER" prefWidth="120.0" text="Date Inscription" />
-                  <Label alignment="CENTER" prefWidth="120.0" text="Statut" />
-                  <Label alignment="CENTER" prefWidth="120.0" text="Formation" />
+                  <Label alignment="CENTER" prefWidth="120.0" styleClass="top-label" text="Date Inscription" />
+                  <Label alignment="CENTER" prefWidth="120.0" styleClass="top-label" text="Statut" />
+                  <Label alignment="CENTER" prefWidth="120.0" styleClass="top-label" text="Formation" />
                </children>
                <padding>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </padding>
+               <VBox.margin>
+                  <Insets bottom="20.0" />
+               </VBox.margin>
             </HBox>
          </children>
       </VBox>

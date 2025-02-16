@@ -8,12 +8,14 @@
     -fx-text-success: #39D2C0;
     -fx-text-warning: #F9CF58;
     -fx-text-danger: #FF5963;
+
 }
 
 HBox{
     -fx-background-color: -fx-background-tertiary;
     -fx-background-radius: 10px;
     -fx-padding: 20px;
+    -fx-effect: dropshadow( two-pass-box , rgba(0, 0, 0, 0.15) , 8, 0, 2, 2 );
 }
 
 Label{

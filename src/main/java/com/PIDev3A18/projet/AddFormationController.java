@@ -99,7 +99,7 @@ public class AddFormationController {
         dateFin.setValue(endDate);
         validationSupport.registerValidator(dateFin, Validator.createEmptyValidator("Date fin doit être selectionner"));
         validationSupport.registerValidator(dateDebut, Validator.createPredicateValidator(
-                val -> val != null && ((LocalDate) val).isBefore(dateFin.getValue()), "Start date must be before end date"));
+                val -> val != null && ((LocalDate) val).isBefore(dateFin.getValue()), "Date debut doit être avant date fin"));
     }
 
 

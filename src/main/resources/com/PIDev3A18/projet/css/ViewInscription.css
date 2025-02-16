@@ -14,6 +14,13 @@
     -fx-font-size: 12px;
     -fx-text-fill: -fx-text-primary;
     -fx-font-weight: bold;
+    -fx-effect: dropshadow( two-pass-box , rgba(0, 0, 0, 0.15) , 8, 0, 2, 2 );
+}
+HBox{
+    -fx-background-color: -fx-background-tertiary;
+    -fx-background-radius: 10px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow( two-pass-box , rgba(0, 0, 0, 0.15) , 8, 0, 2, 2 );
 }
 
 TextField:disabled{

@@ -1,5 +1,6 @@
 package com.PIDev3A18.projet;
 
+import entity.Employee;
 import entity.Formation;
 import entity.Inscription;
 import javafx.collections.FXCollections;
@@ -9,6 +10,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import services.ServiceInscription;
+import utils.UserSession;
 
 import java.sql.SQLException;
 
@@ -22,9 +24,15 @@ public class ItemsInscriptionController {
 
     @FXML
     private ComboBox<String> comboBox;
+    private Employee loggedInEmployee;
+    private UserSession userSession;
+
 
     @FXML
     public void initialize() {
+        userSession = UserSession.getInstance();
+        loggedInEmployee = userSession.getLoggedInEmployee();
+        comboBox.setDisable(!loggedInEmployee.getType().equals("responsable"));
         comboBox.setItems(FXCollections.observableArrayList("Approver", "Refuser"));
         String status = inscription.getStatus();
         comboBox.setValue(status);
