@@ -40,6 +40,8 @@ public class EvenementsController {
     @FXML
     private VBox eventHolder = null;
     @FXML
+    private VBox ReservationHolder = null;
+    @FXML
     private Button creer;
     @FXML
     private AnchorPane AddEvent;
@@ -47,6 +49,8 @@ public class EvenementsController {
     private AnchorPane EventDisplay;
     @FXML
     private AnchorPane UpdateEvent;
+    @FXML
+    private AnchorPane ReservationDisplay;
     @FXML
     private TextField Titre;
     @FXML
@@ -138,16 +142,13 @@ public class EvenementsController {
         UserSession userSession;
         userSession = UserSession.getInstance();
         Employee loggedinEmployee = userSession.getLoggedInEmployee();
-        if(loggedinEmployee.getType().equals("responsable")){
+        if(loggedinEmployee.getType().equals("Résponsable")){
             creer.setVisible(true);
         }
         else{
             creer.setVisible(false);
         }
         ServiceEvent se=new ServiceEvent();
-        int length= se.readAll().size();
-        Node[] nodes= new Node[length];
-        int i=0;
         for (Event event : se.readAll()) {
             try{
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("Event.fxml"));
@@ -163,17 +164,41 @@ public class EvenementsController {
                 controller.setType(event.getType());
                 controller.setNbdispo("Places disponibles: "+event.getNombredeplace());
                 controller.setController(this);
-                if(!loggedinEmployee.getType().equals("responsable")){
+                if(!loggedinEmployee.getType().equals("Résponsable")){
                     controller.setDeleteInvisible();
                     controller.setUpInvisible();
                 }
-                nodes[i]= node;
-                eventHolder.getChildren().add(nodes[i]);
+                eventHolder.getChildren().add(node);
             }
             catch(IOException e){
                 e.printStackTrace();
             }
-            i++;
+        }
+    }
+    public void populateReservations(ActionEvent event) {
+        EventDisplay.setVisible(false);
+        ReservationDisplay.setVisible(true);
+        ReservationHolder.getChildren().clear();
+        ServiceReservation sr=new ServiceReservation();
+        for (Reservation reservation : sr.readAll()) {
+            try{
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("Reservation.fxml"));
+                Node node = loader.load(); // Load FXML
+                ReservationController controller = loader.getController();
+                controller.setTitleMyReservations(reservation.getEvent().getTitre());
+                controller.setReservation(reservation);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy, HH:mm", Locale.FRENCH);
+                String formattedDate = reservation.getEvent().getDateetheure().format(formatter);
+                controller.setDateHeureMyReservation(formattedDate);
+                controller.setTypeMyReservation(reservation.getEvent().getType());
+                controller.setNbplacesMyReservation("Nombre de places réservées: "+reservation.getNombreDePlaces());
+                controller.setTotalMyReservation("Totale: "+reservation.getPrice() +"TND");
+                controller.setController(this);
+                ReservationHolder.getChildren().add(node);
+            }
+            catch(IOException e){
+                e.printStackTrace();
+            }
         }
     }
     public void setUpdateEvent(Event e) {
@@ -217,6 +242,7 @@ public class EvenementsController {
     }
     public void layoutGoBack(javafx.scene.input.MouseEvent mouseEvent) {
         AddEvent.setVisible(false);
+        ReservationDisplay.setVisible(false);
         UpdateEvent.setVisible(false);
         EventDisplay.setVisible(true);
         ReserverPage.setVisible(false);
@@ -298,7 +324,7 @@ public class EvenementsController {
             TypeError.setText("sélectionner un type");
             test=false;
         }
-        if(Nbplace.getText().isBlank()){
+        if(Nbplace.getText().isBlank()||NbplaceReserver.getText().matches(".*[a-zA-Z].*")){
             NbplaceError.setText("donner le nombre de places");
             test=false;
         }
@@ -378,7 +404,7 @@ public class EvenementsController {
             TypeErrorUpdate.setText("sélectionner un type");
             test=false;
         }
-        if(NbplaceUpdate.getText().isBlank()){
+        if(NbplaceUpdate.getText().isBlank()||NbplaceReserver.getText().matches(".*[a-zA-Z].*")){
             NbplaceErrorUpdate.setText("donner le nombre de places");
             test=false;
         }

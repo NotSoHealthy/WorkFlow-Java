@@ -76,7 +76,7 @@
     -fx-translate-y: 2px; /* Adds a pressed effect */
 }
 .reserve{
-    -fx-background-color: linear-gradient(to bottom, #143C4E, #39D2C0);
+    -fx-background-color: linear-gradient(to bottom, #23e83d, #7aec7a);
     -fx-text-fill: white;
     -fx-font-size: 14px;
     -fx-font-weight: bold;
@@ -86,10 +86,28 @@
     -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0, 2);
 }
 .reserve:hover {
-    -fx-background-color: linear-gradient(to bottom, #143C4E, #39D2C0);
+    -fx-background-color: linear-gradient(to bottom, #23e83d, #7aec7a);
 }
 
 .reserve:pressed {
-    -fx-background-color: linear-gradient(to bottom, #143C4E, #39D2C0);
+    -fx-background-color: linear-gradient(to bottom, #23e83d, #7aec7a);
+    -fx-translate-y: 2px; /* Adds a pressed effect */
+}
+.UserReservation{
+    -fx-background-color: linear-gradient(to bottom, #000000, #737373);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0, 2);
+}
+.UserReservation:hover {
+    -fx-background-color: linear-gradient(to bottom, #000000, #737373);
+}
+
+.UserReservation:pressed {
+    -fx-background-color: linear-gradient(to bottom, #000000, #737373);
     -fx-translate-y: 2px; /* Adds a pressed effect */
 }
