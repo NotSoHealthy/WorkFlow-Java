@@ -15,13 +15,19 @@
          <children>
             <Label fx:id="Title" prefHeight="40.0" prefWidth="246.0" text="Title">
                <font>
-                  <Font size="28.0" />
+                  <Font name="System Bold" size="28.0" />
                </font>
                <padding>
                   <Insets left="20.0" />
                </padding>
             </Label>
-            <Region prefHeight="40.0" prefWidth="401.0" />
+            <Region prefHeight="40.0" prefWidth="2.0" />
+            <Label fx:id="DateHeure" prefHeight="66.0" prefWidth="192.0" text="12 December 2024, 12:00" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="16.0" />
+               </font>
+            </Label>
+            <Region prefHeight="40.0" prefWidth="207.0" />
             <Button fx:id="DeleteButton" alignment="CENTER" mnemonicParsing="false" onAction="#Delete" prefHeight="35.0" prefWidth="141.0" styleClass="butt" stylesheets="@css/Evenements.css" text="Supprimer">
                <HBox.margin>
                   <Insets top="10.0" />
@@ -30,9 +36,17 @@
          </children>
       </HBox>
       <Region prefHeight="8.0" prefWidth="791.0" />
-      <HBox alignment="CENTER_RIGHT">
+      <HBox alignment="CENTER_LEFT" prefHeight="36.0" prefWidth="837.0">
          <children>
-            <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="140.0" styleClass="update" stylesheets="@css/Evenements.css" text="Update">
+            <Label fx:id="Adresse" prefHeight="27.0" prefWidth="628.0" text="Adresse">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="22.0" />
+               </HBox.margin>
+            </Label>
+            <Button mnemonicParsing="false" onAction="#Update" prefHeight="30.0" prefWidth="140.0" styleClass="update" stylesheets="@css/Evenements.css" text="Mise à jour">
                <HBox.margin>
                   <Insets right="50.0" />
                </HBox.margin>
