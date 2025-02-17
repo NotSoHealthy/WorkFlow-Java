@@ -179,8 +179,11 @@ public class EvenementsController {
         EventDisplay.setVisible(false);
         ReservationDisplay.setVisible(true);
         ReservationHolder.getChildren().clear();
+        UserSession userSession;
+        userSession = UserSession.getInstance();
+        Employee loggedinEmployee = userSession.getLoggedInEmployee();
         ServiceReservation sr=new ServiceReservation();
-        for (Reservation reservation : sr.readAll()) {
+        for (Reservation reservation : sr.readAllById(loggedinEmployee.getId())) {
             try{
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("Reservation.fxml"));
                 Node node = loader.load(); // Load FXML
@@ -268,6 +271,7 @@ public class EvenementsController {
         TypeListReserver.setValue(null);
         NbplaceReserver.setText("");
         PriceReserver.setText("");
+        initialize();
     }
     public void AddEvenements(ActionEvent event) {
         boolean test=true;
