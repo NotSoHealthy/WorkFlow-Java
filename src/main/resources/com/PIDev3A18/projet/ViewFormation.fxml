@@ -77,6 +77,9 @@
                </children>
             </AnchorPane>
          </children>
+         <padding>
+            <Insets left="75.0" />
+         </padding>
       </VBox>
    </center>
 </BorderPane>
