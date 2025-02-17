@@ -22,7 +22,7 @@
    <center>
       <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane fx:id="EventDisplay" prefHeight="200.0" prefWidth="200.0" visible="false">
+            <AnchorPane fx:id="EventDisplay" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Label layoutX="30.0" layoutY="6.0" prefHeight="57.0" prefWidth="196.0" text="Evenements">
                      <font>
@@ -83,7 +83,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="UpdateEvent" prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane fx:id="UpdateEvent" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
                   <Pane layoutX="81.0" layoutY="52.0" prefHeight="617.0" prefWidth="665.0" styleClass="Evenements-back" stylesheets="@css/Evenements.css">
                      <children>
@@ -116,6 +116,38 @@
                      </children>
                   </Pane>
                   <ImageView fx:id="backUpdate" fitHeight="36.0" fitWidth="47.0" layoutX="25.0" layoutY="14.0" onMouseClicked="#layoutGoBack" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/arrow-left-solid.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="ReserverPage" prefHeight="200.0" prefWidth="200.0" visible="false">
+               <children>
+                  <Pane layoutX="81.0" layoutY="52.0" prefHeight="617.0" prefWidth="665.0" styleClass="Evenements-back" stylesheets="@css/Evenements.css">
+                     <children>
+                        <Pane layoutX="123.0" layoutY="125.0" prefHeight="368.0" prefWidth="420.0" style="-fx-background-color: white; -fx-background-radius: 20px;" stylesheets="@css/AddEvent.css">
+                           <children>
+                              <TextField fx:id="PriceReserver" disable="true" layoutX="44.0" layoutY="79.0" prefHeight="25.0" prefWidth="333.0" promptText="Price" />
+                              <TextField fx:id="NomEvent" disable="true" layoutX="46.0" layoutY="22.0" prefWidth="329.0" promptText="Evenement" />
+                              <ComboBox fx:id="TypeListReserver" layoutX="46.0" layoutY="138.0" onAction="#CalculateType" prefHeight="25.0" prefWidth="328.0" promptText="Type" />
+                              <TextField fx:id="NbplaceReserver" layoutX="45.0" layoutY="196.0" onKeyTyped="#CalculateNP" prefWidth="329.0" promptText="Nombre de Place" />
+                              <Button layoutX="141.0" layoutY="275.0" mnemonicParsing="false" onAction="#AddReservation" prefHeight="45.0" prefWidth="138.0" styleClass="reserve" stylesheets="@css/Evenements.css" text="Réserver" />
+                              <Label fx:id="TypeListReserverError" layoutX="46.0" layoutY="176.0" textFill="RED" />
+                              <Label fx:id="NbplaceReserverError" layoutX="46.0" layoutY="243.0" textFill="RED" />
+                           </children>
+                        </Pane>
+                        <Label alignment="CENTER" layoutX="184.0" layoutY="78.0" prefHeight="35.0" prefWidth="297.0" text="Faire une réservation" textAlignment="CENTER">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <ImageView fx:id="backReserver" fitHeight="36.0" fitWidth="47.0" layoutX="25.0" layoutY="14.0" onMouseClicked="#layoutGoBack" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@icons/arrow-left-solid.png" />
                      </image>

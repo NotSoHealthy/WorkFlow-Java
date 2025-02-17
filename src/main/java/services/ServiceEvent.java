@@ -107,7 +107,7 @@ public class ServiceEvent implements IService<Event> {
         return event;
     }
     public void decrementNumber(Reservation r){
-        String requete="update events set NumberOfPlaces=NumberOfPlaces-? where ID_Event = ?";
+        String requete="update events set NumberOfPlaces=GREATEST(NumberOfPlaces - ?, 0) where ID_Event = ?";
         try {
             pst=cnx.prepareStatement(requete);
             pst.setInt(1,r.getNombreDePlaces());

@@ -3,6 +3,7 @@ package com.PIDev3A18.projet;
 import entity.Event;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import services.ServiceEvent;
@@ -22,6 +23,12 @@ public class EventController {
     private Label Adresse;
     @FXML
     private Button DeleteButton;
+    @FXML
+    private Label Type;
+    @FXML
+    private Label nbdispo;
+    @FXML
+    private Button Up;
 
     EvenementsController c;
     public void setTitle(String title) {
@@ -39,6 +46,12 @@ public class EventController {
     public void setEvent(Event event) {
         this.e = event;
     }
+    public void setType(String type) {
+        Type.setText(type);
+    }
+    public void setNbdispo(String nbdispo) {
+        this.nbdispo.setText(nbdispo);
+    }
     public void Delete(ActionEvent event) {
         ServiceEvent se = new ServiceEvent();
         se.delete(this.e);
@@ -46,23 +59,27 @@ public class EventController {
     }
     public void Update(ActionEvent event) {
         c.setUpdateEvent(e);
-        c.setTitreUpdate(e.getTitre());
-        c.setDescriptionUpdate(e.getDescription());
-        LocalDate dateOnly=e.getDateetheure().toLocalDate();
-        c.setDateUpdate(dateOnly);
-        String hour = Integer.toString(e.getDateetheure().getHour());
-        String minute = Integer.toString(e.getDateetheure().getMinute());
-        c.setHeureUpdate(hour);
-        c.setMinuteUpdate(minute);
-        c.setAdresseUpdate(e.getLieu());
-        c.setTypeListUpdate(e.getType());
-        c.setNbplaceUpdate(Integer.toString(e.getNombredeplace()));
         c.layoutGoToUpdateEvenement();
+    }
+    public void Reserver(ActionEvent event) {
+        if(e.getNombredeplace()!=0) {
+            c.setReserveEvent(e);
+            c.layoutGoToReserveEvenement();
+        }
+        else{
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Avertissement!");
+            alert.setHeaderText("Cet événement est complet");
+            alert.showAndWait();
+        }
     }
     public void setController(EvenementsController controller) {
         this.c = controller;
     }
     public void setDeleteInvisible(){
         DeleteButton.setVisible(false);
+    }
+    public void setUpInvisible(){
+        Up.setVisible(false);
     }
 }

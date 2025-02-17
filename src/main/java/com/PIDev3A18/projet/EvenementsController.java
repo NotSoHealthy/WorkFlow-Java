@@ -2,6 +2,7 @@ package com.PIDev3A18.projet;
 
 import entity.Employee;
 import entity.Event;
+import entity.Reservation;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,9 +13,11 @@ import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import services.ServiceEvent;
+import services.ServiceReservation;
 import utils.UserSession;
 
 import java.awt.event.MouseEvent;
@@ -24,12 +27,16 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 import java.util.ResourceBundle;
 
 public class EvenementsController {
 
+    private Event ToReserveEvent;
     private Event ToUpdateEvent;
+    Map<String, Integer> ReserveTypeMap = new HashMap<>();
     @FXML
     private VBox eventHolder = null;
     @FXML
@@ -109,6 +116,22 @@ public class EvenementsController {
     @FXML
     private Label NbplaceErrorUpdate;
     @FXML
+    private AnchorPane ReserverPage;
+    @FXML
+    private ImageView backReserver;
+    @FXML
+    private TextField NomEvent;
+    @FXML
+    private TextField PriceReserver;
+    @FXML
+    private ComboBox<String> TypeListReserver;
+    @FXML
+    private TextField NbplaceReserver;
+    @FXML
+    private Label TypeListReserverError;
+    @FXML
+    private Label NbplaceReserverError;
+    @FXML
     public void initialize() {
         eventHolder.getChildren().clear();
         TypeList.setItems(FXCollections.observableArrayList("Workshop", "Commerce", "Conference" , "Webinaire" , "Networking" , "Reunion"));
@@ -137,9 +160,12 @@ public class EvenementsController {
                 String formattedDate = event.getDateetheure().format(formatter);
                 controller.setDateHeure(formattedDate);
                 controller.setAdresse("Adresse: "+event.getLieu());
+                controller.setType(event.getType());
+                controller.setNbdispo("Places disponibles: "+event.getNombredeplace());
                 controller.setController(this);
                 if(!loggedinEmployee.getType().equals("responsable")){
                     controller.setDeleteInvisible();
+                    controller.setUpInvisible();
                 }
                 nodes[i]= node;
                 eventHolder.getChildren().add(nodes[i]);
@@ -153,29 +179,8 @@ public class EvenementsController {
     public void setUpdateEvent(Event e) {
         this.ToUpdateEvent = e;
     }
-    public void setTitreUpdate(String titre) {
-        TitreUpdate.setText(titre);
-    }
-    public void setDescriptionUpdate(String description) {
-        DescriptionUpdate.setText(description);
-    }
-    public void setDateUpdate(LocalDate date) {
-        DateUpdate.setValue(date);
-    }
-    public void setHeureUpdate(String heure) {
-        HeureUpdate.setText(heure);
-    }
-    public void setMinuteUpdate(String minute) {
-        MinuteUpdate.setText(minute);
-    }
-    public void setAdresseUpdate(String adresse) {
-        AdresseUpdate.setText(adresse);
-    }
-    public void setTypeListUpdate(String type) {
-        TypeListUpdate.setValue(type);
-    }
-    public void setNbplaceUpdate(String nbplace) {
-        NbplaceUpdate.setText(nbplace);
+    public void setReserveEvent(Event e){
+        this.ToReserveEvent=e;
     }
     public void layoutGoToAddEvenements(ActionEvent actionEvent) {
         AddEvent.setVisible(true);
@@ -183,16 +188,41 @@ public class EvenementsController {
         back.setVisible(true);
     }
     public void layoutGoToUpdateEvenement() {
+        TypeListUpdate.setItems(FXCollections.observableArrayList("Workshop", "Commerce", "Conference" , "Webinaire" , "Networking" , "Reunion"));
+        TitreUpdate.setText(ToUpdateEvent.getTitre());
+        DescriptionUpdate.setText(ToUpdateEvent.getDescription());
+        LocalDate dateOnly=ToUpdateEvent.getDateetheure().toLocalDate();
+        DateUpdate.setValue(dateOnly);
+        String hour = Integer.toString(ToUpdateEvent.getDateetheure().getHour());
+        String minute = Integer.toString(ToUpdateEvent.getDateetheure().getMinute());
+        HeureUpdate.setText(hour);
+        MinuteUpdate.setText(minute);
+        AdresseUpdate.setText(ToUpdateEvent.getLieu());
+        TypeListUpdate.setValue(ToUpdateEvent.getType());
+        NbplaceUpdate.setText(Integer.toString(ToUpdateEvent.getNombredeplace()));
         EventDisplay.setVisible(false);
         backUpdate.setVisible(true);
         UpdateEvent.setVisible(true);
+    }
+    public void layoutGoToReserveEvenement() {
+        ReserveTypeMap.put("VIP",90);
+        ReserveTypeMap.put("Semi-VIP",50);
+        ReserveTypeMap.put("Accès-Normal",40);
+        TypeListReserver.getItems().addAll(ReserveTypeMap.keySet());
+        NbplaceReserver.setText("");
+        NomEvent.setText(ToReserveEvent.getTitre());
+        ReserverPage.setVisible(true);
+        EventDisplay.setVisible(false);
+        backReserver.setVisible(true);
     }
     public void layoutGoBack(javafx.scene.input.MouseEvent mouseEvent) {
         AddEvent.setVisible(false);
         UpdateEvent.setVisible(false);
         EventDisplay.setVisible(true);
+        ReserverPage.setVisible(false);
         back.setVisible(false);
         backUpdate.setVisible(false);
+        backReserver.setVisible(false);
         Titre.setText("");
         Description.setText("");
         Date.setValue(null);
@@ -209,12 +239,12 @@ public class EvenementsController {
         AdresseUpdate.setText("");
         TypeListUpdate.setValue(null);
         NbplaceUpdate.setText("");
+        TypeListReserver.setValue(null);
+        NbplaceReserver.setText("");
+        PriceReserver.setText("");
     }
     public void AddEvenements(ActionEvent event) {
         boolean test=true;
-        UserSession userSession;
-        userSession = UserSession.getInstance();
-        Employee loggedinEmployee = userSession.getLoggedInEmployee();
         ServiceEvent se = new ServiceEvent();
         LocalDate selectedDate=Date.getValue();
         TitreError.setText("");
@@ -273,6 +303,9 @@ public class EvenementsController {
             test=false;
         }
         if(test==true) {
+            UserSession userSession;
+            userSession = UserSession.getInstance();
+            Employee loggedinEmployee = userSession.getLoggedInEmployee();
             LocalDateTime DateAndTime = LocalDateTime.of(selectedDate, LocalTime.of(hour, minute));
             Event e = new Event(Titre.getText(), Description.getText(), DateAndTime, Adresse.getText(), TypeList.getValue(), Integer.parseInt(Nbplace.getText()), loggedinEmployee);
             se.add(e);
@@ -365,6 +398,47 @@ public class EvenementsController {
             AdresseUpdate.setText("");
             TypeListUpdate.setValue(null);
             NbplaceUpdate.setText("");
+        }
+    }
+    public void CalculateType(ActionEvent event) {
+        if(TypeListReserver.getValue()!=null&&!NbplaceReserver.getText().isBlank()&&!NbplaceReserver.getText().matches(".*[a-zA-Z].*")){
+            double PriceU=ReserveTypeMap.get(TypeListReserver.getValue());
+            int nb=Integer.parseInt(NbplaceReserver.getText());
+            PriceReserver.setText(String.valueOf(PriceU*nb)+"TND");
+        }
+    }
+    public void CalculateNP(KeyEvent event) {
+        if(TypeListReserver.getValue()!=null&&!NbplaceReserver.getText().isBlank()&&!NbplaceReserver.getText().matches(".*[a-zA-Z].*")){
+            double PriceU=ReserveTypeMap.get(TypeListReserver.getValue());
+            int nb=Integer.parseInt(NbplaceReserver.getText());
+            PriceReserver.setText(String.valueOf(PriceU*nb)+"TND");
+        }
+    }
+    public void AddReservation(ActionEvent event){
+        boolean test=true;
+        TypeListReserverError.setText("");
+        NbplaceReserverError.setText("");
+        if(NbplaceReserver.getText().isBlank()||NbplaceReserver.getText().matches(".*[a-zA-Z].*")){
+            NbplaceReserverError.setText("Nombre de place invalide");
+            test=false;
+        }
+        if(TypeListReserver.getValue()==null){
+            TypeListReserverError.setText("Selectionner un type");
+            test=false;
+        }
+        if(test==true) {
+            UserSession userSession;
+            userSession = UserSession.getInstance();
+            Employee loggedinEmployee = userSession.getLoggedInEmployee();
+            ServiceReservation sr=new ServiceReservation();
+            Reservation reservation=new Reservation(Double.parseDouble(PriceReserver.getText().substring(0, PriceReserver.getText().length() - 3)),TypeListReserver.getValue(),Integer.parseInt(NbplaceReserver.getText()),loggedinEmployee,ToReserveEvent);
+            sr.add(reservation);
+            ReserverPage.setVisible(false);
+            EventDisplay.setVisible(true);
+            backReserver.setVisible(false);
+            initialize();
+            TypeListReserver.setValue(null);
+            NbplaceReserver.setText("");
         }
     }
 

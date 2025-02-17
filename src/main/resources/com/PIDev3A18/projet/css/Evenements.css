@@ -75,3 +75,21 @@
     -fx-background-color: linear-gradient(to bottom, #047cf5, #66baff);
     -fx-translate-y: 2px; /* Adds a pressed effect */
 }
+.reserve{
+    -fx-background-color: linear-gradient(to bottom, #143C4E, #39D2C0);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.3), 10, 0.5, 0, 2);
+}
+.reserve:hover {
+    -fx-background-color: linear-gradient(to bottom, #143C4E, #39D2C0);
+}
+
+.reserve:pressed {
+    -fx-background-color: linear-gradient(to bottom, #143C4E, #39D2C0);
+    -fx-translate-y: 2px; /* Adds a pressed effect */
+}

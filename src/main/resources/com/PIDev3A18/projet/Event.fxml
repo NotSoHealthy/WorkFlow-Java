@@ -46,11 +46,37 @@
                   <Insets left="22.0" />
                </HBox.margin>
             </Label>
-            <Button mnemonicParsing="false" onAction="#Update" prefHeight="30.0" prefWidth="140.0" styleClass="update" stylesheets="@css/Evenements.css" text="Mise à jour">
+            <Button fx:id="Up" mnemonicParsing="false" onAction="#Update" prefHeight="30.0" prefWidth="140.0" styleClass="update" stylesheets="@css/Evenements.css" text="Mise à jour">
                <HBox.margin>
                   <Insets right="50.0" />
                </HBox.margin>
             </Button>
+         </children>
+      </HBox>
+      <HBox prefHeight="64.0" prefWidth="837.0">
+         <children>
+            <Label fx:id="Type" prefHeight="27.0" prefWidth="622.0" text="Type">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="22.0" />
+               </HBox.margin>
+            </Label>
+            <VBox alignment="TOP_CENTER" prefHeight="73.0" prefWidth="144.0">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#Reserver" prefHeight="30.0" prefWidth="139.0" styleClass="reserve" stylesheets="@css/Evenements.css" text="Reserver">
+                     <VBox.margin>
+                        <Insets top="8.0" />
+                     </VBox.margin>
+                  </Button>
+                  <Label fx:id="nbdispo" alignment="CENTER" prefHeight="37.0" prefWidth="144.0" text="Places disponibles: 56">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
          </children>
       </HBox>
       <HBox prefWidth="837.0">
@@ -62,6 +88,9 @@
                <padding>
                   <Insets left="20.0" />
                </padding>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
             </Label>
          </children>
          <padding>
