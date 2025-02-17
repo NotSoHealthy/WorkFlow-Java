@@ -37,15 +37,15 @@ public class ItemsInscriptionController {
     public void initialize() {
         userSession = UserSession.getInstance();
         loggedInEmployee = userSession.getLoggedInEmployee();
-        comboBox.setDisable(!loggedInEmployee.getType().equals("responsable"));
+        comboBox.setDisable(!loggedInEmployee.getType().equals("Résponsable"));
         comboBox.setItems(FXCollections.observableArrayList("Approver", "Refuser"));
         String status = inscription.getStatus();
         comboBox.setValue(status);
         comboBox.getStyleClass().add(inscription.getStatus());
         TxtDateInscrit.setText(inscription.getDateRegistration().toString());
         TxtFormation.setText(inscription.getFormation().getTitle());
-        TxtEmploye.setText("employee");
-        if(loggedInEmployee.getType().equals("responsable")) {
+        TxtEmploye.setText("Employé");
+        if(loggedInEmployee.getType().equals("Résponsable")) {
             TxtEmploye.setText(inscription.getEmployee().getFirstName() + " " + inscription.getEmployee().getLastName());
         }
         else{

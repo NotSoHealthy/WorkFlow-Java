@@ -84,7 +84,7 @@ public class ViewFormationController implements Initializable {
         Image image = new Image(input, 25, 25, true, true);
         ImageView imageView = new ImageView(image);
         AddFormationButton.setGraphic(imageView);
-        if(loggedinEmployee.getType().equals("employee") ){
+        if(loggedinEmployee.getType().equals("Employé") ){
             Hbox.getChildren().remove(AddFormationButton);
 
         }
@@ -122,7 +122,7 @@ public class ViewFormationController implements Initializable {
 
                         editButton.setStyle("-fx-background-color: #00E676; -fx-text-fill: white; -fx-font-size: 14px;");
                         deleteButton.setStyle("-fx-background-color: #ff1744; -fx-text-fill: white; -fx-font-size: 14px;");
-                        if(Objects.equals(loggedinEmployee.getType(), "responsable"))
+                        if(loggedinEmployee.getType().equals("Résponsable"))
                         {
                             editButton.setDisable(false);
                             deleteButton.setDisable(false);
@@ -179,7 +179,7 @@ public class ViewFormationController implements Initializable {
             TableColumn<Formation, String> actionCol = new TableColumn<>("Actions");
             actionCol.setCellFactory(cellFactory);
             tableFormation.getColumns().add(actionCol);
-            actionCol.setVisible(loggedinEmployee.getType().equals("responsable"));
+            actionCol.setVisible(loggedinEmployee.getType().equals("Résponsable"));
             Callback<TableColumn<Formation, String>, TableCell<Formation, String>> inscriptionCellFactory = (TableColumn<Formation, String> param) -> new TableCell<>() {
                 final Button registerButton = new Button("S'inscrire");
 
@@ -230,7 +230,7 @@ public class ViewFormationController implements Initializable {
             TableColumn<Formation, String> inscription = new TableColumn<>("S'inscrire");
             inscription.setCellFactory(inscriptionCellFactory);
             tableFormation.getColumns().add(inscription);
-            inscription.setVisible(loggedinEmployee.getType().equals("employee"));
+            inscription.setVisible(loggedinEmployee.getType().equals("Employé"));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

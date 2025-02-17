@@ -29,7 +29,7 @@ public class ViewInscriptionController {
     private Label TxtEmploye;
     @FXML
     public void initialize() throws SQLException, IOException {
-        if(loggedinEmployee.getType().equals("responsable")){
+        if(loggedinEmployee.getType().equals("Résponsable")){
             List<Inscription> li= si.readAll();
             for(Inscription i : li)
             {
