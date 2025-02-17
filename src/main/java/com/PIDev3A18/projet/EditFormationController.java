@@ -78,15 +78,6 @@ public class EditFormationController {
         validationSupport.registerValidator(dateDebut, Validator.createPredicateValidator(
                 val -> val != null && ((LocalDate) val).isBefore(dateFin.getValue()), "Date debut doit être avant date fin "));
     }
-    @FXML
-    void ClearInfo(ActionEvent event) {
-        TxtParticipants.setText(null);
-        TxtTitle.setText(null);
-        dateDebut.setValue(null);
-        dateFin.setValue(null);
-        TxtDescription.setText(null);
-
-    }
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);

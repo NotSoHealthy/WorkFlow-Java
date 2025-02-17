@@ -69,6 +69,8 @@ public class ViewFormationController implements Initializable {
 
     @FXML
     private Button RegisterButton;
+    @FXML
+    private HBox Hbox;
 
     ObservableList<Formation> formations= FXCollections.observableArrayList();
     UserSession userSession = UserSession.getInstance();
@@ -82,8 +84,8 @@ public class ViewFormationController implements Initializable {
         Image image = new Image(input, 25, 25, true, true);
         ImageView imageView = new ImageView(image);
         AddFormationButton.setGraphic(imageView);
-        if(Objects.equals(loggedinEmployee.getType(), "employee")){
-            AddFormationButton.setVisible(false);
+        if(loggedinEmployee.getType().equals("employee") ){
+            Hbox.getChildren().remove(AddFormationButton);
 
         }
         input = getClass().getResourceAsStream("icons/refresh.png");
@@ -151,7 +153,15 @@ public class ViewFormationController implements Initializable {
 
                         deleteButton.setOnAction((ActionEvent event) -> {
                             try {
-                                sf.delete(formation);
+                                if(sf.readById(formation.getFormation_ID())!=null)
+                                {
+                                    sf.delete(formation);
+                                    showAlert(Alert.AlertType.INFORMATION, "Success", "Formation supprimer avec succés!");
+                                }
+                                else  {
+                                    showAlert(Alert.AlertType.ERROR, "Error", "Réinitialiser la page !");
+                                }
+
                             } catch (SQLException e) {
                                 throw new RuntimeException(e);
                             }
@@ -169,7 +179,7 @@ public class ViewFormationController implements Initializable {
             TableColumn<Formation, String> actionCol = new TableColumn<>("Actions");
             actionCol.setCellFactory(cellFactory);
             tableFormation.getColumns().add(actionCol);
-            actionCol.setVisible(Objects.equals(loggedinEmployee.getType(), "responsable"));
+            actionCol.setVisible(loggedinEmployee.getType().equals("responsable"));
             Callback<TableColumn<Formation, String>, TableCell<Formation, String>> inscriptionCellFactory = (TableColumn<Formation, String> param) -> new TableCell<>() {
                 final Button registerButton = new Button("S'inscrire");
 
@@ -200,7 +210,7 @@ public class ViewFormationController implements Initializable {
                                     showAlert(Alert.AlertType.INFORMATION, "Success", "Vous êtes maintenant inscrit, en attente de validation!");
                                 }
                                 else {
-                                    showAlert(Alert.AlertType.INFORMATION, "Error", "Réinitialiser la page !");
+                                    showAlert(Alert.AlertType.ERROR, "Error", "Réinitialiser la page !");
                                 }
 
                             } catch (SQLException e) {
@@ -220,7 +230,7 @@ public class ViewFormationController implements Initializable {
             TableColumn<Formation, String> inscription = new TableColumn<>("S'inscrire");
             inscription.setCellFactory(inscriptionCellFactory);
             tableFormation.getColumns().add(inscription);
-            inscription.setVisible(Objects.equals(loggedinEmployee.getType(), "employee"));
+            inscription.setVisible(loggedinEmployee.getType().equals("employee"));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

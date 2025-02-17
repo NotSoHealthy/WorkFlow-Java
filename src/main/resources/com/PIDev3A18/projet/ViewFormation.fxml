@@ -38,7 +38,7 @@
                </children>
             </HBox>
             <Pane prefHeight="3.0" prefWidth="200.0" style="-fx-background-color: black;" />
-            <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+            <HBox fx:id="Hbox" alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
                <children>
                   <Button fx:id="AddFormationButton" mnemonicParsing="false" onAction="#getAddView" styleClass="btn">
                      <HBox.margin>
