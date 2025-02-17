@@ -1,6 +1,10 @@
 package com.PIDev3A18.projet;
 
 import entity.Applications;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.layout.BorderPane;
 import services.ApplicationService;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -13,6 +17,7 @@ import javafx.event.ActionEvent;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 public class ApplicationInfoController {
 
@@ -84,17 +89,27 @@ public class ApplicationInfoController {
     @FXML
     private void submitButton(ActionEvent event) {
         String newStatus = statusLabel.getValue(); // Get the selected value from ComboBox
-
         selectedApplication.setStatus(newStatus);
 
         try {
             applicationService.update(selectedApplication);
             showAlert(Alert.AlertType.INFORMATION, "Success", "Application status updated successfully!");
+
+            // Use the event's source to get the current scene's root.
+            Node source = (Node) event.getSource();
+            BorderPane mainLayout = (BorderPane) source.getScene().getRoot();
+
+            // Load the ApplicationList view.
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ApplicationList.fxml"));
+            Node applicationListView = loader.load();
+            mainLayout.setCenter(applicationListView);
         } catch (Exception e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to update the application status.");
         }
     }
+
+
 
     @FXML
     private void handleCvAction(ActionEvent event) {
@@ -131,4 +146,8 @@ public class ApplicationInfoController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+
+
+
 }

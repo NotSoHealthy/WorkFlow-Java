@@ -4,80 +4,101 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.ApplicationInfoController">
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-   <!-- Main Content -->
-   <center>
-      <VBox alignment="CENTER" spacing="20.0">
-         <Label style="-fx-font-size: 22px; -fx-font-weight: bold;" text="Application Details" />
+<StackPane prefHeight="720.0" prefWidth="1280.0" styleClass="page" stylesheets="@css/signup.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.ApplicationInfoController">
+   <children>
+      <HBox alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER_LEFT" prefWidth="400.0" spacing="20.0" styleClass="main-panel">
+               <padding>
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+               </padding>
+               <children>
+                  <!-- Title -->
+                  <Text styleClass="title-text" text="Application Details">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="40.0" />
+                     </VBox.margin>
+                  </Text>
 
-         <GridPane hgap="15" vgap="10">
-            <columnConstraints>
-               <ColumnConstraints halignment="RIGHT" />
-               <ColumnConstraints halignment="LEFT" />
-               <ColumnConstraints halignment="LEFT" minWidth="10.0" prefWidth="100.0" />
-               <ColumnConstraints halignment="LEFT" minWidth="10.0" prefWidth="100.0" />
-            </columnConstraints>
+                  <!-- Details Fields Container -->
+                  <VBox alignment="CENTER_LEFT" spacing="15.0">
+                     <!-- First Name -->
+                     <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <children>
+                           <Label styleClass="form-label" text="First Name:" />
+                           <Label fx:id="firstNameLabel" styleClass="detail-value" />
+                        </children>
+                     </HBox>
 
-            <rowConstraints>
-               <RowConstraints valignment="CENTER" />
-               <RowConstraints valignment="CENTER" />
-               <RowConstraints valignment="CENTER" />
-               <RowConstraints valignment="CENTER" />
-               <RowConstraints valignment="CENTER" />
-               <RowConstraints valignment="CENTER" />
-               <RowConstraints valignment="CENTER" />
-            </rowConstraints>
+                     <!-- Last Name -->
+                     <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <children>
+                           <Label styleClass="form-label" text="Last Name:" />
+                           <Label fx:id="lastNameLabel" styleClass="detail-value" />
+                        </children>
+                     </HBox>
 
-            <!-- First Name -->
-            <Label text="First Name:" />
-            <Label fx:id="firstNameLabel" style="-fx-font-weight: bold;" GridPane.columnSpan="4">
-               <GridPane.margin>
-                  <Insets left="20.0" />
-               </GridPane.margin></Label>
+                     <!-- Email -->
+                     <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <children>
+                           <Label styleClass="form-label" text="Email:" />
+                           <Label fx:id="emailLabel" styleClass="detail-value" />
+                        </children>
+                     </HBox>
 
-            <!-- Last Name -->
-            <Label text="Last Name:" GridPane.rowIndex="1" />
-            <Label fx:id="lastNameLabel" style="-fx-font-weight: bold;" GridPane.columnSpan="4" GridPane.rowIndex="1" />
+                     <!-- CV -->
+                     <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <children>
+                           <Label prefHeight="17.0" prefWidth="73.0" styleClass="form-label" text="CV:" />
+                           <!-- The label with link-text style indicates clickable info -->
+                           <Label fx:id="cvLabel" styleClass="detail-value link-text" />
+                           <Button fx:id="viewCvButton" onAction="#handleCvAction" prefHeight="35.0" styleClass="btn-connect" text="View/Download" />
+                        </children>
+                     </HBox>
 
-            <!-- Email -->
-            <Label text="Email:" GridPane.rowIndex="2" />
-            <Label fx:id="emailLabel" style="-fx-font-weight: bold;" GridPane.columnSpan="4" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets left="30.0" />
-               </GridPane.margin></Label>
+                     <!-- Cover Letter -->
+                     <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <children>
+                           <Label prefHeight="17.0" prefWidth="125.0" styleClass="form-label" text="Cover Letter:" />
+                           <Label fx:id="coverLetterLabel" styleClass="detail-value link-text" />
+                           <Button fx:id="viewCoverLetterButton" onAction="#handleCoverLetterAction" prefHeight="35.0" styleClass="btn-connect" text="View/Download" />
+                        </children>
+                     </HBox>
 
-            <!-- CV -->
-            <Label text="CV:" GridPane.rowIndex="3" />
-            <Label fx:id="cvLabel" style="-fx-font-weight: bold; -fx-text-fill: blue;" GridPane.columnSpan="4" GridPane.rowIndex="3" />
-            <Button fx:id="viewCvButton" text="View/Download" onAction="#handleCvAction" GridPane.columnIndex="4" GridPane.rowIndex="3"/>
+                     <!-- Submission Date -->
+                     <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <children>
+                           <Label styleClass="form-label" text="Submitted On:" />
+                           <Label fx:id="submissionDateLabel" styleClass="detail-value" />
+                        </children>
+                     </HBox>
 
-            <!-- Cover Letter -->
-            <Label text="Cover Letter:" GridPane.rowIndex="4" />
-            <Label fx:id="coverLetterLabel" style="-fx-font-weight: bold; -fx-text-fill: blue;" GridPane.columnSpan="4" GridPane.rowIndex="4" />
-            <Button fx:id="viewCoverLetterButton" text="View/Download" onAction="#handleCoverLetterAction" GridPane.columnIndex="4" GridPane.rowIndex="4" />
+                     <!-- Status -->
+                     <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <children>
+                           <Label prefHeight="17.0" prefWidth="57.0" styleClass="form-label" text="Status:" />
+                           <ComboBox fx:id="statusLabel" editable="true" prefWidth="150.0" visibleRowCount="3" />
+                        </children>
+                     </HBox>
+                  </VBox>
 
-            <!-- Submission Date -->
-            <Label text="Submitted On:" GridPane.rowIndex="5" />
-            <Label fx:id="submissionDateLabel" style="-fx-font-weight: bold;" GridPane.columnSpan="4" GridPane.rowIndex="5" />
-
-            <!-- Status -->
-            <Label text="Status:" GridPane.rowIndex="6" />
-            <ComboBox fx:id="statusLabel" editable="true" prefWidth="150.0" visibleRowCount="3" GridPane.columnIndex="3" GridPane.rowIndex="6" />
-            <padding>
-               <Insets left="250.0" />
-            </padding>
-
-         </GridPane>
-
-         <!-- Submit Button -->
-         <Button fx:id="submitButton" onAction="#submitButton" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10px;" text="Submit" />
-      </VBox>
-   </center>
-
-</BorderPane>
+                  <!-- Submit Button -->
+                  <Button fx:id="submitButton" onAction="#submitButton" prefHeight="35.0" styleClass="btn-connect" text="Submit" />
+               </children>
+               <HBox.margin>
+                  <Insets bottom="80.0" top="80.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</StackPane>

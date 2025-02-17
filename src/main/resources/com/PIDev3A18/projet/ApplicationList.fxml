@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.BorderPane?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.ApplicationListController">
-   <center>
-      <ListView fx:id="listView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" BorderPane.alignment="CENTER">
+<BorderPane fx:controller="com.PIDev3A18.projet.ApplicationListController"
+            xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            prefHeight="720.0" prefWidth="1080.0"
+            stylesheets="@css/main.css"
+            styleClass="main-page">
+   <!-- Top Section: Title -->
+   <top>
+      <Label text="Applications List" styleClass="title-text">
          <BorderPane.margin>
-            <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
+            <Insets top="20" left="20" right="20" bottom="10"/>
+         </BorderPane.margin>
+      </Label>
+   </top>
+
+   <!-- Center Section: ListView -->
+   <center>
+      <ListView fx:id="listView" BorderPane.alignment="CENTER">
+         <BorderPane.margin>
+            <Insets top="10" right="40" bottom="40" left="40"/>
          </BorderPane.margin>
       </ListView>
    </center>

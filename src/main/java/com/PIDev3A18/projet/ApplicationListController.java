@@ -2,6 +2,8 @@ package com.PIDev3A18.projet;
 
 import entity.Applications;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.layout.BorderPane;
 import services.ApplicationService;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -74,24 +76,25 @@ public class ApplicationListController {
 
     private void viewApplicationDetails(Applications selectedApplication) {
         try {
-            // Load the ApplicationInfo.fxml file using an absolute resource path.
+            // Load the ApplicationInformation.fxml file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ApplicationInformation.fxml"));
-            Scene scene = new Scene(loader.load());
+            Node applicationInfoView = loader.load();
 
-            // Get the controller of the ApplicationInfo.fxml and pass the selected application.
+            // Get the controller and pass the selected application
             ApplicationInfoController applicationInfoController = loader.getController();
             applicationInfoController.setApplication(selectedApplication);
 
-            // Set the new scene on the current stage.
-            Stage stage = (Stage) listView.getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
+            // Get the current scene's root (which should be your BorderPane layout)
+            BorderPane mainLayout = (BorderPane) listView.getScene().getRoot();
 
+            // Set the ApplicationInformation view in the center, preserving the left navigation
+            mainLayout.setCenter(applicationInfoView);
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert("Error", "Failed to load the application details.", AlertType.ERROR);
+            showAlert("Error", "Failed to load the application details.", Alert.AlertType.ERROR);
         }
     }
+
 
     private void showAlert(String title, String message, AlertType alertType) {
         Alert alert = new Alert(alertType);

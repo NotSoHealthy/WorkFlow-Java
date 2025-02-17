@@ -4,69 +4,104 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane prefHeight="720.0" prefWidth="1280.0" styleClass="page" stylesheets="@css/Application.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.ApplicationController">
+<StackPane prefHeight="720.0" prefWidth="1280.0" styleClass="page" stylesheets="@css/signup.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.ApplicationController">
    <children>
-      <VBox alignment="CENTER" spacing="25" styleClass="main-panel">
-         <padding>
-            <Insets bottom="40" left="40" right="40" top="40" />
-         </padding>
+      <HBox alignment="CENTER">
          <children>
-            <!-- Title -->
-            <Text styleClass="title-text" text="Job Application Form">
-               <font>
-                  <Font size="32" />
-               </font>
-            </Text>
+            <VBox alignment="CENTER_LEFT" prefHeight="672.0" prefWidth="400.0" spacing="15.0" styleClass="main-panel">
+               <padding>
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+               </padding>
+               <children>
+                  <!-- Optional Logo/Header -->
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/Logo.png" />
+                           </image>
+                        </ImageView>
+                        <Text text="Job Application">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
 
-            <!-- Form Fields Container -->
-            <VBox alignment="CENTER_LEFT" prefHeight="149.0" prefWidth="810.0" spacing="15">
-               <!-- First Name -->
-               <HBox alignment="CENTER_LEFT" spacing="15">
-                  <Label styleClass="form-label" text="First Name:" />
-                  <TextField fx:id="firstNameField" prefWidth="350" promptText="Enter your first name" />
-               </HBox>
-               <!-- Last Name -->
-               <HBox alignment="CENTER_LEFT" spacing="15">
-                  <Label styleClass="form-label" text="Last Name:" />
-                  <TextField fx:id="lastNameField" prefWidth="350" promptText="Enter your last name" />
-               </HBox>
-               <HBox alignment="CENTER_LEFT" spacing="15">
-                  <children>
-                     <Label styleClass="form-label" text="Mail" />
-                     <TextField fx:id="emailField" prefWidth="350" promptText="Enter your mail" />
-                  </children>
-               </HBox>
-               <!-- CV Upload -->
-               <HBox alignment="CENTER_LEFT" spacing="15">
-                  <Label styleClass="form-label" text="Upload CV:" />
-                  <Button fx:id="uploadCVButton" onAction="#uploadCVButton" styleClass="file-button" text="Choose File" />
-                  <Label fx:id="cvFileNameLabel" styleClass="file-label" text="No file chosen" />
-               </HBox>
-               <!-- Cover Letter Upload -->
-               <HBox alignment="CENTER_LEFT" spacing="15">
-                  <Label styleClass="form-label" text="Upload Cover Letter:" />
-                  <Button fx:id="uploadCoverLetterButton" onAction="#uploadCoverLetterButton" styleClass="file-button" text="Choose File" />
-                  <Label fx:id="coverLetterFileNameLabel" styleClass="file-label" text="No file chosen" />
-               </HBox>
-               <VBox.margin>
-                  <Insets left="400.0" right="30.0" />
-               </VBox.margin>
+                  <!-- Title -->
+                  <Text text="Job Application Form">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Text>
+
+                  <!-- Form Fields -->
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="First Name:" />
+                        <TextField fx:id="firstNameField" prefHeight="40.0" promptText="Enter your first name" />
+                     </children>
+                  </HBox>
+
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="Last Name:" />
+                        <TextField fx:id="lastNameField" prefHeight="40.0" promptText="Enter your last name" />
+                     </children>
+                  </HBox>
+
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="Email:" />
+                        <TextField fx:id="emailField" layoutX="30.0" layoutY="60.0" prefHeight="40.0" promptText="Enter your email" />
+                     </children>
+                  </HBox>
+
+                  <!-- CV Upload -->
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="Upload CV:" />
+                        <Button fx:id="uploadCVButton" onAction="#uploadCVButton" prefHeight="35.0" styleClass="btn-connect" text="Choose File" />
+                        <Label fx:id="cvFileNameLabel" text="No file chosen" />
+                     </children>
+                  </HBox>
+
+                  <!-- Cover Letter Upload -->
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="Upload Cover Letter:" />
+                        <Button fx:id="uploadCoverLetterButton" onAction="#uploadCoverLetterButton" prefHeight="35.0" styleClass="btn-connect-google" text="Choose File" />
+                        <Label fx:id="coverLetterFileNameLabel" text="No file chosen" />
+                     </children>
+                  </HBox>
+
+                  <!-- Submit Button -->
+                  <Button fx:id="submitApplicationButton" onAction="#submitApplicationButton" prefHeight="35.0" styleClass="btn-connect" text="Submit Application" />
+
+                  <!-- Notification -->
+                  <HBox alignment="CENTER" styleClass="notif-pane" visible="false">
+                     <children>
+                        <Label fx:id="notifText" styleClass="notif-text" textAlignment="CENTER" />
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </HBox>
+               </children>
+               <HBox.margin>
+                  <Insets bottom="80.0" top="80.0" />
+               </HBox.margin>
             </VBox>
-
-            <!-- Submit Button -->
-            <Button fx:id="submitApplicationButton" onAction="#submitApplicationButton" styleClass="submit-button" text="Submit Application" />
-
-            <!-- Notification -->
-            <HBox fx:id="notifHbox" alignment="CENTER" styleClass="notif-pane" visible="false">
-               <Label fx:id="notifText" styleClass="notif-text" textAlignment="CENTER" />
-            </HBox>
          </children>
-      </VBox>
+      </HBox>
    </children>
 </StackPane>

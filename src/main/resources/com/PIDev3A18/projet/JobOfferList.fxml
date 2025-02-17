@@ -3,22 +3,29 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.JobOfferListController">
+<StackPane prefHeight="720.0" prefWidth="1080.0" stylesheets="@css/signup.css" styleClass="page"
+           xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.PIDev3A18.projet.JobOfferListController">
+   <children>
+      <HBox alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER" spacing="20.0" styleClass="main-panel" prefWidth="800">
+               <padding>
+                  <Insets top="30" right="30" bottom="30" left="30"/>
+               </padding>
+               <children>
+                  <!-- Page Title -->
+                  <Label text="Job Offers" styleClass="title-text" />
 
-   <top>
-      <Label style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #333333; -fx-padding: 10;" text="Job Offers">
-         <BorderPane.margin>
-            <Insets left="20.0" top="20.0" />
-         </BorderPane.margin></Label>
-   </top>
-
-   <center>
-      <ListView fx:id="listView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #F4F4F9; -fx-border-color: #cccccc; -fx-border-width: 2px; -fx-background-radius: 8px; -fx-padding: 10;" BorderPane.alignment="CENTER">
-         <BorderPane.margin>
-            <Insets bottom="40.0" left="40.0" right="40.0" top="40.0" />
-         </BorderPane.margin>
-      </ListView>
-   </center>
-</BorderPane>
+                  <!-- Job Offers List -->
+                  <ListView fx:id="listView" prefHeight="600" prefWidth="800" styleClass="list-view"/>
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</StackPane>
