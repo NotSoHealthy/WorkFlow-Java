@@ -39,7 +39,6 @@ public class EditProfileController{
     @FXML private StackPane passwordStackPane;
     @FXML private TextField passwordText;
     @FXML private TextField prenomField;
-    @FXML private ProgressBar progressBar;
 
     Image eye1Image;
     Image eye2Image;
@@ -228,7 +227,7 @@ public class EditProfileController{
         if (file!=null) {
             new Thread(() -> {
                 try {
-                    String imageUrl = ImgApi.uploadImage(file, progressBar);
+                    String imageUrl = ImgApi.uploadImage(file);
                     Platform.runLater(() -> {
                         loggedInEmployee.setImageUrl(imageUrl);
                         try {

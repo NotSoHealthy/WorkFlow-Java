@@ -26,3 +26,24 @@
     /*-fx-border-radius: 5px;
     /*-fx-border-color: #888888;*/
 }
+
+.btn{
+    -fx-background-color: #3742FA;
+    -fx-text-fill: white;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px 10px;
+    -fx-effect: dropshadow( two-pass-box , rgba(0, 0, 0, 0.15) , 8, 0, 2, 2 );
+}
+
+.btn:hover{
+    -fx-background-color: derive(#3742FA, 20%);
+}
+
+Label{
+    -fx-text-fill: -fx-text-primary;
+}
+
+TextField, PasswordField{
+    -fx-effect: dropshadow( two-pass-box , rgba(0, 0, 0, 0.15) , 8, 0, 2, 2 );
+    -fx-text-fill: -fx-text-primary;
+}

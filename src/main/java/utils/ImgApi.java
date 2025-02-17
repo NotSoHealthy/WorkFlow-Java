@@ -1,6 +1,5 @@
 package utils;
 
-import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import okhttp3.*;
 
@@ -14,7 +13,7 @@ public class ImgApi {
     private static final String UPLOAD_URL = "https://api.imgbb.com/1/upload";
     private static final String API_KEY = "73a46ef3fc1b634993a6addc9b377f0e";
 
-    public static String uploadImage(File imageFile, ProgressBar progressBar) throws IOException {
+    public static String uploadImage(File imageFile) throws IOException {
         byte[] imageBytes = Files.readAllBytes(imageFile.toPath());
         String base64Image = Base64.getEncoder().encodeToString(imageBytes);
 
