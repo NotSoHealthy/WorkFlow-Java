@@ -4,15 +4,18 @@ import entity.Employee;
 import entity.Inscription;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
+
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import services.ServiceInscription;
 import utils.UserSession;
 
+
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Objects;
+
 
 public class ViewInscriptionController {
     private ServiceInscription si=new ServiceInscription();
@@ -21,8 +24,12 @@ public class ViewInscriptionController {
     @FXML
     private VBox Vbox;
     @FXML
+    private HBox Hbox;
+    @FXML
+    private Label TxtEmploye;
+    @FXML
     public void initialize() throws SQLException, IOException {
-        if(Objects.equals(loggedinEmployee.getType(), "responsable")){
+        if(loggedinEmployee.getType().equals("responsable")){
             List<Inscription> li= si.readAll();
             for(Inscription i : li)
             {
@@ -33,8 +40,8 @@ public class ViewInscriptionController {
             }
         }
         else {
+
             List<Inscription> li= si.SortByEmployee(loggedinEmployee.getId());
-            System.out.println(li);
             for(Inscription i : li)
             {
                 FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("ItemsInscription.fxml"));
@@ -42,6 +49,8 @@ public class ViewInscriptionController {
                 fxmlLoader.setController(ItemController);
                 Vbox.getChildren().add(fxmlLoader.load());
             }
+            Hbox.getChildren().remove(TxtEmploye);
+
         }
 
 

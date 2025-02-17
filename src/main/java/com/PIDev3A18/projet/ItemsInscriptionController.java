@@ -1,13 +1,13 @@
 package com.PIDev3A18.projet;
 
 import entity.Employee;
-import entity.Formation;
 import entity.Inscription;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import services.ServiceInscription;
 import utils.UserSession;
@@ -21,9 +21,14 @@ public class ItemsInscriptionController {
 
     @FXML
     private Label TxtFormation;
+    @FXML
+    private Label TxtEmploye;
+    @FXML
+    private HBox Hbox;
 
     @FXML
     private ComboBox<String> comboBox;
+
     private Employee loggedInEmployee;
     private UserSession userSession;
 
@@ -39,6 +44,13 @@ public class ItemsInscriptionController {
         comboBox.getStyleClass().add(inscription.getStatus());
         TxtDateInscrit.setText(inscription.getDateRegistration().toString());
         TxtFormation.setText(inscription.getFormation().getTitle());
+        TxtEmploye.setText("employee");
+        if(loggedInEmployee.getType().equals("responsable")) {
+            TxtEmploye.setText(inscription.getEmployee().getFirstName() + " " + inscription.getEmployee().getLastName());
+        }
+        else{
+            Hbox.getChildren().remove(TxtEmploye);
+        }
     }
     @FXML
     public void comboBoxChange(ActionEvent event) throws SQLException {
@@ -47,7 +59,8 @@ public class ItemsInscriptionController {
         si.update(inscription);
         if(comboBox.getValue().equals("Refuser")) {
             si.delete(inscription);
-            ((Stage) TxtDateInscrit.getScene().getWindow()).close();
+            Hbox.getChildren().clear(); // Remove all elements
+            initialize();
         }
 
     }

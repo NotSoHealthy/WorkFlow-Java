@@ -162,7 +162,7 @@ public class LayoutController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        layoutFormationButton.getScene().getWindow().setWidth(1480);
+
 
 
 

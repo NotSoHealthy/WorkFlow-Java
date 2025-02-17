@@ -194,9 +194,15 @@ public class ViewFormationController implements Initializable {
                             try {
                                 LocalDate date = LocalDate.now();
                                 Inscription i= new Inscription(date,"en attente",formation,loggedinEmployee);
+                                if(!si.isRegistered(formation,loggedinEmployee))
+                                {
+                                    si.add(i);
+                                    showAlert(Alert.AlertType.INFORMATION, "Success", "Vous êtes maintenant inscrit, en attente de validation!");
+                                }
+                                else {
+                                    showAlert(Alert.AlertType.INFORMATION, "Error", "Réinitialiser la page !");
+                                }
 
-                                si.add(i);
-                                showAlert(Alert.AlertType.INFORMATION, "Success", "Vous êtes maintenant inscrit, en attente de validation!");
                             } catch (SQLException e) {
                                 showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while registering!");
                             }
@@ -271,6 +277,8 @@ public class ViewFormationController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.initStyle(StageStyle.UTILITY);
+            stage.setWidth(800);
+            stage.setHeight(600);
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);

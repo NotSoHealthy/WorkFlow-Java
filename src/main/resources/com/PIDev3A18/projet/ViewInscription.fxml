@@ -18,6 +18,7 @@
                   <Label alignment="CENTER" prefWidth="120.0" styleClass="top-label" text="Date Inscription" />
                   <Label alignment="CENTER" prefWidth="120.0" styleClass="top-label" text="Statut" />
                   <Label alignment="CENTER" prefWidth="120.0" styleClass="top-label" text="Formation" />
+                  <Label fx:id="TxtEmploye" alignment="CENTER" prefWidth="120.0" styleClass="top-label" text="Employé" />
                </children>
                <padding>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
