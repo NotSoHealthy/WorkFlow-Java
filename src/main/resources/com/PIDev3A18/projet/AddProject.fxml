@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="583.0" spacing="20" stylesheets="@css/Project.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="583.0" spacing="20" stylesheets="@css/Project.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.AddProjectController">
     <padding>
         <Insets bottom="30" left="30" right="30" top="30" />
     </padding>
@@ -38,7 +38,7 @@
                         <Font size="16.0" />
                     </font>
                 </Label>
-                <TextField prefHeight="43.0" prefWidth="206.0" promptText="Entrez le Nom du Projet" styleClass="form-field">
+                <TextField fx:id="Name" prefHeight="38.0" prefWidth="340.0" promptText="Entrez le Nom du Projet" styleClass="form-field">
                     <font>
                         <Font size="16.0" />
                     </font>
@@ -54,7 +54,7 @@
                         <Font size="16.0" />
                     </font>
                 </Label>
-                <TextArea prefHeight="66.0" prefWidth="393.0" promptText="Entrez une Description Du Projet" styleClass="form-field" />
+                <TextArea fx:id="Description" prefHeight="66.0" prefWidth="393.0" promptText="Entrez une Description Du Projet" styleClass="form-field" />
             </children>
         </HBox>
 
@@ -66,7 +66,7 @@
                         <Font size="16.0" />
                     </font>
                 </Label>
-                <DatePicker prefHeight="61.0" prefWidth="249.0" styleClass="form-field" />
+                <DatePicker fx:id="StartDate" prefHeight="56.0" prefWidth="341.0" styleClass="form-field" />
             </children>
         </HBox>
 
@@ -78,7 +78,7 @@
                         <Font size="16.0" />
                     </font>
                 </Label>
-                <DatePicker styleClass="form-field" />
+                <DatePicker fx:id="EndDate" prefHeight="56.0" prefWidth="346.0" styleClass="form-field" />
             </children>
         </HBox>
 
@@ -90,7 +90,7 @@
                         <Font size="16.0" />
                     </font>
                 </Label>
-                <TextField prefHeight="43.0" prefWidth="202.0" promptText="Entrez le Budget Du Projet" styleClass="form-field">
+                <TextField fx:id="Budget" prefHeight="38.0" prefWidth="338.0" promptText="Entrez le Budget Du Projet" styleClass="form-field">
                     <font>
                         <Font size="16.0" />
                     </font>
@@ -106,7 +106,7 @@
                         <Font size="16.0" />
                     </font>
                 </Label>
-                <ChoiceBox prefWidth="200.0" styleClass="form-field" />
+                <ChoiceBox fx:id="ProjectManagerComboBox" prefHeight="50.0" prefWidth="338.0" styleClass="form-field" />
             </children>
         </HBox>
 
@@ -118,14 +118,14 @@
                         <Font size="16.0" />
                     </font>
                 </Label>
-                <ComboBox prefWidth="200.0" styleClass="form-field" />
+                <ComboBox fx:id="DepartmentComboBox" prefHeight="63.0" prefWidth="342.0" styleClass="form-field" />
             </children>
         </HBox>
 
         <!-- Submit Button -->
         <HBox alignment="CENTER" spacing="20">
             <children>
-                <Button styleClass="submit-button" text="Soumettre" />
+                <Button onAction="#SubmitBtn" styleClass="submit-button" text="Soumettre" />
             </children>
         </HBox>
     </children>

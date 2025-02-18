@@ -226,3 +226,179 @@ TextField {
 .update-button:hover {
     -fx-background-color: #2980b9; /* Darker blue on hover */
 }
+/* Root style */
+.root {
+    -fx-background-color: #f4f4f4; /* Light gray background */
+}
+
+/* Title text */
+.title-text {
+    -fx-fill: #2c3e50; /* Dark blue color */
+    -fx-font-weight: bold;
+}
+
+/* ScrollPane styling */
+.scroll-pane {
+    -fx-background-color: transparent; /* Transparent background */
+    -fx-border-color: #bdc3c7; /* Light gray border */
+    -fx-border-radius: 10px;
+    -fx-padding: 10px;
+}
+
+/* ListView styling */
+.list-view {
+    -fx-background-color: #ffffff; /* White background */
+    -fx-border-color: #bdc3c7; /* Light gray border */
+    -fx-border-radius: 10px;
+    -fx-padding: 10px;
+}
+
+/* ListView cells */
+.list-cell {
+    -fx-padding: 10px;
+    -fx-background-color: #ffffff; /* White background */
+    -fx-border-color: #bdc3c7; /* Light gray border */
+    -fx-border-radius: 5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 5, 0, 0, 5); /* Subtle shadow */
+}
+
+.list-cell:filled:selected {
+    -fx-background-color: #3498db; /* Blue background for selected items */
+    -fx-text-fill: white; /* White text for selected items */
+}
+
+/* Buttons */
+.delete-button {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff; /* White text */
+    -fx-background-color: #e74c3c; /* Red background */
+    -fx-border-radius: 8px;
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 5); /* Shadow */
+    -fx-cursor: hand; /* Hand cursor on hover */
+}
+
+.delete-button:hover {
+    -fx-background-color: #c0392b; /* Darker red on hover */
+}
+
+.update-button {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff; /* White text */
+    -fx-background-color: #3498db; /* Blue background */
+    -fx-border-radius: 8px;
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 5); /* Shadow */
+    -fx-cursor: hand; /* Hand cursor on hover */
+}
+
+.update-button:hover {
+    -fx-background-color: #2980b9; /* Darker blue on hover */
+}
+/* Root style */
+.root {
+    -fx-background-color: #f8f9fa; /* Light gray background */
+}
+
+/* Title text */
+.title-text {
+    -fx-fill: #2c3e50; /* Dark blue color */
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 5, 0, 0, 5); /* Subtle shadow */
+}
+
+/* ScrollPane styling */
+.scroll-pane {
+    -fx-background-color: transparent; /* Transparent background */
+    -fx-border-color: #ced4da; /* Light gray border */
+    -fx-border-radius: 10px;
+    -fx-padding: 10px;
+}
+
+/* ListView styling */
+.list-view {
+    -fx-background-color: #ffffff; /* White background */
+    -fx-border-color: #ced4da; /* Light gray border */
+    -fx-border-radius: 10px;
+    -fx-padding: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 5, 0, 0, 5); /* Subtle shadow */
+}
+
+/* ListView cells */
+.list-cell {
+    -fx-padding: 15px;
+    -fx-background-color: #ffffff; /* White background */
+    -fx-border-color: #ced4da; /* Light gray border */
+    -fx-border-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 3, 0, 0, 3); /* Subtle shadow */
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI";
+}
+
+.list-cell:filled:selected {
+    -fx-background-color: #3498db; /* Blue background for selected items */
+    -fx-text-fill: white; /* White text for selected items */
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #f1f3f5; /* Light gray background on hover */
+}
+
+/* Buttons */
+.delete-button {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff; /* White text */
+    -fx-background-color: #e74c3c; /* Red background */
+    -fx-border-radius: 8px;
+    -fx-padding: 12px 24px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 5); /* Shadow */
+    -fx-cursor: hand; /* Hand cursor on hover */
+}
+
+.delete-button:hover {
+    -fx-background-color: #c0392b; /* Darker red on hover */
+}
+
+.update-button {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff; /* White text */
+    -fx-background-color: #3498db; /* Blue background */
+    -fx-border-radius: 8px;
+    -fx-padding: 12px 24px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 5); /* Shadow */
+    -fx-cursor: hand; /* Hand cursor on hover */
+}
+
+.update-button:hover {
+    -fx-background-color: #2980b9; /* Darker blue on hover */
+}
+/* Style for labels */
+.form-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+/* Style for input fields */
+.form-field {
+    -fx-font-size: 16px;
+    -fx-padding: 5px;
+}
+
+/* Style for the submit button */
+.submit-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #4CAF50; /* Green */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+/* Style for the title */
+.title-text {
+    -fx-font-size: 36px;
+    -fx-fill: #2c3e50; /* Dark blue */
+}

@@ -32,11 +32,9 @@ public class Department {
 
     @Override
     public String toString() {
-        return "Department{" +
-                "Department_id=" + Department_id +
-                ", Name='" + Name + '\'' +
-                ", Year_Budget=" + Year_Budget +
-                ", Department_Manager=" + Department_Manager +
+        return  ",\n Name                 : " + Name +
+                ",\n Year_Budget          :" + Year_Budget +
+                ",\n Department_Manager   :" + Department_Manager +
                 '}';
     }
 }

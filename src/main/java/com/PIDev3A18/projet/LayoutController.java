@@ -1,7 +1,6 @@
 package com.PIDev3A18.projet;
 
 import com.google.gson.Gson;
-import com.sun.tools.javac.Main;
 import entity.Employee;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -31,6 +30,8 @@ public class LayoutController {
     @FXML
     private Button layoutDashButton;
     @FXML
+    private Button layoutDepartmentButton;
+    @FXML
     private Button layoutProjectsButton;
     @FXML
     private Button layoutTasksButton;
@@ -56,6 +57,11 @@ public class LayoutController {
         Image image = new Image(input, 16, 16, true, true);
         ImageView imageView = new ImageView(image);
         layoutDashButton.setGraphic(imageView);
+        //Department Icon
+        input = getClass().getResourceAsStream("icons/dash.png");
+        image = new Image(input, 16, 16, true, true);
+        imageView = new ImageView(image);
+        layoutDepartmentButton.setGraphic(imageView);
         //Projects Icon
         input = getClass().getResourceAsStream("icons/projects.png");
         image = new Image(input, 16, 16, true, true);
@@ -92,10 +98,14 @@ public class LayoutController {
         setSelected(layoutDashButton);
         loadFXML(getClass().getResource("dashboard.fxml"));
     }
+    public void layoutGoToDepartment(ActionEvent actionEvent) {
+        setSelected(layoutDepartmentButton);
+        loadFXML(getClass().getResource("ViewDepartment.fxml"));
+    }
 
     public void layoutGoToProjects(ActionEvent actionEvent) {
         setSelected(layoutProjectsButton);
-        loadFXML(getClass().getResource("projects.fxml"));
+        loadFXML(getClass().getResource("ViewProject.fxml"));
     }
 
     public void layoutGoToTasks(ActionEvent actionEvent) {
