@@ -281,6 +281,8 @@ public class LayoutController {
                 }
             }
         }
+
+        layoutVbox.layout();
     }
 
     public void removeSelected(){
@@ -312,7 +314,5 @@ public class LayoutController {
                 minSize, minSize // Crop size (square)
         ));
         layoutProfilePicture.setImage(image);
-
-        layoutVbox.layout();
     }
 }
