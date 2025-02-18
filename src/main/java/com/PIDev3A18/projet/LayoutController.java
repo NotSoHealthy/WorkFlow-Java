@@ -56,6 +56,12 @@ public class LayoutController {
     @FXML
     private Button layoutFormationButton;
     @FXML private Button layoutEmployeListButton;
+    @FXML
+    private Button layoutJobOfferButton;
+    @FXML
+    private Button ApplicationsButton;
+
+
 
     @FXML
     void initialize() {
@@ -129,6 +135,13 @@ public class LayoutController {
         layoutEmployeListButton.setGraphic(imageView);
     }
 
+    @FXML
+    void ApplicationsButton(ActionEvent event) {
+        setSelected(ApplicationsButton);
+        loadFXML(getClass().getResource("ApplicationList.fxml"));
+
+    }
+
     public void layoutGoToDashboard(ActionEvent actionEvent) {
         setSelected(layoutDashButton);
         loadFXML(getClass().getResource("dashboard.fxml"));
@@ -173,6 +186,19 @@ public class LayoutController {
             layoutBorderPane.setCenter(loader.load());
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void layoutGoToJobOffer(ActionEvent actionEvent) {
+        setSelected(layoutJobOfferButton);
+
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("JobOffer.fxml"));
+            layoutBorderPane.setCenter(loader.load());
+            JobOfferController controller = loader.getController();
+            controller.setLoggedinEmployee(loggedinEmployee);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
