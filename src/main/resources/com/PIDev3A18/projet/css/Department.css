@@ -1,0 +1,72 @@
+/* General Styles */
+.root {
+    -fx-background-color: #f4f4f4;
+}
+
+/* Title Text */
+.title-text {
+    -fx-font-size: 36px;
+    -fx-fill: #2c3e50; /* Dark blue */
+}
+
+/* Form Labels */
+.form-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495e; /* Dark gray */
+}
+
+/* Form Fields */
+.form-field {
+    -fx-font-size: 16px;
+    -fx-padding: 5px;
+    -fx-background-color: #ecf0f1; /* Light gray */
+    -fx-border-color: #bdc3c7; /* Gray */
+    -fx-border-radius: 5px;
+}
+
+/* Submit Button */
+.submit-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #3498db; /* Blue */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.submit-button:hover {
+    -fx-background-color: #2980b9; /* Darker blue */
+}
+
+/* Delete Button */
+.delete-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #e74c3c; /* Red */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.delete-button:hover {
+    -fx-background-color: #c0392b; /* Darker red */
+}
+
+/* Update Button */
+.update-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #2ecc71; /* Green */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.update-button:hover {
+    -fx-background-color: #27ae60; /* Darker green */
+}
+
+/* List View */
+.list-view {
+    -fx-background-color: #ecf0f1; /* Light gray */
+    -fx-border-color: #bdc3c7; /* Gray */
+    -fx-border-radius: 5px;
+}

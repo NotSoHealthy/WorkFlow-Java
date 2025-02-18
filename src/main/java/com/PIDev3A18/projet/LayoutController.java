@@ -15,6 +15,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import services.ServiceEmployee;
 import utils.UserSession;
 
@@ -32,6 +33,8 @@ public class LayoutController {
     private Text layoutName;
     @FXML
     private Button layoutDashButton;
+    @FXML
+    private Button layoutDepartmentButton;
     @FXML
     private Button layoutProjectsButton;
     @FXML
@@ -79,6 +82,11 @@ public class LayoutController {
         image = new Image(input, 16, 16, true, true);
         ImageView imageView = new ImageView(image);
         layoutDashButton.setGraphic(imageView);
+        //Department Icon
+        input = getClass().getResourceAsStream("icons/dash.png");
+        image = new Image(input, 16, 16, true, true);
+        imageView = new ImageView(image);
+        layoutDepartmentButton.setGraphic(imageView);
         //Projects Icon
         input = getClass().getResourceAsStream("icons/projects.png");
         image = new Image(input, 16, 16, true, true);
@@ -126,11 +134,14 @@ public class LayoutController {
         loadFXML(getClass().getResource("dashboard.fxml"));
 
     }
+    public void layoutGoToDepartment(ActionEvent actionEvent) {
+        setSelected(layoutDepartmentButton);
+        loadFXML(getClass().getResource("ViewDepartment.fxml"));
+    }
 
     public void layoutGoToProjects(ActionEvent actionEvent) {
         setSelected(layoutProjectsButton);
-        loadFXML(getClass().getResource("projects.fxml"));
-
+        loadFXML(getClass().getResource("ViewProject.fxml"));
     }
 
     public void layoutGoToTasks(ActionEvent actionEvent) {
