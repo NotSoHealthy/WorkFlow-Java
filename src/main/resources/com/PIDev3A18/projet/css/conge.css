@@ -1,0 +1,72 @@
+*{
+    -fx-background-primary: #F1F4F8;
+    -fx-background-secondary: #E1EAF9;
+    -fx-background-tertiary: #FFFFFF;
+    -fx-background-highlight: rgba(57, 210, 192, 0.4);
+    -fx-text-primary: #143C4E;
+    -fx-text-secondary: #57636C;
+    -fx-text-success: #39D2C0;
+    -fx-text-warning: #F9CF58;
+    -fx-text-danger: #FF5963;
+}
+
+.top-label{
+    -fx-font-size: 12px;
+    -fx-text-fill: -fx-text-primary;
+    -fx-font-weight: bold;
+}
+
+.error{
+    -fx-border-color: -fx-text-danger;
+    -fx-border-width: 1px;
+}
+
+.tooltip{
+    -fx-text-fill: -fx-text-primary;
+    -fx-background-color: -fx-background-secondary;
+    /*-fx-background-color: #333333;
+    /*-fx-text-fill: white;
+    /*-fx-font-size: 12px;
+    /*-fx-padding: 10px;
+    /*-fx-background-radius: 5px;
+    /*-fx-border-radius: 5px;
+    /*-fx-border-color: #888888;*/
+}
+
+TextField:disabled{
+    -fx-opacity: .8;
+}
+
+.addBtn{
+    -fx-background-color: #3742FA;
+    -fx-text-fill: white;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px 10px;
+}
+
+.addBtn:hover{
+    -fx-background-color: derive(#3742FA, 20%);
+}
+
+HBox{
+    -fx-background-color: -fx-background-tertiary;
+    -fx-background-radius: 10px;
+    -fx-padding: 20px;
+    -fx-effect: dropshadow( two-pass-box , rgba(0, 0, 0, 0.15) , 8, 0, 2, 2 );
+}
+
+.confirm-btn{
+    -fx-background-color: -fx-text-success;
+}
+
+.confirm-btn:hover{
+    -fx-background-color: derive(-fx-text-success, 20%);
+}
+
+.cancel-btn{
+    -fx-background-color: -fx-text-danger;
+}
+
+.cancel-btn:hover{
+    -fx-background-color: derive(-fx-text-danger, 20%);
+}

@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class ServiceInscription implements IService<Inscription> {
     public void add(Inscription inscription) throws SQLException {
         String req="insert into inscription (date_registration,status,formation_id,user_id) values (?,?,?,?)";
         PreparedStatement ps = cnx.prepareStatement(req);
-        ps.setDate(1, inscription.getDate_registration());
+        ps.setDate(1, java.sql.Date.valueOf(inscription.getDateRegistration()));
         ps.setString(2, inscription.getStatus());
         ps.setInt(3,inscription.getFormation().getFormation_ID());
         ps.setInt(4, inscription.getEmployee().getId());
@@ -33,7 +34,7 @@ public class ServiceInscription implements IService<Inscription> {
     public void update(Inscription inscription) throws SQLException {
         String req ="update inscription set date_registration=?,status=?,formation_id=?,user_id=? where id=?";
         PreparedStatement ps = cnx.prepareStatement(req);
-        ps.setDate(1, inscription.getDate_registration());
+        ps.setDate(1, java.sql.Date.valueOf(inscription.getDateRegistration()));
         ps.setString(2, inscription.getStatus());
         ps.setInt(3,inscription.getFormation().getFormation_ID());
         ps.setInt(4, inscription.getEmployee().getId());
@@ -61,11 +62,12 @@ public class ServiceInscription implements IService<Inscription> {
 
             int formationId = rs.getInt("formation_id");
             int userId = rs.getInt("user_id");
+            LocalDate inscri = rs.getDate("date_registration").toLocalDate();
             ServiceEmployee e=new ServiceEmployee();
             Employee employee= e.readById(userId);
             ServiceFormation s=new ServiceFormation();
             Formation formation = s.readById(formationId);
-            inscriptions.add(new Inscription(rs.getInt("id"),rs.getDate("date_registration"),rs.getString("status"),formation,employee));
+            inscriptions.add(new Inscription(rs.getInt("id"),inscri,rs.getString("status"),formation,employee));
         }
         return inscriptions;
     }
@@ -81,12 +83,13 @@ public class ServiceInscription implements IService<Inscription> {
 
             int formationId = rs.getInt("formation_id");
             int userId = rs.getInt("user_id");
+            LocalDate inscri = rs.getDate("date_registration").toLocalDate();
             ServiceEmployee e=new ServiceEmployee();
             Employee employee= e.readById(userId);
             ServiceFormation s=new ServiceFormation();
             Formation formation = s.readById(formationId);
 
-            return new Inscription(rs.getInt("id"),rs.getDate("date_registration"),rs.getString("status"),formation,employee);
+            return new Inscription(rs.getInt("id"),inscri,rs.getString("status"),formation,employee);
         }
         return null;
     }
@@ -97,7 +100,7 @@ public class ServiceInscription implements IService<Inscription> {
         int intValue = 1;
         try {
             intValue = Integer.parseInt(str);
-        } catch (NumberFormatException _) {
+        } catch (NumberFormatException e) {
         }
         ps.setInt(2, intValue);
         ps.setString(3, "%"+str+"%");
@@ -106,11 +109,12 @@ public class ServiceInscription implements IService<Inscription> {
         while (rs.next()) {
             int formationId = rs.getInt("formation_id");
             int userId = rs.getInt("user_id");
+            LocalDate inscri = rs.getDate("date_registration").toLocalDate();
             ServiceEmployee e=new ServiceEmployee();
             Employee employee= e.readById(userId);
             ServiceFormation s=new ServiceFormation();
             Formation formation = s.readById(formationId);
-            inscriptions.add(new Inscription(rs.getInt("id"),rs.getDate("date_registration"),rs.getString("status"),formation,employee));
+            inscriptions.add(new Inscription(rs.getInt("id"),inscri,rs.getString("status"),formation,employee));
         }
         ps.close();
         return inscriptions;
@@ -124,11 +128,12 @@ public class ServiceInscription implements IService<Inscription> {
         while (rs.next()) {
             int formationId = rs.getInt("formation_id");
             int userId = rs.getInt("user_id");
+            LocalDate inscri = rs.getDate("date_registration").toLocalDate();
             ServiceEmployee e=new ServiceEmployee();
             Employee employee= e.readById(userId);
             ServiceFormation s=new ServiceFormation();
             Formation formation = s.readById(formationId);
-            inscriptions.add(new Inscription(rs.getInt("id"),rs.getDate("date_registration"),rs.getString("status"),formation,employee));
+            inscriptions.add(new Inscription(rs.getInt("id"),inscri,rs.getString("status"),formation,employee));
         }
         ps.close();
         return inscriptions;
@@ -141,11 +146,12 @@ public class ServiceInscription implements IService<Inscription> {
         while (rs.next()) {
             int formationId = rs.getInt("formation_id");
             int userId = rs.getInt("user_id");
+            LocalDate inscri = rs.getDate("date_registration").toLocalDate();
             ServiceEmployee e=new ServiceEmployee();
             Employee employee= e.readById(userId);
             ServiceFormation s=new ServiceFormation();
             Formation formation = s.readById(formationId);
-            inscriptions.add(new Inscription(rs.getInt("id"),rs.getDate("date_registration"),rs.getString("status"),formation,employee));
+            inscriptions.add(new Inscription(rs.getInt("id"),inscri,rs.getString("status"),formation,employee));
         }
         ps.close();
         return inscriptions;
@@ -159,11 +165,40 @@ public class ServiceInscription implements IService<Inscription> {
         while (rs.next()) {
             int formationId = rs.getInt("formation_id");
             int userId = rs.getInt("user_id");
+            LocalDate inscri = rs.getDate("date_registration").toLocalDate();
             ServiceEmployee e=new ServiceEmployee();
             Employee employee= e.readById(userId);
             ServiceFormation s=new ServiceFormation();
             Formation formation = s.readById(formationId);
-            inscriptions.add(new Inscription(rs.getInt("id"),rs.getDate("date_registration"),rs.getString("status"),formation,employee));
+            inscriptions.add(new Inscription(rs.getInt("id"),inscri,rs.getString("status"),formation,employee));
+        }
+        ps.close();
+        return inscriptions;
+    }
+    public boolean isRegistered(Formation formation, Employee loggedinEmployee) throws SQLException {
+        String query = "SELECT * FROM inscription WHERE formation_id = ? AND user_id = ?";
+        PreparedStatement ps = cnx.prepareStatement(query);
+        ps.setInt(1,formation.getFormation_ID());
+        ps.setInt(2,loggedinEmployee.getId());
+        ResultSet rs = ps.executeQuery();
+        return rs.next();
+
+    }
+    public List<Inscription> SortByEmployee(int id) throws SQLException {
+        String req ="select * from inscription where user_id = ? ";
+        PreparedStatement ps = cnx.prepareStatement(req);
+        ps.setInt(1,id);
+        ResultSet rs = ps.executeQuery();
+        List<Inscription> inscriptions = new ArrayList<>();
+        while (rs.next()) {
+            int formationId = rs.getInt("formation_id");
+            int userId = rs.getInt("user_id");
+            LocalDate inscri = rs.getDate("date_registration").toLocalDate();
+            ServiceEmployee e=new ServiceEmployee();
+            Employee employee= e.readById(userId);
+            ServiceFormation s=new ServiceFormation();
+            Formation formation = s.readById(formationId);
+            inscriptions.add(new Inscription(rs.getInt("id"),inscri,rs.getString("status"),formation,employee));
         }
         ps.close();
         return inscriptions;
