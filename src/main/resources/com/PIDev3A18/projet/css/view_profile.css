@@ -1,0 +1,47 @@
+*{
+    -fx-background-primary: #F1F4F8;
+    -fx-background-secondary: #E1EAF9;
+    -fx-background-tertiary: #FFFFFF;
+    -fx-background-highlight: rgba(57, 210, 192, 0.4);
+    -fx-text-primary: #143C4E;
+    -fx-text-secondary: #57636C;
+    -fx-text-success: #39D2C0;
+    -fx-text-warning: #F9CF58;
+    -fx-text-danger: #FF5963;
+}
+
+*:disabled{
+    -fx-opacity: .9;
+}
+
+TextField{
+    -fx-effect: dropshadow( two-pass-box , rgba(0, 0, 0, 0.15) , 8, 0, 2, 2 );
+    -fx-background-radius: 5px;
+}
+
+ComboBox{
+    -fx-background-radius: 5px;
+}
+
+TextField, Text, Label, ComboBox{
+    -fx-fill: -fx-text-primary;
+    -fx-text-fill: -fx-text-primary;
+    -fx-font-size: 14px;
+}
+
+.name{
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+}
+
+.btn{
+    -fx-background-color: #3742FA;
+    -fx-text-fill: white;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px 10px;
+    -fx-effect: dropshadow( two-pass-box , rgba(0, 0, 0, 0.15) , 8, 0, 2, 2 );
+}
+
+.btn:hover{
+    -fx-background-color: derive(#3742FA, 20%);
+}

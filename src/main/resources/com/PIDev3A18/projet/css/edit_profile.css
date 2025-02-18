@@ -1,0 +1,77 @@
+*{
+    -fx-background-primary: #F1F4F8;
+    -fx-background-secondary: #E1EAF9;
+    -fx-background-tertiary: #FFFFFF;
+    -fx-background-highlight: rgba(57, 210, 192, 0.4);
+    -fx-text-primary: #143C4E;
+    -fx-text-secondary: #57636C;
+    -fx-text-success: #39D2C0;
+    -fx-text-warning: #F9CF58;
+    -fx-text-danger: #FF5963;
+}
+
+.error{
+    -fx-border-color: -fx-text-danger;
+    -fx-border-width: 1px;
+}
+
+.tooltip{
+    -fx-text-fill: -fx-text-primary;
+    -fx-background-color: -fx-background-secondary;
+    /*-fx-background-color: #333333;
+    /*-fx-text-fill: white;
+    /*-fx-font-size: 12px;
+    /*-fx-padding: 10px;
+    /*-fx-background-radius: 5px;
+    /*-fx-border-radius: 5px;
+    /*-fx-border-color: #888888;*/
+}
+
+.btn{
+    -fx-background-color: #3742FA;
+    -fx-text-fill: white;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px 10px;
+    -fx-effect: dropshadow( two-pass-box , rgba(0, 0, 0, 0.15) , 8, 0, 2, 2 );
+}
+
+.btn:hover{
+    -fx-background-color: derive(#3742FA, 20%);
+}
+
+Label{
+    -fx-text-fill: -fx-text-primary;
+}
+
+TextField, PasswordField{
+    -fx-effect: dropshadow( two-pass-box , rgba(0, 0, 0, 0.15) , 8, 0, 2, 2 );
+    -fx-text-fill: -fx-text-primary;
+}
+
+.title{
+    -fx-font-weight: bold;
+    -fx-fill: -fx-text-primary;
+    -fx-font-size: 28px;
+}
+
+.upload-label{
+    -fx-text-fill: -fx-text-primary;
+}
+
+Button:disabled{
+    -fx-opacity: .7;
+}
+
+.notif-pane{
+    -fx-opacity: 0;
+    -fx-background-radius: 20px;
+    -fx-background-color: -fx-text-danger;
+}
+
+.notif-success{
+    -fx-background-color: -fx-text-success;
+}
+
+.notif-text{
+    -fx-alignment: center;
+}
