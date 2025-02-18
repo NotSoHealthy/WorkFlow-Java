@@ -94,7 +94,7 @@ public class LayoutController {
         imageView = new ImageView(image);
         layoutDepartmentButton.setGraphic(imageView);
         //Projects Icon
-        input = getClass().getResourceAsStream("icons/dash.png");
+        input = getClass().getResourceAsStream("icons/project.png");
         image = new Image(input, 16, 16, true, true);
         imageView = new ImageView(image);
         layoutProjectsButton.setGraphic(imageView);
