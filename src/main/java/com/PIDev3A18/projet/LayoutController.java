@@ -43,6 +43,8 @@ public class LayoutController {
     @FXML
     private Button layoutDisconnectButton;
     @FXML
+    private Button layoutReclamationButton;
+    @FXML
     private ImageView layoutProfilePicture;
     @FXML
     private BorderPane layoutBorderPane;
@@ -104,6 +106,11 @@ public class LayoutController {
         image = new Image(input, 16, 16, true, true);
         imageView = new ImageView(image);
         layoutDisconnectButton.setGraphic(imageView);
+        //Rec Icon
+        input = getClass().getResourceAsStream("icons/pen.png");
+        image = new Image(input, 16, 16, true, true);
+        imageView = new ImageView(image);
+        layoutReclamationButton.setGraphic(imageView);
     }
 
     public void layoutGoToDashboard(ActionEvent actionEvent) {
@@ -140,6 +147,12 @@ public class LayoutController {
         else {
             loadFXML(getClass().getResource("conge.fxml"));
         }
+    }
+
+    public void layoutGoToReclamation(ActionEvent actionEvent) {
+        setSelected(layoutReclamationButton);
+        loadFXML(getClass().getResource("reclamation.fxml"));
+
     }
 
     public void layoutDisconnect(ActionEvent actionEvent) throws IOException {

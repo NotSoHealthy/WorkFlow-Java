@@ -18,7 +18,7 @@ import java.io.InputStream;
 import java.sql.SQLException;
 
 public class Main extends Application {
-    Scene scene;
+    static Scene scene;
     Parent root;
     @Override
     public void start(Stage stage) throws IOException, SQLException {
