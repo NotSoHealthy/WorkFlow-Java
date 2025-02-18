@@ -7,22 +7,20 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefHeight="720.0" prefWidth="1080.0" stylesheets="@css/signup.css" styleClass="page"
-           xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.PIDev3A18.projet.JobOfferListController">
+<StackPane prefHeight="720.0" prefWidth="1080.0" styleClass="page" stylesheets="@css/signup.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.JobOfferListController">
    <children>
       <HBox alignment="CENTER">
          <children>
-            <VBox alignment="CENTER" spacing="20.0" styleClass="main-panel" prefWidth="800">
+            <VBox alignment="CENTER" prefWidth="800" spacing="20.0" styleClass="main-panel">
                <padding>
-                  <Insets top="30" right="30" bottom="30" left="30"/>
+                  <Insets bottom="30" left="30" right="30" top="30" />
                </padding>
                <children>
                   <!-- Page Title -->
-                  <Label text="Job Offers" styleClass="title-text" />
+                  <Label styleClass="title-text" text="Offres d'emploi" />
 
                   <!-- Job Offers List -->
-                  <ListView fx:id="listView" prefHeight="600" prefWidth="800" styleClass="list-view"/>
+                  <ListView fx:id="listView" prefHeight="600" prefWidth="800" styleClass="list-view" />
                </children>
             </VBox>
          </children>

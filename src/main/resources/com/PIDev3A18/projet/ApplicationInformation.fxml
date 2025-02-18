@@ -14,13 +14,13 @@
    <children>
       <HBox alignment="CENTER">
          <children>
-            <VBox alignment="CENTER_LEFT" prefWidth="400.0" spacing="20.0" styleClass="main-panel">
+            <VBox alignment="CENTER_LEFT" prefHeight="560.0" prefWidth="574.0" spacing="20.0" styleClass="main-panel">
                <padding>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                </padding>
                <children>
                   <!-- Title -->
-                  <Text styleClass="title-text" text="Application Details">
+                  <Text styleClass="title-text" text="Détails du Condidature" wrappingWidth="379.6796875">
                      <font>
                         <Font size="22.0" />
                      </font>
@@ -34,7 +34,7 @@
                      <!-- First Name -->
                      <HBox alignment="CENTER_LEFT" spacing="10.0">
                         <children>
-                           <Label styleClass="form-label" text="First Name:" />
+                           <Label styleClass="form-label" text="Nom" />
                            <Label fx:id="firstNameLabel" styleClass="detail-value" />
                         </children>
                      </HBox>
@@ -42,7 +42,7 @@
                      <!-- Last Name -->
                      <HBox alignment="CENTER_LEFT" spacing="10.0">
                         <children>
-                           <Label styleClass="form-label" text="Last Name:" />
+                           <Label styleClass="form-label" text="Prenom" />
                            <Label fx:id="lastNameLabel" styleClass="detail-value" />
                         </children>
                      </HBox>
@@ -50,7 +50,7 @@
                      <!-- Email -->
                      <HBox alignment="CENTER_LEFT" spacing="10.0">
                         <children>
-                           <Label styleClass="form-label" text="Email:" />
+                           <Label styleClass="form-label" text="Mail" />
                            <Label fx:id="emailLabel" styleClass="detail-value" />
                         </children>
                      </HBox>
@@ -61,23 +61,23 @@
                            <Label prefHeight="17.0" prefWidth="73.0" styleClass="form-label" text="CV:" />
                            <!-- The label with link-text style indicates clickable info -->
                            <Label fx:id="cvLabel" styleClass="detail-value link-text" />
-                           <Button fx:id="viewCvButton" onAction="#handleCvAction" prefHeight="35.0" styleClass="btn-connect" text="View/Download" />
+                           <Button fx:id="viewCvButton" onAction="#handleCvAction" prefHeight="35.0" prefWidth="129.0" styleClass="btn-connect" text="Voir/Télécharger" />
                         </children>
                      </HBox>
 
                      <!-- Cover Letter -->
                      <HBox alignment="CENTER_LEFT" spacing="10.0">
                         <children>
-                           <Label prefHeight="17.0" prefWidth="125.0" styleClass="form-label" text="Cover Letter:" />
+                           <Label prefHeight="17.0" prefWidth="172.0" styleClass="form-label" text="lettre de recommandation" />
                            <Label fx:id="coverLetterLabel" styleClass="detail-value link-text" />
-                           <Button fx:id="viewCoverLetterButton" onAction="#handleCoverLetterAction" prefHeight="35.0" styleClass="btn-connect" text="View/Download" />
+                           <Button fx:id="viewCoverLetterButton" onAction="#handleCoverLetterAction" prefHeight="35.0" prefWidth="166.0" styleClass="btn-connect" text="Voir/Télécharger" />
                         </children>
                      </HBox>
 
                      <!-- Submission Date -->
                      <HBox alignment="CENTER_LEFT" spacing="10.0">
                         <children>
-                           <Label styleClass="form-label" text="Submitted On:" />
+                           <Label styleClass="form-label" text="Soumis le :" />
                            <Label fx:id="submissionDateLabel" styleClass="detail-value" />
                         </children>
                      </HBox>
@@ -86,13 +86,13 @@
                      <HBox alignment="CENTER_LEFT" spacing="10.0">
                         <children>
                            <Label prefHeight="17.0" prefWidth="57.0" styleClass="form-label" text="Status:" />
-                           <ComboBox fx:id="statusLabel" editable="true" prefWidth="150.0" visibleRowCount="3" />
+                           <ComboBox fx:id="statusLabel" prefWidth="150.0" visibleRowCount="3" />
                         </children>
                      </HBox>
                   </VBox>
 
                   <!-- Submit Button -->
-                  <Button fx:id="submitButton" onAction="#submitButton" prefHeight="35.0" styleClass="btn-connect" text="Submit" />
+                  <Button fx:id="submitButton" onAction="#submitButton" prefHeight="35.0" prefWidth="108.0" styleClass="btn-connect" text="mise à jour" />
                </children>
                <HBox.margin>
                   <Insets bottom="80.0" top="80.0" />

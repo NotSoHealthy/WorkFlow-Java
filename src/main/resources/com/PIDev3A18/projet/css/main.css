@@ -1,77 +1,136 @@
-.main-page {
-    -fx-background-color: #f9f9fb;
-    /* Additional global page styling */
+/* Global Styles */
+.main-pane {
+    -fx-background-color: #F4F7FC; /* Light grayish blue background */
 }
 
+/* Top Navigation Bar */
 .top-bar {
-    -fx-background-color: transparent;
+    -fx-background-color: #ffffff; /* White navbar */
+    -fx-padding: 10px 20px;
+    -fx-border-color: #dcdcdc; /* Subtle border */
+    -fx-border-width: 0 0 2px 0;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 8, 0, 0, 3);
 }
 
+/* Modern Buttons */
+.modern-button {
+    -fx-font-size: 14px;
+    -fx-padding: 12px 25px;
+    -fx-background-radius: 25px; /* Fully rounded */
+    -fx-border-radius: 25px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 6, 0, 0, 2);
+}
+
+/* Primary Button (Green) */
 .btn-primary {
-    -fx-background-color: #2ecc71;
+    -fx-background-color: linear-gradient(to right, #4CAF50, #2E7D32); /* Green gradient */
     -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-background-radius: 5;
-    -fx-padding: 8px 16px;
+    -fx-border-color: transparent;
 }
 
+.btn-primary:hover {
+    -fx-background-color: linear-gradient(to right, #43A047, #1B5E20); /* Darker green on hover */
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Secondary Button (Blue) */
 .btn-secondary {
-    -fx-background-color: #3498db;
+    -fx-background-color: linear-gradient(to right, #007BFF, #0056b3); /* Blue gradient */
     -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-background-radius: 5;
-    -fx-padding: 8px 16px;
+    -fx-border-color: transparent;
 }
 
+.btn-secondary:hover {
+    -fx-background-color: linear-gradient(to right, #0056b3, #003d82); /* Darker blue on hover */
+    -fx-scale-x: 1.05;
+    -fx-scale-y: 1.05;
+}
+
+/* Hero Section */
 .hero-section {
-    -fx-background-image: url('background.jpg');
-    -fx-background-size: cover;
-    -fx-background-position: center;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 10, 0, 0, 0);
+    -fx-background-color: white;
+    -fx-padding: 50px;
+    -fx-border-radius: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 12, 0, 0, 5);
 }
 
-.hero-content {
-    -fx-padding: 40;
-}
-
+/* Hero Title */
 .hero-title {
-    -fx-text-fill: #ffffff;
-    -fx-font-size: 60px;
+    -fx-font-size: 36px;
     -fx-font-weight: bold;
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.6), 5, 0, 0, 0);
+    -fx-text-fill: #2C3E50; /* Dark blue-gray */
+    -fx-font-family: "Arial Black";
 }
 
+/* Feature Box */
 .feature-box {
-    -fx-background-color: rgba(255, 255, 255, 0.9);
-    -fx-background-radius: 8px;
-    -fx-padding: 20;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 4, 0, 0, 2);
-}
-
-.feature-title {
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #333333;
-}
-
-.feature-desc {
-    -fx-font-size: 14px;
-    -fx-text-fill: #555555;
-    -fx-max-width: 260px;
+    -fx-background-color: #ffffff;
+    -fx-padding: 20px;
+    -fx-border-radius: 15px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.08), 10, 0, 0, 4);
     -fx-alignment: center;
+}
+
+/* Feature Title */
+.feature-title {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495E; /* Darker gray */
+}
+
+/* Feature Description */
+.feature-desc {
+    -fx-text-fill: #666;
+    -fx-font-size: 14px;
     -fx-wrap-text: true;
 }
 
+/* Image View Styling */
 .feature-image {
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.3), 5, 0, 0, 2);
-}
-.main-page {
-    -fx-background-color: #f9f9fb;
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 6, 0, 0, 3);
 }
 
-.title-text {
-    -fx-font-size: 24px;
+/* Hover Effects for Feature Box */
+.feature-box:hover {
+    -fx-background-color: #f9fafb;
+    -fx-scale-x: 1.03;
+    -fx-scale-y: 1.03;
+    -fx-transition: all 0.3s ease-in-out;
+}
+
+/* --- Item Container (the HBox) --- */
+.item-container {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dcdcdc;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-padding: 10;
+}
+
+/* --- Text Container (the VBox) --- */
+.item-text-container {
+    -fx-alignment: CENTER_LEFT;
+}
+
+/* --- Labels --- */
+.item-name {
+    -fx-font-size: 16px;
     -fx-font-weight: bold;
-    -fx-text-fill: #333333;
-    -fx-padding: 10px;
+    -fx-text-fill: #2c3e50; /* Dark text */
+}
+
+.item-description {
+    -fx-font-size: 13px;
+    -fx-text-fill: #7f8c8d; /* Lighter text */
+}
+
+.item-status {
+    -fx-font-size: 14px;
+    -fx-text-fill: #2980b9; /* Blue or other accent color */
+    -fx-alignment: CENTER_RIGHT;
+    -fx-padding: 0 0 0 30;  /* Some spacing to separate from the text */
 }

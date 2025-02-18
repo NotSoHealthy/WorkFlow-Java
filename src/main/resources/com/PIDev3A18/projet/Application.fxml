@@ -16,7 +16,7 @@
    <children>
       <HBox alignment="CENTER">
          <children>
-            <VBox alignment="CENTER_LEFT" prefHeight="672.0" prefWidth="400.0" spacing="15.0" styleClass="main-panel">
+            <VBox alignment="CENTER_LEFT" prefHeight="560.0" prefWidth="481.0" spacing="15.0" styleClass="main-panel">
                <padding>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                </padding>
@@ -29,7 +29,7 @@
                               <Image url="@icons/Logo.png" />
                            </image>
                         </ImageView>
-                        <Text text="Job Application">
+                        <Text text="Demande d'emploi" wrappingWidth="158.701171875">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -38,7 +38,7 @@
                   </HBox>
 
                   <!-- Title -->
-                  <Text text="Job Application Form">
+                  <Text text="Formulaire de demande d'emploi">
                      <font>
                         <Font size="24.0" />
                      </font>
@@ -47,29 +47,29 @@
                   <!-- Form Fields -->
                   <HBox alignment="CENTER_LEFT" spacing="10.0">
                      <children>
-                        <Label text="First Name:" />
-                        <TextField fx:id="firstNameField" prefHeight="40.0" promptText="Enter your first name" />
+                        <Label text="Nom" />
+                        <TextField fx:id="firstNameField" prefHeight="40.0" promptText="Entrez votre prénom" />
                      </children>
                   </HBox>
 
                   <HBox alignment="CENTER_LEFT" spacing="10.0">
                      <children>
-                        <Label text="Last Name:" />
-                        <TextField fx:id="lastNameField" prefHeight="40.0" promptText="Enter your last name" />
+                        <Label text="Prenom" />
+                        <TextField fx:id="lastNameField" prefHeight="40.0" promptText="Entrez votre nom de famille" />
                      </children>
                   </HBox>
 
                   <HBox alignment="CENTER_LEFT" spacing="10.0">
                      <children>
                         <Label text="Email:" />
-                        <TextField fx:id="emailField" layoutX="30.0" layoutY="60.0" prefHeight="40.0" promptText="Enter your email" />
+                        <TextField fx:id="emailField" layoutX="30.0" layoutY="60.0" prefHeight="40.0" promptText="Entrez votre email" />
                      </children>
                   </HBox>
 
                   <!-- CV Upload -->
                   <HBox alignment="CENTER_LEFT" spacing="10.0">
                      <children>
-                        <Label text="Upload CV:" />
+                        <Label text="Télécharger le CV:" />
                         <Button fx:id="uploadCVButton" onAction="#uploadCVButton" prefHeight="35.0" styleClass="btn-connect" text="Choose File" />
                         <Label fx:id="cvFileNameLabel" text="No file chosen" />
                      </children>
@@ -78,14 +78,14 @@
                   <!-- Cover Letter Upload -->
                   <HBox alignment="CENTER_LEFT" spacing="10.0">
                      <children>
-                        <Label text="Upload Cover Letter:" />
+                        <Label text="Télécharger la lettre de recommandation:" />
                         <Button fx:id="uploadCoverLetterButton" onAction="#uploadCoverLetterButton" prefHeight="35.0" styleClass="btn-connect-google" text="Choose File" />
                         <Label fx:id="coverLetterFileNameLabel" text="No file chosen" />
                      </children>
                   </HBox>
 
                   <!-- Submit Button -->
-                  <Button fx:id="submitApplicationButton" onAction="#submitApplicationButton" prefHeight="35.0" styleClass="btn-connect" text="Submit Application" />
+                  <Button fx:id="submitApplicationButton" onAction="#submitApplicationButton" prefHeight="35.0" styleClass="btn-connect" text="Postuler" />
 
                   <!-- Notification -->
                   <HBox alignment="CENTER" styleClass="notif-pane" visible="false">

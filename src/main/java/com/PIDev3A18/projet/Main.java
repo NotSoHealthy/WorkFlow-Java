@@ -28,7 +28,7 @@ public class Main extends Application {
         }
 
         if (loggedInUser == null) {
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("main.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
             root = fxmlLoader.load();
 
         }
