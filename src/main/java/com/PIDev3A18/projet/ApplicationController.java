@@ -2,7 +2,10 @@ package com.PIDev3A18.projet;
 
 import entity.Applications;
 import entity.JobOffer;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import services.ApplicationService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +21,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.sql.Date;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 public class ApplicationController {
 
@@ -50,9 +55,27 @@ public class ApplicationController {
 
     private JobOffer selectedJob;
 
-    /**
-     * This method is called by JobOfferListController to pass the selected JobOffer.
-     */
+
+
+    @FXML
+    private ImageView returnBtn;
+
+
+    @FXML
+    void returnBtn(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage stage = (Stage) returnBtn.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+
+    }
+
     public void setJobOffer(JobOffer selectedJob) {
         this.selectedJob = selectedJob;
         // Optionally, display job details on the form if needed.

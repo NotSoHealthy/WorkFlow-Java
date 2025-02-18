@@ -18,6 +18,10 @@ import javafx.geometry.Insets;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.image.ImageView;
+
+
 
 public class ApplicationListController {
 
@@ -25,6 +29,8 @@ public class ApplicationListController {
     private ListView<Applications> listView;
 
     private ApplicationService applicationService;
+
+
 
     public ApplicationListController() {
         this.applicationService = new ApplicationService();
@@ -103,4 +109,6 @@ public class ApplicationListController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+
 }

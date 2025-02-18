@@ -16,6 +16,9 @@ import javafx.geometry.Insets;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+
 
 public class JobOfferListController {
 
@@ -23,6 +26,26 @@ public class JobOfferListController {
     private ListView<JobOffer> listView;
 
     private JobOfferService jobOfferService;
+
+    @FXML
+    private ImageView returnBtn;
+
+
+
+    @FXML
+    void returnBtn(MouseEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("login.fxml"));
+            Scene scene = new Scene(loader.load());
+            Stage stage = (Stage) returnBtn.getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to load the login page.", Alert.AlertType.ERROR);
+        }
+
+    }
 
     public JobOfferListController() {
         this.jobOfferService = new JobOfferService();
@@ -100,4 +123,7 @@ public class JobOfferListController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+
+
 }
