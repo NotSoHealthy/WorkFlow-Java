@@ -52,11 +52,14 @@ public class LayoutController {
     @FXML
     private BorderPane layoutBorderPane;
     @FXML
+    private Button layoutEvenementsButton;
+    @FXML
     private VBox layoutVbox;
     @FXML private Button layoutFormationButton;
     @FXML private Button layoutEmployeListButton;
     @FXML private Button layoutJobOfferButton;
     @FXML private Button ApplicationsButton;
+
 
 
 
@@ -124,6 +127,12 @@ public class LayoutController {
         input = getClass().getResourceAsStream("icons/account.png");
         image = new Image(input, 16, 16, true, true);
         imageView = new ImageView(image);
+        layoutLeaveButton.setGraphic(imageView);
+        //Event Icon
+        input = getClass().getResourceAsStream("icons/event.png");
+        image = new Image(input, 16, 16, true, true);
+        imageView = new ImageView(image);
+        layoutEvenementsButton.setGraphic(imageView);
         layoutEmployeListButton.setGraphic(imageView);
         //Logout Icon
         input = getClass().getResourceAsStream("icons/logout.png");
@@ -207,6 +216,10 @@ public class LayoutController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+    public void layoutGoToEvenements(ActionEvent actionEvent) {
+        setSelected(layoutEvenementsButton);
+        loadFXML(getClass().getResource("Evenements.fxml"));
     }
 
     public void layoutDisconnect(ActionEvent actionEvent) throws IOException {
