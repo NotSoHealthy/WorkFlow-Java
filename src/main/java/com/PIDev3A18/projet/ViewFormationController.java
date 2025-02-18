@@ -153,14 +153,11 @@ public class ViewFormationController implements Initializable {
 
                         deleteButton.setOnAction((ActionEvent event) -> {
                             try {
-                                if(sf.readById(formation.getFormation_ID())!=null)
-                                {
-                                    sf.delete(formation);
-                                    showAlert(Alert.AlertType.INFORMATION, "Success", "Formation supprimer avec succés!");
-                                }
-                                else  {
-                                    showAlert(Alert.AlertType.ERROR, "Error", "Réinitialiser la page !");
-                                }
+                                sf.delete(formation);
+                                showAlert(Alert.AlertType.INFORMATION, "Success", "Formation supprimer avec succés!");
+                                Refresh();
+
+
 
                             } catch (SQLException e) {
                                 throw new RuntimeException(e);
@@ -251,7 +248,7 @@ public class ViewFormationController implements Initializable {
         }
     }
     @FXML
-    void Refresh(ActionEvent event) {
+    void Refresh() {
         RotateTransition rotate = new RotateTransition(Duration.seconds(0.5), RefreshButton);
         rotate.setByAngle(360);
         rotate.setInterpolator(Interpolator.EASE_BOTH);
