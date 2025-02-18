@@ -110,4 +110,20 @@ public class ServiceReservation implements IService<Reservation> {
         }
         return r;
     }
+    public List<Reservation> readAllById(int id) {
+        ServiceEvent es=new ServiceEvent();
+        ServiceEmployee es1=new ServiceEmployee();
+        String requete="select * from reservation where UID = '"+id+"'";
+        List<Reservation> reservations=new ArrayList<Reservation>();
+        try {
+            ste=cnx.createStatement();
+            rs=ste.executeQuery(requete);
+            while(rs.next()){
+                reservations.add(new Reservation(rs.getInt("ID_Reservation"),rs.getDouble("price"),rs.getString("Type"),rs.getInt("NombreDePlaces"),es1.readById(rs.getInt("UID")),es.readById(rs.getInt("ID_Event"))));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return reservations;
+    }
 }
