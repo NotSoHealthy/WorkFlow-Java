@@ -11,8 +11,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import services.ServiceProject;
 
 import java.io.IOException;
@@ -24,6 +26,7 @@ public class ViewProjectController {
     @FXML private ListView<Project> ShowProject;
     @FXML private Button DeleteBtn;
     @FXML private Button UpdateBtn;
+    @FXML private Button AddBtn;
 
     private final ServiceProject serviceProject = new ServiceProject();
 
@@ -32,9 +35,32 @@ public class ViewProjectController {
         loadProjects();
         ShowProject.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                // Enable buttons only if a project is selected
                 DeleteBtn.setDisable(false);
                 UpdateBtn.setDisable(false);
+            }
+        });
+
+        // Set custom cell factory for the ListView
+        ShowProject.setCellFactory(new Callback<>() {
+            @Override
+            public ListCell<Project> call(ListView<Project> param) {
+                return new ListCell<>() {
+                    @Override
+                    protected void updateItem(Project project, boolean empty) {
+                        super.updateItem(project, empty);
+                        if (project == null || empty) {
+                            setText(null);
+                            setGraphic(null);
+                        } else {
+                            setText(project.getName() + "\n" +
+                                    "Description: " + project.getDescription() + "\n" +
+                                    "Start Date: " + project.getStart_Date() + "\n" +
+                                    "End Date: " + project.getEnd_Date() + "\n" +
+                                    "Budget: " + project.getBudget() + "\n" +
+                                    "Manager: " + project.getProject_Manager().getFirstName() + " " + project.getProject_Manager().getLastName());
+                        }
+                    }
+                };
             }
         });
     }
@@ -88,7 +114,21 @@ public class ViewProjectController {
             showAlert(Alert.AlertType.WARNING, "No Project Selected", "Please select a project to update.");
         }
     }
-
+    @FXML
+    void addProject(ActionEvent event) {
+        try {
+            // Load the AddProject.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("AddProject.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to load the add project form.");
+        }
+    }
 
     private void showAlert(Alert.AlertType type, String title, String message) {
         Alert alert = new Alert(type);

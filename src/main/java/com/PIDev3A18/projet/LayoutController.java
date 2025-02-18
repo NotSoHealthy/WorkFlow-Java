@@ -34,6 +34,8 @@ public class LayoutController {
     @FXML
     private Button layoutDashButton;
     @FXML
+    private Button layoutDepartmentButton;
+    @FXML
     private Button layoutProjectsButton;
     @FXML
     private Button layoutTasksButton;
@@ -86,8 +88,13 @@ public class LayoutController {
         image = new Image(input, 16, 16, true, true);
         ImageView imageView = new ImageView(image);
         layoutDashButton.setGraphic(imageView);
-        //Projects Icon
+        //Department Icon
         input = getClass().getResourceAsStream("icons/projects.png");
+        image = new Image(input, 16, 16, true, true);
+        imageView = new ImageView(image);
+        layoutDepartmentButton.setGraphic(imageView);
+        //Projects Icon
+        input = getClass().getResourceAsStream("icons/dash.png");
         image = new Image(input, 16, 16, true, true);
         imageView = new ImageView(image);
         layoutProjectsButton.setGraphic(imageView);
@@ -161,10 +168,14 @@ public class LayoutController {
         loadFXML(getClass().getResource("dashboard.fxml"));
 
     }
+    public void layoutGoToDepartment(ActionEvent actionEvent) {
+        setSelected(layoutDepartmentButton);
+        loadFXML(getClass().getResource("ViewDepartment.fxml"));
+    }
 
     public void layoutGoToProjects(ActionEvent actionEvent) {
         setSelected(layoutProjectsButton);
-        loadFXML(getClass().getResource("projects.fxml"));
+        loadFXML(getClass().getResource("ViewProject.fxml"));
     }
 
     public void layoutGoToTasks(ActionEvent actionEvent) {
@@ -187,7 +198,7 @@ public class LayoutController {
 
     public void layoutGoToConge(ActionEvent actionEvent) {
         setSelected(layoutLeaveButton);
-            loadFXML(getClass().getResource("conge.fxml"));
+        loadFXML(getClass().getResource("conge.fxml"));
     }
     public void layoutGoToFormation(ActionEvent actionEvent) {
         setSelected(layoutFormationButton);
@@ -249,17 +260,17 @@ public class LayoutController {
     }
 
     public void setSelected(Button selectedButton){
-       ObservableList<Node> list = layoutVbox.getChildren();
-       for (Node node : list) {
-           if (node instanceof Button button) {
-               if (button.getText().equals(selectedButton.getText())) {
-                   button.getStyleClass().add("layout-button-selected");
-               }
-               else {
-                   button.getStyleClass().remove("layout-button-selected");
-               }
-           }
-       }
+        ObservableList<Node> list = layoutVbox.getChildren();
+        for (Node node : list) {
+            if (node instanceof Button button) {
+                if (button.getText().equals(selectedButton.getText())) {
+                    button.getStyleClass().add("layout-button-selected");
+                }
+                else {
+                    button.getStyleClass().remove("layout-button-selected");
+                }
+            }
+        }
     }
 
     public void removeSelected(){
