@@ -142,7 +142,7 @@ public class EvenementsController {
         UserSession userSession;
         userSession = UserSession.getInstance();
         Employee loggedinEmployee = userSession.getLoggedInEmployee();
-        if(loggedinEmployee.getType().equals("Résponsable")){
+        if(loggedinEmployee.getRole().equals("Résponsable")){
             creer.setVisible(true);
         }
         else{
@@ -164,7 +164,7 @@ public class EvenementsController {
                 controller.setType(event.getType());
                 controller.setNbdispo("Places disponibles: "+event.getNombredeplace());
                 controller.setController(this);
-                if(!loggedinEmployee.getType().equals("Résponsable")){
+                if(!loggedinEmployee.getRole().equals("Résponsable")){
                     controller.setDeleteInvisible();
                     controller.setUpInvisible();
                 }

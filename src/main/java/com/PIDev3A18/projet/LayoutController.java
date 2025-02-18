@@ -149,6 +149,11 @@ public class LayoutController {
         image = new Image(input, 16, 16, true, true);
         imageView = new ImageView(image);
         ApplicationsButton.setGraphic(imageView);
+        //List employe Icon
+        input = getClass().getResourceAsStream("icons/account.png");
+        image = new Image(input, 16, 16, true, true);
+        imageView = new ImageView(image);
+        layoutEmployeListButton.setGraphic(imageView);
     }
 
     @FXML
