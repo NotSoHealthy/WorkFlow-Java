@@ -52,14 +52,14 @@ public class LayoutController {
     @FXML
     private BorderPane layoutBorderPane;
     @FXML
+    private Button layoutEvenementsButton;
+    @FXML
     private VBox layoutVbox;
-    @FXML
-    private Button layoutFormationButton;
+    @FXML private Button layoutFormationButton;
     @FXML private Button layoutEmployeListButton;
-    @FXML
-    private Button layoutJobOfferButton;
-    @FXML
-    private Button ApplicationsButton;
+    @FXML private Button layoutJobOfferButton;
+    @FXML private Button ApplicationsButton;
+
 
 
 
@@ -98,21 +98,21 @@ public class LayoutController {
         image = new Image(input, 16, 16, true, true);
         imageView = new ImageView(image);
         layoutProjectsButton.setGraphic(imageView);
-        //Task Icon
-        input = getClass().getResourceAsStream("icons/tasks.png");
-        image = new Image(input, 16, 16, true, true);
-        imageView = new ImageView(image);
-        layoutTasksButton.setGraphic(imageView);
-        //Calendar Icon
-        input = getClass().getResourceAsStream("icons/calendar.png");
-        image = new Image(input, 16, 16, true, true);
-        imageView = new ImageView(image);
-        layoutCalendarButton.setGraphic(imageView);
-        //Money Icon
-        input = getClass().getResourceAsStream("icons/money.png");
-        image = new Image(input, 16, 16, true, true);
-        imageView = new ImageView(image);
-        layoutMoneyButton.setGraphic(imageView);
+//        //Task Icon
+//        input = getClass().getResourceAsStream("icons/tasks.png");
+//        image = new Image(input, 16, 16, true, true);
+//        imageView = new ImageView(image);
+//        layoutTasksButton.setGraphic(imageView);
+//        //Calendar Icon
+//        input = getClass().getResourceAsStream("icons/calendar.png");
+//        image = new Image(input, 16, 16, true, true);
+//        imageView = new ImageView(image);
+//        layoutCalendarButton.setGraphic(imageView);
+//        //Money Icon
+//        input = getClass().getResourceAsStream("icons/money.png");
+//        image = new Image(input, 16, 16, true, true);
+//        imageView = new ImageView(image);
+//        layoutMoneyButton.setGraphic(imageView);
         //Conge Icon
         input = getClass().getResourceAsStream("icons/conge.png");
         image = new Image(input, 16, 16, true, true);
@@ -123,16 +123,32 @@ public class LayoutController {
         image = new Image(input, 16, 16, true, true);
         imageView = new ImageView(image);
         layoutFormationButton.setGraphic(imageView);
+        //Employe List Icon
+        input = getClass().getResourceAsStream("icons/account.png");
+        image = new Image(input, 16, 16, true, true);
+        imageView = new ImageView(image);
+        layoutLeaveButton.setGraphic(imageView);
+        //Event Icon
+        input = getClass().getResourceAsStream("icons/event.png");
+        image = new Image(input, 16, 16, true, true);
+        imageView = new ImageView(image);
+        layoutEvenementsButton.setGraphic(imageView);
+        layoutEmployeListButton.setGraphic(imageView);
         //Logout Icon
         input = getClass().getResourceAsStream("icons/logout.png");
         image = new Image(input, 16, 16, true, true);
         imageView = new ImageView(image);
         layoutDisconnectButton.setGraphic(imageView);
-        //Employe List Icon
-        input = getClass().getResourceAsStream("icons/account.png");
+        //Job Offer Icon
+        input = getClass().getResourceAsStream("icons/offer.png");
         image = new Image(input, 16, 16, true, true);
         imageView = new ImageView(image);
-        layoutEmployeListButton.setGraphic(imageView);
+        layoutJobOfferButton.setGraphic(imageView);
+        //Candidat Icon
+        input = getClass().getResourceAsStream("icons/candidat.png");
+        image = new Image(input, 16, 16, true, true);
+        imageView = new ImageView(image);
+        ApplicationsButton.setGraphic(imageView);
     }
 
     @FXML
@@ -201,6 +217,10 @@ public class LayoutController {
             e.printStackTrace();
         }
     }
+    public void layoutGoToEvenements(ActionEvent actionEvent) {
+        setSelected(layoutEvenementsButton);
+        loadFXML(getClass().getResource("Evenements.fxml"));
+    }
 
     public void layoutDisconnect(ActionEvent actionEvent) throws IOException {
         Gson gson = new Gson();
@@ -208,7 +228,7 @@ public class LayoutController {
         gson.toJson(null,writer);
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
-        layoutCalendarButton.getScene().setRoot(fxmlLoader.load());
+        layoutBorderPane.getScene().setRoot(fxmlLoader.load());
     }
 
     public void goToProfile() throws IOException {
@@ -277,5 +297,7 @@ public class LayoutController {
                 minSize, minSize // Crop size (square)
         ));
         layoutProfilePicture.setImage(image);
+
+        layoutVbox.layout();
     }
 }
