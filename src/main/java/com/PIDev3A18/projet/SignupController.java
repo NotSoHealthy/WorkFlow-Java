@@ -2,65 +2,53 @@ package com.PIDev3A18.projet;
 
 import entity.Employee;
 import javafx.animation.FadeTransition;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.controlsfx.validation.Severity;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 import services.ServiceEmployee;
 
-import javax.swing.text.IconView;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.regex.Pattern;
 
-public class signupController {
-    @FXML
-    private TextField nomField;
-    @FXML
-    private TextField prenomField;
-    @FXML
-    private TextField numberField;
-    @FXML
-    private TextField emailField;
-    @FXML
-    private PasswordField passwordField;
-    @FXML
-    private TextField passwordText;
-    @FXML
-    private PasswordField confirmationField;
-    @FXML
-    private TextField confirmationText;
-    @FXML
-    private Button passwordButton;
-    @FXML
-    private Button confirmationButton;
-    @FXML
-    private HBox notifHbox;
-    @FXML
-    private Text notifText;
+public class SignupController {
+    @FXML private TextField nomField;
+    @FXML private TextField prenomField;
+    @FXML private TextField numberField;
+    @FXML private TextField emailField;
+    @FXML private PasswordField passwordField;
+    @FXML private TextField passwordText;
+    @FXML private PasswordField confirmationField;
+    @FXML private TextField confirmationText;
+    @FXML private Button passwordButton;
+    @FXML private Button confirmationButton;
+    @FXML private HBox notifHbox;
+    @FXML private Text notifText;
+    @FXML private TextField adresseField;
+    @FXML private ComboBox<String> comboBox;
 
     ValidationSupport validationSupport;
     Image eye1Image;
     Image eye2Image;
 
-    public signupController() {
+    public SignupController() {
         validationSupport = new ValidationSupport();
         InputStream stream = getClass().getResourceAsStream("icons/eye1.png");
         eye1Image = new Image(stream,20,20,true,true);
@@ -78,6 +66,8 @@ public class signupController {
         String email = emailField.getText();
         String number = numberField.getText();
         String password = passwordField.getText();
+        String adresse = adresseField.getText();
+        String gouvernorat = comboBox.getSelectionModel().getSelectedItem();
 
         if (serviceEmployee.verifEmail(email)) {
             showNotification("Email déja utilisé",1, false);
@@ -88,7 +78,7 @@ public class signupController {
             return;
         }
 
-        Employee employee = new Employee(nom, prenom, email, number, password, "employee");
+        Employee employee = new Employee(nom, prenom, email, number, password, adresse, gouvernorat,"Employé");
         serviceEmployee.add(employee);
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
@@ -100,12 +90,23 @@ public class signupController {
 
     @FXML
     public void initialize() throws InterruptedException {
+        comboBox.setItems(FXCollections.observableArrayList("Ariana Ville", "Bab El Bhar", "Bab Souika", "Ben Arous", "Bou Mhel el-Bassatine",
+                "Carthage", "Cité El Khadra", "Djebel Jelloud", "El Kabaria", "El Menzah",
+                "El Mourouj", "El Omrane", "El Omrane supérieur", "El Ouardia", "Ettadhamen",
+                "Ettahrir", "Ezzahra", "Ezzouhour", "Fouchana", "Hammam Chott",
+                "Hammam Lif", "Hraïria", "Kalâat el-Andalous", "La Goulette", "La Marsa",
+                "La Médina", "La Soukra", "Le Bardo", "Le Kram", "Medina Jedida",
+                "Mégrine", "Mnihla", "Mohamedia", "Mornag", "Radès", "Raoued",
+                "Séjoumi", "Sidi El Béchir", "Sidi Hassine", "Sidi Thabet"));
+
         validationSupport.registerValidator(nomField,Validator.createEmptyValidator("Nom invalide"));
         validationSupport.registerValidator(prenomField,Validator.createEmptyValidator("Prenom invalide"));
         validationSupport.registerValidator(numberField,Validator.createRegexValidator("Numéro invalide",Pattern.compile("^[0-9]{8}$"),Severity.ERROR));
-        validationSupport.registerValidator(emailField, Validator.createRegexValidator("Email invalide",Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE), Severity.ERROR));
+        validationSupport.registerValidator(emailField, Validator.createRegexValidator("Email invalide",Pattern.compile("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", Pattern.CASE_INSENSITIVE), Severity.ERROR));
         validationSupport.registerValidator(passwordField, Validator.createRegexValidator("Le mot de passe doit contenir:\nUn minimum de 8 caractères\nUn nombre\nEt un caractères spéciale",Pattern.compile("^(?=.*[A-Za-z])(?=.*\\d)(?=.*[.@$!%*#?&])[A-Za-z\\d.@$!%*#?&]{8,}$"),Severity.ERROR));
         validationSupport.registerValidator(confirmationField, Validator.createEqualsValidator("Confirmation invalide", Collections.singletonList(passwordField.getText())));
+        validationSupport.registerValidator(adresseField, Validator.createEmptyValidator("Adresse invalide"));
+        validationSupport.registerValidator(comboBox, Validator.createEmptyValidator("Gouvernorat invalide"));
 
         passwordButton.setGraphic(new ImageView(eye1Image));
         confirmationButton.setGraphic(new ImageView(eye1Image));
