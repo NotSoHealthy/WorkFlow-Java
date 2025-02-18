@@ -1,0 +1,43 @@
+*{
+    -fx-background-primary: #F1F4F8;
+    -fx-background-secondary: #E1EAF9;
+    -fx-background-tertiary: #FFFFFF;
+    -fx-background-highlight: rgba(57, 210, 192, 0.4);
+    -fx-text-primary: #143C4E;
+    -fx-text-secondary: #57636C;
+    -fx-text-success: #39D2C0;
+    -fx-text-warning: #F9CF58;
+    -fx-text-danger: #FF5963;
+}
+
+Label{
+    -fx-fill: -fx-text-primary;
+    -fx-text-fill: -fx-text-primary;
+}
+
+.approved{
+    -fx-background-color: -fx-text-success;
+}
+
+.pending{
+    -fx-background-color: -fx-text-warning;
+}
+
+.denied{
+    -fx-background-color: -fx-text-danger;
+}
+
+.confirm-btn{
+   -fx-background-color: -fx-text-success;
+    -fx-background-radius: 5px;
+}
+
+.deny-btn{
+    -fx-background-color: -fx-text-danger;
+    -fx-background-radius: 5px;
+}
+
+.edit-btn{
+    -fx-background-color: -fx-text-warning;
+    -fx-background-radius: 5px;
+}

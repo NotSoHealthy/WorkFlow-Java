@@ -50,6 +50,7 @@ public class LayoutController {
     private BorderPane layoutBorderPane;
     @FXML
     private VBox layoutVbox;
+    @FXML private Button layoutEmployeListButton;
 
     @FXML
     void initialize() {
@@ -72,7 +73,7 @@ public class LayoutController {
         clip.setCenterY(layoutProfilePicture.getFitHeight() / 2);
         layoutProfilePicture.setClip(clip);
         //Dashboard Icon
-        InputStream input = getClass().getResourceAsStream("icons/dash.png");
+        InputStream input = getClass().getResourceAsStream("icons/dash3.png");
         image = new Image(input, 16, 16, true, true);
         ImageView imageView = new ImageView(image);
         layoutDashButton.setGraphic(imageView);
@@ -106,6 +107,11 @@ public class LayoutController {
         image = new Image(input, 16, 16, true, true);
         imageView = new ImageView(image);
         layoutDisconnectButton.setGraphic(imageView);
+        //Employe List Icon
+        input = getClass().getResourceAsStream("icons/account.png");
+        image = new Image(input, 16, 16, true, true);
+        imageView = new ImageView(image);
+        layoutEmployeListButton.setGraphic(imageView);
     }
 
     public void layoutGoToDashboard(ActionEvent actionEvent) {
@@ -153,6 +159,11 @@ public class LayoutController {
         fxmlLoader.setController(editProfileController);
         layoutBorderPane.setCenter(fxmlLoader.load());
         removeSelected();
+    }
+
+    public void layoutGoToEmployeList() throws IOException {
+        setSelected(layoutEmployeListButton);
+        loadFXML(getClass().getResource("liste_employe.fxml"));
     }
 
     private void loadFXML(URL url) {

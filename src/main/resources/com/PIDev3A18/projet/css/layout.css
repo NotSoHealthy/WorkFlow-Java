@@ -38,5 +38,6 @@
     -fx-background-color: -fx-background-highlight;
 }
 
-.layout-picture{
+.nom{
+    -fx-font-weight: bold;
 }

@@ -47,3 +47,31 @@ TextField, PasswordField{
     -fx-effect: dropshadow( two-pass-box , rgba(0, 0, 0, 0.15) , 8, 0, 2, 2 );
     -fx-text-fill: -fx-text-primary;
 }
+
+.title{
+    -fx-font-weight: bold;
+    -fx-fill: -fx-text-primary;
+    -fx-font-size: 28px;
+}
+
+.upload-label{
+    -fx-text-fill: -fx-text-primary;
+}
+
+Button:disabled{
+    -fx-opacity: .7;
+}
+
+.notif-pane{
+    -fx-opacity: 0;
+    -fx-background-radius: 20px;
+    -fx-background-color: -fx-text-danger;
+}
+
+.notif-success{
+    -fx-background-color: -fx-text-success;
+}
+
+.notif-text{
+    -fx-alignment: center;
+}

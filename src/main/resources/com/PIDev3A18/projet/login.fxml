@@ -46,7 +46,17 @@
                      </font>
                   </Text>
                   <TextField fx:id="emailField" prefHeight="40.0" promptText="Email" />
-                  <PasswordField fx:id="passwordField" promptText="Mot de passe" />
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <StackPane HBox.hgrow="ALWAYS">
+                           <children>
+                              <PasswordField fx:id="passwordField" onKeyTyped="#passwordFieldChanged" promptText="Mot de passe" />
+                              <TextField fx:id="passwordText" onKeyTyped="#passwordTextChanged" promptText="Mot de passe" visible="false" />
+                           </children>
+                        </StackPane>
+                        <Button fx:id="passwordBtn" mnemonicParsing="false" onAction="#passwordShow" prefHeight="20.0" prefWidth="20.0" />
+                     </children>
+                  </HBox>
                   <HBox alignment="CENTER">
                      <children>
                         <CheckBox fx:id="rememberCheckbox" minWidth="-Infinity" mnemonicParsing="false" text="Se souvenir de mon compte">

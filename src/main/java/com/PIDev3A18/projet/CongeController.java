@@ -74,7 +74,7 @@ public class CongeController {
 
         userSession = UserSession.getInstance();
         loggedInEmployee = userSession.getLoggedInEmployee();
-        if (loggedInEmployee.getType().equals("employee")) {
+        if (loggedInEmployee.getRole().equals("employee")) {
             congeList = serviceConge.readAll().stream().filter(conge -> conge.getEmployee().getId() == loggedInEmployee.getId()).collect(Collectors.toList());
         }
         else {

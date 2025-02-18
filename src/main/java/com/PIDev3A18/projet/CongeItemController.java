@@ -36,10 +36,10 @@ public class CongeItemController {
     void initialize() {
         userSession = UserSession.getInstance();
         loggedInEmployee = userSession.getLoggedInEmployee();
-        if (loggedInEmployee.getType().equals("responsable")){
+        if (loggedInEmployee.getRole().equals("responsable")){
             comboBox.setDisable(conge.getEmployee().getId() == loggedInEmployee.getId());
         }
-        if (loggedInEmployee.getType().equals("employee")){
+        if (loggedInEmployee.getRole().equals("employee")){
             comboBox.setDisable(true);
         }
 
