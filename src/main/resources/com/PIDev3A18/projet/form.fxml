@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane fx:id="sp" prefHeight="720.0" prefWidth="1280.0" styleClass="page" stylesheets="@css/reclamation.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.ReclamationFormController">
+   <children>
+      <HBox alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER_LEFT" prefHeight="672.0" prefWidth="400.0" spacing="15.0" styleClass="main-panel">
+               <padding>
+                  <Insets bottom="40.0" left="30.0" right="30.0" />
+               </padding>
+               <children>
+                
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <ImageView fitHeight="81.0" fitWidth="82.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@icons/Logo.png" />
+                           </image>
+                        </ImageView>
+                        <Text text="Formulaire de Reclamation" wrappingWidth="292.6533203125">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </Text>
+                     </children>
+                     <VBox.margin>
+                        <Insets top="20.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <Separator prefHeight="14.0" prefWidth="405.0" />
+
+
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="Titre :" />
+                        <TextField fx:id="titre" prefHeight="40.0" promptText="Donner un Titre" />
+                        <Label fx:id="texterror" styleClass="ErrorText" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="50.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <AnchorPane prefHeight="127.0" prefWidth="382.0">
+                     <children>
+      
+                                                <HBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="382.0" spacing="10.0">
+                           <children>
+                              <Label prefHeight="17.0" prefWidth="242.0" text="Description :">
+                                 <HBox.margin>
+                                    <Insets bottom="175.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <TextArea fx:id="description" prefHeight="200.0" prefWidth="359.0" promptText="Donner un Description" styleClass="text-area" wrapText="true" />
+                              <Label fx:id="descriptionerror" prefHeight="17.0" prefWidth="268.0" styleClass="ErrorText">
+                                 <HBox.margin>
+                                    <Insets bottom="175.0" />
+                                 </HBox.margin>
+                              </Label>
+                           </children>
+                        </HBox>
+                     </children>
+                  </AnchorPane>
+
+
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <Label text="Télécharger Piece Jointe :">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Label>
+                        <Button fx:id="upload" onAction="#UploadAttachment" prefHeight="35.0" styleClass="btn" text="Choisir Fichier" />
+                        <Label fx:id="AttachmentLabel" text="No file chosen" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                  </HBox>
+                  <AnchorPane prefHeight="20.0" prefWidth="382.0">
+                     <children>
+      
+
+                        <Button fx:id="sub" alignment="CENTER" layoutX="152.0" layoutY="14.0" onAction="#Submit" prefHeight="32.0" prefWidth="79.0" styleClass="btn" text="Soumettre" textAlignment="CENTER" />
+                     </children>
+                     <VBox.margin>
+                        <Insets top="30.0" />
+                     </VBox.margin>
+                  </AnchorPane>
+
+
+                  <HBox alignment="CENTER" styleClass="notif-pane" visible="false">
+                     <children>
+                        <Label fx:id="notifText" styleClass="notif-text" textAlignment="CENTER" />
+                     </children>
+                     <padding>
+                        <Insets top="10.0" />
+                     </padding>
+                  </HBox>
+                  <Separator prefHeight="14.0" prefWidth="426.0" />
+               </children>
+               <HBox.margin>
+                  <Insets bottom="20.0" left="40.0" right="40.0" top="40.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+         <StackPane.margin>
+            <Insets />
+         </StackPane.margin>
+      </HBox>
+   </children>
+</StackPane>
