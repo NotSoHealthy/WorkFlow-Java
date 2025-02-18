@@ -7,11 +7,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import services.ServiceDepartment;
 import services.ServiceEmployee;
 import services.ServiceProject;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.sql.SQLException;
@@ -148,5 +154,22 @@ public class AddProjectController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    @FXML
+    void returnToViewDepartment(ActionEvent event) {
+        try {
+            // Load the ViewDepartment.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("layout.fxml"));
+            Parent root = loader.load();
+
+            // Set the new scene
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to load the View Department page.");
+        }
     }
 }

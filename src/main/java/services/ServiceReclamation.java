@@ -29,7 +29,9 @@ public class ServiceReclamation implements IService<Reclamation> {
             ps.setTime(4, reclamation.getHeure());
             ps.setString(5, reclamation.getEtat());
             ps.setDate(6, reclamation.getDate_resolution());
-            ps.setInt(7, reclamation.getResponsable().getId());
+            if(reclamation.getResponsable()!=null){
+            ps.setInt(7, reclamation.getResponsable().getId());}
+            else    ps.setNull(7, java.sql.Types.INTEGER);
             ps.setInt(8, reclamation.getEmployee().getId());
             ps.executeUpdate();
             ps.close();
@@ -45,7 +47,9 @@ public class ServiceReclamation implements IService<Reclamation> {
             ps.setTime(4, reclamation.getHeure());
             ps.setString(5, reclamation.getEtat());
             ps.setDate(6, reclamation.getDate_resolution());
-            ps.setInt(7, reclamation.getResponsable().getId());
+            if(reclamation.getResponsable()!=null){
+                ps.setInt(7, reclamation.getResponsable().getId());}
+            else    ps.setNull(7, java.sql.Types.INTEGER);
             ps.setInt(8, reclamation.getReclamation_ID());
             ps.executeUpdate();
             ps.close();

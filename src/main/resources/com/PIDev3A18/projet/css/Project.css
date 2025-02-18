@@ -402,3 +402,337 @@ TextField {
     -fx-font-size: 36px;
     -fx-fill: #2c3e50; /* Dark blue */
 }
+.listview{
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+}
+
+.vbox-custom {
+
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+
+
+    -fx-background-color: white;
+    -fx-background-radius: 5px;
+
+
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0.5, 0, 0);
+
+    -fx-padding: 10;
+
+
+
+    -fx-pref-height: 50;
+
+}
+.ErrorText
+{
+    -fx-text-fill: red;
+}
+
+.list-view .scroll-bar:vertical,
+.list-view .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-padding: 0;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 10 15 10 15;
+}
+.addbutton
+{
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(20,60,78), 10, 0, 0, 0);
+}
+
+TextField, PasswordField, TextArea{
+    -fx-background-color: transparent;
+
+    -fx-control-inner-background: transparent;
+
+    -fx-border-radius: 5px;
+    -fx-border-color: rgba(0,0,0,0.25);
+    -fx-prompt-text-fill: derive(-fx-text-primary, 30%);
+    -fx-text-fill: black;
+    -fx-pref-height: 40px;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+
+}
+.text-area .scroll-pane {
+    -fx-hbar-policy: NEVER;  /* Hide horizontal scrollbar */
+    -fx-vbar-policy: NEVER;  /* Hide vertical scrollbar */
+}
+.btn{
+    -fx-background-color: -fx-text-success;
+    -fx-background-radius: 10px;
+}
+.delete{
+    -fx-background-color: #ee4d2b;
+    -fx-background-radius: 10px;
+    -fx-padding: 10 10 10 10;
+    -fx-pref-height: 40px;
+    -fx-pref-width: 40px;
+}
+.edit{
+    -fx-background-color: -fx-text-success;
+    -fx-background-radius: 10px;
+    -fx-padding: 10 10 10 10;
+}
+.page{
+    -fx-background-color: -fx-background-main;
+    -fx-text-fill: -fx-text-primary;
+}
+*{
+    -fx-background-main: #F1F4F8;
+    -fx-background-secondary: #E1EAF9;
+    -fx-background-tertiary: #FFFFFF;
+    -fx-background-highlight: rgba(57, 210, 192, 0.4);
+    -fx-text-primary: #143C4E;
+    -fx-text-secondary: #57636C;
+    -fx-text-success: #39D2C0;
+    -fx-text-warning: #F9CF58;
+    -fx-text-danger: #FF5963;
+}
+.main-panel{
+    -fx-background-color: -fx-background-main;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(20,60,78), 10, 0, 0, 0);
+}
+/* Title Text */
+.title-text {
+    -fx-font-size: 36px;
+    -fx-fill: #2c3e50; /* Dark blue */
+}
+
+/* List View */
+.list-view {
+    -fx-background-color: #ecf0f1; /* Light gray */
+    -fx-border-color: #bdc3c7; /* Gray */
+    -fx-border-radius: 5px;
+}
+
+/* List Cell */
+.list-cell {
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-background-color: #ffffff; /* White */
+    -fx-border-color: #bdc3c7; /* Gray */
+    -fx-border-radius: 5px;
+    -fx-margin: 5px;
+}
+
+/* Delete Button */
+.delete-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #e74c3c; /* Red */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.delete-button:hover {
+    -fx-background-color: #c0392b; /* Darker red */
+}
+
+/* Update Button */
+.update-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #2ecc71; /* Green */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.update-button:hover {
+    -fx-background-color: #27ae60; /* Darker green */
+}
+/* Title Text */
+.title-text {
+    -fx-font-size: 36px;
+    -fx-fill: #2c3e50; /* Dark blue */
+}
+
+/* List View */
+.list-view {
+    -fx-background-color: #ecf0f1; /* Light gray */
+    -fx-border-color: #bdc3c7; /* Gray */
+    -fx-border-radius: 5px;
+}
+
+/* List Cell */
+.list-cell {
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-background-color: #ffffff; /* White */
+    -fx-border-color: #bdc3c7; /* Gray */
+    -fx-border-radius: 5px;
+    -fx-margin: 5px;
+}
+
+/* Delete Button */
+.delete-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #e74c3c; /* Red */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.delete-button:hover {
+    -fx-background-color: #c0392b; /* Darker red */
+}
+
+/* Update Button */
+.update-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #2ecc71; /* Green */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.update-button:hover {
+    -fx-background-color: #27ae60; /* Darker green */
+}
+/* Title Text */
+.title-text {
+    -fx-font-size: 42px; /* Bigger title */
+    -fx-text-fill: #2c3e50; /* Dark blue */
+    -fx-alignment: CENTER; /* Center the title */
+}
+
+/* List View */
+.list-view {
+    -fx-background-color: #ecf0f1; /* Light gray */
+    -fx-border-color: #bdc3c7; /* Gray */
+    -fx-border-radius: 5px;
+    -fx-padding: 10px; /* Add padding around the list */
+}
+
+/* List Cell */
+.list-cell {
+    -fx-padding: 15px; /* More space between projects */
+    -fx-font-size: 16px; /* Bigger font size for project details */
+    -fx-background-color: #ffffff; /* White */
+    -fx-border-color: #bdc3c7; /* Gray */
+    -fx-border-radius: 5px;
+    -fx-margin: 10px; /* Add margin between cells */
+}
+
+/* Project Title in List Cell */
+.list-cell .project-title {
+    -fx-font-size: 20px; /* Bigger font size for project title */
+    -fx-font-weight: bold; /* Make the title bold */
+}
+
+/* Delete Button */
+.delete-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #e74c3c; /* Red */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.delete-button:hover {
+    -fx-background-color: #c0392b; /* Darker red */
+}
+
+/* Update Button */
+.update-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #2ecc71; /* Green */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.update-button:hover {
+    -fx-background-color: #27ae60; /* Darker green */
+}
+/* Add Button */
+.add-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #3498db; /* Blue */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.add-button:hover {
+    -fx-background-color: #2980b9; /* Darker blue */
+}
+
+/* Update Button */
+.update-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #2ecc71; /* Green */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.update-button:hover {
+    -fx-background-color: #27ae60; /* Darker green */
+}
+
+/* Delete Button */
+.delete-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #e74c3c; /* Red */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.delete-button:hover {
+    -fx-background-color: #c0392b; /* Darker red */
+}
+.submit-button {
+    -fx-background-color: #28a745; /* Green color */
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10px 20px;
+}
+
+.submit-button:hover {
+    -fx-background-color: #218838; /* Darker green on hover */
+}
+
+.return-button {
+    -fx-background-color: #6c757d; /* Gray color */
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10px 20px;
+}
+
+.return-button:hover {
+    -fx-background-color: #5a6268; /* Darker gray on hover */
+}
+.submit-button {
+    -fx-background-color: #28a745; /* Green color */
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10px 20px;
+}
+
+.submit-button:hover {
+    -fx-background-color: #218838; /* Darker green on hover */
+}
+
+.return-button {
+    -fx-background-color: #6c757d; /* Gray color */
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10px 20px;
+}
+
+.return-button:hover {
+    -fx-background-color: #5a6268; /* Darker gray on hover */
+}

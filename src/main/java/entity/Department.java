@@ -37,6 +37,9 @@ public class Department {
 
     @Override
     public String toString() {
-        return Name;
+        return String.format("Nom Du Department:     %s | Budget:     %.2f",
+                this.getName(),
+                this.getYear_Budget());
+//                this.getDepartment_Manager().getFirstName());
     }
 }

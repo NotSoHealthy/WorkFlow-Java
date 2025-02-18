@@ -1,0 +1,222 @@
+.listview{
+    -fx-border-color: transparent;
+        -fx-background-color: transparent;
+
+}
+
+.vbox-custom {
+
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+
+    -fx-background-color: white;
+    -fx-background-radius: 5px;
+
+
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0.5, 0, 0);
+
+     -fx-padding: 10;
+
+
+
+        -fx-pref-height: 50;
+
+}
+.ErrorText
+{
+ -fx-text-fill: red;
+}
+
+.list-view .scroll-bar:vertical,
+.list-view .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-padding: 0;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 10 15 10 15;
+}
+.addbutton
+{
+ -fx-border-radius: 10px;
+  -fx-effect: dropshadow(gaussian, rgba(20,60,78), 10, 0, 0, 0);
+}
+
+TextField, PasswordField, TextArea{
+    -fx-background-color: transparent;
+
+     -fx-control-inner-background: transparent;
+
+    -fx-border-radius: 5px;
+    -fx-border-color: rgba(0,0,0,0.25);
+    -fx-prompt-text-fill: derive(-fx-text-primary, 30%);
+    -fx-text-fill: black;
+    -fx-pref-height: 40px;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+
+}
+.text-area .scroll-pane {
+    -fx-hbar-policy: NEVER;  /* Hide horizontal scrollbar */
+    -fx-vbar-policy: NEVER;  /* Hide vertical scrollbar */
+}
+.btn{
+    -fx-background-color: -fx-text-success;
+    -fx-background-radius: 10px;
+}
+.delete{
+    -fx-background-color: #ee4d2b;
+    -fx-background-radius: 10px;
+    -fx-padding: 10 10 10 10;
+     -fx-pref-height: 40px;
+      -fx-pref-width: 40px;
+}
+.close{
+    -fx-background-color: #ee4d2b;
+    -fx-background-radius: 10px;
+    -fx-text-fill: white;
+    -fx-padding: 10 10 10 10;
+     -fx-pref-height: 40px;
+      -fx-pref-width: 80px;
+}
+.edit{
+    -fx-background-color: -fx-text-success;
+    -fx-background-radius: 10px;
+    -fx-padding: 10 10 10 10;
+}
+.page{
+    -fx-background-color: -fx-background-main;
+    -fx-text-fill: -fx-text-primary;
+}
+*{
+    -fx-background-main: #F1F4F8;
+    -fx-background-secondary: #E1EAF9;
+    -fx-background-tertiary: #FFFFFF;
+    -fx-background-highlight: rgba(57, 210, 192, 0.4);
+    -fx-text-primary: #143C4E;
+    -fx-text-secondary: #57636C;
+    -fx-text-success: #39D2C0;
+    -fx-text-warning: #F9CF58;
+    -fx-text-danger: #FF5963;
+}
+.main-panel{
+    -fx-background-color: -fx-background-main;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(20,60,78), 10, 0, 0, 0);
+}
+
+
+
+
+/* Fancy ComboBox CSS */
+.combo-box {
+
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-border-width: 1px;
+    -fx-padding: 5 10 5 10;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-text-fill: #333;
+    -fx-background-radius: 5;
+    -fx-border-radius: 5;
+    -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.1), 4, 0.0, 0, 2);
+}
+
+
+/* Style the arrow button in the ComboBox */
+.combo-box .arrow-button {
+    -fx-background-color: transparent;
+}
+
+/* The arrow shape (triangle) */
+.combo-box .arrow {
+   -fx-background-color: transparent;
+       -fx-padding: 0;
+       -fx-min-width: 0;
+       -fx-pref-width: 0;
+       -fx-max-width: 0;
+       -fx-opacity: 0;
+}
+
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-padding: 5 10 5 10;
+}
+
+/* Hover effect on list cells */
+.list-cell:hover {
+    -fx-background-color:  -fx-text-success;
+    -fx-text-fill: black;
+    -fx-background-radius: 5;
+
+}
+
+
+.list-cell:filled:selected, .list-cell:filled:selected:hover {
+
+
+    -fx-background-color: -fx-text-success;
+    -fx-text-fill: white;
+}
+.list-cell:filled:selected
+{-fx-background-radius: 5;
+}
+
+.etat {
+
+    -fx-background-color: white;
+    -fx-background-radius: 5px;
+    -fx-border-radius: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0.5, 0, 0);
+     -fx-padding: 10;
+    -fx-pref-height: 50;
+
+}
+.yellow {
+
+
+    -fx-border-radius:5px;
+    -fx-border-color: yellow;
+    -fx-border-width: 4px;
+}
+.orange {
+
+
+    -fx-border-radius:5px;
+    -fx-border-color: orange;
+    -fx-border-width: 4px;
+}
+.purple {
+
+
+    -fx-border-radius:5px;
+    -fx-border-color: purple;
+    -fx-border-width: 4px;
+}
+.green {
+
+
+    -fx-border-radius:5px;
+    -fx-border-color: green;
+    -fx-border-width: 4px;
+}
+.red {
+
+
+    -fx-border-radius:5px;
+    -fx-border-color: red;
+    -fx-border-width: 4px;
+}
+
+
+
+
+
+
+

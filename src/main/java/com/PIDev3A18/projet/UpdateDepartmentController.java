@@ -6,13 +6,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import services.ServiceDepartment;
 import services.ServiceEmployee;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -112,6 +118,24 @@ public class UpdateDepartmentController {
         } catch (Exception e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", "An unexpected error occurred.");
+        }
+    }
+
+    @FXML
+    void returnToViewDepartment(ActionEvent event) {
+        try {
+            // Load the ViewDepartment.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("layout.fxml"));
+            Parent root = loader.load();
+
+            // Set the new scene
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to load the View Department page.");
         }
     }
 
