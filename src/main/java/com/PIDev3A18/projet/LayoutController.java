@@ -50,6 +50,8 @@ public class LayoutController {
     private BorderPane layoutBorderPane;
     @FXML
     private VBox layoutVbox;
+    @FXML
+    private Button layoutFormationButton;
     @FXML private Button layoutEmployeListButton;
 
     @FXML
@@ -142,6 +144,15 @@ public class LayoutController {
     public void layoutGoToConge(ActionEvent actionEvent) {
         setSelected(layoutLeaveButton);
             loadFXML(getClass().getResource("conge.fxml"));
+    }
+    public void layoutGoToFormation(ActionEvent actionEvent) {
+        setSelected(layoutFormationButton);
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewFormation.fxml"));
+            layoutBorderPane.setCenter(loader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void layoutDisconnect(ActionEvent actionEvent) throws IOException {

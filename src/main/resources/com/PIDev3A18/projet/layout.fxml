@@ -52,6 +52,7 @@
                <font>
                   <Font size="14.0" />
                </font></Button>
+            <Button fx:id="layoutFormationButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#layoutGoToFormation" prefHeight="60.0" styleClass="layout-button" text="Formations">
             <Button fx:id="layoutEmployeListButton" layoutX="30.0" layoutY="418.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#layoutGoToEmployeList" prefHeight="60.0" styleClass="layout-button" text="Employés">
                <font>
                   <Font size="14.0" />
