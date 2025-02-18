@@ -54,13 +54,10 @@ public class JobOfferListController {
     @FXML
     public void initialize() {
         try {
-            // Fetch all job offers
             List<JobOffer> jobOffers = jobOfferService.readAll();
 
-            // Populate the ListView with job offers
             listView.getItems().setAll(jobOffers);
 
-            // Custom cell factory to display job offer details with formatting
             listView.setCellFactory(param -> new javafx.scene.control.ListCell<JobOffer>() {
                 @Override
                 protected void updateItem(JobOffer jobOffer, boolean empty) {
@@ -82,7 +79,6 @@ public class JobOfferListController {
                 }
             });
 
-            // Handle item click on ListView
             listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue != null) {
                     applyForJob(newValue);
@@ -97,15 +93,12 @@ public class JobOfferListController {
 
     private void applyForJob(JobOffer selectedJob) {
         try {
-            // Load the Application.fxml file using an absolute resource path.
             FXMLLoader loader = new FXMLLoader(getClass().getResource("Application.fxml"));
             Scene scene = new Scene(loader.load());
 
-            // Get the controller of the Application.fxml and pass the selected job offer.
             ApplicationController applicationController = loader.getController();
             applicationController.setJobOffer(selectedJob);
 
-            // Set the new scene on the current stage.
             Stage stage = (Stage) listView.getScene().getWindow();
             stage.setScene(scene);
             stage.show();

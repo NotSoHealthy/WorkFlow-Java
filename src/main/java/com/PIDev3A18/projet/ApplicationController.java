@@ -33,7 +33,7 @@ public class ApplicationController {
     private TextField lastNameField;
 
     @FXML
-    private TextField emailField;  // New field for email
+    private TextField emailField;
 
     @FXML
     private Button uploadCVButton;
@@ -78,7 +78,6 @@ public class ApplicationController {
 
     public void setJobOffer(JobOffer selectedJob) {
         this.selectedJob = selectedJob;
-        // Optionally, display job details on the form if needed.
     }
 
     @FXML
@@ -119,9 +118,7 @@ public class ApplicationController {
             String cvUploadedName = uploadFile(cvFile, "uploads/cv");
             String coverLetterUploadedName = uploadFile(coverLetterFile, "uploads/coverletters");
 
-            // Create the application using the parameterized constructor.
-            // We use selectedJob.getEmployeeId() to retrieve the employer's id,
-            // while the candidate's first and last names come from the text fields.
+
             Applications application = new Applications(
                     selectedJob,                              // The selected job offer.
                     selectedJob.getEmployeeId(),              // Employee from the job offer (employer).
@@ -134,13 +131,11 @@ public class ApplicationController {
                     emailField.getText()                      // Candidate's email.
             );
 
-            // Save the application using ApplicationService.
             ApplicationService applicationService = new ApplicationService();
             applicationService.add(application);
 
             showAlert(Alert.AlertType.INFORMATION, "Success", "Application submitted successfully!");
 
-            // Clear form fields after submission.
             firstNameField.clear();
             lastNameField.clear();
             emailField.clear();  // Clear the email field
@@ -153,23 +148,17 @@ public class ApplicationController {
         }
     }
 
-    /**
-     * Copies the selected file to the specified destination folder.
-     * @param file The file to be uploaded.
-     * @param destinationFolder The folder where the file should be stored.
-     * @return The new file name.
-     * @throws IOException If an I/O error occurs.
-     */
+
     private String uploadFile(File file, String destinationFolder) throws IOException {
         Path destDir = Paths.get(destinationFolder);
         if (!Files.exists(destDir)) {
             Files.createDirectories(destDir);
         }
-        // Create a unique file name to avoid collisions.
+
         String newFileName = System.currentTimeMillis() + "_" + file.getName();
         Path destPath = destDir.resolve(newFileName);
         Files.copy(file.toPath(), destPath, StandardCopyOption.REPLACE_EXISTING);
-        return newFileName; // You may return destPath.toString() if you want the full path.
+        return newFileName;
     }
 
     private void showAlert(Alert.AlertType alertType, String title, String message) {

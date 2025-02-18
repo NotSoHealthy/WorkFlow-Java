@@ -39,13 +39,10 @@ public class ApplicationListController {
     @FXML
     public void initialize() {
         try {
-            // Fetch all applications
             List<Applications> applications = applicationService.readAll();
 
-            // Populate the ListView with applications
             listView.getItems().setAll(applications);
 
-            // Custom cell factory to display application details with formatting
             listView.setCellFactory(param -> new javafx.scene.control.ListCell<Applications>() {
                 @Override
                 protected void updateItem(Applications application, boolean empty) {
@@ -54,8 +51,7 @@ public class ApplicationListController {
                         setText(null);
                         setGraphic(null);
                     } else {
-                        // Create a layout for each list item (application)
-                        HBox hBox = new HBox(10);
+                     HBox hBox = new HBox(10);
                         Label nameLabel = new Label(application.getFirst_Name() + " " + application.getLast_Name());
                         nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
                         Label statusLabel = new Label(application.getStatus());
@@ -67,8 +63,7 @@ public class ApplicationListController {
                 }
             });
 
-            // Handle item click on ListView
-            listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+           listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue != null) {
                     viewApplicationDetails(newValue);
                 }
@@ -82,18 +77,14 @@ public class ApplicationListController {
 
     private void viewApplicationDetails(Applications selectedApplication) {
         try {
-            // Load the ApplicationInformation.fxml file
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ApplicationInformation.fxml"));
             Node applicationInfoView = loader.load();
 
-            // Get the controller and pass the selected application
             ApplicationInfoController applicationInfoController = loader.getController();
             applicationInfoController.setApplication(selectedApplication);
 
-            // Get the current scene's root (which should be your BorderPane layout)
             BorderPane mainLayout = (BorderPane) listView.getScene().getRoot();
 
-            // Set the ApplicationInformation view in the center, preserving the left navigation
             mainLayout.setCenter(applicationInfoView);
         } catch (IOException e) {
             e.printStackTrace();
