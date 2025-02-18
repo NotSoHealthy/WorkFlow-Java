@@ -15,12 +15,14 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
+import services.ServiceEmployee;
 import utils.UserSession;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.sql.SQLException;
 
 public class LayoutController {
     Employee loggedinEmployee;
@@ -50,6 +52,7 @@ public class LayoutController {
     private VBox layoutVbox;
     @FXML
     private Button layoutFormationButton;
+    @FXML private Button layoutEmployeListButton;
 
     @FXML
     void initialize() {
@@ -72,7 +75,7 @@ public class LayoutController {
         clip.setCenterY(layoutProfilePicture.getFitHeight() / 2);
         layoutProfilePicture.setClip(clip);
         //Dashboard Icon
-        InputStream input = getClass().getResourceAsStream("icons/dash.png");
+        InputStream input = getClass().getResourceAsStream("icons/dash3.png");
         image = new Image(input, 16, 16, true, true);
         ImageView imageView = new ImageView(image);
         layoutDashButton.setGraphic(imageView);
@@ -111,6 +114,11 @@ public class LayoutController {
         image = new Image(input, 16, 16, true, true);
         imageView = new ImageView(image);
         layoutDisconnectButton.setGraphic(imageView);
+        //Employe List Icon
+        input = getClass().getResourceAsStream("icons/account.png");
+        image = new Image(input, 16, 16, true, true);
+        imageView = new ImageView(image);
+        layoutEmployeListButton.setGraphic(imageView);
     }
 
     public void layoutGoToDashboard(ActionEvent actionEvent) {
@@ -145,14 +153,7 @@ public class LayoutController {
 
     public void layoutGoToConge(ActionEvent actionEvent) {
         setSelected(layoutLeaveButton);
-        System.out.println(loggedinEmployee.getType());
-        if (loggedinEmployee.getType().equals("responsable")) {
-            loadFXML(getClass().getResource("conge_responsable.fxml"));
-
-        }
-        else {
             loadFXML(getClass().getResource("conge.fxml"));
-        }
     }
     public void layoutGoToFormation(ActionEvent actionEvent) {
         setSelected(layoutFormationButton);
@@ -162,10 +163,6 @@ public class LayoutController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
-
-
     }
 
     public void layoutDisconnect(ActionEvent actionEvent) throws IOException {
@@ -177,12 +174,17 @@ public class LayoutController {
         layoutCalendarButton.getScene().setRoot(fxmlLoader.load());
     }
 
-    public void setLoggedinEmployee(Employee loggedinEmployee) {
-
+    public void goToProfile() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("edit_profile.fxml"));
+        EditProfileController editProfileController = new EditProfileController(this);
+        fxmlLoader.setController(editProfileController);
+        layoutBorderPane.setCenter(fxmlLoader.load());
+        removeSelected();
     }
 
-    public Employee getLoggedinEmployee() {
-        return loggedinEmployee;
+    public void layoutGoToEmployeList() throws IOException {
+        setSelected(layoutEmployeListButton);
+        loadFXML(getClass().getResource("liste_employe.fxml"));
     }
 
     private void loadFXML(URL url) {
@@ -207,5 +209,36 @@ public class LayoutController {
                }
            }
        }
+    }
+
+    public void removeSelected(){
+        ObservableList<Node> list = layoutVbox.getChildren();
+        for (Node node : list) {
+            if (node instanceof Button button) {
+                button.getStyleClass().remove("layout-button-selected");
+            }
+        }
+    }
+
+    public void refreshUser() {
+        ServiceEmployee serviceEmployee = new ServiceEmployee();
+        try {
+            userSession.login(serviceEmployee.readById(loggedinEmployee.getId()));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        loggedinEmployee = userSession.getLoggedInEmployee();
+
+        layoutName.setText(loggedinEmployee.getFirstName() + " " + loggedinEmployee.getLastName());
+        Image image = new Image(loggedinEmployee.getImageUrl());
+        double imageWidth = image.getWidth();
+        double imageHeight = image.getHeight();
+        double minSize = Math.min(imageWidth, imageHeight);
+        layoutProfilePicture.setViewport(new Rectangle2D(
+                (imageWidth - minSize) / 2, // Center X
+                (imageHeight - minSize) / 2, // Center Y
+                minSize, minSize // Crop size (square)
+        ));
+        layoutProfilePicture.setImage(image);
     }
 }
