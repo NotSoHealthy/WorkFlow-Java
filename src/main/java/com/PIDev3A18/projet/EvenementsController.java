@@ -138,7 +138,7 @@ public class EvenementsController {
     @FXML
     public void initialize() {
         eventHolder.getChildren().clear();
-        TypeList.setItems(FXCollections.observableArrayList("Workshop", "Commerce", "Conference" , "Webinaire" , "Networking" , "Reunion"));
+        TypeList.setItems(FXCollections.observableArrayList("Workshop", "Commerce", "Conference" , "Webinaire" , "Networking" , "Reunion","Concert"));
         UserSession userSession;
         userSession = UserSession.getInstance();
         Employee loggedinEmployee = userSession.getLoggedInEmployee();
@@ -216,7 +216,7 @@ public class EvenementsController {
         back.setVisible(true);
     }
     public void layoutGoToUpdateEvenement() {
-        TypeListUpdate.setItems(FXCollections.observableArrayList("Workshop", "Commerce", "Conference" , "Webinaire" , "Networking" , "Reunion"));
+        TypeListUpdate.setItems(FXCollections.observableArrayList("Workshop", "Commerce", "Conference" , "Webinaire" , "Networking" , "Reunion","Concert"));
         TitreUpdate.setText(ToUpdateEvent.getTitre());
         DescriptionUpdate.setText(ToUpdateEvent.getDescription());
         LocalDate dateOnly=ToUpdateEvent.getDateetheure().toLocalDate();
