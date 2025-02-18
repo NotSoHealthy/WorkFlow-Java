@@ -19,6 +19,11 @@ public class Department {
         Department_Manager = department_Manager;
     }
 
+    public Department(int department_id, String name) {
+        Department_id = department_id;
+        Name = name;
+    }
+
     public Department() {}
 
     public int getDepartment_id() {return Department_id;}
@@ -32,11 +37,9 @@ public class Department {
 
     @Override
     public String toString() {
-        return "Department{" +
-                "Department_id=" + Department_id +
-                ", Name='" + Name + '\'' +
-                ", Year_Budget=" + Year_Budget +
-                ", Department_Manager=" + Department_Manager +
-                '}';
+        return String.format("Nom Du Department:     %s | Budget:     %.2f",
+                this.getName(),
+                this.getYear_Budget());
+//                this.getDepartment_Manager().getFirstName());
     }
 }

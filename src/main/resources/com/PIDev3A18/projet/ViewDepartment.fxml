@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<BorderPane fx:id="border" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@css/Department.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.ViewDepartmentController">
+    <center>
+        <AnchorPane fx:id="anchor" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" BorderPane.alignment="CENTER">
+            <children>
+                <!-- Title Section -->
+                <Label fx:id="titleLabel" alignment="CENTER" layoutX="14.0" layoutY="41.0" prefHeight="62.0" prefWidth="1051.0" text="Liste des Départements" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
+                    <font>
+                        <Font name="Segoe UI" size="42.0" />
+                    </font>
+                </Label>
+
+                <!-- Separator -->
+                <Separator layoutX="18.0" layoutY="132.0" prefHeight="14.0" prefWidth="1051.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+
+                <!-- Department List -->
+                <ListView fx:id="DepartmentList" layoutX="20.0" layoutY="146.0" prefHeight="400.0" prefWidth="1040.0" styleClass="list-view" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="146.0" />
+
+                <!-- Buttons Section -->
+                <HBox layoutX="20.0" layoutY="560.0" prefHeight="100.0" prefWidth="1040.0" spacing="20" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+                    <children>
+                        <Button fx:id="UpdateBtn" onAction="#updateDepartment" prefWidth="150.0" styleClass="update-button" text="Modifier">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </Button>
+                        <Button fx:id="DeleteBtn" onAction="#deleteDepartment" prefWidth="150.0" styleClass="delete-button" text="Supprimer">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </Button>
+                        <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+                        <Button fx:id="AddBtn" onAction="#addDepartment" prefWidth="150.0" styleClass="add-button" text="Ajouter">
+                            <font>
+                                <Font size="16.0" />
+                            </font>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+        </AnchorPane>
+    </center>
+</BorderPane>

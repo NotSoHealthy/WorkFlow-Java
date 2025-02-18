@@ -1,0 +1,738 @@
+*{
+    -fx-background-main: #F1F4F8;
+    -fx-background-secondary: #E1EAF9;
+    -fx-background-tertiary: #FFFFFF;
+    -fx-background-highlight: rgba(57, 210, 192, 0.4);
+    -fx-text-primary: #143C4E;
+    -fx-text-secondary: #57636C;
+    -fx-text-success: #39D2C0;
+    -fx-text-warning: #F9CF58;
+    -fx-text-danger: #FF5963;
+}
+.page{
+    -fx-background-color: -fx-background-main;
+    -fx-text-fill: -fx-text-primary;
+}
+TextField {
+    -fx-background-color: transparent;
+    -fx-border-radius: 5px;
+    -fx-border-color: rgba(0,0,0,0.25);
+    -fx-prompt-text-fill: derive(-fx-text-primary, 30%);
+    -fx-pref-height: 40px;
+}
+.btn:hover{
+    -fx-cursor:hand ;
+}
+.table-view {
+    -fx-background-color:#143C4E;
+    -fx-background-radius:10 10 0 0;
+
+}
+.table-view .column-header-background{
+    -fx-background-color: rgba(57, 210, 192, 0.4);
+    -fx-background-radius:10;
+    -fx-background-insets: 0 0 10 0;
+
+
+
+}
+.table-view .column-header, .table-view .filler{
+    -fx-size:50px;
+    -fx-border-width: 0 0 10 0;
+    -fx-background-color:transparent;
+
+
+}
+.table-view .column-header .label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white ;
+}
+.table-cell {
+    -fx-alignment: CENTER;
+    -fx-font-size: 14px;
+    -fx-text-fill: white;
+}
+.table-row-cell {
+    -fx-background-color: #143C4E;
+}
+/* Root style */
+.root {
+    -fx-background-color: #f4f4f4;
+}
+
+/* Form labels */
+.form-label {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;
+}
+
+/* Form fields */
+.form-field {
+    -fx-font-size: 15px;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* TextField and TextArea */
+.text-field, .text-area {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* DatePicker */
+.date-picker {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* ChoiceBox and ComboBox */
+.choice-box, .combo-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5px;
+    -fx-padding: 5px;
+}
+
+/* Title text */
+.text {
+    -fx-fill: #2c3e50;
+}
+/* Root style */
+.root {
+    -fx-background-color: #f0f4f8; /* Light blue background */
+}
+
+/* Title text */
+.title-text {
+    -fx-fill: #2c3e50; /* Dark blue color */
+    -fx-font-weight: bold;
+}
+
+/* Form labels */
+.form-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #34495e; /* Dark gray-blue */
+}
+
+/* Form fields */
+.form-field {
+    -fx-font-size: 16px;
+    -fx-background-color: #ffffff; /* White background */
+    -fx-border-color: #bdc3c7; /* Light gray border */
+    -fx-border-radius: 8px;
+    -fx-padding: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 5, 0, 0, 5); /* Subtle shadow */
+}
+
+/* TextField and TextArea */
+.text-field, .text-area {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 8px;
+    -fx-padding: 8px;
+}
+
+/* DatePicker */
+.date-picker {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 8px;
+    -fx-padding: 8px;
+}
+
+/* ChoiceBox and ComboBox */
+.choice-box, .combo-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #bdc3c7;
+    -fx-border-radius: 8px;
+    -fx-padding: 8px;
+}
+
+/* Submit Button */
+.submit-button {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff; /* White text */
+    -fx-background-color: #3498db; /* Blue background */
+    -fx-border-radius: 8px;
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 5); /* Shadow */
+    -fx-cursor: hand; /* Hand cursor on hover */
+}
+
+.submit-button:hover {
+    -fx-background-color: #2980b9; /* Darker blue on hover */
+}
+
+.submit-button:pressed {
+    -fx-background-color: #1c5980; /* Even darker blue when pressed */
+}
+/* Root style */
+.root {
+    -fx-background-color: #f4f4f4;
+}
+
+/* Title text */
+.title-text {
+    -fx-fill: #2c3e50; /* Dark blue color */
+    -fx-font-weight: bold;
+}
+
+/* ListView styling */
+.list-view {
+    -fx-background-color: #ffffff; /* White background */
+    -fx-border-color: #bdc3c7; /* Light gray border */
+    -fx-border-radius: 8px;
+    -fx-padding: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 5, 0, 0, 5); /* Subtle shadow */
+}
+
+/* Buttons */
+.delete-button {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff; /* White text */
+    -fx-background-color: #e74c3c; /* Red background */
+    -fx-border-radius: 8px;
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 5); /* Shadow */
+    -fx-cursor: hand; /* Hand cursor on hover */
+}
+
+.delete-button:hover {
+    -fx-background-color: #c0392b; /* Darker red on hover */
+}
+
+.update-button {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff; /* White text */
+    -fx-background-color: #3498db; /* Blue background */
+    -fx-border-radius: 8px;
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 5); /* Shadow */
+    -fx-cursor: hand; /* Hand cursor on hover */
+}
+
+.update-button:hover {
+    -fx-background-color: #2980b9; /* Darker blue on hover */
+}
+/* Root style */
+.root {
+    -fx-background-color: #f4f4f4; /* Light gray background */
+}
+
+/* Title text */
+.title-text {
+    -fx-fill: #2c3e50; /* Dark blue color */
+    -fx-font-weight: bold;
+}
+
+/* ScrollPane styling */
+.scroll-pane {
+    -fx-background-color: transparent; /* Transparent background */
+    -fx-border-color: #bdc3c7; /* Light gray border */
+    -fx-border-radius: 10px;
+    -fx-padding: 10px;
+}
+
+/* ListView styling */
+.list-view {
+    -fx-background-color: #ffffff; /* White background */
+    -fx-border-color: #bdc3c7; /* Light gray border */
+    -fx-border-radius: 10px;
+    -fx-padding: 10px;
+}
+
+/* ListView cells */
+.list-cell {
+    -fx-padding: 10px;
+    -fx-background-color: #ffffff; /* White background */
+    -fx-border-color: #bdc3c7; /* Light gray border */
+    -fx-border-radius: 5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 5, 0, 0, 5); /* Subtle shadow */
+}
+
+.list-cell:filled:selected {
+    -fx-background-color: #3498db; /* Blue background for selected items */
+    -fx-text-fill: white; /* White text for selected items */
+}
+
+/* Buttons */
+.delete-button {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff; /* White text */
+    -fx-background-color: #e74c3c; /* Red background */
+    -fx-border-radius: 8px;
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 5); /* Shadow */
+    -fx-cursor: hand; /* Hand cursor on hover */
+}
+
+.delete-button:hover {
+    -fx-background-color: #c0392b; /* Darker red on hover */
+}
+
+.update-button {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff; /* White text */
+    -fx-background-color: #3498db; /* Blue background */
+    -fx-border-radius: 8px;
+    -fx-padding: 10px 20px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 5); /* Shadow */
+    -fx-cursor: hand; /* Hand cursor on hover */
+}
+
+.update-button:hover {
+    -fx-background-color: #2980b9; /* Darker blue on hover */
+}
+/* Root style */
+.root {
+    -fx-background-color: #f8f9fa; /* Light gray background */
+}
+
+/* Title text */
+.title-text {
+    -fx-fill: #2c3e50; /* Dark blue color */
+    -fx-font-weight: bold;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 5, 0, 0, 5); /* Subtle shadow */
+}
+
+/* ScrollPane styling */
+.scroll-pane {
+    -fx-background-color: transparent; /* Transparent background */
+    -fx-border-color: #ced4da; /* Light gray border */
+    -fx-border-radius: 10px;
+    -fx-padding: 10px;
+}
+
+/* ListView styling */
+.list-view {
+    -fx-background-color: #ffffff; /* White background */
+    -fx-border-color: #ced4da; /* Light gray border */
+    -fx-border-radius: 10px;
+    -fx-padding: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 5, 0, 0, 5); /* Subtle shadow */
+}
+
+/* ListView cells */
+.list-cell {
+    -fx-padding: 15px;
+    -fx-background-color: #ffffff; /* White background */
+    -fx-border-color: #ced4da; /* Light gray border */
+    -fx-border-radius: 8px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.1), 3, 0, 0, 3); /* Subtle shadow */
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI";
+}
+
+.list-cell:filled:selected {
+    -fx-background-color: #3498db; /* Blue background for selected items */
+    -fx-text-fill: white; /* White text for selected items */
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #f1f3f5; /* Light gray background on hover */
+}
+
+/* Buttons */
+.delete-button {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff; /* White text */
+    -fx-background-color: #e74c3c; /* Red background */
+    -fx-border-radius: 8px;
+    -fx-padding: 12px 24px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 5); /* Shadow */
+    -fx-cursor: hand; /* Hand cursor on hover */
+}
+
+.delete-button:hover {
+    -fx-background-color: #c0392b; /* Darker red on hover */
+}
+
+.update-button {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff; /* White text */
+    -fx-background-color: #3498db; /* Blue background */
+    -fx-border-radius: 8px;
+    -fx-padding: 12px 24px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 5, 0, 0, 5); /* Shadow */
+    -fx-cursor: hand; /* Hand cursor on hover */
+}
+
+.update-button:hover {
+    -fx-background-color: #2980b9; /* Darker blue on hover */
+}
+/* Style for labels */
+.form-label {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+}
+
+/* Style for input fields */
+.form-field {
+    -fx-font-size: 16px;
+    -fx-padding: 5px;
+}
+
+/* Style for the submit button */
+.submit-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #4CAF50; /* Green */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+/* Style for the title */
+.title-text {
+    -fx-font-size: 36px;
+    -fx-fill: #2c3e50; /* Dark blue */
+}
+.listview{
+    -fx-border-color: transparent;
+    -fx-background-color: transparent;
+}
+
+.vbox-custom {
+
+    -fx-border-width: 0;
+    -fx-border-color: transparent;
+
+
+    -fx-background-color: white;
+    -fx-background-radius: 5px;
+
+
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0.5, 0, 0);
+
+    -fx-padding: 10;
+
+
+
+    -fx-pref-height: 50;
+
+}
+.ErrorText
+{
+    -fx-text-fill: red;
+}
+
+.list-view .scroll-bar:vertical,
+.list-view .scroll-bar:horizontal {
+    -fx-opacity: 0;
+    -fx-padding: 0;
+    -fx-pref-width: 0;
+    -fx-pref-height: 0;
+}
+
+.list-cell {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-padding: 10 15 10 15;
+}
+.addbutton
+{
+    -fx-border-radius: 10px;
+    -fx-effect: dropshadow(gaussian, rgba(20,60,78), 10, 0, 0, 0);
+}
+
+TextField, PasswordField, TextArea{
+    -fx-background-color: transparent;
+
+    -fx-control-inner-background: transparent;
+
+    -fx-border-radius: 5px;
+    -fx-border-color: rgba(0,0,0,0.25);
+    -fx-prompt-text-fill: derive(-fx-text-primary, 30%);
+    -fx-text-fill: black;
+    -fx-pref-height: 40px;
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+
+}
+.text-area .scroll-pane {
+    -fx-hbar-policy: NEVER;  /* Hide horizontal scrollbar */
+    -fx-vbar-policy: NEVER;  /* Hide vertical scrollbar */
+}
+.btn{
+    -fx-background-color: -fx-text-success;
+    -fx-background-radius: 10px;
+}
+.delete{
+    -fx-background-color: #ee4d2b;
+    -fx-background-radius: 10px;
+    -fx-padding: 10 10 10 10;
+    -fx-pref-height: 40px;
+    -fx-pref-width: 40px;
+}
+.edit{
+    -fx-background-color: -fx-text-success;
+    -fx-background-radius: 10px;
+    -fx-padding: 10 10 10 10;
+}
+.page{
+    -fx-background-color: -fx-background-main;
+    -fx-text-fill: -fx-text-primary;
+}
+*{
+    -fx-background-main: #F1F4F8;
+    -fx-background-secondary: #E1EAF9;
+    -fx-background-tertiary: #FFFFFF;
+    -fx-background-highlight: rgba(57, 210, 192, 0.4);
+    -fx-text-primary: #143C4E;
+    -fx-text-secondary: #57636C;
+    -fx-text-success: #39D2C0;
+    -fx-text-warning: #F9CF58;
+    -fx-text-danger: #FF5963;
+}
+.main-panel{
+    -fx-background-color: -fx-background-main;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(gaussian, rgba(20,60,78), 10, 0, 0, 0);
+}
+/* Title Text */
+.title-text {
+    -fx-font-size: 36px;
+    -fx-fill: #2c3e50; /* Dark blue */
+}
+
+/* List View */
+.list-view {
+    -fx-background-color: #ecf0f1; /* Light gray */
+    -fx-border-color: #bdc3c7; /* Gray */
+    -fx-border-radius: 5px;
+}
+
+/* List Cell */
+.list-cell {
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-background-color: #ffffff; /* White */
+    -fx-border-color: #bdc3c7; /* Gray */
+    -fx-border-radius: 5px;
+    -fx-margin: 5px;
+}
+
+/* Delete Button */
+.delete-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #e74c3c; /* Red */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.delete-button:hover {
+    -fx-background-color: #c0392b; /* Darker red */
+}
+
+/* Update Button */
+.update-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #2ecc71; /* Green */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.update-button:hover {
+    -fx-background-color: #27ae60; /* Darker green */
+}
+/* Title Text */
+.title-text {
+    -fx-font-size: 36px;
+    -fx-fill: #2c3e50; /* Dark blue */
+}
+
+/* List View */
+.list-view {
+    -fx-background-color: #ecf0f1; /* Light gray */
+    -fx-border-color: #bdc3c7; /* Gray */
+    -fx-border-radius: 5px;
+}
+
+/* List Cell */
+.list-cell {
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+    -fx-background-color: #ffffff; /* White */
+    -fx-border-color: #bdc3c7; /* Gray */
+    -fx-border-radius: 5px;
+    -fx-margin: 5px;
+}
+
+/* Delete Button */
+.delete-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #e74c3c; /* Red */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.delete-button:hover {
+    -fx-background-color: #c0392b; /* Darker red */
+}
+
+/* Update Button */
+.update-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #2ecc71; /* Green */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.update-button:hover {
+    -fx-background-color: #27ae60; /* Darker green */
+}
+/* Title Text */
+.title-text {
+    -fx-font-size: 42px; /* Bigger title */
+    -fx-text-fill: #2c3e50; /* Dark blue */
+    -fx-alignment: CENTER; /* Center the title */
+}
+
+/* List View */
+.list-view {
+    -fx-background-color: #ecf0f1; /* Light gray */
+    -fx-border-color: #bdc3c7; /* Gray */
+    -fx-border-radius: 5px;
+    -fx-padding: 10px; /* Add padding around the list */
+}
+
+/* List Cell */
+.list-cell {
+    -fx-padding: 15px; /* More space between projects */
+    -fx-font-size: 16px; /* Bigger font size for project details */
+    -fx-background-color: #ffffff; /* White */
+    -fx-border-color: #bdc3c7; /* Gray */
+    -fx-border-radius: 5px;
+    -fx-margin: 10px; /* Add margin between cells */
+}
+
+/* Project Title in List Cell */
+.list-cell .project-title {
+    -fx-font-size: 20px; /* Bigger font size for project title */
+    -fx-font-weight: bold; /* Make the title bold */
+}
+
+/* Delete Button */
+.delete-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #e74c3c; /* Red */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.delete-button:hover {
+    -fx-background-color: #c0392b; /* Darker red */
+}
+
+/* Update Button */
+.update-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #2ecc71; /* Green */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.update-button:hover {
+    -fx-background-color: #27ae60; /* Darker green */
+}
+/* Add Button */
+.add-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #3498db; /* Blue */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.add-button:hover {
+    -fx-background-color: #2980b9; /* Darker blue */
+}
+
+/* Update Button */
+.update-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #2ecc71; /* Green */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.update-button:hover {
+    -fx-background-color: #27ae60; /* Darker green */
+}
+
+/* Delete Button */
+.delete-button {
+    -fx-font-size: 16px;
+    -fx-background-color: #e74c3c; /* Red */
+    -fx-text-fill: white;
+    -fx-padding: 10px 20px;
+    -fx-border-radius: 5px;
+}
+
+.delete-button:hover {
+    -fx-background-color: #c0392b; /* Darker red */
+}
+.submit-button {
+    -fx-background-color: #28a745; /* Green color */
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10px 20px;
+}
+
+.submit-button:hover {
+    -fx-background-color: #218838; /* Darker green on hover */
+}
+
+.return-button {
+    -fx-background-color: #6c757d; /* Gray color */
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10px 20px;
+}
+
+.return-button:hover {
+    -fx-background-color: #5a6268; /* Darker gray on hover */
+}
+.submit-button {
+    -fx-background-color: #28a745; /* Green color */
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10px 20px;
+}
+
+.submit-button:hover {
+    -fx-background-color: #218838; /* Darker green on hover */
+}
+
+.return-button {
+    -fx-background-color: #6c757d; /* Gray color */
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-padding: 10px 20px;
+}
+
+.return-button:hover {
+    -fx-background-color: #5a6268; /* Darker gray on hover */
+}

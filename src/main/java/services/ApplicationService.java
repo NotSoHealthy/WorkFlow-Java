@@ -18,7 +18,7 @@ public class ApplicationService implements IService<Applications> {
 
     @Override
     public void add(Applications application) throws SQLException {
-        String query = "INSERT INTO applications (Job_ID, CV, Cover_Letter, Submission_Date, Status, Employe_ID) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO applications (Job_ID, CV, Cover_Letter, Submission_Date, Status, Employe_ID, First_Name, Last_Name, mail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             if (isJobOfferValid(application.getJobId().getJobId())) {
                 ps.setInt(1, application.getJobId().getJobId());
@@ -26,7 +26,12 @@ public class ApplicationService implements IService<Applications> {
                 ps.setString(3, application.getCoverLetter());
                 ps.setDate(4, new java.sql.Date(application.getSubmissionDate().getTime()));
                 ps.setString(5, application.getStatus());
-                ps.setInt(6, application.getEmployeeId().getId()); // setting the foreign key
+                // Use the employer's id from the job offer as the foreign key.
+                ps.setInt(6, application.getJobId().getEmployeeId().getId());
+                // Use the candidate's first and last name from the Applications object's own fields.
+                ps.setString(7, application.getFirst_Name());
+                ps.setString(8, application.getLast_Name());
+                ps.setString(9, application.getMail()); // Adding mail field here
                 int rowsAffected = ps.executeUpdate();
                 System.out.println(rowsAffected + " row(s) inserted into applications.");
             } else {
@@ -37,7 +42,7 @@ public class ApplicationService implements IService<Applications> {
 
     @Override
     public void update(Applications application) throws SQLException {
-        String query = "UPDATE applications SET Job_ID = ?, CV = ?, Cover_Letter = ?, Submission_Date = ?, Status = ?, Employe_ID = ? WHERE Application_ID = ?";
+        String query = "UPDATE applications SET Job_ID = ?, CV = ?, Cover_Letter = ?, Submission_Date = ?, Status = ?, Employe_ID = ?, First_Name = ?, Last_Name = ?, mail = ? WHERE Application_ID = ?";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             if (isJobOfferValid(application.getJobId().getJobId())) {
                 ps.setInt(1, application.getJobId().getJobId());
@@ -45,8 +50,11 @@ public class ApplicationService implements IService<Applications> {
                 ps.setString(3, application.getCoverLetter());
                 ps.setDate(4, new java.sql.Date(application.getSubmissionDate().getTime()));
                 ps.setString(5, application.getStatus());
-                ps.setInt(6, application.getEmployeeId().getId()); // setting the foreign key
-                ps.setInt(7, application.getApplicationId());
+                ps.setInt(6, application.getEmployeeId().getId()); // Setting foreign key
+                ps.setString(7, application.getFirst_Name()); // Setting First_Name
+                ps.setString(8, application.getLast_Name()); // Setting Last_Name
+                ps.setString(9, application.getMail()); // Adding mail field here
+                ps.setInt(10, application.getApplicationId());
                 int rowsAffected = ps.executeUpdate();
                 System.out.println(rowsAffected + " row(s) updated in applications.");
             } else {
@@ -98,7 +106,10 @@ public class ApplicationService implements IService<Applications> {
                         rs.getString("CV"),
                         rs.getString("Cover_Letter"),
                         rs.getDate("Submission_Date"),
-                        rs.getString("Status")
+                        rs.getString("Status"),
+                        rs.getString("First_Name"),
+                        rs.getString("Last_Name"),
+                        rs.getString("mail")  // Getting the mail field here
                 );
                 applications.add(app);
             }
@@ -126,7 +137,10 @@ public class ApplicationService implements IService<Applications> {
                             rs.getString("CV"),
                             rs.getString("Cover_Letter"),
                             rs.getDate("Submission_Date"),
-                            rs.getString("Status")
+                            rs.getString("Status"),
+                            rs.getString("First_Name"),
+                            rs.getString("Last_Name"),
+                            rs.getString("mail")  // Getting the mail field here
                     );
                     return app;
                 }
@@ -134,5 +148,4 @@ public class ApplicationService implements IService<Applications> {
         }
         return null;
     }
-
 }

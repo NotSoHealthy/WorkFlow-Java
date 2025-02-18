@@ -86,6 +86,20 @@ public class ServiceDepartment implements IService<Department> {
         }
         return null;
     }
+
+    public Department readByIdWithoutManager(int id) throws SQLException {
+        String query = "select * from departments where Department_Id = ?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            ServiceEmployee serviceEmployee = new ServiceEmployee();
+            ServiceProject  serviceProject = new ServiceProject();
+            return new Department(id, rs.getString("Name"));
+        }
+        return null;
+    }
+
     public List<Department> searchByName(String name) throws SQLException {
         String req ="select * from departments where name = ? ";
         PreparedStatement ps = con.prepareStatement(req);

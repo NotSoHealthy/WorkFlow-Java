@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="600.0" spacing="20" stylesheets="@css/Project.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.UpdateProjectController">
+    <padding>
+        <Insets bottom="30" left="30" right="30" top="30" />
+    </padding>
+
+    <children>
+        <!-- Title Section -->
+        <HBox alignment="CENTER" prefHeight="70.0" prefWidth="600.0">
+            <children>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-text" text="Mettre à Jour un Projet">
+                    <font>
+                        <Font name="Berlin Sans FB" size="36.0" />
+                    </font>
+                </Text>
+            </children>
+        </HBox>
+
+        <!-- Project Name -->
+        <HBox alignment="CENTER" spacing="20" prefWidth="600.0">
+            <children>
+                <Label prefWidth="150.0" styleClass="form-label" text="Nom">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="Name" prefWidth="400.0" promptText="Entrez le Nom du Projet" styleClass="form-field">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </TextField>
+            </children>
+        </HBox>
+
+        <!-- Project Description -->
+        <HBox alignment="CENTER" spacing="20" prefWidth="600.0">
+            <children>
+                <Label prefWidth="150.0" styleClass="form-label" text="Description">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <TextArea fx:id="Description" prefWidth="400.0" prefHeight="100.0" promptText="Entrez une Description Du Projet" styleClass="form-field" />
+            </children>
+        </HBox>
+
+        <!-- Start Date -->
+        <HBox alignment="CENTER" spacing="20" prefWidth="600.0">
+            <children>
+                <Label prefWidth="150.0" styleClass="form-label" text="Date De Debut">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <DatePicker fx:id="StartDate" prefWidth="400.0" styleClass="form-field" />
+            </children>
+        </HBox>
+
+        <!-- End Date -->
+        <HBox alignment="CENTER" spacing="20" prefWidth="600.0">
+            <children>
+                <Label prefWidth="150.0" styleClass="form-label" text="Date De Fin">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <DatePicker fx:id="EndDate" prefWidth="400.0" styleClass="form-field" />
+            </children>
+        </HBox>
+
+        <!-- Budget -->
+        <HBox alignment="CENTER" spacing="20" prefWidth="600.0">
+            <children>
+                <Label prefWidth="150.0" styleClass="form-label" text="Budget">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <TextField fx:id="Budget" prefWidth="400.0" promptText="Entrez le Budget Du Projet" styleClass="form-field">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </TextField>
+            </children>
+        </HBox>
+
+        <!-- Project Manager -->
+        <HBox alignment="CENTER" spacing="20" prefWidth="600.0">
+            <children>
+                <Label prefWidth="150.0" styleClass="form-label" text="Responsable du Projet">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <ComboBox fx:id="ProjectManagerComboBox" prefWidth="400.0" styleClass="form-field" />
+            </children>
+        </HBox>
+
+        <!-- Department -->
+        <HBox alignment="CENTER" spacing="20" prefWidth="600.0">
+            <children>
+                <Label prefWidth="150.0" styleClass="form-label" text="Department du Projet">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <ComboBox fx:id="DepartmentComboBox" prefWidth="400.0" styleClass="form-field" />
+            </children>
+        </HBox>
+
+        <!-- Submit and Return Buttons -->
+        <HBox alignment="CENTER" spacing="20" prefWidth="600.0">
+            <children>
+                <Button onAction="#updateProject" styleClass="submit-button" text="Mettre à Jour" prefWidth="200.0">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Button>
+                <Button onAction="#returnToViewDepartment" styleClass="return-button" text="Retour" prefWidth="150.0">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Button>
+            </children>
+        </HBox>
+    </children>
+</VBox>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<StackPane prefHeight="720.0" prefWidth="1280.0" styleClass="page" stylesheets="@css/signup.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.ApplicationInfoController">
+   <children>
+      <HBox alignment="CENTER">
+         <children>
+            <VBox alignment="CENTER_LEFT" prefHeight="560.0" prefWidth="574.0" spacing="20.0" styleClass="main-panel">
+               <padding>
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+               </padding>
+               <children>
+                  <!-- Title -->
+                  <Text styleClass="title-text" text="Détails du Condidature" wrappingWidth="379.6796875">
+                     <font>
+                        <Font size="22.0" />
+                     </font>
+                     <VBox.margin>
+                        <Insets bottom="40.0" />
+                     </VBox.margin>
+                  </Text>
+
+                  <!-- Details Fields Container -->
+                  <VBox alignment="CENTER_LEFT" spacing="15.0">
+                     <!-- First Name -->
+                     <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <children>
+                           <Label styleClass="form-label" text="Nom" />
+                           <Label fx:id="firstNameLabel" styleClass="detail-value" />
+                        </children>
+                     </HBox>
+
+                     <!-- Last Name -->
+                     <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <children>
+                           <Label styleClass="form-label" text="Prenom" />
+                           <Label fx:id="lastNameLabel" styleClass="detail-value" />
+                        </children>
+                     </HBox>
+
+                     <!-- Email -->
+                     <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <children>
+                           <Label styleClass="form-label" text="Mail" />
+                           <Label fx:id="emailLabel" styleClass="detail-value" />
+                        </children>
+                     </HBox>
+
+                     <!-- CV -->
+                     <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <children>
+                           <Label prefHeight="17.0" prefWidth="73.0" styleClass="form-label" text="CV:" />
+                           <!-- The label with link-text style indicates clickable info -->
+                           <Label fx:id="cvLabel" styleClass="detail-value link-text" />
+                           <Button fx:id="viewCvButton" onAction="#handleCvAction" prefHeight="35.0" prefWidth="129.0" styleClass="btn-connect" text="Voir/Télécharger" />
+                        </children>
+                     </HBox>
+
+                     <!-- Cover Letter -->
+                     <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <children>
+                           <Label prefHeight="17.0" prefWidth="172.0" styleClass="form-label" text="lettre de recommandation" />
+                           <Label fx:id="coverLetterLabel" styleClass="detail-value link-text" />
+                           <Button fx:id="viewCoverLetterButton" onAction="#handleCoverLetterAction" prefHeight="35.0" prefWidth="166.0" styleClass="btn-connect" text="Voir/Télécharger" />
+                        </children>
+                     </HBox>
+
+                     <!-- Submission Date -->
+                     <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <children>
+                           <Label styleClass="form-label" text="Soumis le :" />
+                           <Label fx:id="submissionDateLabel" styleClass="detail-value" />
+                        </children>
+                     </HBox>
+
+                     <!-- Status -->
+                     <HBox alignment="CENTER_LEFT" spacing="10.0">
+                        <children>
+                           <Label prefHeight="17.0" prefWidth="57.0" styleClass="form-label" text="Status:" />
+                           <ComboBox fx:id="statusLabel" prefWidth="150.0" visibleRowCount="3" />
+                        </children>
+                     </HBox>
+                  </VBox>
+
+                  <!-- Submit Button -->
+                  <Button fx:id="submitButton" onAction="#submitButton" prefHeight="35.0" prefWidth="108.0" styleClass="btn-connect" text="mise à jour" />
+               </children>
+               <HBox.margin>
+                  <Insets bottom="80.0" top="80.0" />
+               </HBox.margin>
+            </VBox>
+         </children>
+      </HBox>
+   </children>
+</StackPane>

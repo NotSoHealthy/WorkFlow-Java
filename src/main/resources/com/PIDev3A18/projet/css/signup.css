@@ -56,3 +56,19 @@ TextField, PasswordField, TextArea{
 .notif-text{
     -fx-alignment: center;
 }
+
+.title-text {
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+    -fx-text-fill: -fx-text-primary;
+    -fx-padding: 10px 0;
+}
+
+.list-view {
+    -fx-background-color: -fx-background-secondary;
+    -fx-border-color: rgba(0, 0, 0, 0.2);
+    -fx-border-width: 1px;
+    -fx-border-radius: 8px;
+    -fx-background-radius: 8px;
+    -fx-padding: 10px;
+}
