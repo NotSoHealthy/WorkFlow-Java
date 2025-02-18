@@ -8,12 +8,14 @@ public class Employee {
     private String phone;
     private String password;
     private Department department;
+    private String adresse;
+    private String gouvernorat;
     private String imageUrl;
-    private String type;
+    private String role;
     private String status;
 
     //All attributes
-    public Employee(int id, String firstName, String lastName, String email, String phone, String password, Department department, String imageUrl, String type, String status) {
+    public Employee(int id, String firstName, String lastName, String email, String phone, String password, Department department, String adresse, String gouvernorat, String imageUrl, String role, String status) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -21,56 +23,66 @@ public class Employee {
         this.phone = phone;
         this.password = password;
         this.department = department;
+        this.adresse = adresse;
+        this.gouvernorat = gouvernorat;
         this.imageUrl = imageUrl;
-        this.type = type;
+        this.role = role;
         this.status = status;
     }
 
     //All attributes except id and status
-    public Employee(String firstName, String lastName, String email, String phone, String password, Department department, String imageUrl, String type) {
+    public Employee(String firstName, String lastName, String email, String phone, String password, Department department, String adresse, String gouvernorat, String imageUrl, String role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
         this.password = password;
         this.department = department;
+        this.adresse = adresse;
+        this.gouvernorat = gouvernorat;
         this.imageUrl = imageUrl;
-        this.type = type;
+        this.role = role;
     }
 
     //All attributes except id, department, imageUrl and status
-    public Employee(String firstName, String lastName, String email, String phone, String password, String type) {
+    public Employee(String firstName, String lastName, String email, String phone, String password, String adresse, String gouvernorat, String role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
         this.password = password;
-        this.type = type;
+        this.adresse = adresse;
+        this.gouvernorat = gouvernorat;
+        this.role = role;
     }
 
     //All attributes except id
-    public Employee(String firstName, String lastName, String email, String phone, String password, Department department, String imageUrl, String type, String status) {
+    public Employee(String firstName, String lastName, String email, String phone, String password, Department department, String adresse, String gouvernorat, String imageUrl, String role, String status) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
         this.password = password;
         this.department = department;
+        this.adresse = adresse;
+        this.gouvernorat = gouvernorat;
         this.imageUrl = imageUrl;
-        this.type = type;
+        this.role = role;
         this.status = status;
     }
 
     //All attributes except password
-    public Employee(int id, String firstName, String lastName, String email, String phone, Department department, String imageUrl, String type, String status) {
+    public Employee(int id, String firstName, String lastName, String email, String phone, Department department, String adresse, String gouvernorat, String imageUrl, String role, String status) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
         this.department = department;
+        this.adresse = adresse;
+        this.gouvernorat = gouvernorat;
         this.imageUrl = imageUrl;
-        this.type = type;
+        this.role = role;
         this.status = status;
     }
 
@@ -79,12 +91,12 @@ public class Employee {
         this.id = id;
     }
 
-    public String getType() {
-        return type;
+    public String getRole() {
+        return role;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getPhone() {
@@ -153,6 +165,22 @@ public class Employee {
         this.imageUrl = imageUrl;
     }
 
+    public String getAdresse() {
+        return adresse;
+    }
+
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public String getGouvernorat() {
+        return gouvernorat;
+    }
+
+    public void setGouvernorat(String gouvernorat) {
+        this.gouvernorat = gouvernorat;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
@@ -163,8 +191,10 @@ public class Employee {
                 ", phone='" + phone + '\'' +
                 ", password='" + password + '\'' +
                 ", department=" + department +
+                ", adresse='" + adresse + '\'' +
+                ", gouvernorat='" + gouvernorat + '\'' +
                 ", imageUrl='" + imageUrl + '\'' +
-                ", type='" + type + '\'' +
+                ", role='" + role + '\'' +
                 ", status='" + status + '\'' +
                 '}';
     }

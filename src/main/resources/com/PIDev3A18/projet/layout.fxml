@@ -15,10 +15,10 @@
    <left>
       <VBox fx:id="layoutVbox" maxHeight="1.7976931348623157E308" maxWidth="200.0" prefHeight="720.0" prefWidth="200.0" spacing="25.0" styleClass="layout-nav" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER_LEFT" maxWidth="200.0" prefWidth="200.0" spacing="10.0" styleClass="layout-profile-box" VBox.vgrow="NEVER">
+            <HBox alignment="CENTER_LEFT" maxWidth="200.0" onMouseClicked="#goToProfile" prefWidth="200.0" spacing="10.0" styleClass="layout-profile-box" VBox.vgrow="NEVER">
                <children>
                   <ImageView fx:id="layoutProfilePicture" fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true" styleClass="layout-picture" />
-                  <Text fx:id="layoutName" strokeType="OUTSIDE" strokeWidth="0.0" text="Ben Hamouda Mohamed Amin" wrappingWidth="100.0" HBox.hgrow="ALWAYS" />
+                  <Text fx:id="layoutName" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="nom" text="Ben Hamouda Mohamed Amin" wrappingWidth="100.0" HBox.hgrow="ALWAYS" />
                </children>
                <VBox.margin>
                   <Insets />
@@ -56,6 +56,12 @@
                <font>
                   <Font size="14.0" />
                </font></Button>
+            <Button fx:id="layoutFormationButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#layoutGoToFormation" prefHeight="60.0" styleClass="layout-button" text="Formations">
+            <Button fx:id="layoutEmployeListButton" layoutX="30.0" layoutY="418.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#layoutGoToEmployeList" prefHeight="60.0" styleClass="layout-button" text="Employés">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
             <VBox prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS" />
             <Button fx:id="layoutDisconnectButton" layoutX="30.0" layoutY="323.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#layoutDisconnect" prefHeight="60.0" text="Se Deconnecter">
                <styleClass>

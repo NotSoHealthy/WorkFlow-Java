@@ -19,6 +19,11 @@ public class Department {
         Department_Manager = department_Manager;
     }
 
+    public Department(int department_id, String name) {
+        Department_id = department_id;
+        Name = name;
+    }
+
     public Department() {}
 
     public int getDepartment_id() {return Department_id;}
@@ -32,9 +37,6 @@ public class Department {
 
     @Override
     public String toString() {
-        return  ",\n Name                 : " + Name +
-                ",\n Year_Budget          :" + Year_Budget +
-                ",\n Department_Manager   :" + Department_Manager +
-                '}';
+        return Name;
     }
 }
