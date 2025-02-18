@@ -41,3 +41,24 @@ Label{
     -fx-background-color: -fx-text-warning;
     -fx-background-radius: 5px;
 }
+
+ComboBox {
+    -fx-background-color: -fx-background-primary;
+    -fx-border-radius: 5px;
+}
+
+ComboBox:hover {
+    -fx-background-color: lightgray;    /* Change background on hover */
+}
+
+ComboBox:disabled {
+    -fx-opacity: 0.5;                   /* Faded effect when disabled */
+}
+
+ComboBox:focused {
+    -fx-border-color: blue;             /* Highlight border when focused */
+}
+
+.item-box{
+    -fx-opacity: .8;
+}

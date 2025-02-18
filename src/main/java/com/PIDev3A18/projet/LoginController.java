@@ -159,4 +159,10 @@ public class LoginController {
     public void passwordFieldChanged(){
         passwordText.setText(passwordField.getText());
     }
+
+    public void goToJobOffer() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("JobOfferList.fxml"));
+        Parent root = loader.load();
+        emailField.getScene().setRoot(root);
+    }
 }
