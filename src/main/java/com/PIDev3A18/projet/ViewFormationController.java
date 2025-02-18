@@ -132,7 +132,6 @@ public class ViewFormationController implements Initializable {
                             deleteButton.setDisable(true);
                         }
                         editButton.setOnMouseClicked((MouseEvent event) -> {
-                            Formation selectedFormation = tableFormation.getSelectionModel().getSelectedItem();
                             FXMLLoader loader = new FXMLLoader();
                             loader.setLocation(getClass().getResource("EditFormation.fxml"));
                             Parent parent = null;
@@ -142,7 +141,7 @@ public class ViewFormationController implements Initializable {
                                 throw new RuntimeException(e);
                             }
                             EditFormationController controller = loader.getController();
-                            controller.setFormationData(selectedFormation);
+                            controller.setFormationData(formation);
 
                             Stage stage = new Stage();
                             stage.setScene(new Scene(parent));
