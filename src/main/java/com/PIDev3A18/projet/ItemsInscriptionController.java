@@ -55,6 +55,9 @@ public class ItemsInscriptionController {
     @FXML
     public void comboBoxChange(ActionEvent event) throws SQLException {
         ServiceInscription si = new ServiceInscription();
+        if(comboBox.getValue()==null) {
+            comboBox.setValue("default");
+        }
         inscription.setStatus(comboBox.getValue().toLowerCase());
         si.update(inscription);
         if(comboBox.getValue().equals("Refuser")) {
