@@ -1,23 +1,24 @@
 package entity;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class Inscription {
     private int id;
-    private java.sql.Date date_registration;
+    private LocalDate dateRegistration;
     private String status;
     Formation formation;
     Employee employee;
-    public Inscription(int id, java.sql.Date date_registration, String status, Formation formation, Employee employee) {
+    public Inscription(int id, LocalDate date_registration, String status, Formation formation, Employee employee) {
         this.id = id;
-        this.date_registration = date_registration;
+        this.dateRegistration = date_registration;
         this.status = status;
         this.formation = formation;
         this.employee = employee;
     }
 
-    public Inscription(Date date_registration, String status, Formation formation, Employee employee) {
-        this.date_registration = date_registration;
+    public Inscription(LocalDate date_registration, String status, Formation formation, Employee employee) {
+        this.dateRegistration = date_registration;
         this.status = status;
         this.formation = formation;
         this.employee = employee;
@@ -29,11 +30,11 @@ public class Inscription {
     public void setId(int id) {
         this.id = id;
     }
-    public java.sql.Date getDate_registration() {
-        return date_registration;
+    public LocalDate getDateRegistration() {
+        return dateRegistration;
     }
-    public void setDate_registration(java.sql.Date date_registration) {
-        this.date_registration = date_registration;
+    public void setDate_registration(LocalDate date_registration) {
+        this.dateRegistration = date_registration;
     }
     public String getStatus() {
         return status;
@@ -58,7 +59,7 @@ public class Inscription {
     public String toString() {
         return "Inscription {" +
                 "id = " + id +
-                ", date_inscription = " + date_registration +
+                ", date_inscription = " + dateRegistration +
                 ", statut = '" + status + '\'' +
                 ", formation = " + formation +
                 ", employee = " + employee +
