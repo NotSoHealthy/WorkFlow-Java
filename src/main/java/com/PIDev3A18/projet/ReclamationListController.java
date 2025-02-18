@@ -1,9 +1,11 @@
 package com.PIDev3A18.projet;
 
+import entity.Employee;
 import entity.Reclamation;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -12,6 +14,7 @@ import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import services.ServiceReclamation;
+import utils.UserSession;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +40,8 @@ public class ReclamationListController {
     public ReclamationListController() {
         this.RS = new ServiceReclamation();
     }
-
+    UserSession userSession = UserSession.getInstance();
+    Employee loggedinEmployee = userSession.getLoggedInEmployee();
     @FXML
     public void initialize() {
 
@@ -56,24 +60,14 @@ public class ReclamationListController {
 
 
 
-                Runnable updateDimensions = () -> {
+
                     double width = scene.getWidth();
                     double height = scene.getHeight();
 
-                    AnchorPane.setLeftAnchor(title,(width-177)/2 - title.getWidth()/2);
+                    AnchorPane.setLeftAnchor(title,(width-177)/2 - title.getWidth()/2-50);
                     AnchorPane.setTopAnchor(title,50.0);
                     AnchorPane.setLeftAnchor(addrec,(width-177)/2 - addrec.getWidth()/2);
                     AnchorPane.setBottomAnchor(addrec,50.0);
-
-                };
-
-                // Update initially after the scene is displayed
-                scene.addPostLayoutPulseListener(updateDimensions::run);
-
-                // Add listeners to the width and height properties to update on changes
-                scene.widthProperty().addListener((observable, oldWidth, newWidth) -> updateDimensions.run());
-                scene.heightProperty().addListener((observable, oldHeight, newHeight) -> updateDimensions.run());
-
 
 
 
@@ -81,20 +75,23 @@ public class ReclamationListController {
                 listView.setCellFactory(param -> new javafx.scene.control.ListCell<Reclamation>() {
                     @Override
                     protected void updateItem(Reclamation re, boolean empty) {
-
-
-
                         super.updateItem(re, empty);
                         if (empty || re == null) {
                             setText(null);
                             setGraphic(null);
+                            getStyleClass().clear();
                         } else {
+                            setStyle("-fx-background-color: transparent; -fx-padding: 5 10 5 10;");
                             // Create a layout for each list item (job offer)
                             ImageView imageView = new ImageView(new Image(re.getEmployee().getImageUrl()));
+
                             imageView.setFitWidth(50); // Set width
                             imageView.setFitHeight(50); // Set height
-                            Circle clip = new Circle(20, 20, 20); // CenterX, CenterY, Radius
+
+                            Circle clip = new Circle(20, 20, 20);
+
                             imageView.setClip(clip);
+
                             Label fn = new Label(re.getEmployee().getFirstName());
                             Label ln = new Label(re.getEmployee().getLastName());
                             ln.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;-fx-padding: 10 5 0 0;");
@@ -160,6 +157,7 @@ public class ReclamationListController {
                             HBox.setMargin(edit, new Insets(10, 0, 0,580));
 
                             hBox2.getChildren().addAll(edit,delete);
+                            if(!loggedinEmployee.getType().equals("responsable")&&loggedinEmployee.getId() != re.getEmployee().getId()) hBox2.setVisible(false);
                             vbox.getChildren().addAll(hBox,separator,nameLabel, positionLabel,hBox2);
                             setGraphic(vbox);
                         }
