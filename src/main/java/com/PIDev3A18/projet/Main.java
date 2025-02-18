@@ -3,22 +3,28 @@ package com.PIDev3A18.projet;
 import com.google.gson.Gson;
 import entity.Employee;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import services.ServiceEmployee;
 import utils.Constants.AppConstants;
+import utils.UserSession;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 
 public class Main extends Application {
     Scene scene;
     Parent root;
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) throws IOException, SQLException {
+        ServiceEmployee serviceEmployee = new ServiceEmployee();
+        UserSession userSession = UserSession.getInstance();
         Gson gson = new Gson();
         Employee loggedInUser;
         try (FileReader reader = new FileReader("saved-employee.json")) {
@@ -33,10 +39,11 @@ public class Main extends Application {
 
         }
         else{
+            loggedInUser = serviceEmployee.readById(loggedInUser.getId());
+            userSession.login(loggedInUser);
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("layout.fxml"));
             root = fxmlLoader.load();
             LayoutController controller= fxmlLoader.getController();
-            controller.setLoggedinEmployee(loggedInUser);
             controller.layoutGoToDashboard(null);
         }
         scene = new Scene(root, AppConstants.WIDTH, AppConstants.HEIGHT);
@@ -48,6 +55,10 @@ public class Main extends Application {
         stage.setMinHeight(AppConstants.HEIGHT);
         stage.setMinWidth(AppConstants.WIDTH);
         stage.show();
+        stage.setOnCloseRequest(event -> {
+            Platform.exit();
+            System.exit(0);
+        });
     }
 
 

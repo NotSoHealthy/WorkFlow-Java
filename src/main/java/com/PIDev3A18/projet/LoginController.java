@@ -9,35 +9,65 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import services.ServiceEmployee;
+import utils.UserSession;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 
 public class LoginController {
-    @FXML
-    private TextField emailField;
-    @FXML
-    private PasswordField passwordField;
-    @FXML
-    private CheckBox rememberCheckbox;
-    @FXML
-    private HBox notifHbox;
-    @FXML
-    private Text notifText;
+    @FXML private TextField emailField;
+    @FXML private PasswordField passwordField;
+    @FXML private CheckBox rememberCheckbox;
+    @FXML private HBox notifHbox;
+    @FXML private Text notifText;
+    @FXML private Button passwordBtn;
+    @FXML private TextField passwordText;
+
+    Image eye1Image;
+    Image eye2Image;
+    UserSession userSession;
+    ServiceEmployee serviceEmployee;
+    Gson gson;
+
+    public LoginController() {
+        gson = new Gson();
+        userSession = UserSession.getInstance();
+        serviceEmployee = new ServiceEmployee();
+        InputStream stream = getClass().getResourceAsStream("icons/eye1.png");
+        eye1Image = new Image(stream,20,20,true,true);
+        stream = getClass().getResourceAsStream("icons/eye2.png");
+        eye2Image = new Image(stream,20,20,true,true);
+    }
+
+    public void initialize(){
+        passwordBtn.setGraphic(new ImageView(eye1Image));
+    }
+
+    public void passwordShow(){
+        if (passwordField.isVisible()) {
+            passwordBtn.setGraphic(new ImageView(eye2Image));
+        }
+        else {
+            passwordBtn.setGraphic(new ImageView(eye1Image));
+        }
+        passwordField.setVisible(!passwordField.isVisible());
+        passwordText.setVisible(!passwordText.isVisible());
+    }
 
     public void login(ActionEvent event) throws SQLException, IOException {
-        Gson gson = new Gson();
-
-        ServiceEmployee serviceEmployee = new ServiceEmployee();
         String email = emailField.getText();
         String password = passwordField.getText();
         if (serviceEmployee.verifPassword(email, password)){
@@ -60,10 +90,12 @@ public class LoginController {
                 }
             }
 
+            userSession.login(employee);
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("layout.fxml"));
             Parent root = loader.load();
             LayoutController layoutController = loader.getController();
-            layoutController.setLoggedinEmployee(employee);
+            layoutController.layoutGoToDashboard(null);
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
@@ -116,6 +148,20 @@ public class LoginController {
 
     public void goToSignup() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("signup.fxml"));
+        Parent root = loader.load();
+        emailField.getScene().setRoot(root);
+    }
+
+    public void passwordTextChanged(){
+        passwordField.setText(passwordText.getText());
+    }
+
+    public void passwordFieldChanged(){
+        passwordText.setText(passwordField.getText());
+    }
+
+    public void goToJobOffer() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("JobOfferList.fxml"));
         Parent root = loader.load();
         emailField.getScene().setRoot(root);
     }

@@ -46,7 +46,17 @@
                      </font>
                   </Text>
                   <TextField fx:id="emailField" prefHeight="40.0" promptText="Email" />
-                  <PasswordField fx:id="passwordField" promptText="Mot de passe" />
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <StackPane HBox.hgrow="ALWAYS">
+                           <children>
+                              <PasswordField fx:id="passwordField" onKeyTyped="#passwordFieldChanged" promptText="Mot de passe" />
+                              <TextField fx:id="passwordText" onKeyTyped="#passwordTextChanged" promptText="Mot de passe" visible="false" />
+                           </children>
+                        </StackPane>
+                        <Button fx:id="passwordBtn" mnemonicParsing="false" onAction="#passwordShow" prefHeight="20.0" prefWidth="20.0" />
+                     </children>
+                  </HBox>
                   <HBox alignment="CENTER">
                      <children>
                         <CheckBox fx:id="rememberCheckbox" minWidth="-Infinity" mnemonicParsing="false" text="Se souvenir de mon compte">
@@ -80,6 +90,18 @@
                            </font>
                         </Text>
                         <Text onMouseClicked="#goToSignup" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="link-text" text="S'inscrire maintenant" textAlignment="RIGHT">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Text>
+                     </children>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="40.0" layoutY="418.0" spacing="10.0">
+                     <children>
+                        <Text onMouseClicked="#goToJobOffer" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="link-text" text="Consulter les offres emplois" textAlignment="RIGHT">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
