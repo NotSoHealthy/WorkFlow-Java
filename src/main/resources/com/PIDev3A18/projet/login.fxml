@@ -75,7 +75,7 @@
                         </Text>
                      </children>
                   </HBox>
-                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#login" prefHeight="35.0" styleClass="btn-connect" text="Se Connecter" />
+                  <Button defaultButton="true" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#login" prefHeight="35.0" styleClass="btn-connect" text="Se Connecter" />
                   <Button layoutX="30.0" layoutY="478.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="35.0" text="Se Connecter Avec Google">
                      <styleClass>
                         <String fx:value="btn-connect" />
