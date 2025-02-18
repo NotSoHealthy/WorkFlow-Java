@@ -35,7 +35,7 @@
                <VBox fx:id="feature1" alignment="CENTER" spacing="15" styleClass="feature-box">
                   <ImageView fx:id="featureImage1" fitHeight="200" fitWidth="280" pickOnBounds="true" styleClass="feature-image">
                      <image>
-                        <Image url="@background.jpg" />
+                        <Image url="@images/background.jpg" />
                      </image>
                   </ImageView>
                   <Label fx:id="featureTitle1" styleClass="feature-title" text="Efficient HR Management" />
@@ -45,7 +45,7 @@
                <VBox fx:id="feature2" alignment="CENTER" spacing="15" styleClass="feature-box">
                   <ImageView fx:id="featureImage2" fitHeight="200" fitWidth="280" pickOnBounds="true" styleClass="feature-image">
                      <image>
-                        <Image url="@background2.jpg" />
+                        <Image url="@images/background2.jpg" />
                      </image>
                   </ImageView>
                   <Label fx:id="featureTitle2" styleClass="feature-title" text="Employee Engagement" />
@@ -55,7 +55,7 @@
                <VBox fx:id="feature3" alignment="CENTER" spacing="15" styleClass="feature-box">
                   <ImageView fx:id="featureImage3" fitHeight="200" fitWidth="280" pickOnBounds="true" styleClass="feature-image">
                      <image>
-                        <Image url="@background3.jpg" />
+                        <Image url="@images/background3.jpg" />
                      </image>
                   </ImageView>
                   <Label fx:id="featureTitle3" styleClass="feature-title" text="Recruitment Made Easy" />
