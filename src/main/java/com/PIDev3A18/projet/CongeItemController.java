@@ -36,10 +36,10 @@ public class CongeItemController {
     void initialize() {
         userSession = UserSession.getInstance();
         loggedInEmployee = userSession.getLoggedInEmployee();
-        if (loggedInEmployee.getRole().equals("responsable")){
+        if (loggedInEmployee.getRole().equals("Résponsable")){
             comboBox.setDisable(conge.getEmployee().getId() == loggedInEmployee.getId());
         }
-        if (loggedInEmployee.getRole().equals("employee")){
+        if (loggedInEmployee.getRole().equals("Employé")){
             comboBox.setDisable(true);
         }
 
@@ -48,6 +48,9 @@ public class CongeItemController {
         status = status.substring(0, 1).toUpperCase() + status.substring(1);
         comboBox.setValue(status);
         comboBox.getStyleClass().add(conge.getStatus());
+        if (!comboBox.getSelectionModel().getSelectedItem().equals("Pending")){
+            comboBox.setDisable(true);
+        }
 
         nomText.setText(conge.getEmployee().getFirstName() + " " + conge.getEmployee().getLastName());
         reasonField.setText(conge.getReason());
@@ -70,6 +73,10 @@ public class CongeItemController {
 
         comboBox.getStyleClass().removeAll("pending","approved","denied");
         comboBox.getStyleClass().add(conge.getStatus());
+
+        if (!comboBox.getSelectionModel().getSelectedItem().equals("Pending")){
+            comboBox.setDisable(true);
+        }
     }
 
 }
