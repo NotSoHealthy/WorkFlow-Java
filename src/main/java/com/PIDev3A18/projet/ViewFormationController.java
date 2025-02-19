@@ -200,14 +200,9 @@ public class ViewFormationController implements Initializable {
                             try {
                                 LocalDate date = LocalDate.now();
                                 Inscription i= new Inscription(date,"en attente",formation,loggedinEmployee);
-                                if(!si.isRegistered(formation,loggedinEmployee))
-                                {
-                                    si.add(i);
-                                    showAlert(Alert.AlertType.INFORMATION, "Success", "Vous êtes maintenant inscrit, en attente de validation!");
-                                }
-                                else {
-                                    showAlert(Alert.AlertType.ERROR, "Error", "Réinitialiser la page !");
-                                }
+                                si.add(i);
+                                Refresh();
+                                showAlert(Alert.AlertType.INFORMATION, "Success", "Vous êtes maintenant inscrit, en attente de validation!");
 
                             } catch (SQLException e) {
                                 showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while registering!");
