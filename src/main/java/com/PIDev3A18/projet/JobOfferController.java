@@ -53,7 +53,7 @@ public class JobOfferController {
         ShowJobOffer.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 fillFormWithSelectedJobOffer(newSelection);
-                SubmitBtn.setVisible(false); // Hide Submit when selecting a job
+                SubmitBtn.setVisible(false);
             }
         });
     }

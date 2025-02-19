@@ -26,7 +26,7 @@
     -fx-fill: #2D79CA;
 }
 
-TextField, PasswordField{
+TextField, PasswordField, TextArea{
     -fx-background-color: transparent;
     -fx-border-radius: 5px;
     -fx-border-color: rgba(0,0,0,0.25);

@@ -35,6 +35,6 @@ Label{
     -fx-text-fill: -fx-text-danger;
 }
 
-ComboBox:disabled{
-    -fx-opacity: 0.8;
+ComboBox:disabled, ComboBox ListCell:disabled{
+    -fx-opacity: 0.9;
 }

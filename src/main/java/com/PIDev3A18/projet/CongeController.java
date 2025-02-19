@@ -25,6 +25,7 @@ import java.io.InputStream;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -81,7 +82,7 @@ public class CongeController {
             congeList = serviceConge.readAll();
         }
 
-        congeList = congeList.stream().sorted((conge1, conge2) -> conge1.getRequest_date().compareTo(conge2.getRequest_date()) ).collect(Collectors.toList());
+        congeList.stream().sorted(Comparator.comparing((Conge c)->!c.getStatus().equals("Pending")).thenComparing(Conge::getRequest_date)).collect(Collectors.toList());
 
         for (Conge conge : congeList) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("conge_item.fxml"));

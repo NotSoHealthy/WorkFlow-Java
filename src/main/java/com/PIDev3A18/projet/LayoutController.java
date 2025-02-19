@@ -48,6 +48,8 @@ public class LayoutController {
     @FXML
     private Button layoutDisconnectButton;
     @FXML
+    private Button layoutReclamationButton;
+    @FXML
     private ImageView layoutProfilePicture;
     @FXML
     private BorderPane layoutBorderPane;
@@ -89,12 +91,12 @@ public class LayoutController {
         ImageView imageView = new ImageView(image);
         layoutDashButton.setGraphic(imageView);
         //Department Icon
-        input = getClass().getResourceAsStream("icons/dash.png");
+        input = getClass().getResourceAsStream("icons/projects.png");
         image = new Image(input, 16, 16, true, true);
         imageView = new ImageView(image);
         layoutDepartmentButton.setGraphic(imageView);
         //Projects Icon
-        input = getClass().getResourceAsStream("icons/projects.png");
+        input = getClass().getResourceAsStream("icons/project.png");
         image = new Image(input, 16, 16, true, true);
         imageView = new ImageView(image);
         layoutProjectsButton.setGraphic(imageView);
@@ -127,18 +129,22 @@ public class LayoutController {
         input = getClass().getResourceAsStream("icons/account.png");
         image = new Image(input, 16, 16, true, true);
         imageView = new ImageView(image);
-        layoutLeaveButton.setGraphic(imageView);
+        layoutEmployeListButton.setGraphic(imageView);
         //Event Icon
         input = getClass().getResourceAsStream("icons/event.png");
         image = new Image(input, 16, 16, true, true);
         imageView = new ImageView(image);
         layoutEvenementsButton.setGraphic(imageView);
-        layoutEmployeListButton.setGraphic(imageView);
         //Logout Icon
         input = getClass().getResourceAsStream("icons/logout.png");
         image = new Image(input, 16, 16, true, true);
         imageView = new ImageView(image);
         layoutDisconnectButton.setGraphic(imageView);
+        //Rec Icon
+        input = getClass().getResourceAsStream("icons/pen.png");
+        image = new Image(input, 16, 16, true, true);
+        imageView = new ImageView(image);
+        layoutReclamationButton.setGraphic(imageView);
         //Job Offer Icon
         input = getClass().getResourceAsStream("icons/offer.png");
         image = new Image(input, 16, 16, true, true);
@@ -154,6 +160,17 @@ public class LayoutController {
         image = new Image(input, 16, 16, true, true);
         imageView = new ImageView(image);
         layoutEmployeListButton.setGraphic(imageView);
+
+        layoutDepartmentButton.setVisible(loggedinEmployee.getRole().equals("Résponsable"));
+        layoutDepartmentButton.setManaged(loggedinEmployee.getRole().equals("Résponsable"));
+        layoutProjectsButton.setVisible(loggedinEmployee.getRole().equals("Résponsable"));
+        layoutProjectsButton.setManaged(loggedinEmployee.getRole().equals("Résponsable"));
+        layoutEmployeListButton.setVisible(loggedinEmployee.getRole().equals("Résponsable"));
+        layoutEmployeListButton.setManaged(loggedinEmployee.getRole().equals("Résponsable"));
+        layoutJobOfferButton.setVisible(loggedinEmployee.getRole().equals("Résponsable"));
+        layoutJobOfferButton.setManaged(loggedinEmployee.getRole().equals("Résponsable"));
+        ApplicationsButton.setVisible(loggedinEmployee.getRole().equals("Résponsable"));
+        ApplicationsButton.setManaged(loggedinEmployee.getRole().equals("Résponsable"));
     }
 
     @FXML
@@ -198,7 +215,7 @@ public class LayoutController {
 
     public void layoutGoToConge(ActionEvent actionEvent) {
         setSelected(layoutLeaveButton);
-            loadFXML(getClass().getResource("conge.fxml"));
+        loadFXML(getClass().getResource("conge.fxml"));
     }
     public void layoutGoToFormation(ActionEvent actionEvent) {
         setSelected(layoutFormationButton);
@@ -225,6 +242,12 @@ public class LayoutController {
     public void layoutGoToEvenements(ActionEvent actionEvent) {
         setSelected(layoutEvenementsButton);
         loadFXML(getClass().getResource("Evenements.fxml"));
+    }
+
+    public void layoutGoToReclamation(ActionEvent actionEvent) {
+        setSelected(layoutReclamationButton);
+        loadFXML(getClass().getResource("reclamation.fxml"));
+
     }
 
     public void layoutDisconnect(ActionEvent actionEvent) throws IOException {
@@ -260,17 +283,19 @@ public class LayoutController {
     }
 
     public void setSelected(Button selectedButton){
-       ObservableList<Node> list = layoutVbox.getChildren();
-       for (Node node : list) {
-           if (node instanceof Button button) {
-               if (button.getText().equals(selectedButton.getText())) {
-                   button.getStyleClass().add("layout-button-selected");
-               }
-               else {
-                   button.getStyleClass().remove("layout-button-selected");
-               }
-           }
-       }
+        ObservableList<Node> list = layoutVbox.getChildren();
+        for (Node node : list) {
+            if (node instanceof Button button) {
+                if (button.getText().equals(selectedButton.getText())) {
+                    button.getStyleClass().add("layout-button-selected");
+                }
+                else {
+                    button.getStyleClass().remove("layout-button-selected");
+                }
+            }
+        }
+
+        layoutVbox.layout();
     }
 
     public void removeSelected(){
@@ -302,7 +327,5 @@ public class LayoutController {
                 minSize, minSize // Crop size (square)
         ));
         layoutProfilePicture.setImage(image);
-
-        layoutVbox.layout();
     }
 }
