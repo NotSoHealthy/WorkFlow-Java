@@ -27,10 +27,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class EvenementsController {
 
@@ -135,6 +132,10 @@ public class EvenementsController {
     private Label TypeListReserverError;
     @FXML
     private Label NbplaceReserverError;
+    @FXML
+    private TextField SearchTitle;
+    @FXML
+    private CheckBox SortDate;
     @FXML
     public void initialize() {
         eventHolder.getChildren().clear();
@@ -471,5 +472,81 @@ public class EvenementsController {
             NbplaceReserver.setText("");
         }
     }
-
+    public void SearchByTitle(KeyEvent event) {
+        ServiceEvent se=new ServiceEvent();
+        if(SearchTitle.getText().isBlank()){
+            initialize();
+        }
+        else{
+            List<Event> le=se.SearchByTitle(SearchTitle.getText());
+            eventHolder.getChildren().clear();
+            TypeList.setItems(FXCollections.observableArrayList("Workshop", "Commerce", "Conference" , "Webinaire" , "Networking" , "Reunion","Concert"));
+            UserSession userSession;
+            userSession = UserSession.getInstance();
+            Employee loggedinEmployee = userSession.getLoggedInEmployee();
+            for (Event evente : le) {
+                try{
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("Event.fxml"));
+                    Node node = loader.load(); // Load FXML
+                    EventController controller = loader.getController();
+                    controller.setTitle(evente.getTitre());
+                    controller.setDescription(evente.getDescription());
+                    controller.setEvent(evente);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy, HH:mm", Locale.FRENCH);
+                    String formattedDate = evente.getDateetheure().format(formatter);
+                    controller.setDateHeure(formattedDate);
+                    controller.setAdresse("Adresse: "+evente.getLieu());
+                    controller.setType(evente.getType());
+                    controller.setNbdispo("Places disponibles: "+evente.getNombredeplace());
+                    controller.setController(this);
+                    if(!loggedinEmployee.getRole().equals("Résponsable")){
+                        controller.setDeleteInvisible();
+                        controller.setUpInvisible();
+                    }
+                    eventHolder.getChildren().add(node);
+                }
+                catch(IOException e){
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    public void SortByDate(ActionEvent event) {
+        if(SortDate.isSelected()) {
+            ServiceEvent se = new ServiceEvent();
+            List<Event> le = se.SortByDate();
+            eventHolder.getChildren().clear();
+            TypeList.setItems(FXCollections.observableArrayList("Workshop", "Commerce", "Conference", "Webinaire", "Networking", "Reunion", "Concert"));
+            UserSession userSession;
+            userSession = UserSession.getInstance();
+            Employee loggedinEmployee = userSession.getLoggedInEmployee();
+            for (Event evente : le) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("Event.fxml"));
+                    Node node = loader.load(); // Load FXML
+                    EventController controller = loader.getController();
+                    controller.setTitle(evente.getTitre());
+                    controller.setDescription(evente.getDescription());
+                    controller.setEvent(evente);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy, HH:mm", Locale.FRENCH);
+                    String formattedDate = evente.getDateetheure().format(formatter);
+                    controller.setDateHeure(formattedDate);
+                    controller.setAdresse("Adresse: " + evente.getLieu());
+                    controller.setType(evente.getType());
+                    controller.setNbdispo("Places disponibles: " + evente.getNombredeplace());
+                    controller.setController(this);
+                    if (!loggedinEmployee.getRole().equals("Résponsable")) {
+                        controller.setDeleteInvisible();
+                        controller.setUpInvisible();
+                    }
+                    eventHolder.getChildren().add(node);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        else{
+            initialize();
+        }
+    }
 }
