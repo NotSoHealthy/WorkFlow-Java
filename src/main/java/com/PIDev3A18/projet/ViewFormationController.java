@@ -90,12 +90,17 @@ public class ViewFormationController implements Initializable {
     private Button RegisterButton;
 
     @FXML
+    private Button StatButton;
+
+    @FXML
     private HBox Hbox;
-    ObservableList<Formation> formations= FXCollections.observableArrayList();
+
+    private ObservableList<Formation> formations= FXCollections.observableArrayList();
+    private ServiceFormation sf=new ServiceFormation();
+    private ServiceInscription si=new ServiceInscription();
+
     UserSession userSession = UserSession.getInstance();
     Employee loggedinEmployee = userSession.getLoggedInEmployee();
-    ServiceFormation sf=new ServiceFormation();
-    ServiceInscription si=new ServiceInscription();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -110,14 +115,21 @@ public class ViewFormationController implements Initializable {
         Image image = new Image(input, 25, 25, true, true);
         ImageView imageView = new ImageView(image);
         AddFormationButton.setGraphic(imageView);
+
         if(loggedinEmployee.getRole().equals("Employé") ){
             Hbox.getChildren().remove(AddFormationButton);
 
         }
+
         input = getClass().getResourceAsStream("icons/refresh.png");
         image = new Image(input, 25, 25, true, true);
         imageView = new ImageView(image);
         RefreshButton.setGraphic(imageView);
+
+        input = getClass().getResourceAsStream("icons/statistic.png");
+        image = new Image(input, 25, 25, true, true);
+        imageView = new ImageView(image);
+        StatButton.setGraphic(imageView);
 
         input = getClass().getResourceAsStream("icons/search.png");
         image = new Image(input, 25, 25, true, true);
@@ -418,5 +430,19 @@ public class ViewFormationController implements Initializable {
             throw new RuntimeException(e);
         }
 
+    }
+    @FXML
+    void getStatView(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("StatisticFormation.fxml"));
+            Parent parent =loader.load();
+            Scene scene = new Scene(parent);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.UTILITY);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(ViewFormationController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

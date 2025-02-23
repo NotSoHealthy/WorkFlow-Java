@@ -11,7 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ServiceFormation implements IService<Formation> {
     Connection cnx ;
@@ -159,5 +161,19 @@ public class ServiceFormation implements IService<Formation> {
         }
         ps.close();
         return formations;
+    }
+    public Map<Integer, Integer> statisticFormation() throws SQLException {
+        String query = "SELECT YEAR(date_begin) as year, COUNT(*) as count FROM formation GROUP BY year";
+        PreparedStatement ps = cnx.prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
+
+        Map<Integer, Integer> formationCount = new HashMap<>();
+        while (rs.next()) {
+            int year = rs.getInt("year");
+            int count = rs.getInt("count");
+            formationCount.put(year, count);
+        }
+        ps.close();
+        return formationCount;
     }
 }
