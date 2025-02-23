@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="720.0" prefWidth="1080.0" styleClass="main-page" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.ApplicationListController">
+<?import javafx.scene.control.TextField?>
+<BorderPane prefHeight="720.0" prefWidth="1080.0" styleClass="main-page" stylesheets="@css/main.css"
+            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.PIDev3A18.projet.ApplicationListController">
 
-   <!-- Top Section: Title Bar (with optional search) -->
+   <!-- Top Section: Title Bar with Filter ComboBox -->
    <top>
       <HBox alignment="CENTER_LEFT" spacing="10" styleClass="title-bar">
          <children>
@@ -23,7 +27,13 @@
                </HBox.margin>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-               </padding></Label>
+               </padding>
+            </Label>
+            <!-- Filter ComboBox: select a Job ID to filter applications -->
+            <ComboBox fx:id="jobFilterComboBox" promptText="Filter by Job ID" />
+            <TextField fx:id="searchTextField" promptText="Search by candidate..." />
+            <ComboBox fx:id="dateSortComboBox" promptText="Sort by Date" />
+
          </children>
          <HBox.margin>
             <Insets bottom="10" left="20" right="20" top="10" />

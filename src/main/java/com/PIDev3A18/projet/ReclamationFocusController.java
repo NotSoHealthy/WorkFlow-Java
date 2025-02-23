@@ -98,7 +98,7 @@ public class ReclamationFocusController {
                 dropdown.setVisible(false);
                 close.setVisible(false);
             }
-            if("responsable".equals(loggedinEmployee.getType()) && selectedR.getDate_resolution()==null )
+            if("responsable".equals(loggedinEmployee.getRole()) && selectedR.getDate_resolution()==null )
             {
                 dropdown.setVisible(true);
                 close.setVisible(true);
@@ -261,7 +261,7 @@ public class ReclamationFocusController {
                         HBox.setMargin(delete, new javafx.geometry.Insets(10, 10, 0, 10));
                         HBox.setMargin(edit,new javafx.geometry.Insets(10, 10, 0, 180));
 
-                        if(!loggedinEmployee.getType().equals("responsable"))delete.setVisible(false);
+                        if(!loggedinEmployee.getRole().equals("responsable"))delete.setVisible(false);
                         hbox2.getChildren().addAll(edit,delete);
                         vbox.getChildren().addAll(hBox,separator, positionLabel, hbox2);
                         setGraphic(vbox);
