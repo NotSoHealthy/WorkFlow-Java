@@ -11,9 +11,14 @@ import services.JobOfferService;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.Instant;
 import java.time.ZoneId;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.HashSet;
+import java.util.Comparator;
 
 public class JobOfferController {
     private Employee loggedinEmployee;
@@ -39,15 +44,39 @@ public class JobOfferController {
     @FXML
     private DatePicker ExpirationDate;
 
+    // New controls for search, sort, and filter:
+    @FXML
+    private TextField searchTitleTextField;
+    @FXML
+    private ComboBox<String> salarySortComboBox;
+    @FXML
+    private ComboBox<String> contractFilterComboBox;
+
     private final JobOfferService jobOfferService = new JobOfferService();
 
     private JobOffer selectedJobOffer; // Store the selected job offer
+
+    // Store all job offers for filtering and sorting
+    private List<JobOffer> allJobOffers;
 
     @FXML
     void initialize() {
         SubmitBtn.setDisable(true);
         setupTable();
         loadJobOffers();
+
+        // Set up listeners for dynamic search, sort, and filter
+        searchTitleTextField.textProperty().addListener((obs, oldVal, newVal) -> updateFilteredList());
+        salarySortComboBox.valueProperty().addListener((obs, oldVal, newVal) -> updateFilteredList());
+        contractFilterComboBox.valueProperty().addListener((obs, oldVal, newVal) -> updateFilteredList());
+
+        // Set up sort options for salary
+        salarySortComboBox.getItems().clear();
+        salarySortComboBox.getItems().addAll("Ascending", "Descending");
+        salarySortComboBox.setValue("Ascending");
+
+        // Populate contract filter options based on available contract types
+        updateContractFilterOptions();
 
         // Handle row selection in the table
         ShowJobOffer.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -134,9 +163,11 @@ public class JobOfferController {
 
     private void loadJobOffers() {
         try {
-            List<JobOffer> jobOffers = jobOfferService.readAll();
-            ObservableList<JobOffer> observableList = FXCollections.observableArrayList(jobOffers);
+            allJobOffers = jobOfferService.readAll();
+            ObservableList<JobOffer> observableList = FXCollections.observableArrayList(allJobOffers);
             ShowJobOffer.setItems(observableList);
+            // Update contract filter options in case new types are present
+            updateContractFilterOptions();
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", "Could not load job offers.");
@@ -162,7 +193,6 @@ public class JobOfferController {
     }
 
     @FXML
-    
     void UpdtateBtn(ActionEvent event) {
         if (selectedJobOffer == null) {
             showAlert(Alert.AlertType.ERROR, "Error", "No job offer selected for update.");
@@ -202,7 +232,6 @@ public class JobOfferController {
                 return;
             }
 
-            // Check expiration date
             if (expirationLocalDate == null) {
                 showAlert(Alert.AlertType.ERROR, "Invalid Date", "Please select an expiration date.");
                 return;
@@ -223,6 +252,8 @@ public class JobOfferController {
 
             clearFields();
             loadJobOffers();
+            // Force a refresh of the table so the updated data is visible immediately
+            ShowJobOffer.refresh();
             SubmitBtn.setVisible(true);
         } catch (Exception e) {
             e.printStackTrace();
@@ -232,13 +263,17 @@ public class JobOfferController {
 
     private void fillFormWithSelectedJobOffer(JobOffer jobOffer) {
         selectedJobOffer = jobOffer;
-
         title.setText(jobOffer.getTitle());
         Description.setText(jobOffer.getDescription());
         ContractType.setText(jobOffer.getContractType());
         Salary.setText(String.valueOf(jobOffer.getSalary()));
-
-
+        if(jobOffer.getExpirationDate() != null) {
+            ExpirationDate.setValue(
+                    Instant.ofEpochMilli(jobOffer.getExpirationDate().getTime())
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate()
+            );
+        }
     }
 
     private void clearFields() {
@@ -247,5 +282,51 @@ public class JobOfferController {
         ContractType.clear();
         Salary.clear();
         ExpirationDate.setValue(null);
+    }
+
+    /**
+     * Updates the contract filter ComboBox with unique contract types from the list of job offers.
+     */
+    private void updateContractFilterOptions() {
+        Set<String> contractTypes = new HashSet<>();
+        if(allJobOffers != null) {
+            for (JobOffer offer : allJobOffers) {
+                contractTypes.add(offer.getContractType());
+            }
+        }
+        ObservableList<String> contractOptions = FXCollections.observableArrayList();
+        contractOptions.add("All");
+        contractOptions.addAll(contractTypes);
+        contractFilterComboBox.setItems(contractOptions);
+        contractFilterComboBox.setValue("All");
+    }
+
+    /**
+     * Filters job offers based on title search, sorts by salary, and filters by contract type.
+     */
+    private void updateFilteredList() {
+        String searchText = searchTitleTextField.getText() != null ? searchTitleTextField.getText().toLowerCase().trim() : "";
+        String sortOption = salarySortComboBox.getValue();
+        String contractFilter = contractFilterComboBox.getValue();
+        if (contractFilter == null) {
+            contractFilter = "All";
+        }
+
+        String finalContractFilter = contractFilter;
+        List<JobOffer> filtered = allJobOffers.stream()
+                .filter(offer -> searchText.isEmpty() || offer.getTitle().toLowerCase().contains(searchText))
+                .filter(offer -> finalContractFilter.equals("All") || offer.getContractType().equalsIgnoreCase(finalContractFilter))
+                .collect(Collectors.toList());
+
+        // Sort by salary
+        if (sortOption != null) {
+            if (sortOption.equals("Ascending")) {
+                filtered.sort(Comparator.comparing(JobOffer::getSalary));
+            } else if (sortOption.equals("Descending")) {
+                filtered.sort(Comparator.comparing(JobOffer::getSalary).reversed());
+            }
+        }
+
+        ShowJobOffer.setItems(FXCollections.observableArrayList(filtered));
     }
 }
