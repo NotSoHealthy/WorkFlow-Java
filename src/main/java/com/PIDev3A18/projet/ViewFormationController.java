@@ -18,6 +18,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -44,6 +45,21 @@ public class ViewFormationController implements Initializable {
     private TextField SearchFormation;
 
     @FXML
+    private CheckBox SortTitle;
+
+    @FXML
+    private CheckBox SortId;
+
+    @FXML
+    private DatePicker DateBegin;
+
+    @FXML
+    private DatePicker DateEnd;
+
+    @FXML
+    private ComboBox<String> ComboBoxOrder;
+
+    @FXML
     private TableColumn<Formation, LocalDate> date_begin;
 
     @FXML
@@ -68,18 +84,28 @@ public class ViewFormationController implements Initializable {
     private Button RefreshButton;
 
     @FXML
+    private Button SearchButton;
+
+    @FXML
     private Button RegisterButton;
+
     @FXML
     private HBox Hbox;
-
     ObservableList<Formation> formations= FXCollections.observableArrayList();
     UserSession userSession = UserSession.getInstance();
     Employee loggedinEmployee = userSession.getLoggedInEmployee();
+    ServiceFormation sf=new ServiceFormation();
+    ServiceInscription si=new ServiceInscription();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ServiceFormation sf=new ServiceFormation();
-        ServiceInscription si=new ServiceInscription();
+        DateBegin.setValue(LocalDate.now());
+        LocalDate startDate = DateBegin.getValue();
+        LocalDate endDate = startDate.plusWeeks(1);
+        DateEnd.setValue(endDate);
+
+        ComboBoxOrder.getItems().addAll("ASC", "DESC");
+        ComboBoxOrder.setValue("ASC");
         InputStream input = getClass().getResourceAsStream("icons/Add.png");
         Image image = new Image(input, 25, 25, true, true);
         ImageView imageView = new ImageView(image);
@@ -92,6 +118,11 @@ public class ViewFormationController implements Initializable {
         image = new Image(input, 25, 25, true, true);
         imageView = new ImageView(image);
         RefreshButton.setGraphic(imageView);
+
+        input = getClass().getResourceAsStream("icons/search.png");
+        image = new Image(input, 25, 25, true, true);
+        imageView = new ImageView(image);
+        SearchButton.setGraphic(imageView);
 
         input = getClass().getResourceAsStream("icons/registration.png");
         image = new Image(input, 25, 25, true, true);
@@ -243,6 +274,7 @@ public class ViewFormationController implements Initializable {
     }
     @FXML
     void Refresh() {
+
         RotateTransition rotate = new RotateTransition(Duration.seconds(0.5), RefreshButton);
         rotate.setByAngle(360);
         rotate.setInterpolator(Interpolator.EASE_BOTH);
@@ -260,6 +292,10 @@ public class ViewFormationController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        DateBegin.setValue(LocalDate.now());
+        LocalDate startDate = DateBegin.getValue();
+        LocalDate endDate = startDate.plusWeeks(1);
+        DateEnd.setValue(endDate);
     }
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
@@ -282,6 +318,103 @@ public class ViewFormationController implements Initializable {
             stage.setHeight(600);
             stage.show();
         } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    @FXML
+    void SearchFormation(KeyEvent event) {
+        String searchText=SearchFormation.getText().toLowerCase().trim();
+        if(searchText.isEmpty())
+        {
+            Refresh();
+        }
+        else
+        {
+            try {
+                formations= FXCollections.observableArrayList(sf.search(searchText));
+                tableFormation.setItems(formations);
+                title.setCellValueFactory(new PropertyValueFactory<>("title"));
+                description.setCellValueFactory(new PropertyValueFactory<>("description"));
+                date_begin.setCellValueFactory(new PropertyValueFactory<>("dateBegin"));
+                date_end.setCellValueFactory(new PropertyValueFactory<>("dateEnd"));
+                participants_max.setCellValueFactory(new PropertyValueFactory<>("participants_Max"));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
+    }
+    @FXML
+    void SortByTitle(ActionEvent event) {
+        if (SortTitle.isSelected())
+        {
+            SortId.setDisable(true);
+            try {
+                ComboBoxOrder.setDisable(true);
+                formations=FXCollections.observableArrayList(sf.sortTitle(ComboBoxOrder.getValue()));
+                tableFormation.setItems(formations);
+                title.setCellValueFactory(new PropertyValueFactory<>("title"));
+                description.setCellValueFactory(new PropertyValueFactory<>("description"));
+                date_begin.setCellValueFactory(new PropertyValueFactory<>("dateBegin"));
+                date_end.setCellValueFactory(new PropertyValueFactory<>("dateEnd"));
+                participants_max.setCellValueFactory(new PropertyValueFactory<>("participants_Max"));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else
+        {
+            Refresh();
+            ComboBoxOrder.setValue("ASC");
+            SortId.setDisable(false);
+            ComboBoxOrder.setDisable(false);
+        }
+
+
+    }
+    @FXML
+    void SortById(ActionEvent event) {
+        if (SortId.isSelected())
+        {
+            SortTitle.setDisable(true);
+            try {
+                ComboBoxOrder.setDisable(true);
+                formations=FXCollections.observableArrayList(sf.sortId(ComboBoxOrder.getValue()));
+                tableFormation.setItems(formations);
+                title.setCellValueFactory(new PropertyValueFactory<>("title"));
+                description.setCellValueFactory(new PropertyValueFactory<>("description"));
+                date_begin.setCellValueFactory(new PropertyValueFactory<>("dateBegin"));
+                date_end.setCellValueFactory(new PropertyValueFactory<>("dateEnd"));
+                participants_max.setCellValueFactory(new PropertyValueFactory<>("participants_Max"));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else
+        {
+            Refresh();
+            ComboBoxOrder.setValue("ASC");
+            SortTitle.setDisable(false);
+            ComboBoxOrder.setDisable(false);
+        }
+    }
+    @FXML
+    void SearchByDate(ActionEvent event)
+    {
+        LocalDate debut = DateBegin.getValue();
+        LocalDate fin = DateEnd.getValue();
+        try {
+            formations=FXCollections.observableArrayList(sf.searchByDate(debut,fin));
+            tableFormation.setItems(formations);
+            title.setCellValueFactory(new PropertyValueFactory<>("title"));
+            description.setCellValueFactory(new PropertyValueFactory<>("description"));
+            date_begin.setCellValueFactory(new PropertyValueFactory<>("dateBegin"));
+            date_end.setCellValueFactory(new PropertyValueFactory<>("dateEnd"));
+            participants_max.setCellValueFactory(new PropertyValueFactory<>("participants_Max"));
+
+        } catch (SQLException e) {
             throw new RuntimeException(e);
         }
 

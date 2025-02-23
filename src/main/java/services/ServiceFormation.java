@@ -110,11 +110,11 @@ public class ServiceFormation implements IService<Formation> {
         ps.close();
         return formations;
     }
-    public List<Formation> searchByDate(java.sql.Date date_start,java.sql.Date date_fin) throws SQLException {
+    public List<Formation> searchByDate(LocalDate date_start,LocalDate date_fin) throws SQLException {
         String req="select * from formation where date_begin >= ? and date_end <= ?";
         PreparedStatement ps = cnx.prepareStatement(req);
-        ps.setDate(1, date_start);
-        ps.setDate(2, date_fin);
+        ps.setDate(1, java.sql.Date.valueOf(date_start));
+        ps.setDate(2, java.sql.Date.valueOf(date_fin));
         ResultSet rs = ps.executeQuery();
         List<Formation> formations = new ArrayList<>();
         while (rs.next()) {
@@ -128,8 +128,8 @@ public class ServiceFormation implements IService<Formation> {
         ps.close();
         return formations;
     }
-    public List<Formation> sortId() throws SQLException {
-        String req ="select * from formation order by id";
+    public List<Formation> sortId(String order) throws SQLException {
+        String req ="select * from formation order by id "+order;
         PreparedStatement ps = cnx.prepareStatement(req);
         ResultSet rs = ps.executeQuery();
         List<Formation> formations = new ArrayList<>();
@@ -144,8 +144,8 @@ public class ServiceFormation implements IService<Formation> {
         ps.close();
         return formations;
     }
-    public List<Formation> sortTitle() throws SQLException {
-        String req ="select * from formation order by title ";
+    public List<Formation> sortTitle(String order) throws SQLException {
+        String req ="select * from formation order by title "+order;
         PreparedStatement ps = cnx.prepareStatement(req);
         ResultSet rs = ps.executeQuery();
         List<Formation> formations = new ArrayList<>();
