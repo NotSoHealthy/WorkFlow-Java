@@ -9,10 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import services.ServiceProject;
@@ -27,20 +24,23 @@ public class ViewProjectController {
     @FXML private Button DeleteBtn;
     @FXML private Button UpdateBtn;
     @FXML private Button AddBtn;
+    @FXML private TextField searchField;
+    @FXML private ComboBox<String> sortCombo;
 
     private final ServiceProject serviceProject = new ServiceProject();
+    private ObservableList<Project> projectList;
 
     @FXML
     void initialize() throws SQLException {
         loadProjects();
+
+        DeleteBtn.setDisable(true);
+        UpdateBtn.setDisable(true);
         ShowProject.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                DeleteBtn.setDisable(false);
-                UpdateBtn.setDisable(false);
-            }
+            DeleteBtn.setDisable(newValue == null);
+            UpdateBtn.setDisable(newValue == null);
         });
 
-        // Set custom cell factory for the ListView
         ShowProject.setCellFactory(new Callback<>() {
             @Override
             public ListCell<Project> call(ListView<Project> param) {
@@ -57,17 +57,27 @@ public class ViewProjectController {
                                     "Start Date: " + project.getStart_Date() + "\n" +
                                     "End Date: " + project.getEnd_Date() + "\n" +
                                     "Budget: " + project.getBudget() + "\n" +
-                                    "Manager: " + project.getProject_Manager().getFirstName() + " " + project.getProject_Manager().getLastName());
+                                    "Manager: " + project.getProject_Manager().getFirstName() + " " + project.getProject_Manager().getLastName() + "\n" +
+                                    "State: " + project.getState()); // Added State
                         }
                     }
                 };
+            }
+        });
+
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                searchProjects(null); // Trigger search on text change
+            } catch (SQLException e) {
+                showAlert(Alert.AlertType.ERROR, "Search Error", "Failed to search projects.");
+                e.printStackTrace();
             }
         });
     }
 
     private void loadProjects() throws SQLException {
         List<Project> projects = serviceProject.readAll();
-        ObservableList<Project> projectList = FXCollections.observableArrayList(projects);
+        projectList = FXCollections.observableArrayList(projects);
         ShowProject.setItems(projectList);
     }
 
@@ -93,15 +103,10 @@ public class ViewProjectController {
         Project selectedProject = ShowProject.getSelectionModel().getSelectedItem();
         if (selectedProject != null) {
             try {
-                // Load the UpdateProject.fxml
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("UpdateProject.fxml"));
                 Parent root = loader.load();
-
-                // Get the controller and pass the selected project
                 UpdateProjectController updateController = loader.getController();
                 updateController.setSelectedProject(selectedProject);
-
-                // Set the new scene
                 Scene scene = new Scene(root);
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(scene);
@@ -114,10 +119,10 @@ public class ViewProjectController {
             showAlert(Alert.AlertType.WARNING, "No Project Selected", "Please select a project to update.");
         }
     }
+
     @FXML
     void addProject(ActionEvent event) {
         try {
-            // Load the AddProject.fxml
             FXMLLoader loader = new FXMLLoader(getClass().getResource("AddProject.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
@@ -127,6 +132,39 @@ public class ViewProjectController {
         } catch (IOException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to load the add project form.");
+        }
+    }
+
+    @FXML
+    void searchProjects(ActionEvent event) throws SQLException {
+        String searchText = searchField.getText().trim();
+        if (searchText.isEmpty()) {
+            loadProjects(); // Show all projects if search is empty
+        } else {
+            // Use the searchByName method from ServiceProject
+            List<Project> searchedProjects = serviceProject.searchByName(searchText);
+            projectList.setAll(searchedProjects);
+        }
+    }
+
+    @FXML
+    void sortProjects(ActionEvent event) throws SQLException {
+        String selectedSort = sortCombo.getSelectionModel().getSelectedItem();
+        if (selectedSort != null) {
+            switch (selectedSort) {
+                case "Trier par statut":
+                    projectList.setAll(serviceProject.sortState());
+                    break;
+                case "Trier par date":
+                    projectList.setAll(serviceProject.sortDate());
+                    break;
+                case "Trier par budget":
+                    projectList.setAll(serviceProject.sortBudget());
+                    break;
+                default:
+                    loadProjects(); // Default to unsorted list
+                    break;
+            }
         }
     }
 

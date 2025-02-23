@@ -60,7 +60,7 @@
         <!-- Start Date -->
         <HBox alignment="CENTER" spacing="20" prefWidth="600.0">
             <children>
-                <Label prefWidth="150.0" styleClass="form-label" text="Date De Debut">
+                <Label prefWidth="150.0" styleClass="form-label" text="Date De Début">
                     <font>
                         <Font size="16.0" />
                     </font>
@@ -112,12 +112,24 @@
         <!-- Department -->
         <HBox alignment="CENTER" spacing="20" prefWidth="600.0">
             <children>
-                <Label prefWidth="150.0" styleClass="form-label" text="Department du Projet">
+                <Label prefWidth="150.0" styleClass="form-label" text="Département du Projet">
                     <font>
                         <Font size="16.0" />
                     </font>
                 </Label>
                 <ComboBox fx:id="DepartmentComboBox" prefWidth="400.0" styleClass="form-field" />
+            </children>
+        </HBox>
+
+        <!-- State -->
+        <HBox alignment="CENTER" spacing="20" prefWidth="600.0">
+            <children>
+                <Label prefWidth="150.0" styleClass="form-label" text="État du Projet">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Label>
+                <ComboBox fx:id="StateComboBox" prefWidth="400.0" promptText="Sélectionner un état" styleClass="form-field" />
             </children>
         </HBox>
 

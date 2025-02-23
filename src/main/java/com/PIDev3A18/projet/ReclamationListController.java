@@ -157,7 +157,7 @@ public class ReclamationListController {
                             HBox.setMargin(edit, new Insets(10, 0, 0,580));
 
                             hBox2.getChildren().addAll(edit,delete);
-                            if(!loggedinEmployee.getType().equals("responsable")&&loggedinEmployee.getId() != re.getEmployee().getId()) hBox2.setVisible(false);
+                            if(!loggedinEmployee.getRole().equals("responsable")&&loggedinEmployee.getId() != re.getEmployee().getId()) hBox2.setVisible(false);
                             vbox.getChildren().addAll(hBox,separator,nameLabel, positionLabel,hBox2);
                             setGraphic(vbox);
                         }
