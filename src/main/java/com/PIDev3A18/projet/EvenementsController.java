@@ -137,9 +137,16 @@ public class EvenementsController {
     @FXML
     private CheckBox SortDate;
     @FXML
+    private ComboBox<String> TypeListSort;
+    @FXML
+    private Label empty;
+    @FXML
+    private ScrollPane SC;
+    @FXML
     public void initialize() {
         eventHolder.getChildren().clear();
         TypeList.setItems(FXCollections.observableArrayList("Workshop", "Commerce", "Conference" , "Webinaire" , "Networking" , "Reunion","Concert"));
+        TypeListSort.setItems(FXCollections.observableArrayList("All","Workshop", "Commerce", "Conference" , "Webinaire" , "Networking" , "Reunion","Concert"));
         UserSession userSession;
         userSession = UserSession.getInstance();
         Employee loggedinEmployee = userSession.getLoggedInEmployee();
@@ -150,31 +157,7 @@ public class EvenementsController {
             creer.setVisible(false);
         }
         ServiceEvent se=new ServiceEvent();
-        for (Event event : se.readAll()) {
-            try{
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("Event.fxml"));
-                Node node = loader.load(); // Load FXML
-                EventController controller = loader.getController();
-                controller.setTitle(event.getTitre());
-                controller.setDescription(event.getDescription());
-                controller.setEvent(event);
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy, HH:mm", Locale.FRENCH);
-                String formattedDate = event.getDateetheure().format(formatter);
-                controller.setDateHeure(formattedDate);
-                controller.setAdresse("Adresse: "+event.getLieu());
-                controller.setType(event.getType());
-                controller.setNbdispo("Places disponibles: "+event.getNombredeplace());
-                controller.setController(this);
-                if(!loggedinEmployee.getRole().equals("Résponsable")){
-                    controller.setDeleteInvisible();
-                    controller.setUpInvisible();
-                }
-                eventHolder.getChildren().add(node);
-            }
-            catch(IOException e){
-                e.printStackTrace();
-            }
-        }
+        populateEventHolder(se.readAll());
     }
     public void populateReservations(ActionEvent event) {
         EventDisplay.setVisible(false);
@@ -479,44 +462,37 @@ public class EvenementsController {
         }
         else{
             List<Event> le=se.SearchByTitle(SearchTitle.getText());
-            eventHolder.getChildren().clear();
-            TypeList.setItems(FXCollections.observableArrayList("Workshop", "Commerce", "Conference" , "Webinaire" , "Networking" , "Reunion","Concert"));
-            UserSession userSession;
-            userSession = UserSession.getInstance();
-            Employee loggedinEmployee = userSession.getLoggedInEmployee();
-            for (Event evente : le) {
-                try{
-                    FXMLLoader loader = new FXMLLoader(getClass().getResource("Event.fxml"));
-                    Node node = loader.load(); // Load FXML
-                    EventController controller = loader.getController();
-                    controller.setTitle(evente.getTitre());
-                    controller.setDescription(evente.getDescription());
-                    controller.setEvent(evente);
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy, HH:mm", Locale.FRENCH);
-                    String formattedDate = evente.getDateetheure().format(formatter);
-                    controller.setDateHeure(formattedDate);
-                    controller.setAdresse("Adresse: "+evente.getLieu());
-                    controller.setType(evente.getType());
-                    controller.setNbdispo("Places disponibles: "+evente.getNombredeplace());
-                    controller.setController(this);
-                    if(!loggedinEmployee.getRole().equals("Résponsable")){
-                        controller.setDeleteInvisible();
-                        controller.setUpInvisible();
-                    }
-                    eventHolder.getChildren().add(node);
-                }
-                catch(IOException e){
-                    e.printStackTrace();
-                }
-            }
+            populateEventHolder(le);
         }
     }
     public void SortByDate(ActionEvent event) {
         if(SortDate.isSelected()) {
             ServiceEvent se = new ServiceEvent();
             List<Event> le = se.SortByDate();
-            eventHolder.getChildren().clear();
-            TypeList.setItems(FXCollections.observableArrayList("Workshop", "Commerce", "Conference", "Webinaire", "Networking", "Reunion", "Concert"));
+            populateEventHolder(le);
+        }
+        else{
+            initialize();
+        }
+    }
+    public void SortByType(ActionEvent event){
+        ServiceEvent se = new ServiceEvent();
+        if(TypeListSort.getValue().equals("All")){
+            populateEventHolder(se.readAll());
+        }
+        else{
+            populateEventHolder(se.SortByType(TypeListSort.getValue()));
+        }
+    }
+    public void populateEventHolder(List<Event> le){
+        eventHolder.getChildren().clear();
+        if(le.isEmpty()){
+            SC.setVisible(false);
+            empty.setVisible(true);
+        }
+        else {
+            SC.setVisible(true);
+            empty.setVisible(false);
             UserSession userSession;
             userSession = UserSession.getInstance();
             Employee loggedinEmployee = userSession.getLoggedInEmployee();
@@ -544,9 +520,6 @@ public class EvenementsController {
                     e.printStackTrace();
                 }
             }
-        }
-        else{
-            initialize();
         }
     }
 }

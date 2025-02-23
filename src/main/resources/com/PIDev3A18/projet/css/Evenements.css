@@ -106,3 +106,9 @@
     -fx-background-color: #000000;
     -fx-translate-y: 2px; /* Adds a pressed effect */
 }
+.cmbx{
+    -fx-background-color: transparent;
+    -fx-border-radius: 5px;
+    -fx-border-color: rgba(0,0,0,0.25);
+    -fx-prompt-text-fill: derive(-fx-text-primary, 30%);
+}

@@ -158,4 +158,19 @@ public class ServiceEvent implements IService<Event> {
         }
         return evenements;
     }
+    public List<Event> SortByType(String type){
+        String requete="select * from events where type like '%"+type+"%'";
+        ServiceEmployee emp=new ServiceEmployee();
+        List<Event> evenements=new ArrayList<Event>();
+        try {
+            ste=cnx.createStatement();
+            rs=ste.executeQuery(requete);
+            while(rs.next()){
+                evenements.add(new Event(rs.getInt("ID_Event"),rs.getString("Title"),rs.getString("Description"),rs.getTimestamp("DateAndTime").toLocalDateTime(),rs.getString("Location"),rs.getString("Type"),rs.getInt("NumberOfPlaces"),emp.readById(rs.getInt("UID"))));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return evenements;
+    }
 }
