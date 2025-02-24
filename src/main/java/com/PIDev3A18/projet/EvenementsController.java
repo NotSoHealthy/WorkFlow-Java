@@ -18,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import services.ServiceEvent;
 import services.ServiceReservation;
+import utils.ImgApi;
 import utils.UserSession;
 
 import java.awt.event.MouseEvent;
@@ -28,6 +29,15 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.Writer;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 
 public class EvenementsController {
 
@@ -179,6 +189,8 @@ public class EvenementsController {
                 controller.setDateHeureMyReservation(formattedDate);
                 controller.setTypeMyReservation(reservation.getEvent().getType());
                 controller.setNbplacesMyReservation("Nombre de places réservées: "+reservation.getNombreDePlaces());
+                Image image=new Image(reservation.getQr_url());
+                controller.setQr_code(image);
                 controller.setTotalMyReservation("Totale: "+reservation.getPrice() +"TND");
                 controller.setController(this);
                 ReservationHolder.getChildren().add(node);
@@ -446,6 +458,22 @@ public class EvenementsController {
             Employee loggedinEmployee = userSession.getLoggedInEmployee();
             ServiceReservation sr=new ServiceReservation();
             Reservation reservation=new Reservation(Double.parseDouble(PriceReserver.getText().substring(0, PriceReserver.getText().length() - 3)),TypeListReserver.getValue(),Integer.parseInt(NbplaceReserver.getText()),loggedinEmployee,ToReserveEvent);
+            String text = "Evenement: " + reservation.getEvent().getTitre() + "\nType: " + reservation.getType() + "\nNombre de places: " + reservation.getNombreDePlaces() +"\nTotale: " + reservation.getPrice() +"TND";  // The text to encode
+            File qrFile = new File("C:/Users/elite/IdeaProjects/WorkFlow-Java/src/main/resources/com/PIDev3A18/projet/images/qrcode.png");
+            try {
+                Writer writer = new QRCodeWriter();
+                BitMatrix bitMatrix = writer.encode(text, BarcodeFormat.QR_CODE, 300, 300);
+                BufferedImage qrImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
+
+                // Save the QR code as an image
+                ImageIO.write(qrImage, "PNG", qrFile);
+                String qr_url= ImgApi.uploadImage(qrFile);
+                reservation.setQr_url(qr_url);
+                System.out.println("QR Code generated");
+                qrFile.delete();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             sr.add(reservation);
             ReserverPage.setVisible(false);
             EventDisplay.setVisible(true);
