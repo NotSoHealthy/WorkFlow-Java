@@ -1470,7 +1470,7 @@ TextField, PasswordField, TextArea{
 /* Sort combo box */
 .sort-combo {
     -fx-background-color: linear-gradient(to bottom, #ffffff, #f5f7fa);
-    -fx-border-color: #3498db;
+    -fx-border-color: #68b5ef;
     -fx-border-width: 2;
     -fx-border-radius: 25;
     -fx-background-radius: 25;

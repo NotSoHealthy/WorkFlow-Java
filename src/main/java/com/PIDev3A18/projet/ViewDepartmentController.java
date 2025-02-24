@@ -9,10 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import services.ServiceDepartment;
 
@@ -26,48 +23,53 @@ public class ViewDepartmentController {
     @FXML private Button DeleteBtn;
     @FXML private Button UpdateBtn;
     @FXML private Button AddBtn;
+    @FXML private TextField searchField; // Field for search
+    @FXML private ComboBox<String> searchSortCombo; // Updated field for sort (matches FXML fx:id)
 
     private final ServiceDepartment serviceDepartment = new ServiceDepartment();
+    private ObservableList<Department> departmentList; // Store departments for manipulation
 
     @FXML
     void initialize() throws SQLException {
         loadDepartments();
 
-        // Set a custom cell factory for the ListView
+        DeleteBtn.setDisable(true);
+        UpdateBtn.setDisable(true);
+        DepartmentList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+            DeleteBtn.setDisable(newValue == null);
+            UpdateBtn.setDisable(newValue == null);
+        });
+
+        // Set a custom cell factory for the ListView, matching ViewProjectController
         DepartmentList.setCellFactory(param -> new ListCell<>() {
             @Override
             protected void updateItem(Department department, boolean empty) {
                 super.updateItem(department, empty);
-
-                if (empty || department == null) {
+                if (department == null || empty) {
                     setText(null);
                     setGraphic(null);
                 } else {
-                    // Format the display text
-                    String displayText = String.format(
-                            "Name: %s\nBudget: %.2f\nManager: %s",
-                            department.getName(),
-                            department.getYear_Budget(),
-                            department.getDepartment_Manager().getFirstName()
-                    );
-                    setText(displayText);
-
-                    // Optional: Add styling
-                    setStyle("-fx-font-size: 14px; -fx-padding: 5px;");
+                    setText(department.getName() + "\n" +
+                            "Budget: " + department.getYear_Budget() + "\n" +
+                            "Manager: " + department.getDepartment_Manager().getFirstName() + " " + department.getDepartment_Manager().getLastName());
                 }
             }
         });
 
-        DepartmentList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue != null) {
-                DeleteBtn.setDisable(false);
-                UpdateBtn.setDisable(false);
+        // Add listener for real-time search
+        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                searchDepartments(null);
+            } catch (SQLException e) {
+                showAlert(Alert.AlertType.ERROR, "Search Error", "Failed to search departments.");
+                e.printStackTrace();
             }
         });
     }
+
     private void loadDepartments() throws SQLException {
         List<Department> departments = serviceDepartment.readAll();
-        ObservableList<Department> departmentList = FXCollections.observableArrayList(departments);
+        departmentList = FXCollections.observableArrayList(departments);
         DepartmentList.setItems(departmentList);
     }
 
@@ -130,6 +132,41 @@ public class ViewDepartmentController {
         } catch (IOException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to load the add department form.");
+        }
+    }
+
+    @FXML
+    void searchDepartments(ActionEvent event) throws SQLException {
+        String searchText = searchField.getText().trim();
+        if (searchText.isEmpty()) {
+            loadDepartments(); // Show all departments if search is empty
+        } else {
+            // Use the searchByName method from ServiceDepartment
+            List<Department> searchedDepartments = serviceDepartment.searchByName(searchText);
+            if (departmentList != null) { // Ensure departmentList is not null
+                departmentList.setAll(searchedDepartments);
+            } else {
+                departmentList = FXCollections.observableArrayList(searchedDepartments);
+                DepartmentList.setItems(departmentList);
+            }
+        }
+    }
+
+    @FXML
+    void sortDepartments(ActionEvent event) throws SQLException {
+        String selectedSort = searchSortCombo.getSelectionModel().getSelectedItem(); // Use searchSortCombo
+        if (selectedSort != null) {
+            switch (selectedSort) {
+                case "Trier par nom":
+                    departmentList.setAll(serviceDepartment.sortName()); // Use sortName method
+                    break;
+                case "Trier par budget":
+                    departmentList.setAll(serviceDepartment.sortBudget());
+                    break;
+                default:
+                    loadDepartments(); // Default to unsorted list
+                    break;
+            }
         }
     }
 
