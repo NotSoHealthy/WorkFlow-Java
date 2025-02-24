@@ -24,7 +24,7 @@ TextField {
     -fx-cursor:hand ;
 }
 .table-view {
-    -fx-background-color:#143C4E;
+    -fx-background-color:#E1EAF9;
     -fx-background-radius:10 10 0 0;
 
 
@@ -52,10 +52,10 @@ TextField {
 .table-cell {
     -fx-alignment: CENTER;
     -fx-font-size: 14px;
-    -fx-text-fill: white;
+    -fx-text-fill: black;
 }
 .table-row-cell {
-    -fx-background-color: #143C4E;
+    -fx-background-color: #E1EAF9;
 }
 .btn{
     -fx-background-color: transparent;
