@@ -5,6 +5,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import services.ServiceReservation;
 
 public class ReservationController {
@@ -28,6 +30,9 @@ public class ReservationController {
 
     @FXML
     private Label TypeMyReservation;
+
+    @FXML
+    private ImageView qr_code;
 
     @FXML
     void Delete(ActionEvent event) {
@@ -57,4 +62,7 @@ public class ReservationController {
         this.reservation = reservation;
     }
 
+    public void setQr_code(Image qr_code) {
+        this.qr_code.setImage(qr_code);
+    }
 }

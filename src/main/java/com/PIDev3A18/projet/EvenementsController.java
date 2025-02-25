@@ -18,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import services.ServiceEvent;
 import services.ServiceReservation;
+import utils.ImgApi;
 import utils.UserSession;
 
 import java.awt.event.MouseEvent;
@@ -27,10 +28,16 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.Writer;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 
 public class EvenementsController {
 
@@ -136,9 +143,20 @@ public class EvenementsController {
     @FXML
     private Label NbplaceReserverError;
     @FXML
+    private TextField SearchTitle;
+    @FXML
+    private CheckBox SortDate;
+    @FXML
+    private ComboBox<String> TypeListSort;
+    @FXML
+    private Label empty;
+    @FXML
+    private ScrollPane SC;
+    @FXML
     public void initialize() {
         eventHolder.getChildren().clear();
         TypeList.setItems(FXCollections.observableArrayList("Workshop", "Commerce", "Conference" , "Webinaire" , "Networking" , "Reunion","Concert"));
+        TypeListSort.setItems(FXCollections.observableArrayList("All","Workshop", "Commerce", "Conference" , "Webinaire" , "Networking" , "Reunion","Concert"));
         UserSession userSession;
         userSession = UserSession.getInstance();
         Employee loggedinEmployee = userSession.getLoggedInEmployee();
@@ -149,31 +167,7 @@ public class EvenementsController {
             creer.setVisible(false);
         }
         ServiceEvent se=new ServiceEvent();
-        for (Event event : se.readAll()) {
-            try{
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("Event.fxml"));
-                Node node = loader.load(); // Load FXML
-                EventController controller = loader.getController();
-                controller.setTitle(event.getTitre());
-                controller.setDescription(event.getDescription());
-                controller.setEvent(event);
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy, HH:mm", Locale.FRENCH);
-                String formattedDate = event.getDateetheure().format(formatter);
-                controller.setDateHeure(formattedDate);
-                controller.setAdresse("Adresse: "+event.getLieu());
-                controller.setType(event.getType());
-                controller.setNbdispo("Places disponibles: "+event.getNombredeplace());
-                controller.setController(this);
-                if(!loggedinEmployee.getRole().equals("Résponsable")){
-                    controller.setDeleteInvisible();
-                    controller.setUpInvisible();
-                }
-                eventHolder.getChildren().add(node);
-            }
-            catch(IOException e){
-                e.printStackTrace();
-            }
-        }
+        populateEventHolder(se.readAll());
     }
     public void populateReservations(ActionEvent event) {
         EventDisplay.setVisible(false);
@@ -195,6 +189,8 @@ public class EvenementsController {
                 controller.setDateHeureMyReservation(formattedDate);
                 controller.setTypeMyReservation(reservation.getEvent().getType());
                 controller.setNbplacesMyReservation("Nombre de places réservées: "+reservation.getNombreDePlaces());
+                Image image=new Image(reservation.getQr_url());
+                controller.setQr_code(image);
                 controller.setTotalMyReservation("Totale: "+reservation.getPrice() +"TND");
                 controller.setController(this);
                 ReservationHolder.getChildren().add(node);
@@ -462,6 +458,30 @@ public class EvenementsController {
             Employee loggedinEmployee = userSession.getLoggedInEmployee();
             ServiceReservation sr=new ServiceReservation();
             Reservation reservation=new Reservation(Double.parseDouble(PriceReserver.getText().substring(0, PriceReserver.getText().length() - 3)),TypeListReserver.getValue(),Integer.parseInt(NbplaceReserver.getText()),loggedinEmployee,ToReserveEvent);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy, HH:mm", Locale.FRENCH);
+            String formattedDate = reservation.getEvent().getDateetheure().format(formatter);
+            String text = "Evenement: " + reservation.getEvent().getTitre() + "\nType: " + reservation.getType() + "\nNombre de places: " + reservation.getNombreDePlaces() +"\nTotale: " + reservation.getPrice() +"TND\nDate: " + formattedDate;  // The text to encode
+            File qrFile = new File("C:/Users/elite/IdeaProjects/WorkFlow-Java/src/main/resources/com/PIDev3A18/projet/images/qrcode.png");
+            try {
+                Writer writer = new QRCodeWriter();
+                BitMatrix bitMatrix = writer.encode(text, BarcodeFormat.QR_CODE, 300, 300);
+                BufferedImage qrImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
+
+                // Save the QR code as an image
+                ImageIO.write(qrImage, "PNG", qrFile);
+                Alert uploadAlert = new Alert(Alert.AlertType.INFORMATION);
+                uploadAlert.setTitle("Création d'une Réservation");
+                uploadAlert.setHeaderText(null);
+                uploadAlert.setContentText("Création d'une Réservation , attendez...");
+                uploadAlert.show();
+                String qr_url= ImgApi.uploadImage(qrFile);
+                uploadAlert.close();
+                reservation.setQr_url(qr_url);
+                System.out.println("QR Code generated");
+                qrFile.delete();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             sr.add(reservation);
             ReserverPage.setVisible(false);
             EventDisplay.setVisible(true);
@@ -471,5 +491,71 @@ public class EvenementsController {
             NbplaceReserver.setText("");
         }
     }
-
+    public void SearchByTitle(KeyEvent event) {
+        ServiceEvent se=new ServiceEvent();
+        if(SearchTitle.getText().isBlank()){
+            initialize();
+        }
+        else{
+            List<Event> le=se.SearchByTitle(SearchTitle.getText());
+            populateEventHolder(le);
+        }
+    }
+    public void SortByDate(ActionEvent event) {
+        if(SortDate.isSelected()) {
+            ServiceEvent se = new ServiceEvent();
+            List<Event> le = se.SortByDate();
+            populateEventHolder(le);
+        }
+        else{
+            initialize();
+        }
+    }
+    public void SortByType(ActionEvent event){
+        ServiceEvent se = new ServiceEvent();
+        if(TypeListSort.getValue().equals("All")){
+            populateEventHolder(se.readAll());
+        }
+        else{
+            populateEventHolder(se.SortByType(TypeListSort.getValue()));
+        }
+    }
+    public void populateEventHolder(List<Event> le){
+        eventHolder.getChildren().clear();
+        if(le.isEmpty()){
+            SC.setVisible(false);
+            empty.setVisible(true);
+        }
+        else {
+            SC.setVisible(true);
+            empty.setVisible(false);
+            UserSession userSession;
+            userSession = UserSession.getInstance();
+            Employee loggedinEmployee = userSession.getLoggedInEmployee();
+            for (Event evente : le) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("Event.fxml"));
+                    Node node = loader.load(); // Load FXML
+                    EventController controller = loader.getController();
+                    controller.setTitle(evente.getTitre());
+                    controller.setDescription(evente.getDescription());
+                    controller.setEvent(evente);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy, HH:mm", Locale.FRENCH);
+                    String formattedDate = evente.getDateetheure().format(formatter);
+                    controller.setDateHeure(formattedDate);
+                    controller.setAdresse("Adresse: " + evente.getLieu());
+                    controller.setType(evente.getType());
+                    controller.setNbdispo("Places disponibles: " + evente.getNombredeplace());
+                    controller.setController(this);
+                    if (!loggedinEmployee.getRole().equals("Résponsable")) {
+                        controller.setDeleteInvisible();
+                        controller.setUpInvisible();
+                    }
+                    eventHolder.getChildren().add(node);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 }

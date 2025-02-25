@@ -7,6 +7,8 @@ module com.example.projet {
     requires java.desktop;
     requires java.compiler;
     requires okhttp3;
+    requires com.google.zxing.javase;
+    requires com.google.zxing;
 
 
     opens com.PIDev3A18.projet to javafx.fxml;

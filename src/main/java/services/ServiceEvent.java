@@ -116,7 +116,8 @@ public class ServiceEvent implements IService<Event> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }public void incrementtNumber(Reservation r){
+    }
+    public void incrementtNumber(Reservation r){
         String requete="update events set NumberOfPlaces=NumberOfPlaces+? where ID_Event = ?";
         try {
             pst=cnx.prepareStatement(requete);
@@ -126,5 +127,50 @@ public class ServiceEvent implements IService<Event> {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+    public List<Event> SearchByTitle(String title){
+        String requete="select * from events where Title like '%"+title+"%'";
+        ServiceEmployee emp=new ServiceEmployee();
+        List<Event> evenements=new ArrayList<Event>();
+        try {
+            ste=cnx.createStatement();
+            rs=ste.executeQuery(requete);
+            while(rs.next()){
+                evenements.add(new Event(rs.getInt("ID_Event"),rs.getString("Title"),rs.getString("Description"),rs.getTimestamp("DateAndTime").toLocalDateTime(),rs.getString("Location"),rs.getString("Type"),rs.getInt("NumberOfPlaces"),emp.readById(rs.getInt("UID"))));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return evenements;
+    }
+    public List<Event> SortByDate(){
+        String requete="select * from events ORDER BY DateAndTime asc ";
+        ServiceEmployee emp=new ServiceEmployee();
+        List<Event> evenements=new ArrayList<Event>();
+        try {
+            ste=cnx.createStatement();
+            rs=ste.executeQuery(requete);
+            while(rs.next()){
+                evenements.add(new Event(rs.getInt("ID_Event"),rs.getString("Title"),rs.getString("Description"),rs.getTimestamp("DateAndTime").toLocalDateTime(),rs.getString("Location"),rs.getString("Type"),rs.getInt("NumberOfPlaces"),emp.readById(rs.getInt("UID"))));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return evenements;
+    }
+    public List<Event> SortByType(String type){
+        String requete="select * from events where type like '%"+type+"%'";
+        ServiceEmployee emp=new ServiceEmployee();
+        List<Event> evenements=new ArrayList<Event>();
+        try {
+            ste=cnx.createStatement();
+            rs=ste.executeQuery(requete);
+            while(rs.next()){
+                evenements.add(new Event(rs.getInt("ID_Event"),rs.getString("Title"),rs.getString("Description"),rs.getTimestamp("DateAndTime").toLocalDateTime(),rs.getString("Location"),rs.getString("Type"),rs.getInt("NumberOfPlaces"),emp.readById(rs.getInt("UID"))));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return evenements;
     }
 }
