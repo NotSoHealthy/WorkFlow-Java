@@ -458,7 +458,9 @@ public class EvenementsController {
             Employee loggedinEmployee = userSession.getLoggedInEmployee();
             ServiceReservation sr=new ServiceReservation();
             Reservation reservation=new Reservation(Double.parseDouble(PriceReserver.getText().substring(0, PriceReserver.getText().length() - 3)),TypeListReserver.getValue(),Integer.parseInt(NbplaceReserver.getText()),loggedinEmployee,ToReserveEvent);
-            String text = "Evenement: " + reservation.getEvent().getTitre() + "\nType: " + reservation.getType() + "\nNombre de places: " + reservation.getNombreDePlaces() +"\nTotale: " + reservation.getPrice() +"TND";  // The text to encode
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy, HH:mm", Locale.FRENCH);
+            String formattedDate = reservation.getEvent().getDateetheure().format(formatter);
+            String text = "Evenement: " + reservation.getEvent().getTitre() + "\nType: " + reservation.getType() + "\nNombre de places: " + reservation.getNombreDePlaces() +"\nTotale: " + reservation.getPrice() +"TND\nDate: " + formattedDate;  // The text to encode
             File qrFile = new File("C:/Users/elite/IdeaProjects/WorkFlow-Java/src/main/resources/com/PIDev3A18/projet/images/qrcode.png");
             try {
                 Writer writer = new QRCodeWriter();
@@ -467,7 +469,13 @@ public class EvenementsController {
 
                 // Save the QR code as an image
                 ImageIO.write(qrImage, "PNG", qrFile);
+                Alert uploadAlert = new Alert(Alert.AlertType.INFORMATION);
+                uploadAlert.setTitle("Création d'une Réservation");
+                uploadAlert.setHeaderText(null);
+                uploadAlert.setContentText("Création d'une Réservation , attendez...");
+                uploadAlert.show();
                 String qr_url= ImgApi.uploadImage(qrFile);
+                uploadAlert.close();
                 reservation.setQr_url(qr_url);
                 System.out.println("QR Code generated");
                 qrFile.delete();
