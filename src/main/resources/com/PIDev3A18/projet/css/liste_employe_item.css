@@ -32,14 +32,26 @@ Label{
     -fx-background-radius: 5px;
 }
 
+.confirm-btn:hover{
+    -fx-background-color: derive(-fx-text-success,35%);
+}
+
 .deny-btn{
     -fx-background-color: -fx-text-danger;
     -fx-background-radius: 5px;
 }
 
+.deny-btn:hover{
+    -fx-background-color: derive(-fx-text-danger,35%);
+}
+
 .edit-btn{
     -fx-background-color: -fx-text-warning;
     -fx-background-radius: 5px;
+}
+
+.edit-btn:hover{
+    -fx-background-color: derive(-fx-text-warning,35%);
 }
 
 ComboBox {

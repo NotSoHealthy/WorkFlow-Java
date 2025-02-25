@@ -44,6 +44,8 @@ public class ReclamationListController {
     Employee loggedinEmployee = userSession.getLoggedInEmployee();
     @FXML
     public void initialize() {
+        anchor.setPrefWidth(1080);
+        anchor.setPrefHeight(720);
 
 
         InputStream input = getClass().getResourceAsStream("icons/plus.png");
@@ -157,7 +159,7 @@ public class ReclamationListController {
                             HBox.setMargin(edit, new Insets(10, 0, 0,580));
 
                             hBox2.getChildren().addAll(edit,delete);
-                            if(!loggedinEmployee.getType().equals("responsable")&&loggedinEmployee.getId() != re.getEmployee().getId()) hBox2.setVisible(false);
+                            if(!loggedinEmployee.getRole().equals("Résponsable")&&loggedinEmployee.getId() != re.getEmployee().getId()) hBox2.setVisible(false);
                             vbox.getChildren().addAll(hBox,separator,nameLabel, positionLabel,hBox2);
                             setGraphic(vbox);
                         }

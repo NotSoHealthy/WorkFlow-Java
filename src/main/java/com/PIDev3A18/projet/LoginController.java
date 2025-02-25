@@ -97,10 +97,7 @@ public class LoginController {
             LayoutController layoutController = loader.getController();
             layoutController.layoutGoToDashboard(null);
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-            stage.show();
+            rememberCheckbox.getScene().setRoot(root);
         }
         else{
             if (serviceEmployee.verifEmail(email)){
