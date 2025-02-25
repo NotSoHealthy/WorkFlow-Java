@@ -9,7 +9,17 @@
     -fx-text-warning: #F9CF58;
     -fx-text-danger: #FF5963;
 }
-
+.page{
+    -fx-background-color: -fx-background-main;
+    -fx-text-fill: -fx-text-primary;
+}
+TextField {
+    -fx-background-color: transparent;
+    -fx-border-radius: 5px;
+    -fx-border-color: rgba(0,0,0,0.25);
+    -fx-prompt-text-fill: derive(-fx-text-primary, 30%);
+    -fx-pref-height: 40px;
+}
 .top-label{
     -fx-font-size: 12px;
     -fx-text-fill: -fx-text-primary;
@@ -23,6 +33,32 @@ HBox{
     -fx-effect: dropshadow( two-pass-box , rgba(0, 0, 0, 0.15) , 8, 0, 2, 2 );
 }
 
-TextField:disabled{
-    -fx-opacity: .8;
+.combo-box {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-background-color: white;
+    -fx-border-color: #39D2C0;
+    -fx-border-width: 2px;
+    -fx-padding: 5px;
+    -fx-text-fill: #333;
+}
+.combo-box:hover {
+    -fx-background-color: #E1EAF9;
+}
+
+.combo-box .arrow {
+    -fx-background-color: #39D2C0;
+}
+
+.combo-box-popup .list-cell {
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+}
+
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: #39D2C0;
+    -fx-text-fill: white;
+}
+.btn{
+    -fx-background-color: transparent;
 }

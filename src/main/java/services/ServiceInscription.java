@@ -11,7 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ServiceInscription implements IService<Inscription> {
     Connection cnx;
@@ -94,35 +96,11 @@ public class ServiceInscription implements IService<Inscription> {
         return null;
     }
     public List<Inscription> search(String str) throws SQLException {
-        String req ="SELECT i.*, e.last_name FROM inscription i JOIN employees e ON i.user_id = e.id WHERE i.status LIKE ? OR i.id = ? OR e.last_name LIKE ?";
+        String req ="SELECT i.*, e.last_name FROM inscription i JOIN employees e ON i.user_id = e.id WHERE e.last_name LIKE ? OR e.first_name LIKE ? OR YEAR(date_registration) LIKE ?";
         PreparedStatement ps = cnx.prepareStatement(req);
-        ps.setString(1,"%"+str+"%");
-        int intValue = 1;
-        try {
-            intValue = Integer.parseInt(str);
-        } catch (NumberFormatException e) {
-        }
-        ps.setInt(2, intValue);
+        ps.setString(1, "%"+str+"%");
+        ps.setString(2, "%"+str+"%");
         ps.setString(3, "%"+str+"%");
-        ResultSet rs = ps.executeQuery();
-        List<Inscription> inscriptions = new ArrayList<>();
-        while (rs.next()) {
-            int formationId = rs.getInt("formation_id");
-            int userId = rs.getInt("user_id");
-            LocalDate inscri = rs.getDate("date_registration").toLocalDate();
-            ServiceEmployee e=new ServiceEmployee();
-            Employee employee= e.readById(userId);
-            ServiceFormation s=new ServiceFormation();
-            Formation formation = s.readById(formationId);
-            inscriptions.add(new Inscription(rs.getInt("id"),inscri,rs.getString("status"),formation,employee));
-        }
-        ps.close();
-        return inscriptions;
-    }
-    public List<Inscription> searchByDate(int year) throws SQLException {
-        String req ="select * from inscription where YEAR(date_registration) = ?";
-        PreparedStatement ps = cnx.prepareStatement(req);
-        ps.setInt(1, year);
         ResultSet rs = ps.executeQuery();
         List<Inscription> inscriptions = new ArrayList<>();
         while (rs.next()) {
@@ -157,9 +135,10 @@ public class ServiceInscription implements IService<Inscription> {
         return inscriptions;
 
     }
-    public List<Inscription> sortStatus() throws SQLException {
-        String req ="select * from inscription order by status ";
+    public List<Inscription> sortStatus(String str) throws SQLException {
+        String req ="select * from inscription where status like ? ";
         PreparedStatement ps = cnx.prepareStatement(req);
+        ps.setString(1,"%"+str+"%");
         ResultSet rs = ps.executeQuery();
         List<Inscription> inscriptions = new ArrayList<>();
         while (rs.next()) {
@@ -202,5 +181,19 @@ public class ServiceInscription implements IService<Inscription> {
         }
         ps.close();
         return inscriptions;
+    }
+    public Map<String, Integer> statisticInscription() throws SQLException {
+        String query = "SELECT f.title as title, COUNT(*) as count FROM inscription i JOIN formation f ON i.formation_id = f.id GROUP BY f.title";
+        PreparedStatement ps = cnx.prepareStatement(query);
+        ResultSet rs = ps.executeQuery();
+
+        Map<String, Integer> InscriptionCount = new HashMap<>();
+        while (rs.next()) {
+            String title = rs.getString("title");
+            int count = rs.getInt("count");
+            InscriptionCount.put(title, count);
+        }
+        ps.close();
+        return InscriptionCount;
     }
 }

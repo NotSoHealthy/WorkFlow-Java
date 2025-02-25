@@ -196,10 +196,7 @@ public class ViewFormationController implements Initializable {
                         deleteButton.setOnAction((ActionEvent event) -> {
                             try {
                                 sf.delete(formation);
-                                showAlert(Alert.AlertType.INFORMATION, "Success", "Formation supprimer avec succés!");
                                 Refresh();
-
-
 
                             } catch (SQLException e) {
                                 throw new RuntimeException(e);
@@ -245,7 +242,6 @@ public class ViewFormationController implements Initializable {
                                 Inscription i= new Inscription(date,"en attente",formation,loggedinEmployee);
                                 si.add(i);
                                 Refresh();
-                                showAlert(Alert.AlertType.INFORMATION, "Success", "Vous êtes maintenant inscrit, en attente de validation!");
 
                             } catch (SQLException e) {
                                 showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while registering!");
@@ -291,7 +287,7 @@ public class ViewFormationController implements Initializable {
         rotate.setByAngle(360);
         rotate.setInterpolator(Interpolator.EASE_BOTH);
         rotate.play();
-        ServiceFormation sf=new ServiceFormation();
+        sf=new ServiceFormation();
         formations.clear();
         try {
             formations= FXCollections.observableArrayList(sf.readAll());
@@ -326,8 +322,8 @@ public class ViewFormationController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.initStyle(StageStyle.UTILITY);
-            stage.setWidth(800);
-            stage.setHeight(600);
+            stage.setWidth(1100);
+            stage.setHeight(720);
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
