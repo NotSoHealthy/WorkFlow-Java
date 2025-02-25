@@ -119,7 +119,7 @@ public class ViewInscriptionController {
         VboxItems.getChildren().clear();
         if(searchText.isEmpty())
         {
-            initialize();
+            Refresh();
         }
         else
         {
@@ -161,7 +161,7 @@ public class ViewInscriptionController {
         }
     }
     @FXML
-    void Refresh(ActionEvent event) throws SQLException, IOException {
+    void Refresh() throws SQLException, IOException {
         RotateTransition rotate = new RotateTransition(Duration.seconds(0.5), Refresh);
         rotate.setByAngle(360);
         rotate.setInterpolator(Interpolator.EASE_BOTH);
