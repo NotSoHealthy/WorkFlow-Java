@@ -2,15 +2,13 @@ package com.PIDev3A18.projet;
 
 import entity.Conge;
 import entity.Employee;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -40,14 +38,16 @@ public class CongeController {
     @FXML private DatePicker startDateField;
     @FXML private Button addButton;
     @FXML private Button cancelButton;
+    @FXML private Label requestDateLabel;
 
     private ServiceConge serviceConge = new ServiceConge();
     private UserSession userSession;
     private Employee loggedInEmployee;
-    private List<Conge> congeList;
     private ValidationSupport validationSupport = new ValidationSupport();
     private Image confirmImage;
     private Image cancelImage;
+    private String sortBy = "RequestDate";
+    private String sortDirection = "desc";
 
     @FXML
     public void initialize() throws SQLException, IOException {
@@ -75,6 +75,7 @@ public class CongeController {
 
         userSession = UserSession.getInstance();
         loggedInEmployee = userSession.getLoggedInEmployee();
+        List<Conge> congeList;
         if (loggedInEmployee.getRole().equals("Employé")) {
             congeList = serviceConge.readAll().stream().filter(conge -> conge.getEmployee().getId() == loggedInEmployee.getId()).collect(Collectors.toList());
         }
@@ -84,17 +85,32 @@ public class CongeController {
 
         congeList.stream().sorted(Comparator.comparing((Conge c)->!c.getStatus().equals("Pending")).thenComparing(Conge::getRequest_date)).collect(Collectors.toList());
 
+        sortByRequestDate();
+
+        requestDateField.setValue(LocalDate.now());
+        nameField.setText(loggedInEmployee.getFirstName() + " " + loggedInEmployee.getLastName());
+    }
+
+    public void showList(List<Conge> congeList) throws IOException {
+        clearList();
         for (Conge conge : congeList) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("conge_item.fxml"));
             CongeItemController congeItemController = new CongeItemController(conge);
             fxmlLoader.setController(congeItemController);
             vbox.getChildren().add(fxmlLoader.load());
         }
-
-        requestDateField.setValue(LocalDate.now());
-        nameField.setText(loggedInEmployee.getFirstName() + " " + loggedInEmployee.getLastName());
     }
 
+    public void clearList(){
+        ObservableList<Node> nodeList = vbox.getChildren();
+        ObservableList<Node> toRemove = FXCollections.observableArrayList();
+
+        for (int i = 3; i < nodeList.size(); i++) {
+            toRemove.add(nodeList.get(i));
+        }
+
+        vbox.getChildren().removeAll(toRemove);
+    }
 
     @FXML
     void addConge(ActionEvent event) {
@@ -172,5 +188,34 @@ public class CongeController {
             Tooltip tooltip = new Tooltip("Raison invalide");
             raisonField.setTooltip(tooltip);
         }
+    }
+
+    public void sortByName(){}
+
+    public void sortByRequestDate() throws SQLException, IOException {
+        List<Conge> congeList;
+        if (!sortBy.equals("RequestDate")) {
+            sortBy = "RequestDate";
+            sortDirection = "desc";
+        }
+        else{
+            sortDirection = sortDirection.equals("desc") ? "asc" : "desc";
+        }
+        if (sortDirection.equals("desc")) {
+            InputStream inputStream = getClass().getResourceAsStream("icons/sort.png");
+            Image image = new Image(inputStream,16,16,true,true);
+            ImageView imageView = new ImageView(image);
+            requestDateLabel.setGraphic(new ImageView(image));
+            congeList = serviceConge.readAll().stream().sorted(Comparator.comparing(Conge::getRequest_date)).collect(Collectors.toList());
+        }
+        else{
+            InputStream inputStream = getClass().getResourceAsStream("icons/sort.png");
+            Image image = new Image(inputStream,16,16,true,true);
+            ImageView imageView = new ImageView(image);
+            imageView.setRotate(180);
+            requestDateLabel.setGraphic(imageView);
+            congeList = serviceConge.readAll().stream().sorted(Comparator.comparing(Conge::getRequest_date).reversed()).collect(Collectors.toList());
+        }
+        showList(congeList);
     }
 }

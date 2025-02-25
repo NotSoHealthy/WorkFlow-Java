@@ -8,9 +8,9 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 
-<HBox styleClass="item-box" fx:id="hBox" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" spacing="10.0" stylesheets="@css/liste_employe_item.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<HBox fx:id="hBox" alignment="CENTER_LEFT" maxHeight="100.0" maxWidth="-Infinity" minHeight="50.0" minWidth="-Infinity" prefHeight="50.0" spacing="10.0" styleClass="item-box" stylesheets="@css/liste_employe_item.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="nameField" alignment="CENTER" minWidth="120.0" prefWidth="120.0" wrapText="true" HBox.hgrow="ALWAYS" />
+      <Label fx:id="nameField" alignment="CENTER" minWidth="120.0" prefWidth="120.0" wrapText="true" />
       <Region prefWidth="2.0" style="-fx-background-color: black;" styleClass="seperator" HBox.hgrow="NEVER" />
       <Label fx:id="emailField" alignment="CENTER" layoutX="30.0" layoutY="27.0" prefWidth="250.0" wrapText="true" HBox.hgrow="ALWAYS" />
       <Region prefWidth="2.0" style="-fx-background-color: black;" styleClass="seperator" HBox.hgrow="NEVER" />

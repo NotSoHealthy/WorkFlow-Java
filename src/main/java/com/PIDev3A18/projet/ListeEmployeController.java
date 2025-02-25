@@ -26,7 +26,16 @@ public class ListeEmployeController {
 
     public void initialize() throws SQLException, IOException {
         count = 2;
-        List<Employee> employeeList = serviceEmployee.readAll();
+        showList(serviceEmployee.readAll());
+    }
+
+    public void update() throws SQLException, IOException {
+        showList(serviceEmployee.readAll());
+    }
+
+    public void showList(List<Employee> employeeList) throws IOException {
+        clearList();
+        count = 2;
         for (Employee employee : employeeList) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("liste_employe_item.fxml"));
             ListeEmployeItemController listeEmployeItemController = new ListeEmployeItemController(employee, this);
@@ -42,7 +51,7 @@ public class ListeEmployeController {
         }
     }
 
-    public void update() throws SQLException, IOException {
+    public void clearList(){
         ObservableList<Node> list = listVbox.getChildren();
         ObservableList<Node> toRemove = FXCollections.observableArrayList();
         for (int i = 0; i < list.size(); i++) {
@@ -51,6 +60,5 @@ public class ListeEmployeController {
             }
         }
         listVbox.getChildren().removeAll(toRemove);
-        initialize();
     }
 }
