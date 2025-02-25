@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" spacing="20" stylesheets="@css/Department.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.UpdateDepartmentController">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="500.0" spacing="20" stylesheets="@css/Department.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.UpdateDepartmentController">
     <padding>
         <Insets bottom="30" left="30" right="30" top="30" />
     </padding>
@@ -28,7 +28,7 @@
         </HBox>
 
         <!-- Department Name -->
-        <HBox alignment="CENTER_LEFT" spacing="20" prefWidth="500.0">
+        <HBox alignment="CENTER" spacing="20" prefWidth="500.0">
             <children>
                 <Label prefWidth="150.0" styleClass="form-label" text="Nom">
                     <font>
@@ -44,7 +44,7 @@
         </HBox>
 
         <!-- Year Budget -->
-        <HBox alignment="CENTER_LEFT" spacing="20" prefWidth="500.0">
+        <HBox alignment="CENTER" spacing="20" prefWidth="500.0">
             <children>
                 <Label prefWidth="150.0" styleClass="form-label" text="Budget Annuel">
                     <font>
@@ -60,7 +60,7 @@
         </HBox>
 
         <!-- Department Manager -->
-        <HBox alignment="CENTER_LEFT" spacing="20" prefWidth="500.0">
+        <HBox alignment="CENTER" spacing="20" prefWidth="500.0">
             <children>
                 <Label prefWidth="150.0" styleClass="form-label" text="Manager">
                     <font>
@@ -71,10 +71,15 @@
             </children>
         </HBox>
 
-        <!-- Submit Button -->
+        <!-- Buttons Section -->
         <HBox alignment="CENTER" spacing="20" prefWidth="500.0">
             <children>
-                <Button onAction="#updateDepartment" styleClass="submit-button" text="Modifier" prefWidth="200.0">
+                <Button onAction="#updateDepartment" styleClass="submit-button" text="Modifier" prefWidth="150.0">
+                    <font>
+                        <Font size="16.0" />
+                    </font>
+                </Button>
+                <Button onAction="#returnToViewDepartment" styleClass="return-button" text="Retour" prefWidth="150.0">
                     <font>
                         <Font size="16.0" />
                     </font>

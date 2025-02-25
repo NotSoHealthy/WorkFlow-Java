@@ -53,7 +53,7 @@ public class JobOfferController {
         ShowJobOffer.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 fillFormWithSelectedJobOffer(newSelection);
-                SubmitBtn.setVisible(false); // Hide Submit when selecting a job
+                SubmitBtn.setVisible(false);
             }
         });
     }
@@ -108,7 +108,6 @@ public class JobOfferController {
     public void setLoggedinEmployee(Employee loggedinEmployee) {
         this.loggedinEmployee = loggedinEmployee;
         SubmitBtn.setDisable(false);
-        System.out.println("Logged-in Employee set: " + loggedinEmployee.getId());
     }
 
     private boolean isValidText(String text) {

@@ -80,26 +80,23 @@ public class ApplicationInfoController {
 
     public void setApplication(Applications application) {
         this.selectedApplication = application;
-        // Populate the labels after the application is set
-        if (firstNameLabel != null) {  // Check if labels are initialized before setting text
+        if (firstNameLabel != null) {
             initialize();
         }
     }
 
     @FXML
     private void submitButton(ActionEvent event) {
-        String newStatus = statusLabel.getValue(); // Get the selected value from ComboBox
+        String newStatus = statusLabel.getValue();
         selectedApplication.setStatus(newStatus);
 
         try {
             applicationService.update(selectedApplication);
             showAlert(Alert.AlertType.INFORMATION, "Success", "Application status updated successfully!");
 
-            // Use the event's source to get the current scene's root.
             Node source = (Node) event.getSource();
             BorderPane mainLayout = (BorderPane) source.getScene().getRoot();
 
-            // Load the ApplicationList view.
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ApplicationList.fxml"));
             Node applicationListView = loader.load();
             mainLayout.setCenter(applicationListView);
@@ -113,24 +110,21 @@ public class ApplicationInfoController {
 
     @FXML
     private void handleCvAction(ActionEvent event) {
-        // Full path to the CV file
         String cvPath = "D:\\3eme\\pidev\\WorkFlow\\WorkFlow-Java\\uploads\\cv\\" + selectedApplication.getCv();
         openPdfFile(cvPath);
     }
 
     @FXML
     private void handleCoverLetterAction(ActionEvent event) {
-        // Full path to the Cover Letter file
         String coverLetterPath = "D:\\3eme\\pidev\\WorkFlow\\WorkFlow-Java\\uploads\\coverletters\\" + selectedApplication.getCoverLetter();
         openPdfFile(coverLetterPath);
     }
 
-    // Method to open PDF file using the system's default PDF viewer
     private void openPdfFile(String filePath) {
         File file = new File(filePath);
         if (file.exists()) {
             try {
-                Desktop.getDesktop().open(file);  // Opens the file with the system's default application
+                Desktop.getDesktop().open(file);
             } catch (IOException e) {
                 showAlert(Alert.AlertType.ERROR, "Error", "Could not open the file.");
             }

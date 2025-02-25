@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import services.ServiceDepartment;
@@ -24,21 +25,46 @@ public class ViewDepartmentController {
     @FXML private ListView<Department> DepartmentList;
     @FXML private Button DeleteBtn;
     @FXML private Button UpdateBtn;
+    @FXML private Button AddBtn;
 
     private final ServiceDepartment serviceDepartment = new ServiceDepartment();
 
     @FXML
     void initialize() throws SQLException {
         loadDepartments();
+
+        // Set a custom cell factory for the ListView
+        DepartmentList.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(Department department, boolean empty) {
+                super.updateItem(department, empty);
+
+                if (empty || department == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    // Format the display text
+                    String displayText = String.format(
+                            "Name: %s\nBudget: %.2f\nManager: %s",
+                            department.getName(),
+                            department.getYear_Budget(),
+                            department.getDepartment_Manager().getFirstName()
+                    );
+                    setText(displayText);
+
+                    // Optional: Add styling
+                    setStyle("-fx-font-size: 14px; -fx-padding: 5px;");
+                }
+            }
+        });
+
         DepartmentList.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                // Enable buttons only if a department is selected
                 DeleteBtn.setDisable(false);
                 UpdateBtn.setDisable(false);
             }
         });
     }
-
     private void loadDepartments() throws SQLException {
         List<Department> departments = serviceDepartment.readAll();
         ObservableList<Department> departmentList = FXCollections.observableArrayList(departments);
@@ -86,6 +112,24 @@ public class ViewDepartmentController {
             }
         } else {
             showAlert(Alert.AlertType.WARNING, "No Department Selected", "Please select a department to update.");
+        }
+    }
+
+    @FXML
+    void addDepartment(ActionEvent event) {
+        try {
+            // Load the AddDepartment.fxml
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("AddDepartment.fxml"));
+            Parent root = loader.load();
+
+            // Set the new scene
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Failed to load the add department form.");
         }
     }
 

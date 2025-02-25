@@ -37,6 +37,6 @@ public class Department {
 
     @Override
     public String toString() {
-        return Name;
+        return this.Name;
     }
 }

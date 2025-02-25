@@ -3,6 +3,8 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
@@ -11,9 +13,17 @@
    <children>
       <HBox alignment="CENTER">
          <children>
+            <ImageView fx:id="returnBtn" fitHeight="39.0" fitWidth="43.0" onMouseClicked="#returnBtn" pickOnBounds="true" preserveRatio="true">
+               <HBox.margin>
+                  <Insets bottom="650.0" right="100.0" />
+               </HBox.margin>
+               <image>
+                  <Image url="@icons/arrow-left-solid.png" />
+               </image>
+            </ImageView>
             <VBox alignment="CENTER" prefWidth="800" spacing="20.0" styleClass="main-panel">
                <padding>
-                  <Insets bottom="30" left="30" right="30" top="30" />
+                  <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
                </padding>
                <children>
                   <!-- Page Title -->
