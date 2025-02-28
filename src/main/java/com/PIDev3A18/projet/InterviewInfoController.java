@@ -101,7 +101,7 @@ public class InterviewInfoController {
     private void sendEmail(String recipient, Interviews interview) throws MessagingException, IOException {
         try {
             Gmail service = GmailService.getGmailService();
-            String from = "your-email@gmail.com"; // Replace with your Gmail address
+            String from = "your-email@gmail.com";
             String subject = "Interview Details";
             String bodyText = "Dear Applicant,\n\nHere are your interview details:\n" +
                     "Date: " + interview.getInterviewDate() + "\n" +

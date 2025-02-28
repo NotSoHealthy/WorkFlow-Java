@@ -2,8 +2,11 @@ package com.PIDev3A18.projet;
 
 import entity.Applications;
 import entity.JobOffer;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import services.ApplicationService;
@@ -16,6 +19,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.HashSet;
 import java.util.Comparator;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ApplicationListController {
@@ -33,6 +37,10 @@ public class ApplicationListController {
     @FXML
     private ComboBox<String> dateSortComboBox;
 
+    // New PieChart for statistics.
+    @FXML
+    private PieChart applicationChart;
+
     private ApplicationService applicationService;
     private List<Applications> allApplications;
 
@@ -43,9 +51,11 @@ public class ApplicationListController {
     @FXML
     public void initialize() {
         try {
+            // Load all applications from the database.
             allApplications = applicationService.readAll();
             listView.getItems().setAll(allApplications);
 
+            // Set up the ListView cell factory.
             listView.setCellFactory(param -> new ListCell<Applications>() {
                 @Override
                 protected void updateItem(Applications application, boolean empty) {
@@ -66,13 +76,14 @@ public class ApplicationListController {
                 }
             });
 
+            // When an application is selected, display its details.
             listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue != null) {
                     viewApplicationDetails(newValue);
                 }
             });
 
-
+            // Set up job filter ComboBox.
             jobFilterComboBox.getItems().clear();
             JobOffer allJobs = new JobOffer(0, "All Jobs");
             jobFilterComboBox.getItems().add(allJobs);
@@ -97,13 +108,18 @@ public class ApplicationListController {
                 }
             });
 
+            // Set up sort options for submission date.
             dateSortComboBox.getItems().clear();
             dateSortComboBox.getItems().addAll("Ascending", "Descending");
             dateSortComboBox.setValue("Ascending");
 
+            // Listeners for dynamic filtering/sorting.
             jobFilterComboBox.setOnAction(e -> updateFilteredList());
             searchTextField.textProperty().addListener((observable, oldValue, newValue) -> updateFilteredList());
             dateSortComboBox.setOnAction(e -> updateFilteredList());
+
+            // Finally, update the chart statistics.
+            updateChart();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -111,7 +127,9 @@ public class ApplicationListController {
         }
     }
 
-
+    /**
+     * Updates the ListView based on job filter, candidate search, and sort order.
+     */
     private void updateFilteredList() {
         JobOffer selectedJob = jobFilterComboBox.getValue();
         String searchText = searchTextField.getText().toLowerCase().trim();
@@ -137,6 +155,25 @@ public class ApplicationListController {
         }
 
         listView.getItems().setAll(filtered);
+        // Update chart based on the filtered list
+        updateChart(filtered);
+    }
+
+    /**
+     * Computes and updates the PieChart based on the list of applications.
+     * If a filtered list is provided, it will display stats for that list; otherwise, for all applications.
+     */
+    private void updateChart() {
+        updateChart(allApplications);
+    }
+
+    private void updateChart(List<Applications> applicationsList) {
+        // Group applications by JobOffer title and count
+        Map<String, Long> stats = applicationsList.stream()
+                .collect(Collectors.groupingBy(app -> app.getJobId().getTitle(), Collectors.counting()));
+        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+        stats.forEach((jobTitle, count) -> pieChartData.add(new PieChart.Data(jobTitle, count)));
+        applicationChart.setData(pieChartData);
     }
 
     private void viewApplicationDetails(Applications selectedApplication) {
