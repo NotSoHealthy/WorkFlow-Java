@@ -5,6 +5,7 @@ import entity.Formation;
 import entity.Inscription;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -104,6 +105,19 @@ public class ViewFormationController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        Platform.runLater(() -> {
+            if (loggedinEmployee == null) {
+                loggedinEmployee = UserSession.getInstance().getLoggedInEmployee();
+            }
+            else{
+                try {
+                    si.sendSMS(loggedinEmployee);
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
         DateBegin.setValue(LocalDate.now());
         LocalDate startDate = DateBegin.getValue();
         LocalDate endDate = startDate.plusWeeks(1);
