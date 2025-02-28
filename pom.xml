@@ -26,11 +26,11 @@
       <version>${junit.version}</version>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx</artifactId>
-      <version>23.0.2</version>
-    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>org.openjfx</groupId>-->
+<!--      <artifactId>javafx</artifactId>-->
+<!--      <version>23.0.2</version>-->
+<!--    </dependency>-->
     <dependency>
       <groupId>com.squareup.okhttp3</groupId>
       <artifactId>okhttp</artifactId>
@@ -75,6 +75,21 @@
       <groupId>com.google.apis</groupId>
       <artifactId>google-api-services-gmail</artifactId>
       <version>v1-rev20220404-2.0.0</version>
+    </dependency>
+<!--    <dependency>-->
+<!--      <groupId>javax.mail</groupId>-->
+<!--      <artifactId>javax.mail-api</artifactId>-->
+<!--      <version>1.6.2</version>-->
+<!--    </dependency>-->
+    <dependency>
+      <groupId>com.google.auth</groupId>
+      <artifactId>google-auth-library-oauth2-http</artifactId>
+      <version>1.33.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.mail</groupId>
+      <artifactId>javax.mail</artifactId>
+      <version>1.6.2</version>
     </dependency>
 
   </dependencies>

@@ -7,6 +7,18 @@ module com.example.projet {
     requires java.desktop;
     requires java.compiler;
     requires okhttp3;
+    requires com.google.api.client;
+    requires com.google.api.client.json.gson;
+    requires com.google.api.services.gmail;
+    requires google.api.client;
+    requires com.google.api.client.extensions.jetty.auth;
+    requires com.google.api.client.auth;
+    requires com.google.api.client.extensions.java6.auth;
+    requires java.mail;
+//    requires javax.mail.api;
+    requires org.apache.commons.codec;
+    requires com.google.auth.oauth2;
+    requires com.google.auth;
 
 
     opens com.PIDev3A18.projet to javafx.fxml;
