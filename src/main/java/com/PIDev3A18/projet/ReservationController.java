@@ -38,7 +38,11 @@ public class ReservationController {
     void Delete(ActionEvent event) {
         ServiceReservation sr = new ServiceReservation();
         sr.delete(reservation);
-        e.populateReservations(event);
+        try {
+            e.populateReservations(event);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
     }
     public void setTitleMyReservations(String title) {
         TitleMyReservations.setText(title);

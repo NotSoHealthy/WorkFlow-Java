@@ -18,6 +18,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import services.ServiceEvent;
 import services.ServiceReservation;
+import utils.CalendarServiceBuilder;
 import utils.ImgApi;
 import utils.UserSession;
 
@@ -39,6 +40,8 @@ import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 
+import com.google.api.client.util.DateTime;
+import com.google.api.services.calendar.model.EventDateTime;
 public class EvenementsController {
 
     private Event ToReserveEvent;
@@ -169,7 +172,7 @@ public class EvenementsController {
         ServiceEvent se=new ServiceEvent();
         populateEventHolder(se.readAll());
     }
-    public void populateReservations(ActionEvent event) {
+    public void populateReservations(ActionEvent event) throws Exception {
         EventDisplay.setVisible(false);
         ReservationDisplay.setVisible(true);
         ReservationHolder.getChildren().clear();
@@ -199,6 +202,24 @@ public class EvenementsController {
                 e.printStackTrace();
             }
         }
+        /*com.google.api.services.calendar.model.Event calendarEvent = new com.google.api.services.calendar.model.Event()
+                .setSummary("Calendar testing")
+                .setLocation("Testing Facility")
+                .setDescription("Testing the calendar Api");
+        DateTime startDateTime = new DateTime("2025-03-30T09:00:00-07:00");
+        EventDateTime start = new EventDateTime()
+                .setDateTime(startDateTime)
+                .setTimeZone("America/Los_Angeles");
+        calendarEvent.setStart(start);
+        DateTime endDateTime = new DateTime("2025-03-30T10:00:00-07:00");
+        EventDateTime end = new EventDateTime()
+                .setDateTime(endDateTime)
+                .setTimeZone("America/Los_Angeles");
+        calendarEvent.setEnd(end);
+        String calendarId = "primary";
+        calendarEvent = CalendarServiceBuilder.getCalendarService().events().insert(calendarId, calendarEvent).execute();
+        System.out.printf("Event created: %s\n", calendarEvent.getHtmlLink());*/
+
     }
     public void setUpdateEvent(Event e) {
         this.ToUpdateEvent = e;
