@@ -28,6 +28,7 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.awt.image.BufferedImage;
@@ -172,7 +173,7 @@ public class EvenementsController {
         ServiceEvent se=new ServiceEvent();
         populateEventHolder(se.readAll());
     }
-    public void populateReservations(ActionEvent event) throws Exception {
+    public void populateReservations(ActionEvent event){
         EventDisplay.setVisible(false);
         ReservationDisplay.setVisible(true);
         ReservationHolder.getChildren().clear();
@@ -202,24 +203,6 @@ public class EvenementsController {
                 e.printStackTrace();
             }
         }
-        /*com.google.api.services.calendar.model.Event calendarEvent = new com.google.api.services.calendar.model.Event()
-                .setSummary("Calendar testing")
-                .setLocation("Testing Facility")
-                .setDescription("Testing the calendar Api");
-        DateTime startDateTime = new DateTime("2025-03-30T09:00:00-07:00");
-        EventDateTime start = new EventDateTime()
-                .setDateTime(startDateTime)
-                .setTimeZone("America/Los_Angeles");
-        calendarEvent.setStart(start);
-        DateTime endDateTime = new DateTime("2025-03-30T10:00:00-07:00");
-        EventDateTime end = new EventDateTime()
-                .setDateTime(endDateTime)
-                .setTimeZone("America/Los_Angeles");
-        calendarEvent.setEnd(end);
-        String calendarId = "primary";
-        calendarEvent = CalendarServiceBuilder.getCalendarService().events().insert(calendarId, calendarEvent).execute();
-        System.out.printf("Event created: %s\n", calendarEvent.getHtmlLink());*/
-
     }
     public void setUpdateEvent(Event e) {
         this.ToUpdateEvent = e;
@@ -250,6 +233,7 @@ public class EvenementsController {
         UpdateEvent.setVisible(true);
     }
     public void layoutGoToReserveEvenement() {
+        TypeListReserver.getItems().clear();
         ReserveTypeMap.put("VIP",90);
         ReserveTypeMap.put("Semi-VIP",50);
         ReserveTypeMap.put("Accès-Normal",40);
@@ -503,6 +487,29 @@ public class EvenementsController {
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            com.google.api.services.calendar.model.Event calendarEvent = new com.google.api.services.calendar.model.Event()
+                    .setSummary(reservation.getEvent().getTitre())
+                    .setLocation(reservation.getEvent().getLieu())
+                    .setDescription(reservation.getEvent().getDescription());
+            LocalDateTime endDateTime = reservation.getEvent().getDateetheure().plusHours(3);
+            ZoneId zoneId = ZoneId.of("Africa/Tunis"); // Change this to the correct time zone
+            DateTime googleStart = new DateTime(reservation.getEvent().getDateetheure().atZone(zoneId).toInstant().toEpochMilli());
+            DateTime googleEnd = new DateTime(endDateTime.atZone(zoneId).toInstant().toEpochMilli());
+            EventDateTime start = new EventDateTime()
+                    .setDateTime(googleStart)
+                    .setTimeZone("Africa/Tunis");
+            EventDateTime end = new EventDateTime()
+                    .setDateTime(googleEnd)
+                    .setTimeZone("Africa/Tunis");
+            calendarEvent.setStart(start);
+            calendarEvent.setEnd(end);
+            String calendarId = "primary";
+            try {
+                calendarEvent = CalendarServiceBuilder.getCalendarService().events().insert(calendarId, calendarEvent).execute();
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            System.out.printf("Event created: %s\n", calendarEvent.getHtmlLink());
             sr.add(reservation);
             ReserverPage.setVisible(false);
             EventDisplay.setVisible(true);
