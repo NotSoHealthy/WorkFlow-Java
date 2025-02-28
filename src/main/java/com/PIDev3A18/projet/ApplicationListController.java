@@ -30,7 +30,6 @@ public class ApplicationListController {
     @FXML
     private TextField searchTextField;
 
-    // New ComboBox to sort applications by Submission_Date.
     @FXML
     private ComboBox<String> dateSortComboBox;
 
@@ -44,11 +43,9 @@ public class ApplicationListController {
     @FXML
     public void initialize() {
         try {
-            // Load all applications from the database.
             allApplications = applicationService.readAll();
             listView.getItems().setAll(allApplications);
 
-            // Set up the ListView cell factory.
             listView.setCellFactory(param -> new ListCell<Applications>() {
                 @Override
                 protected void updateItem(Applications application, boolean empty) {
@@ -69,14 +66,13 @@ public class ApplicationListController {
                 }
             });
 
-            // When an application is selected, display its details.
             listView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
                 if (newValue != null) {
                     viewApplicationDetails(newValue);
                 }
             });
 
-            // --------- Setup for Job Filter ComboBox -----------
+
             jobFilterComboBox.getItems().clear();
             JobOffer allJobs = new JobOffer(0, "All Jobs");
             jobFilterComboBox.getItems().add(allJobs);
@@ -101,12 +97,10 @@ public class ApplicationListController {
                 }
             });
 
-            // --------- Setup for Date Sort ComboBox -----------
             dateSortComboBox.getItems().clear();
             dateSortComboBox.getItems().addAll("Ascending", "Descending");
             dateSortComboBox.setValue("Ascending");
 
-            // --------- Add listeners to update the filtered list ---------
             jobFilterComboBox.setOnAction(e -> updateFilteredList());
             searchTextField.textProperty().addListener((observable, oldValue, newValue) -> updateFilteredList());
             dateSortComboBox.setOnAction(e -> updateFilteredList());
@@ -117,9 +111,7 @@ public class ApplicationListController {
         }
     }
 
-    /**
-     * Updates the ListView based on the current job filter, search text, and date sort order.
-     */
+
     private void updateFilteredList() {
         JobOffer selectedJob = jobFilterComboBox.getValue();
         String searchText = searchTextField.getText().toLowerCase().trim();
@@ -127,10 +119,8 @@ public class ApplicationListController {
 
         List<Applications> filtered = allApplications.stream()
                 .filter(app -> {
-                    // Filter by job (if not "All Jobs").
                     boolean jobMatches = (selectedJob == null || selectedJob.getJobId() == 0) ||
                             (app.getJobId().getJobId() == selectedJob.getJobId());
-                    // Filter by candidate first or last name.
                     boolean searchMatches = searchText.isEmpty() ||
                             (app.getFirst_Name().toLowerCase().contains(searchText) ||
                                     app.getLast_Name().toLowerCase().contains(searchText));
@@ -138,7 +128,6 @@ public class ApplicationListController {
                 })
                 .collect(Collectors.toList());
 
-        // Sort the filtered list by Submission_Date.
         if (sortOption != null) {
             if (sortOption.equals("Ascending")) {
                 filtered.sort(Comparator.comparing(Applications::getSubmissionDate));

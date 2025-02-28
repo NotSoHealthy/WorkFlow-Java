@@ -7,6 +7,16 @@ module com.example.projet {
     requires java.desktop;
     requires java.compiler;
     requires okhttp3;
+    requires mysql.connector.j;
+    requires java.mail;
+    requires google.api.client;
+    requires com.google.api.client.json.jackson2;
+    requires com.google.api.client;
+    requires com.google.api.client.extensions.java6.auth;
+    requires com.google.api.client.auth;
+    requires org.apache.commons.codec;
+    requires com.google.api.client.extensions.jetty.auth;
+    requires com.google.api.services.gmail;
 
 
     opens com.PIDev3A18.projet to javafx.fxml;
