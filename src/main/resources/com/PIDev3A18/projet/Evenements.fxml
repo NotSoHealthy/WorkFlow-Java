@@ -2,6 +2,9 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
@@ -53,6 +56,14 @@
                      </font>
                   </CheckBox>
                   <ComboBox fx:id="TypeListSort" layoutX="238.0" layoutY="56.0" onAction="#SortByType" prefHeight="18.0" prefWidth="338.0" promptText="Type" styleClass="cmbx" stylesheets="@css/Evenements.css" />
+                  <ImageView fx:id="StatisticsImage" fitHeight="29.0" fitWidth="30.0" layoutX="206.0" layoutY="55.0" onMouseClicked="#layoutGoToStatistics" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/statistics.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
                </children>
             </AnchorPane>
             <AnchorPane fx:id="AddEvent" prefHeight="200.0" prefWidth="200.0" visible="false">
@@ -195,6 +206,26 @@
                         </VBox>
                      </content>
                   </ScrollPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="DisplayStatistics" prefHeight="200.0" prefWidth="200.0" visible="false">
+               <children>
+                  <BarChart fx:id="barChart" animated="false" categoryGap="20.0" layoutX="52.0" layoutY="71.0" legendSide="TOP" prefHeight="592.0" prefWidth="819.0">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" />
+                    </yAxis>
+                  </BarChart>
+                  <ImageView fx:id="backDisplayStatistics" fitHeight="36.0" fitWidth="47.0" layoutX="29.0" layoutY="27.0" onMouseClicked="#layoutGoBack" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/arrow-left-solid.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
                </children>
             </AnchorPane>
          </children>

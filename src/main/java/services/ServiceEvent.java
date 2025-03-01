@@ -3,12 +3,14 @@ package services;
 import entity.Event;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import entity.Reservation;
 import utils.DBConnection;
 
 import java.sql.*;
+import java.util.Map;
 
 public class ServiceEvent implements IService<Event> {
     private Statement ste;
@@ -172,5 +174,21 @@ public class ServiceEvent implements IService<Event> {
             throw new RuntimeException(e);
         }
         return evenements;
+    }
+    public Map<String, Integer> getStatistics(){
+        String requete="select type,count(*) from events group by type";
+        Map<String, Integer> eventData = new HashMap<>();
+        try {
+            ste=cnx.createStatement();
+            rs=ste.executeQuery(requete);
+            while(rs.next()){
+                String eventType = rs.getString(1);  // First column: event type
+                int eventCount = rs.getInt(2);         // Second column: number of events
+                eventData.put(eventType, eventCount);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return eventData;
     }
 }

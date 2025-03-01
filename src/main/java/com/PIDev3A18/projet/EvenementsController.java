@@ -3,6 +3,7 @@ package com.PIDev3A18.projet;
 import entity.Employee;
 import entity.Event;
 import entity.Reservation;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,6 +11,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -25,6 +28,7 @@ import utils.UserSession;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -157,6 +161,10 @@ public class EvenementsController {
     @FXML
     private ScrollPane SC;
     @FXML
+    private BarChart barChart;
+    @FXML
+    private AnchorPane DisplayStatistics;
+    @FXML
     public void initialize() {
         eventHolder.getChildren().clear();
         TypeList.setItems(FXCollections.observableArrayList("Workshop", "Commerce", "Conference" , "Webinaire" , "Networking" , "Reunion","Concert"));
@@ -253,6 +261,7 @@ public class EvenementsController {
         back.setVisible(false);
         backUpdate.setVisible(false);
         backReserver.setVisible(false);
+        DisplayStatistics.setVisible(false);
         Titre.setText("");
         Description.setText("");
         Date.setValue(null);
@@ -272,7 +281,31 @@ public class EvenementsController {
         TypeListReserver.setValue(null);
         NbplaceReserver.setText("");
         PriceReserver.setText("");
+        barChart.getData().clear();
         initialize();
+    }
+    public void layoutGoToStatistics(javafx.scene.input.MouseEvent mouseEvent){
+        ServiceEvent se = new ServiceEvent();
+        Map<String, Integer> eventData=se.getStatistics();
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Nombre d'evenements par type");
+        List<String> color=Arrays.asList("red","blue","green","yellow");
+        int i=0;
+        for (Map.Entry<String, Integer> entry : eventData.entrySet()) {
+            XYChart.Data<String, Number> data = new XYChart.Data<>(entry.getKey(), entry.getValue());
+            series.getData().add(data);
+            int finalI = i;
+            data.nodeProperty().addListener((obs, oldNode, newNode) -> {
+                if (newNode != null) {// Or define a color based on the entry
+                    newNode.setStyle("-fx-bar-fill: " + color.get(finalI) + ";");
+                }
+            });
+            i++;
+        }
+        barChart.getData().clear();
+        barChart.getData().add(series);
+        EventDisplay.setVisible(false);
+        DisplayStatistics.setVisible(true);
     }
     public void AddEvenements(ActionEvent event) {
         boolean test=true;
