@@ -13,6 +13,7 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Message;
+import entity.Employee;
 import org.apache.commons.codec.binary.Base64;
 
 import javax.mail.Session;
@@ -85,15 +86,62 @@ public class GMailer {
         }
     }
 
-    public static void main(String[] args) throws Exception {
-        new GMailer().sendMail("aminbenhamouda16@gmail.com","Weeew", """
-                Dear Melah,
-                                
-                Hello.
-                                
-                Best regards,
-                Jesus
-                """);
+    public void sendSignUpMail(Employee employee) throws Exception {
+        String subject = "Création de votre compte – WorkFlow";
+        String body = "Bonjour %s,\n" +
+                "Merci de vous être inscrit sur WorkFlow !\n" +
+                "Votre compte a bien été créé et est actuellement en attente de validation par notre équipe. Nous vous informerons dès qu’il sera approuvé.\n" +
+                "Cette vérification est nécessaire pour garantir la sécurité et la qualité de notre service.\n" +
+                "Si vous avez des questions, n’hésitez pas à nous contacter.\n" +
+                "Merci de votre patience et à très bientôt !\n\n" +
+                "L’équipe WorkFlow";
+        body = String.format(body, employee.getLastName()+" "+employee.getFirstName());
+        sendMail(employee.getEmail(),subject,body);
     }
 
+    public void sendConfirmationMail(Employee employee) throws Exception {
+        String subject = "Votre compte a été validé – Bienvenue sur WorkFlow !";
+        String body = "Bonjour %s,\n" +
+                "Bonne nouvelle ! Votre compte sur WorkFlow a été validé par notre équipe.\n" +
+                "Bienvenue parmi nous et à très bientôt !\n\n" +
+                "L’équipe WorkFlow";
+        body = String.format(body, employee.getLastName()+" "+employee.getFirstName());
+        sendMail(employee.getEmail(),subject,body);
+    }
+
+    public void sendDenialMail(Employee employee) throws Exception {
+        String subject = "Statut de votre inscription sur WorkFlow !";
+        String body = "Bonjour %s,\n" +
+                "Après examen de votre inscription sur WorkFlow, nous regrettons de vous informer que votre demande n’a pas été approuvée.\n" +
+                "Si vous pensez qu'il s'agit d'une erreur ou que vous souhaitez plus d’informations, n’hésitez pas à nous contacter.\n\n" +
+                "Cordialement,\n" +
+                "L’équipe WorkFlow";
+        body = String.format(body, employee.getLastName()+" "+employee.getFirstName());
+        sendMail(employee.getEmail(),subject,body);
+    }
+
+    public void sendCodeMail(Employee employee, String code) throws Exception {
+        String subject = "Réinitialisation de votre mot de passe - WorkFlow !";
+        String body = "Bonjour %s,\n" +
+                "Vous avez demandé à réinitialiser votre mot de passe. Utilisez le code de vérification ci-dessous pour procéder à la modification :\n" +
+                "%s\n" +
+                "Si vous n’êtes pas à l’origine de cette demande, vous pouvez ignorer ce message en toute sécurité.\n" +
+                "Si vous avez besoin d’aide, n’hésitez pas à nous contacter.\n\n" +
+                "L’équipe WorkFlow";
+        body = String.format(body, employee.getLastName()+" "+employee.getFirstName(), code);
+        sendMail(employee.getEmail(),subject,body);
+    }
+
+    public static void main(String[] args) throws Exception {
+//        String subject = "Création de votre compte – WorkFlow";
+//        String body = "Bonjour %s,\n" +
+//                "Merci de vous être inscrit sur WorkFlow !\n" +
+//                "Votre compte a bien été créé et est actuellement en attente de validation par notre équipe. Nous vous informerons dès qu’il sera approuvé.\n" +
+//                "Cette vérification est nécessaire pour garantir la sécurité et la qualité de notre service.\n" +
+//                "Si vous avez des questions, n’hésitez pas à nous contacter.\n" +
+//                "Merci de votre patience et à très bientôt !\n\n" +
+//                "L’équipe WorkFlow";
+//        body = String.format(body, "nom prenom");
+//        new GMailer().sendMail("aminbenhamouda16@gmail.com",subject,body);
+    }
 }

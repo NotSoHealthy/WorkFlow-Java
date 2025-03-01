@@ -65,7 +65,7 @@
                            </font>
                         </CheckBox>
                         <Pane prefWidth="200.0" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="link-text" text="Mot de passe oublié?" textAlignment="RIGHT">
+                        <Text onMouseClicked="#goToPasswordReset" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="link-text" text="Mot de passe oublié?" textAlignment="RIGHT">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>

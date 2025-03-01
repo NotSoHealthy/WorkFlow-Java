@@ -15,7 +15,7 @@ module com.example.projet {
     requires com.google.api.client.auth;
     requires com.google.api.client.extensions.java6.auth;
     requires java.mail;
-//    requires javax.mail.api;
+    requires twilio;
     requires org.apache.commons.codec;
     requires com.google.auth.oauth2;
     requires com.google.auth;

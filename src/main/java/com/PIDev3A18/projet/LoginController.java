@@ -162,4 +162,10 @@ public class LoginController {
         Parent root = loader.load();
         emailField.getScene().setRoot(root);
     }
+
+    public void goToPasswordReset() throws IOException {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("password_reset.fxml"));
+        Parent root = loader.load();
+        emailField.getScene().setRoot(root);
+    }
 }

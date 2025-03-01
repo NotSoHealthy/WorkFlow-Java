@@ -56,6 +56,14 @@ public class Employee {
         this.role = role;
     }
 
+    //Only firstname, lastname, email and phone
+    public Employee(String firstName, String lastName, String email, String phone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+    }
+
     //All attributes except id
     public Employee(String firstName, String lastName, String email, String phone, String password, Department department, String adresse, String gouvernorat, String imageUrl, String role, String status) {
         this.firstName = firstName;

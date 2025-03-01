@@ -76,11 +76,6 @@
       <artifactId>google-api-services-gmail</artifactId>
       <version>v1-rev20220404-2.0.0</version>
     </dependency>
-<!--    <dependency>-->
-<!--      <groupId>javax.mail</groupId>-->
-<!--      <artifactId>javax.mail-api</artifactId>-->
-<!--      <version>1.6.2</version>-->
-<!--    </dependency>-->
     <dependency>
       <groupId>com.google.auth</groupId>
       <artifactId>google-auth-library-oauth2-http</artifactId>
@@ -91,7 +86,22 @@
       <artifactId>javax.mail</artifactId>
       <version>1.6.2</version>
     </dependency>
-
+    <dependency>
+      <groupId>com.twilio.sdk</groupId>
+      <artifactId>twilio</artifactId>
+      <version>8.23.0</version>
+      <exclusions>
+        <exclusion>
+          <groupId>jakarta.activation</groupId>
+          <artifactId>jakarta.activation-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>1.7.32</version>
+    </dependency>
   </dependencies>
 
   <build>
