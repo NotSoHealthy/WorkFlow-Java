@@ -55,14 +55,26 @@
       </HBox>
       <HBox prefHeight="64.0" prefWidth="837.0">
          <children>
-            <Label fx:id="Type" prefHeight="27.0" prefWidth="622.0" text="Type">
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
+            <VBox prefHeight="36.0" prefWidth="622.0">
                <HBox.margin>
                   <Insets left="22.0" />
                </HBox.margin>
-            </Label>
+               <children>
+                  <Label fx:id="Type" prefHeight="27.0" prefWidth="622.0" text="Type">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="isOnline" text="Présentiel">
+                     <VBox.margin>
+                        <Insets top="10.0" />
+                     </VBox.margin>
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
             <VBox alignment="TOP_CENTER" prefHeight="73.0" prefWidth="144.0">
                <children>
                   <Button mnemonicParsing="false" onAction="#Reserver" prefHeight="30.0" prefWidth="139.0" styleClass="reserve" stylesheets="@css/Evenements.css" text="Reserver">

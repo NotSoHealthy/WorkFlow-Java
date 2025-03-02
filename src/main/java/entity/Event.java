@@ -10,9 +10,10 @@ public class Event {
     String lieu;
     String type;
     int nombredeplace;
+    boolean isOnline;
     Employee e;
     public Event() {}
-    public Event(int id,String titre,String description,LocalDateTime dateetheure,String lieu,String type,int nombredeplace,Employee e) {
+    public Event(int id,String titre,String description,LocalDateTime dateetheure,String lieu,String type,int nombredeplace,boolean isOnline,Employee e) {
         this.id = id;
         this.titre = titre;
         this.description = description;
@@ -20,15 +21,17 @@ public class Event {
         this.lieu = lieu;
         this.type = type;
         this.nombredeplace = nombredeplace;
+        this.isOnline = isOnline;
         this.e = e;
     }
-    public Event(String titre,String description,LocalDateTime dateetheure,String lieu,String type,int nombredeplace,Employee e) {
+    public Event(String titre,String description,LocalDateTime dateetheure,String lieu,String type,int nombredeplace,boolean isOnline,Employee e) {
         this.titre = titre;
         this.description = description;
         this.dateetheure = dateetheure;
         this.lieu = lieu;
         this.type = type;
         this.nombredeplace = nombredeplace;
+        this.isOnline = isOnline;
         this.e = e;
     }
 
@@ -94,6 +97,14 @@ public class Event {
 
     public void setEmployee(Employee e) {
         this.e = e;
+    }
+
+    public boolean isOnline() {
+        return isOnline;
+    }
+
+    public void setOnline(boolean online) {
+        isOnline = online;
     }
 
     @Override

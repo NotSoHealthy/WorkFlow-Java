@@ -22,7 +22,7 @@ public class ServiceEvent implements IService<Event> {
     }
     @Override
     public void add(Event evenement) {
-        String requete="insert into events(Title,Description,DateAndTime,Location,Type,NumberOfPlaces,UID) values (?,?,?,?,?,?,?)";
+        String requete="insert into events(Title,Description,DateAndTime,Location,Type,NumberOfPlaces,isOnline,UID) values (?,?,?,?,?,?,?,?)";
         try {
             pst= cnx.prepareStatement(requete);
             pst.setString(1, evenement.getTitre());
@@ -31,7 +31,8 @@ public class ServiceEvent implements IService<Event> {
             pst.setString(4, evenement.getLieu());
             pst.setString(5, evenement.getType());
             pst.setInt(6,evenement.getNombredeplace());
-            pst.setInt(7, evenement.getEmployee().getId());
+            pst.setBoolean(7,evenement.isOnline());
+            pst.setInt(8,evenement.getEmployee().getId());
             pst.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -53,7 +54,7 @@ public class ServiceEvent implements IService<Event> {
 
     @Override
     public void update(Event evenement) {
-        String requete="update events set Title=?,Description=?,DateAndTime=?,Location=?,Type=?,NumberOfPlaces=? where ID_Event=?";
+        String requete="update events set Title=?,Description=?,DateAndTime=?,Location=?,Type=?,NumberOfPlaces=?,isOnline=? where ID_Event=?";
         try {
             pst= cnx.prepareStatement(requete);
             pst.setString(1, evenement.getTitre());
@@ -62,7 +63,8 @@ public class ServiceEvent implements IService<Event> {
             pst.setString(4, evenement.getLieu());
             pst.setString(5, evenement.getType());
             pst.setInt(6,evenement.getNombredeplace());
-            pst.setInt(7, evenement.getId());
+            pst.setBoolean(7,evenement.isOnline());
+            pst.setInt(8, evenement.getId());
             pst.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -78,7 +80,7 @@ public class ServiceEvent implements IService<Event> {
             ste=cnx.createStatement();
             rs=ste.executeQuery(requete);
             while(rs.next()){
-                evenements.add(new Event(rs.getInt("ID_Event"),rs.getString("Title"),rs.getString("Description"),rs.getTimestamp("DateAndTime").toLocalDateTime(),rs.getString("Location"),rs.getString("Type"),rs.getInt("NumberOfPlaces"),emp.readById(rs.getInt("UID"))));
+                evenements.add(new Event(rs.getInt("ID_Event"),rs.getString("Title"),rs.getString("Description"),rs.getTimestamp("DateAndTime").toLocalDateTime(),rs.getString("Location"),rs.getString("Type"),rs.getInt("NumberOfPlaces"),rs.getBoolean("isOnline"),emp.readById(rs.getInt("UID"))));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -102,6 +104,7 @@ public class ServiceEvent implements IService<Event> {
             event.setLieu(rs.getString("Location"));
             event.setType(rs.getString("Type"));
             event.setNombredeplace(rs.getInt("NumberOfPlaces"));
+            event.setOnline(rs.getBoolean("isOnline"));
             event.setEmployee(emp.readById(rs.getInt("UID")));
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -138,7 +141,7 @@ public class ServiceEvent implements IService<Event> {
             ste=cnx.createStatement();
             rs=ste.executeQuery(requete);
             while(rs.next()){
-                evenements.add(new Event(rs.getInt("ID_Event"),rs.getString("Title"),rs.getString("Description"),rs.getTimestamp("DateAndTime").toLocalDateTime(),rs.getString("Location"),rs.getString("Type"),rs.getInt("NumberOfPlaces"),emp.readById(rs.getInt("UID"))));
+                evenements.add(new Event(rs.getInt("ID_Event"),rs.getString("Title"),rs.getString("Description"),rs.getTimestamp("DateAndTime").toLocalDateTime(),rs.getString("Location"),rs.getString("Type"),rs.getInt("NumberOfPlaces"),rs.getBoolean("isOnline"),emp.readById(rs.getInt("UID"))));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -153,7 +156,7 @@ public class ServiceEvent implements IService<Event> {
             ste=cnx.createStatement();
             rs=ste.executeQuery(requete);
             while(rs.next()){
-                evenements.add(new Event(rs.getInt("ID_Event"),rs.getString("Title"),rs.getString("Description"),rs.getTimestamp("DateAndTime").toLocalDateTime(),rs.getString("Location"),rs.getString("Type"),rs.getInt("NumberOfPlaces"),emp.readById(rs.getInt("UID"))));
+                evenements.add(new Event(rs.getInt("ID_Event"),rs.getString("Title"),rs.getString("Description"),rs.getTimestamp("DateAndTime").toLocalDateTime(),rs.getString("Location"),rs.getString("Type"),rs.getInt("NumberOfPlaces"),rs.getBoolean("isOnline"),emp.readById(rs.getInt("UID"))));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -168,7 +171,7 @@ public class ServiceEvent implements IService<Event> {
             ste=cnx.createStatement();
             rs=ste.executeQuery(requete);
             while(rs.next()){
-                evenements.add(new Event(rs.getInt("ID_Event"),rs.getString("Title"),rs.getString("Description"),rs.getTimestamp("DateAndTime").toLocalDateTime(),rs.getString("Location"),rs.getString("Type"),rs.getInt("NumberOfPlaces"),emp.readById(rs.getInt("UID"))));
+                evenements.add(new Event(rs.getInt("ID_Event"),rs.getString("Title"),rs.getString("Description"),rs.getTimestamp("DateAndTime").toLocalDateTime(),rs.getString("Location"),rs.getString("Type"),rs.getInt("NumberOfPlaces"),rs.getBoolean("isOnline"),emp.readById(rs.getInt("UID"))));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

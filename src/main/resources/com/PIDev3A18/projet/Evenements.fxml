@@ -68,9 +68,9 @@
             </AnchorPane>
             <AnchorPane fx:id="AddEvent" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
-                  <Pane layoutX="81.0" layoutY="52.0" prefHeight="617.0" prefWidth="665.0" styleClass="Evenements-back" stylesheets="@css/Evenements.css">
+                  <Pane layoutX="81.0" layoutY="43.0" prefHeight="648.0" prefWidth="665.0" styleClass="Evenements-back" stylesheets="@css/Evenements.css">
                      <children>
-                        <Pane layoutX="129.0" layoutY="38.0" prefHeight="554.0" prefWidth="420.0" style="-fx-background-color: white; -fx-background-radius: 20px;" stylesheets="@css/AddEvent.css">
+                        <Pane layoutX="129.0" layoutY="38.0" prefHeight="591.0" prefWidth="420.0" style="-fx-background-color: white; -fx-background-radius: 20px;" stylesheets="@css/AddEvent.css">
                            <children>
                               <TextField fx:id="Titre" layoutX="46.0" layoutY="22.0" prefHeight="25.0" prefWidth="333.0" promptText="Titre" />
                               <TextArea fx:id="Description" layoutX="49.0" layoutY="81.0" prefHeight="96.0" prefWidth="330.0" promptText="Description" />
@@ -80,7 +80,8 @@
                               <TextField fx:id="Adresse" layoutX="50.0" layoutY="317.0" prefWidth="329.0" promptText="Adresse" />
                               <ComboBox fx:id="TypeList" layoutX="50.0" layoutY="376.0" prefHeight="25.0" prefWidth="328.0" promptText="Type" />
                               <TextField fx:id="Nbplace" layoutX="49.0" layoutY="434.0" prefWidth="329.0" promptText="Nombre de Place" />
-                              <Button layoutX="141.0" layoutY="495.0" mnemonicParsing="false" onAction="#AddEvenements" prefHeight="45.0" prefWidth="138.0" styleClass="btn" stylesheets="@css/Evenements.css" text="Creer" />
+                              <Button layoutX="141.0" layoutY="528.0" mnemonicParsing="false" onAction="#AddEvenements" prefHeight="45.0" prefWidth="138.0" styleClass="btn" stylesheets="@css/Evenements.css" text="Creer" />
+                              <CheckBox fx:id="online" layoutX="50.0" layoutY="491.0" mnemonicParsing="false" text="En Ligne" />
                               <Label fx:id="TitreError" layoutX="50.0" layoutY="62.0" textFill="#f50000" />
                               <Label fx:id="DescriptionError" layoutX="50.0" layoutY="177.0" textFill="RED" />
                               <Label fx:id="DateError" layoutX="50.0" layoutY="237.0" textFill="RED" />
@@ -110,9 +111,9 @@
             </AnchorPane>
             <AnchorPane fx:id="UpdateEvent" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
-                  <Pane layoutX="81.0" layoutY="52.0" prefHeight="617.0" prefWidth="665.0" styleClass="Evenements-back" stylesheets="@css/Evenements.css">
+                  <Pane layoutX="81.0" layoutY="52.0" prefHeight="638.0" prefWidth="665.0" styleClass="Evenements-back" stylesheets="@css/Evenements.css">
                      <children>
-                        <Pane layoutX="129.0" layoutY="38.0" prefHeight="554.0" prefWidth="420.0" style="-fx-background-color: white; -fx-background-radius: 20px;" stylesheets="@css/AddEvent.css">
+                        <Pane layoutX="129.0" layoutY="38.0" prefHeight="582.0" prefWidth="420.0" style="-fx-background-color: white; -fx-background-radius: 20px;" stylesheets="@css/AddEvent.css">
                            <children>
                               <TextField fx:id="TitreUpdate" layoutX="46.0" layoutY="22.0" prefHeight="25.0" prefWidth="333.0" promptText="Titre" />
                               <TextArea fx:id="DescriptionUpdate" layoutX="49.0" layoutY="81.0" prefHeight="96.0" prefWidth="330.0" promptText="Description" />
@@ -122,7 +123,8 @@
                               <TextField fx:id="AdresseUpdate" layoutX="50.0" layoutY="317.0" prefWidth="329.0" promptText="Adresse" />
                               <ComboBox fx:id="TypeListUpdate" layoutX="50.0" layoutY="376.0" prefHeight="25.0" prefWidth="328.0" promptText="Type" />
                               <TextField fx:id="NbplaceUpdate" layoutX="49.0" layoutY="434.0" prefWidth="329.0" promptText="Nombre de Place" />
-                              <Button layoutX="141.0" layoutY="495.0" mnemonicParsing="false" onAction="#UpdateEvenements" prefHeight="45.0" prefWidth="138.0" styleClass="update" stylesheets="@css/Evenements.css" text="Mise à jour" />
+                              <Button layoutX="141.0" layoutY="515.0" mnemonicParsing="false" onAction="#UpdateEvenements" prefHeight="45.0" prefWidth="138.0" styleClass="update" stylesheets="@css/Evenements.css" text="Mise à jour" />
+                              <CheckBox fx:id="onlineUpdate" layoutX="49.0" layoutY="491.0" mnemonicParsing="false" text="En Ligne" />
                               <Label fx:id="TitreErrorUpdate" layoutX="50.0" layoutY="62.0" textFill="#f50000" />
                               <Label fx:id="DescriptionErrorUpdate" layoutX="50.0" layoutY="177.0" textFill="RED" />
                               <Label fx:id="DateErrorUpdate" layoutX="50.0" layoutY="237.0" textFill="RED" />

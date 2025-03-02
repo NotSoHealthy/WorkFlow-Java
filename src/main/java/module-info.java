@@ -17,6 +17,7 @@ module com.example.projet {
     requires com.google.api.client.json.jackson2;
     requires com.google.api.client;
     requires com.google.api.services.calendar;
+    requires java.mail;
 
 
     opens com.PIDev3A18.projet to javafx.fxml;

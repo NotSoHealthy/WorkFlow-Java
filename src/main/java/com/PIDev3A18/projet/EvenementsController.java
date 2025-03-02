@@ -23,6 +23,7 @@ import services.ServiceEvent;
 import services.ServiceReservation;
 import utils.CalendarServiceBuilder;
 import utils.ImgApi;
+import utils.JavaMailSender;
 import utils.UserSession;
 
 import java.awt.event.MouseEvent;
@@ -38,6 +39,7 @@ import java.util.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import javax.imageio.ImageIO;
+import javax.mail.MessagingException;
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Writer;
@@ -47,6 +49,9 @@ import com.google.zxing.qrcode.QRCodeWriter;
 
 import com.google.api.client.util.DateTime;
 import com.google.api.services.calendar.model.EventDateTime;
+import com.google.api.services.calendar.model.ConferenceData;
+import com.google.api.services.calendar.model.CreateConferenceRequest;
+import com.google.api.services.calendar.model.ConferenceSolutionKey;
 public class EvenementsController {
 
     private Event ToReserveEvent;
@@ -83,6 +88,8 @@ public class EvenementsController {
     @FXML
     private TextField Nbplace;
     @FXML
+    private CheckBox online;
+    @FXML
     private ImageView back;
     @FXML
     private Label TitreError;
@@ -116,6 +123,8 @@ public class EvenementsController {
     private ComboBox<String> TypeListUpdate;
     @FXML
     private TextField NbplaceUpdate;
+    @FXML
+    private CheckBox onlineUpdate;
     @FXML
     private ImageView backUpdate;
     @FXML
@@ -289,7 +298,18 @@ public class EvenementsController {
         Map<String, Integer> eventData=se.getStatistics();
         XYChart.Series<String, Number> series = new XYChart.Series<>();
         series.setName("Nombre d'evenements par type");
-        List<String> color=Arrays.asList("red","blue","green","yellow");
+        List<String> colors = Arrays.asList(
+                "#FF5733", // Red-Orange
+                "#33FF57", // Green
+                "#3357FF", // Blue
+                "#F3FF33", // Yellow
+                "#FF33A1", // Pink
+                "#A133FF", // Purple
+                "#33FFF5", // Cyan
+                "#FF8C33", // Orange
+                "#8C33FF", // Violet
+                "#33FF8C"  // Lime Green
+        );
         int i=0;
         for (Map.Entry<String, Integer> entry : eventData.entrySet()) {
             XYChart.Data<String, Number> data = new XYChart.Data<>(entry.getKey(), entry.getValue());
@@ -297,7 +317,7 @@ public class EvenementsController {
             int finalI = i;
             data.nodeProperty().addListener((obs, oldNode, newNode) -> {
                 if (newNode != null) {// Or define a color based on the entry
-                    newNode.setStyle("-fx-bar-fill: " + color.get(finalI) + ";");
+                    newNode.setStyle("-fx-bar-fill: " + colors.get(finalI) + ";");
                 }
             });
             i++;
@@ -371,7 +391,7 @@ public class EvenementsController {
             userSession = UserSession.getInstance();
             Employee loggedinEmployee = userSession.getLoggedInEmployee();
             LocalDateTime DateAndTime = LocalDateTime.of(selectedDate, LocalTime.of(hour, minute));
-            Event e = new Event(Titre.getText(), Description.getText(), DateAndTime, Adresse.getText(), TypeList.getValue(), Integer.parseInt(Nbplace.getText()), loggedinEmployee);
+            Event e = new Event(Titre.getText(), Description.getText(), DateAndTime, Adresse.getText(), TypeList.getValue(), Integer.parseInt(Nbplace.getText()),online.isSelected(), loggedinEmployee);
             se.add(e);
             AddEvent.setVisible(false);
             EventDisplay.setVisible(true);
@@ -448,7 +468,7 @@ public class EvenementsController {
         }
         if(test==true) {
             LocalDateTime DateAndTime = LocalDateTime.of(selectedDate, LocalTime.of(hour, minute));
-            Event e = new Event(ToUpdateEvent.getId(),TitreUpdate.getText(), DescriptionUpdate.getText(), DateAndTime, AdresseUpdate.getText(), TypeListUpdate.getValue(), Integer.parseInt(NbplaceUpdate.getText()), ToUpdateEvent.getEmployee());
+            Event e = new Event(ToUpdateEvent.getId(),TitreUpdate.getText(), DescriptionUpdate.getText(), DateAndTime, AdresseUpdate.getText(), TypeListUpdate.getValue(), Integer.parseInt(NbplaceUpdate.getText()),onlineUpdate.isSelected(), ToUpdateEvent.getEmployee());
             se.update(e);
             UpdateEvent.setVisible(false);
             EventDisplay.setVisible(true);
@@ -515,7 +535,6 @@ public class EvenementsController {
                 String qr_url= ImgApi.uploadImage(qrFile);
                 uploadAlert.close();
                 reservation.setQr_url(qr_url);
-                System.out.println("QR Code generated");
                 qrFile.delete();
             } catch (Exception e) {
                 e.printStackTrace();
@@ -524,10 +543,11 @@ public class EvenementsController {
                     .setSummary(reservation.getEvent().getTitre())
                     .setLocation(reservation.getEvent().getLieu())
                     .setDescription(reservation.getEvent().getDescription());
-            LocalDateTime endDateTime = reservation.getEvent().getDateetheure().plusHours(3);
-            ZoneId zoneId = ZoneId.of("Africa/Tunis"); // Change this to the correct time zone
-            DateTime googleStart = new DateTime(reservation.getEvent().getDateetheure().atZone(zoneId).toInstant().toEpochMilli());
-            DateTime googleEnd = new DateTime(endDateTime.atZone(zoneId).toInstant().toEpochMilli());
+            LocalDateTime eventStart = reservation.getEvent().getDateetheure();
+            LocalDateTime eventEnd = eventStart.plusHours(3);
+            ZoneId zoneId = ZoneId.of("Africa/Tunis");
+            DateTime googleStart = new DateTime(eventStart.atZone(zoneId).toInstant().toEpochMilli());
+            DateTime googleEnd = new DateTime(eventEnd.atZone(zoneId).toInstant().toEpochMilli());
             EventDateTime start = new EventDateTime()
                     .setDateTime(googleStart)
                     .setTimeZone("Africa/Tunis");
@@ -536,13 +556,46 @@ public class EvenementsController {
                     .setTimeZone("Africa/Tunis");
             calendarEvent.setStart(start);
             calendarEvent.setEnd(end);
+            if(reservation.getEvent().isOnline()) {
+                ConferenceData conferenceData = new ConferenceData()
+                        .setCreateRequest(new CreateConferenceRequest()
+                                .setRequestId(UUID.randomUUID().toString()) // Ensure uniqueness
+                                .setConferenceSolutionKey(new ConferenceSolutionKey().setType("hangoutsMeet")));
+                calendarEvent.setConferenceData(conferenceData);
+            }
             String calendarId = "primary";
             try {
-                calendarEvent = CalendarServiceBuilder.getCalendarService().events().insert(calendarId, calendarEvent).execute();
+                if(reservation.getEvent().isOnline()) {
+                    calendarEvent = CalendarServiceBuilder.getCalendarService()
+                            .events()
+                            .insert(calendarId, calendarEvent)
+                            .setConferenceDataVersion(1)
+                            .execute();
+                }
+                else{
+                    calendarEvent = CalendarServiceBuilder.getCalendarService()
+                            .events()
+                            .insert(calendarId, calendarEvent)
+                            .execute();
+                }
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Failed to create Google Calendar event", e);
             }
-            System.out.printf("Event created: %s\n", calendarEvent.getHtmlLink());
+            if(reservation.getEvent().isOnline()) {
+                String meetLink = calendarEvent.getConferenceData().getEntryPoints().get(0).getUri();
+                String subject = "Invitation Evenement Virtuel: " + reservation.getEvent().getTitre();
+                String body = "voici votre invitation à l'événement virtuel " + reservation.getEvent().getTitre() + "\n"
+                        + meetLink + "\n"
+                        + "Cordialement,\nWorkFlow";
+                String senderEmail = "youcef.mlaouhia@esprit.tn";
+                String senderPassword = "nhcm esgw fyox fepi";
+                JavaMailSender mailSender = new JavaMailSender(senderEmail, senderPassword);
+                try {
+                    mailSender.sendEmail(loggedinEmployee.getEmail(), subject, body);
+                } catch (MessagingException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             sr.add(reservation);
             ReserverPage.setVisible(false);
             EventDisplay.setVisible(true);
@@ -608,6 +661,9 @@ public class EvenementsController {
                     controller.setAdresse("Adresse: " + evente.getLieu());
                     controller.setType(evente.getType());
                     controller.setNbdispo("Places disponibles: " + evente.getNombredeplace());
+                    if(evente.isOnline()){
+                        controller.setisOnline();
+                    }
                     controller.setController(this);
                     if (!loggedinEmployee.getRole().equals("Résponsable")) {
                         controller.setDeleteInvisible();
