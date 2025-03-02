@@ -128,9 +128,9 @@
                </children>
             </AnchorPane>
          </children>
-         <padding>
+         <BorderPane.margin>
             <Insets left="75.0" />
-         </padding>
+         </BorderPane.margin>
       </VBox>
    </center>
 </BorderPane>

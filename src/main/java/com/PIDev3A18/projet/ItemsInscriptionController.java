@@ -9,10 +9,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 import services.ServiceInscription;
 import utils.UserSession;
-
 import java.sql.SQLException;
 
 public class ItemsInscriptionController {
@@ -64,7 +62,6 @@ public class ItemsInscriptionController {
         if(comboBox.getValue().equals("Refuser")) {
             ((VBox) Hbox.getParent()).getChildren().remove(Hbox);
             si.delete(inscription);
-
         }
 
     }

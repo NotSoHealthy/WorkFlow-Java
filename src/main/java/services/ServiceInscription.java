@@ -9,10 +9,7 @@ import entity.Formation;
 import entity.Inscription;
 import utils.DBConnection;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,7 +19,7 @@ import java.util.*;
 
 public class ServiceInscription implements IService<Inscription> {
     Connection cnx;
-    private static final String FLAG_FILE = "D:/work/Java/WorkFlow-Java/src/main/resources/com/PIDev3A18/projet/Files/smsFlags.properties";
+    private static final String FLAG_FILE = "D:\\work\\Java\\WorkFlow-Java\\src\\main\\resources\\com\\PIDev3A18\\projet\\Files\\smsFlags.properties";
     public static final String ACCOUNT_SID = "AC4110bdfcaad2020468865d70dc5590de";
     public static final String AUTH_TOKEN = "bd3846619cc82ee6a9df5b980f44efe6";
     public ServiceInscription() {
@@ -215,7 +212,14 @@ public class ServiceInscription implements IService<Inscription> {
                 e.printStackTrace();
             }
         }
-        return Boolean.parseBoolean(props.getProperty(String.valueOf(employeeId), "false"));
+        String val = props.getProperty(String.valueOf(employeeId));
+        if (val != null) {
+            String[] parts = val.split("=");
+            if (parts.length > 0) {
+                return Boolean.parseBoolean(parts[0]);
+            }
+        }
+        return false;
     }
     public static void markSmsSent(int employeeId, boolean value) {
         Properties props = new Properties();
@@ -227,14 +231,62 @@ public class ServiceInscription implements IService<Inscription> {
                 e.printStackTrace();
             }
         }
-        props.setProperty(String.valueOf(employeeId), String.valueOf(value));
-        try (FileOutputStream fos = new FileOutputStream(file)) {
-            props.store(fos, "SMS Flag Data");
+        String val=value+"="+LocalDate.now();
+        props.setProperty(String.valueOf(employeeId), val);
+        try (FileWriter writer = new FileWriter(file)) {
+            for (String key : props.stringPropertyNames()) {
+                writer.write(key + "=" + props.getProperty(key) + "\n");
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    public static LocalDate getSmsSentDate(int employeeId) {
+        Properties props = new Properties();
+        File file = new File(FLAG_FILE);
+
+        if (!file.exists()) {
+            return null;
+        }
+
+        try (FileInputStream fis = new FileInputStream(file)) {
+            props.load(fis);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        String value = props.getProperty(String.valueOf(employeeId));
+
+        if (value != null && value.contains("=")) {
+            String[] parts = value.split("=");
+            if (parts.length == 2) {
+                return LocalDate.parse(parts[1]);
+
+            }
+        }
+        return null;
+    }
     public void sendSMS(Employee loggedinEmployee) throws SQLException {
+        LocalDate date=getSmsSentDate(loggedinEmployee.getId());
+        if(date !=null && date.isBefore(LocalDate.now())) {
+            Properties props = new Properties();
+            File file = new File(FLAG_FILE);
+            try (FileInputStream fis = new FileInputStream(file)) {
+                props.load(fis);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return;
+            }
+            props.remove(String.valueOf(loggedinEmployee.getId()));
+            try (FileOutputStream fos = new FileOutputStream(file)) {
+                props.store(fos, "SMS Flag Data");
+                System.out.println("Removed expired SMS record for employee ID: " + loggedinEmployee.getId());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         if (isSmsSent(loggedinEmployee.getId())) {
             System.out.println("SMS already sent for employee " + loggedinEmployee.getId());
             return;
@@ -243,7 +295,7 @@ public class ServiceInscription implements IService<Inscription> {
         String fromNumber = "+18782905902";
         String toNumber = "+21698264250";
         String body = "";
-        String query ="SELECT f.title,e.last_name,e.first_name FROM formation f JOIN inscription i ON f.ID = i.formation_id JOIN employees e ON i.user_id = e.id  WHERE f.date_begin = CURDATE() AND i.user_id = ?";
+        String query ="SELECT f.title,e.last_name,e.first_name FROM formation f JOIN inscription i ON f.ID = i.formation_id JOIN employees e ON i.user_id = e.id  WHERE f.date_begin = CURDATE() AND i.user_id = ? AND i.status='approuver'";
         PreparedStatement ps = cnx.prepareStatement(query);
         ps.setInt(1,loggedinEmployee.getId());
         ResultSet rs = ps.executeQuery();
@@ -260,9 +312,9 @@ public class ServiceInscription implements IService<Inscription> {
             body = "Bonjour Monsieur/Madame, " + lastName + " " + firstName + ", n'oubliez pas vos formations aujourd'hui: " + String.join(", ", formations) + ".";
             Message message = Message.creator(new PhoneNumber(toNumber), new PhoneNumber(fromNumber), body).create();
             System.out.println("Message Status: " + message.getStatus());
+            markSmsSent(loggedinEmployee.getId(), true);
         }
         rs.close();
         ps.close();
-        markSmsSent(loggedinEmployee.getId(), true);
     }
 }

@@ -105,18 +105,21 @@ public class ViewFormationController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        Platform.runLater(() -> {
-            if (loggedinEmployee == null) {
-                loggedinEmployee = UserSession.getInstance().getLoggedInEmployee();
-            }
-            else{
-                try {
-                    si.sendSMS(loggedinEmployee);
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
+        if(loggedinEmployee.getRole().equals("Employé"))
+        {
+            Platform.runLater(() -> {
+                if (loggedinEmployee == null) {
+                    loggedinEmployee = UserSession.getInstance().getLoggedInEmployee();
                 }
-            }
-        });
+                else{
+                    try {
+                        si.sendSMS(loggedinEmployee);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+        }
 
         DateBegin.setValue(LocalDate.now());
         LocalDate startDate = DateBegin.getValue();
