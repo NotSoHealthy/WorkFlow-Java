@@ -1587,3 +1587,101 @@ TextField, PasswordField, TextArea{
 .chatbot-button:hover {
     -fx-background-color: #2980b9;  /* Darker blue on hover */
 }
+/* Chat Container (Fixed Size, No Scrolling) */
+/* Chat Scroll Pane */
+.chat-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.chat-scroll-pane .scroll-bar:vertical {
+    -fx-pref-width: 10;
+    -fx-background-color: #f5f5f5;
+}
+
+.chat-scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: #3498db; /* Blue thumb for a modern look */
+    -fx-background-radius: 5;
+}
+
+.chat-scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 5;
+}
+
+/* Chat Container */
+.chat-container {
+    -fx-background-color: #f5f5f5; /* Light gray background for a clean look */
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-padding: 15;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 2);
+}
+
+/* Bot Bubble (left-aligned, blue) */
+.bot-bubble {
+    -fx-background-color: #3498db; /* Light blue for bot */
+    -fx-background-radius: 15; /* Rounded bubble shape */
+    -fx-padding: 10;
+    -fx-text-fill: white;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 16px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 1, 1);
+}
+
+/* User Bubble (right-aligned, gray) */
+.user-bubble {
+    -fx-background-color: #e0e0e0; /* Light gray for user */
+    -fx-background-radius: 15; /* Rounded bubble shape */
+    -fx-padding: 10;
+    -fx-text-fill: #2c3e50;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 16px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 1, 1);
+}
+
+/* Input Container (fixed at bottom) */
+.input-container {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+}
+
+/* Input Field */
+.input-field {
+    -fx-background-color: white;
+    -fx-background-radius: 20;
+    -fx-border-color: #3498db;
+    -fx-border-width: 1;
+    -fx-border-radius: 20;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 16px;
+    -fx-effect: dropshadow(gaussian, rgba(52, 152, 219, 0.2), 5, 0, 0, 2);
+    -fx-padding: 8 15 8 15;
+    -fx-prompt-text-fill: #7f8c8d;
+}
+
+.input-field:focused {
+    -fx-border-color: #2980b9; /* Darker blue on focus */
+    -fx-effect: dropshadow(gaussian, rgba(41, 128, 185, 0.3), 5, 0, 0, 2);
+}
+
+/* Send Button */
+.send-button {
+    -fx-background-color: #3498db; /* Blue button */
+    -fx-text-fill: white;
+    -fx-background-radius: 20; /* Rounded button */
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 16px;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0, 0, 2);
+    -fx-padding: 8 15 8 15;
+}
+
+.send-button:hover {
+    -fx-background-color: #2980b9; /* Darker blue on hover */
+}
