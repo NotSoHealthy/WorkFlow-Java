@@ -17,6 +17,9 @@ module com.example.projet {
     requires org.apache.commons.codec;
     requires com.google.api.client.extensions.jetty.auth;
     requires com.google.api.services.gmail;
+    requires com.google.zxing;
+    requires com.google.zxing.javase;
+    requires activation;
 
 
     opens com.PIDev3A18.projet to javafx.fxml;
