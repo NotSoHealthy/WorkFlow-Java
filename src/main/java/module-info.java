@@ -20,6 +20,10 @@ module com.example.projet {
     requires com.google.zxing;
     requires com.google.zxing.javase;
     requires activation;
+    requires org.twitter4j.core;
+    requires java.net.http;
+    requires scribejava.core;
+    requires scribejava.apis;
 
 
     opens com.PIDev3A18.projet to javafx.fxml;

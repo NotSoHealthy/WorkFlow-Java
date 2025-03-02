@@ -1,5 +1,12 @@
 package com.PIDev3A18.projet;
 
+import com.github.scribejava.apis.TwitterApi;
+import com.github.scribejava.core.builder.ServiceBuilder;
+import com.github.scribejava.core.model.OAuth1AccessToken;
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Response;
+import com.github.scribejava.core.model.Verb;
+import com.github.scribejava.core.oauth.OAuth10aService;
 import entity.Employee;
 import entity.JobOffer;
 import javafx.collections.FXCollections;
@@ -9,16 +16,20 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import services.JobOfferService;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
-import java.time.LocalDate;
-import java.time.Instant;
-import java.time.ZoneId;
 import java.sql.SQLException;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
-import java.util.HashSet;
-import java.util.Comparator;
 
 public class JobOfferController {
     private Employee loggedinEmployee;
@@ -125,6 +136,10 @@ public class JobOfferController {
 
             jobOfferService.add(jobOffer);
             showAlert(Alert.AlertType.INFORMATION, "Success", "Job offer added successfully!");
+
+            // Post to Twitter using API v2 with OAuth 1.0a
+            TwitterJobPosting twitterPoster = new TwitterJobPosting();
+            twitterPoster.postJobOffer(jobTitle, description, salary, contractType);
 
             clearFields();
             loadJobOffers();
@@ -261,13 +276,79 @@ public class JobOfferController {
         }
     }
 
+    // --- Twitter API v2 Posting with OAuth 1.0a using ScribeJava ---
+    public class TwitterJobPosting {
+
+        private String consumerKey;
+        private String consumerSecret;
+        private String accessToken;
+        private String accessTokenSecret;
+
+        public TwitterJobPosting() {
+            try (InputStream input = getClass().getResourceAsStream("/config.properties")) {
+                if (input == null) {
+                    throw new FileNotFoundException("config.properties not found in classpath");
+                }
+                Properties prop = new Properties();
+                prop.load(input);
+                consumerKey = prop.getProperty("CONSUMER_KEY");
+                consumerSecret = prop.getProperty("CONSUMER_SECRET");
+                accessToken = prop.getProperty("ACCESS_TOKEN");
+                accessTokenSecret = prop.getProperty("ACCESS_TOKEN_SECRET");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void postJobOffer(String title, String description, double salary, String contractType) {
+            String tweetText = "📢 Job Opening! " + title + "\n" +
+                    "💼 Type: " + contractType + "\n" +
+                    "💰 Salary: $" + salary + "\n" +
+                    "📄 Description: " + description + "\n" +
+                    "#JobOffer #Hiring";
+            // Build JSON payload with proper escaping for quotes and newline characters
+            String jsonPayload = "{\"text\":\"" + escapeJson(tweetText) + "\"}";
+
+            // Build OAuth1.0a service using ScribeJava
+            OAuth10aService service = new ServiceBuilder(consumerKey)
+                    .apiSecret(consumerSecret)
+                    .build(TwitterApi.instance());
+            OAuth1AccessToken token = new OAuth1AccessToken(accessToken, accessTokenSecret);
+
+            // Create and sign the POST request to Twitter API v2
+            OAuthRequest request = new OAuthRequest(Verb.POST, "https://api.twitter.com/2/tweets");
+            request.addHeader("Content-Type", "application/json");
+            request.setPayload(jsonPayload);
+            service.signRequest(token, request);
+            try {
+                Response response = service.execute(request);
+                if (response.getCode() == 201 || response.getCode() == 200) {
+                    System.out.println("Job offer posted successfully on Twitter!");
+                } else {
+                    System.err.println("Failed to post tweet. Response code: " + response.getCode());
+                    System.err.println("Response: " + response.getBody());
+                    JobOfferController.this.showAlert(Alert.AlertType.ERROR, "Twitter API Error",
+                            "Posting to Twitter failed: " + response.getBody());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Updated helper to escape quotes and newline characters for JSON
+        private String escapeJson(String text) {
+            return text.replace("\n", "\\n").replace("\"", "\\\"");
+        }
+    }
+
+
     private void fillFormWithSelectedJobOffer(JobOffer jobOffer) {
         selectedJobOffer = jobOffer;
         title.setText(jobOffer.getTitle());
         Description.setText(jobOffer.getDescription());
         ContractType.setText(jobOffer.getContractType());
         Salary.setText(String.valueOf(jobOffer.getSalary()));
-        if(jobOffer.getExpirationDate() != null) {
+        if (jobOffer.getExpirationDate() != null) {
             ExpirationDate.setValue(
                     Instant.ofEpochMilli(jobOffer.getExpirationDate().getTime())
                             .atZone(ZoneId.systemDefault())
@@ -289,7 +370,7 @@ public class JobOfferController {
      */
     private void updateContractFilterOptions() {
         Set<String> contractTypes = new HashSet<>();
-        if(allJobOffers != null) {
+        if (allJobOffers != null) {
             for (JobOffer offer : allJobOffers) {
                 contractTypes.add(offer.getContractType());
             }
