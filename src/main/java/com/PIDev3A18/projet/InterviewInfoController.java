@@ -3,6 +3,7 @@ package com.PIDev3A18.projet;
 import com.google.api.services.gmail.Gmail;
 import com.google.api.services.gmail.model.Message;
 import java.util.Base64;
+import java.util.UUID;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.qrcode.QRCodeWriter;
@@ -108,28 +109,35 @@ public class InterviewInfoController {
         }
     }
 
+    // Send email with interview details and QR code
     private void sendEmail(String recipient, Interviews interview) throws MessagingException, IOException {
         try {
             Gmail service = GmailService.getGmailService();
             String from = "your-email@gmail.com"; // Replace with your Gmail address
             String subject = "Interview Details";
-            String bodyText = "Dear Applicant,\n\nHere are your interview details:\n" +
+
+            // Generate a unique Jitsi Meet link
+            String meetingRoom = "Interview-" + UUID.randomUUID().toString();
+            String meetingLink = "https://meet.jit.si/" + meetingRoom;
+
+            // Construct interview details
+            String interviewDetails = "Interview Details:\n" +
                     "Date: " + interview.getInterviewDate() + "\n" +
                     "Location: " + interview.getLocation() + "\n" +
                     "Feedback: " + interview.getFeedback() + "\n" +
                     "Status: " + interview.getStatus() + "\n\n" +
-                    "Please see the attached QR code for a quick summary.\n\n" +
+                    "Video Interview Link: " + meetingLink;
+
+            // Build email body
+            String bodyText = "Dear Applicant,\n\n" +
+                    interviewDetails + "\n\n" +
+                    "You can also scan the attached QR code to access this information.\n\n" +
                     "Best regards,\nYour Company";
 
-            // Generate QR code image bytes containing the interview details
-            byte[] qrCodeBytes = generateQRCodeImage(
-                    "Date: " + interview.getInterviewDate() + "\n" +
-                            "Location: " + interview.getLocation() + "\n" +
-                            "Feedback: " + interview.getFeedback() + "\n" +
-                            "Status: " + interview.getStatus()
-            );
+            // Generate QR code with **all** interview details
+            byte[] qrCodeBytes = generateQRCodeImage(interviewDetails);
 
-            // Create an email with text and QR code attachment
+            // Create and send email
             MimeMessage email = createEmailWithQRCode(recipient, from, subject, bodyText, qrCodeBytes);
             Message message = createMessageWithEmail(email);
             service.users().messages().send("me", message).execute();
@@ -139,7 +147,7 @@ public class InterviewInfoController {
         }
     }
 
-    // Generate QR code image bytes using ZXing
+    // Generate QR code containing **all** interview details
     private byte[] generateQRCodeImage(String text) throws Exception {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         BitMatrix bitMatrix = qrCodeWriter.encode(text, BarcodeFormat.QR_CODE, 250, 250);
@@ -148,7 +156,7 @@ public class InterviewInfoController {
         return pngOutputStream.toByteArray();
     }
 
-    // Create an email with both text and the QR code image as an inline attachment
+    // Create an email with text and the QR code as an attachment
     private MimeMessage createEmailWithQRCode(String to, String from, String subject, String bodyText, byte[] qrCodeImageBytes) throws MessagingException {
         Properties props = new Properties();
         Session session = Session.getDefaultInstance(props, null);
@@ -165,7 +173,7 @@ public class InterviewInfoController {
         MimeBodyPart imagePart = new MimeBodyPart();
         DataSource ds = new ByteArrayDataSource(qrCodeImageBytes, "image/png");
         imagePart.setDataHandler(new DataHandler(ds));
-        imagePart.setFileName("qrcode.png");
+        imagePart.setFileName("interview_qr.png");
         imagePart.setHeader("Content-ID", "<qrcode>");
         imagePart.setDisposition(MimeBodyPart.INLINE);
 
@@ -189,6 +197,7 @@ public class InterviewInfoController {
         return message;
     }
 
+    // Helper method to display alerts
     private void showAlert(Alert.AlertType type, String title, String content) {
         Alert alert = new Alert(type);
         alert.setTitle(title);
