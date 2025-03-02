@@ -1575,3 +1575,15 @@ TextField, PasswordField, TextArea{
     -fx-background-color: transparent;
     -fx-padding: 10;
 }
+.chatbot-button {
+    -fx-background-color: #3498db;  /* Blue color */
+    -fx-text-fill: white;
+    -fx-background-radius: 25;      /* Oval shape */
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 18px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2); /* Subtle shadow */
+}
+
+.chatbot-button:hover {
+    -fx-background-color: #2980b9;  /* Darker blue on hover */
+}

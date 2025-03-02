@@ -7,6 +7,8 @@ module com.example.projet {
     requires java.desktop;
     requires java.compiler;
     requires okhttp3;
+    requires java.net.http;
+    requires org.json;
 
 
     opens com.PIDev3A18.projet to javafx.fxml;

@@ -51,64 +51,58 @@
 }
 
 /* Sort combo box */
-/* Sort combo box */
 .sort-combo {
-    -fx-background-color: linear-gradient(to bottom, #ffffff, #f5f7fa);
-    -fx-border-color: #80c8ff;
+    -fx-background-color: rgba(255, 255, 255, 0.85); /* Glassmorphism effect */
+    -fx-border-color: #4DB6AC; /* Gold border for a luxurious, beautiful touch */
     -fx-border-width: 2;
-    -fx-border-radius: 25;
-    -fx-background-radius: 25;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
     -fx-font-family: "Segoe UI";
     -fx-font-size: 16px;
-    -fx-effect: dropshadow(gaussian, rgba(52, 152, 219, 0.3), 10, 0, 0, 5);
+    -fx-effect: dropshadow(gaussian, rgba(255, 215, 0, 0.3), 15, 0, 0, 8); /* Subtle gold shadow */
     -fx-opacity: 1.0; /* Ensure visibility */
-    -fx-padding: 5 15 5 15;
+    -fx-padding: 8 20 8 20;
     -fx-alignment: center;
-    -fx-transition: -fx-background-color 0.3s, -fx-border-color 0.3s;
+    -fx-transition: -fx-background-color 0.3s, -fx-border-color 0.3s, -fx-effect 0.3s; /* Smooth transitions */
 }
 .sort-combo .list-cell {
     -fx-font-family: "Segoe UI";
-    -fx-font-size: 16px;
+    -fx-font-size: 14px;
     -fx-text-fill: #2c3e50;
     -fx-background-color: transparent;
-    -fx-padding: 10 15 10 15;
+    -fx-padding: 8 10 8 10;
+    -fx-background-radius: 25;
 }
 .sort-combo .list-cell:filled:hover {
-    -fx-background-color: #e8f4ff;
+    -fx-background-color: rgba(255, 215, 0, 0.1); /* Light gold hover for list items */
     -fx-text-fill: #2c3e50;
 }
 .sort-combo:focused {
-    -fx-border-color: #2980b9;
-    -fx-background-color: linear-gradient(to bottom, #f5f7fa, #ffffff);
+    -fx-border-color: #4DB6AC; /* Slightly darker gold on focus */
+    -fx-background-color: rgba(255, 255, 255, 0.95); /* Slightly more opaque for focus */
+    -fx-effect: dropshadow(gaussian, rgba(255, 202, 40, 0.4), 15, 0, 0, 10); /* Enhanced shadow on focus */
 }
 .sort-combo .arrow-button {
     -fx-background-color: transparent;
-    -fx-padding: 0 10 0 0;
+    -fx-padding: 0 15 0 0;
 }
 .sort-combo .arrow {
-    -fx-background-color: #3498db;
+    -fx-background-color: #4DB6AC; /* Gold arrow to match border */
+    -fx-shape: "M 0 0 L 10 5 L 0 10 Z"; /* Custom arrow shape for a sleek look */
 }
 
-/* ListView styling */
-.list-view {
-    -fx-background-color: #ffffff;
-    -fx-border-color: #dfe6e9;
-    -fx-border-radius: 10;
-    -fx-background-radius: 10;
-    -fx-font-family: "Segoe UI";
-    -fx-font-size: 14px;
-    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
-    -fx-padding: 10 15 10 15;
+/* Statistics Icon */
+.stats-icon {
+    -fx-image: url("icons/Stat.png"); /* Ensure the path matches exactly */
+    -fx-fit-width: 30;
+    -fx-fit-height: 30;
+    -fx-effect: dropshadow(gaussian, rgba(255, 215, 0, 0.3), 5, 0, 0, 2); /* Gold shadow to match combo box */
+    -fx-cursor: hand;
+    -fx-opacity: 1.0; /* Ensure visibility */
+    -fx-transition: -fx-effect 0.3s; /* Smooth transition for hover effect */
 }
-.list-view .list-cell {
-    -fx-padding: 10;
-    -fx-background-color: #ffffff;
-    -fx-text-fill: #2c3e50;
-    -fx-font-family: "Segoe UI";
-    -fx-font-size: 14px;
-}
-.list-view .list-cell:filled:hover {
-    -fx-background-color: #ecf0f1;
+.stats-icon:hover {
+    -fx-effect: dropshadow(gaussian, rgba(255, 215, 0, 0.4), 8, 0, 0, 4); /* Enhanced gold shadow on hover */
 }
 
 /* ListView styling */
@@ -180,4 +174,54 @@
 .button-bar {
     -fx-background-color: transparent;
     -fx-padding: 10;
+}
+
+/* Stats Title and Label for DepartmentStats.fxml */
+.stats-title {
+    -fx-text-fill: #2c3e50;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+/* Budget Chart Styling (Flat, Aligned 2D Version) */
+.budget-chart {
+    -fx-background-color: transparent;
+    -fx-bar-fill: linear-gradient(to bottom, #3c2263, #3a2563); /* Orange gradient for bars (matching your image) */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 2); /* Subtle shadow for flat 2D look */
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-border-radius: 0; /* Remove border radius for flat look */
+    -fx-background-radius: 0; /* Remove background radius for flat look */
+    -fx-alignment: center; /* Ensure flat alignment */
+}
+
+.budget-chart .axis {
+    -fx-tick-label-fill: #2c3e50;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+}
+
+.budget-chart .chart-title {
+    -fx-text-fill: #2c3e50;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.budget-chart .chart-legend {
+    -fx-text-fill: #2c3e50;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-background-color: rgba(255, 255, 255, 0.8);
+    -fx-background-radius: 5;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1;
+}
+
+/* 2D Bar Styling (Flat and Aligned) */
+.budget-chart .chart-bar {
+    -fx-bar-size: 30; /* Wider bars for better visibility, flat and aligned */
+    -fx-background-radius: 0; /* No rounding for flat bars */
+    -fx-alignment: center; /* Ensure bars are centered and aligned */
 }

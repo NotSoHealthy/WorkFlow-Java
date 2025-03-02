@@ -26,6 +26,7 @@ public class ViewProjectController {
     @FXML private Button AddBtn;
     @FXML private TextField searchField;
     @FXML private ComboBox<String> sortCombo;
+    @FXML private Button chatbotBtn;
 
     private final ServiceProject serviceProject = new ServiceProject();
     private ObservableList<Project> projectList;
@@ -36,6 +37,8 @@ public class ViewProjectController {
 
         DeleteBtn.setDisable(true);
         UpdateBtn.setDisable(true);
+        chatbotBtn.setDisable(false);
+        AddBtn.setDisable(false);
         ShowProject.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             DeleteBtn.setDisable(newValue == null);
             UpdateBtn.setDisable(newValue == null);
@@ -174,5 +177,18 @@ public class ViewProjectController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    @FXML
+    private void openChatbot() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/PIDev3A18/projet/Chatbot.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Project Chatbot");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
