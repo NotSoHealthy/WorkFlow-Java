@@ -574,11 +574,12 @@ public class EvenementsController {
     }
     public void SortByType(ActionEvent event){
         ServiceEvent se = new ServiceEvent();
-        if(TypeListSort.getValue().equals("All")){
-            populateEventHolder(se.readAll());
-        }
-        else{
-            populateEventHolder(se.SortByType(TypeListSort.getValue()));
+        if(TypeListSort.getValue()!=null) {
+            if (TypeListSort.getValue().equals("All")) {
+                populateEventHolder(se.readAll());
+            } else {
+                populateEventHolder(se.SortByType(TypeListSort.getValue()));
+            }
         }
     }
     public void populateEventHolder(List<Event> le){
