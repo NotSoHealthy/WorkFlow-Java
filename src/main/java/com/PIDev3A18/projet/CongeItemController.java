@@ -58,11 +58,11 @@ public class CongeItemController {
         startDateField.setText(conge.getStart_date().toString());
         endDateField.setText(conge.getEnd_date().toString());
 
-        if (conge.getRequest_date().isAfter(LocalDate.now())){
-            requestDateField.getStyleClass().add("date-invalid");
+        if (!conge.getStart_date().isAfter(LocalDate.now())){
+            startDateField.getStyleClass().add("date-invalid");
         }
         else {
-            requestDateField.getStyleClass().add("date-valid");
+            startDateField.getStyleClass().add("date-valid");
         }
     }
 

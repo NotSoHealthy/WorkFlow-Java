@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import services.ServiceDepartment;
 import services.ServiceEmployee;
+import utils.GMailer;
 import utils.UserSession;
 
 import java.io.IOException;
@@ -86,19 +87,19 @@ public class ListeEmployeItemController {
             }
         }
 
-        InputStream stream = getClass().getResourceAsStream("icons/edit.png");
-        Image image = new Image(stream,16,16,true,true);
+        InputStream stream = getClass().getResourceAsStream("icons/pen.png");
+        Image image = new Image(stream,14,14,true,false);
         editButton.setGraphic(new ImageView(image));
         stream = getClass().getResourceAsStream("icons/check.png");
-        image = new Image(stream,16,16,true,true);
+        image = new Image(stream,16,14,true,false);
         acceptButton.setGraphic(new ImageView(image));
         stream = getClass().getResourceAsStream("icons/x.png");
-        image = new Image(stream,16,16,true,true);
+        image = new Image(stream,14,14,true,false);
         denyButton.setGraphic(new ImageView(image));
     }
 
     @FXML
-    void accept() throws SQLException, IOException {
+    void accept() throws Exception {
         departementBox.getStyleClass().remove("error");
         if(departementBox.getSelectionModel().getSelectedItem() == null){
             Tooltip tooltip = new Tooltip("Selectionner um département");
@@ -110,13 +111,15 @@ public class ListeEmployeItemController {
         employee.setDepartment(departementBox.getSelectionModel().getSelectedItem());
         employee.setRole(roleBox.getSelectionModel().getSelectedItem());
         serviceEmployee.update(employee);
+        new GMailer().sendConfirmationMail(employee);
         this.listeEmployeController.update();
     }
 
     @FXML
-    void deny() throws SQLException, IOException {
+    void deny() throws Exception {
         employee.setStatus("denied");
         serviceEmployee.update(employee);
+        new GMailer().sendDenialMail(employee);
         this.listeEmployeController.update();
     }
 

@@ -5,6 +5,7 @@ import entity.Formation;
 import entity.Inscription;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,12 +13,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -44,6 +47,21 @@ public class ViewFormationController implements Initializable {
     private TextField SearchFormation;
 
     @FXML
+    private CheckBox SortTitle;
+
+    @FXML
+    private CheckBox SortId;
+
+    @FXML
+    private DatePicker DateBegin;
+
+    @FXML
+    private DatePicker DateEnd;
+
+    @FXML
+    private ComboBox<String> ComboBoxOrder;
+
+    @FXML
     private TableColumn<Formation, LocalDate> date_begin;
 
     @FXML
@@ -62,36 +80,84 @@ public class ViewFormationController implements Initializable {
     private TableColumn<Formation, String> title;
 
     @FXML
+    private TableColumn<Formation, String> ActionsColumn;
+
+    @FXML
     private Button AddFormationButton;
 
     @FXML
     private Button RefreshButton;
 
     @FXML
+    private Button SearchButton;
+
+    @FXML
     private Button RegisterButton;
+
+    @FXML
+    private Button StatButton;
+
     @FXML
     private HBox Hbox;
 
-    ObservableList<Formation> formations= FXCollections.observableArrayList();
+    private ObservableList<Formation> formations= FXCollections.observableArrayList();
+    private ServiceFormation sf=new ServiceFormation();
+    private ServiceInscription si=new ServiceInscription();
+
     UserSession userSession = UserSession.getInstance();
     Employee loggedinEmployee = userSession.getLoggedInEmployee();
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        ServiceFormation sf=new ServiceFormation();
-        ServiceInscription si=new ServiceInscription();
+        if(loggedinEmployee.getRole().equals("Employé"))
+        {
+            Platform.runLater(() -> {
+                if (loggedinEmployee == null) {
+                    loggedinEmployee = UserSession.getInstance().getLoggedInEmployee();
+                }
+                else{
+                    try {
+                        si.sendSMS(loggedinEmployee);
+                    } catch (SQLException e) {
+                        throw new RuntimeException(e);
+                    }
+                }
+            });
+        }
+
+        DateBegin.setValue(LocalDate.now());
+        LocalDate startDate = DateBegin.getValue();
+        LocalDate endDate = startDate.plusWeeks(1);
+        DateEnd.setValue(endDate);
+
+        ComboBoxOrder.getItems().addAll("ASC", "DESC");
+        ComboBoxOrder.setValue("ASC");
         InputStream input = getClass().getResourceAsStream("icons/Add.png");
         Image image = new Image(input, 25, 25, true, true);
         ImageView imageView = new ImageView(image);
         AddFormationButton.setGraphic(imageView);
+
+        input = getClass().getResourceAsStream("icons/statistic.png");
+        image = new Image(input, 25, 25, true, true);
+        imageView = new ImageView(image);
+        StatButton.setGraphic(imageView);
         if(loggedinEmployee.getRole().equals("Employé") ){
             Hbox.getChildren().remove(AddFormationButton);
+            Hbox.getChildren().remove(StatButton);
 
         }
+
         input = getClass().getResourceAsStream("icons/refresh.png");
         image = new Image(input, 25, 25, true, true);
         imageView = new ImageView(image);
         RefreshButton.setGraphic(imageView);
+
+
+
+        input = getClass().getResourceAsStream("icons/search.png");
+        image = new Image(input, 25, 25, true, true);
+        imageView = new ImageView(image);
+        SearchButton.setGraphic(imageView);
 
         input = getClass().getResourceAsStream("icons/registration.png");
         image = new Image(input, 25, 25, true, true);
@@ -105,9 +171,10 @@ public class ViewFormationController implements Initializable {
             date_begin.setCellValueFactory(new PropertyValueFactory<>("dateBegin"));
             date_end.setCellValueFactory(new PropertyValueFactory<>("dateEnd"));
             participants_max.setCellValueFactory(new PropertyValueFactory<>("participants_Max"));
-            Callback<TableColumn<Formation, String>, TableCell<Formation, String>> cellFactory = (TableColumn<Formation, String> param) -> new TableCell<>() {
+            ActionsColumn.setCellFactory(param -> new TableCell<Formation, String>() {
                 final Button editButton = new Button("✎");
                 final Button deleteButton = new Button("🗑");
+                final Button registerButton = new Button("S'inscrire");
 
                 @Override
                 protected void updateItem(String item, boolean empty) {
@@ -122,111 +189,78 @@ public class ViewFormationController implements Initializable {
 
                         editButton.setStyle("-fx-background-color: #00E676; -fx-text-fill: white; -fx-font-size: 14px;");
                         deleteButton.setStyle("-fx-background-color: #ff1744; -fx-text-fill: white; -fx-font-size: 14px;");
-                        if(loggedinEmployee.getRole().equals("Résponsable"))
-                        {
-                            editButton.setDisable(false);
-                            deleteButton.setDisable(false);
-                        }
-                        else {
-                            editButton.setDisable(true);
-                            deleteButton.setDisable(true);
-                        }
-                        editButton.setOnMouseClicked((MouseEvent event) -> {
-                            FXMLLoader loader = new FXMLLoader();
-                            loader.setLocation(getClass().getResource("EditFormation.fxml"));
-                            Parent parent = null;
-                            try {
-                                parent = loader.load();
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                            EditFormationController controller = loader.getController();
-                            controller.setFormationData(formation);
-
-                            Stage stage = new Stage();
-                            stage.setScene(new Scene(parent));
-                            stage.initStyle(StageStyle.UTILITY);
-                            stage.show();
-                        });
-
-
-                        deleteButton.setOnAction((ActionEvent event) -> {
-                            try {
-                                sf.delete(formation);
-                                showAlert(Alert.AlertType.INFORMATION, "Success", "Formation supprimer avec succés!");
-                                Refresh();
-
-
-
-                            } catch (SQLException e) {
-                                throw new RuntimeException(e);
-                            }
-                        });
-
-
-                        HBox manageBtn = new HBox(editButton, deleteButton);
-                        manageBtn.setSpacing(10);
-                        setGraphic(manageBtn);
-                        setText(null);
-                    }
-                }
-            };
-
-            TableColumn<Formation, String> actionCol = new TableColumn<>("Actions");
-            actionCol.setCellFactory(cellFactory);
-            tableFormation.getColumns().add(actionCol);
-            actionCol.setVisible(loggedinEmployee.getRole().equals("Résponsable"));
-            Callback<TableColumn<Formation, String>, TableCell<Formation, String>> inscriptionCellFactory = (TableColumn<Formation, String> param) -> new TableCell<>() {
-                final Button registerButton = new Button("S'inscrire");
-
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-                    } else {
-                        Formation formation = getTableView().getItems().get(getIndex());
-
                         registerButton.setStyle("-fx-background-color: #39D2C0; -fx-text-fill: white; -fx-font-size: 14px;");
-                        try {
-                            registerButton.setDisable(si.isRegistered(formation, loggedinEmployee));
 
-                        } catch (SQLException e) {
-                            throw new RuntimeException(e);
-                        }
-                        registerButton.setOnMouseClicked((MouseEvent event)-> {
+                        editButton.setVisible(loggedinEmployee.getRole().equals("Résponsable"));
+                        deleteButton.setVisible(loggedinEmployee.getRole().equals("Résponsable"));
+                        editButton.setOnMouseClicked(event -> openEditFormationWindow(formation));
+                        deleteButton.setOnAction(event -> deleteFormation(formation));
+
+                        registerButton.setOnMouseClicked((MouseEvent event) -> {
                             try {
                                 LocalDate date = LocalDate.now();
-                                Inscription i= new Inscription(date,"en attente",formation,loggedinEmployee);
-                                if(!si.isRegistered(formation,loggedinEmployee))
-                                {
-                                    si.add(i);
-                                    showAlert(Alert.AlertType.INFORMATION, "Success", "Vous êtes maintenant inscrit, en attente de validation!");
-                                }
-                                else {
-                                    showAlert(Alert.AlertType.ERROR, "Error", "Réinitialiser la page !");
-                                }
-
+                                Inscription i = new Inscription(date, "en attente", formation, loggedinEmployee);
+                                si.add(i);
+                                Refresh();
                             } catch (SQLException e) {
-                                showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while registering!");
+                                showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue lors de l'inscription !");
                             }
                         });
 
-                        HBox manageBtn = new HBox(registerButton);
-                        manageBtn.setStyle("-fx-alignment: center;");
-                        setGraphic(manageBtn);
-                        setText(null);
+                        if(loggedinEmployee.getRole().equals("Résponsable"))
+                        {
+                            HBox manageBtn = new HBox(editButton, deleteButton);
+                            manageBtn.setAlignment(Pos.CENTER);
+                            manageBtn.setSpacing(10);
+                            setGraphic(manageBtn);
+                            setText(null);
+                        }
+                        else
+                        {
+                            HBox manageBtn = new HBox(registerButton);
+                            manageBtn.setAlignment(Pos.CENTER);
+                            setGraphic(manageBtn);
+                            setText(null);
+                            LocalDate date = LocalDate.now();
+                            LocalDate dateBegin = date_begin.getCellData(formation);
+                            try {
+                                registerButton.setDisable(dateBegin.isBefore(date));
+                                if (si.isRegistered(formation, loggedinEmployee)) {
+                                    registerButton.setDisable(true);
+                                }
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+
+
                     }
                 }
-            };
+                private void openEditFormationWindow(Formation formation) {
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("EditFormation.fxml"));
+                        Parent parent = loader.load();
 
+                        EditFormationController controller = loader.getController();
+                        controller.setFormationData(formation);
 
-            TableColumn<Formation, String> inscription = new TableColumn<>("S'inscrire");
-            inscription.setCellFactory(inscriptionCellFactory);
-            tableFormation.getColumns().add(inscription);
-            inscription.setVisible(loggedinEmployee.getRole().equals("Employé"));
+                        Stage stage = new Stage();
+                        stage.setScene(new Scene(parent));
+                        stage.initStyle(StageStyle.UTILITY);
+                        stage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                private void deleteFormation(Formation formation) {
+                    try {
+                        sf.delete(formation);
+                        Refresh();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -248,11 +282,12 @@ public class ViewFormationController implements Initializable {
     }
     @FXML
     void Refresh() {
+
         RotateTransition rotate = new RotateTransition(Duration.seconds(0.5), RefreshButton);
         rotate.setByAngle(360);
         rotate.setInterpolator(Interpolator.EASE_BOTH);
         rotate.play();
-        ServiceFormation sf=new ServiceFormation();
+        sf=new ServiceFormation();
         formations.clear();
         try {
             formations= FXCollections.observableArrayList(sf.readAll());
@@ -265,6 +300,10 @@ public class ViewFormationController implements Initializable {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        DateBegin.setValue(LocalDate.now());
+        LocalDate startDate = DateBegin.getValue();
+        LocalDate endDate = startDate.plusWeeks(1);
+        DateEnd.setValue(endDate);
     }
     private void showAlert(Alert.AlertType alertType, String title, String message) {
         Alert alert = new Alert(alertType);
@@ -283,12 +322,123 @@ public class ViewFormationController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(scene);
             stage.initStyle(StageStyle.UTILITY);
-            stage.setWidth(800);
-            stage.setHeight(600);
+            stage.setWidth(1100);
+            stage.setHeight(720);
             stage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
+    }
+    @FXML
+    void SearchFormation(KeyEvent event) {
+        String searchText=SearchFormation.getText().toLowerCase().trim();
+        if(searchText.isEmpty())
+        {
+            Refresh();
+        }
+        else
+        {
+            try {
+                formations= FXCollections.observableArrayList(sf.search(searchText));
+                tableFormation.setItems(formations);
+                title.setCellValueFactory(new PropertyValueFactory<>("title"));
+                description.setCellValueFactory(new PropertyValueFactory<>("description"));
+                date_begin.setCellValueFactory(new PropertyValueFactory<>("dateBegin"));
+                date_end.setCellValueFactory(new PropertyValueFactory<>("dateEnd"));
+                participants_max.setCellValueFactory(new PropertyValueFactory<>("participants_Max"));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
+    }
+    @FXML
+    void SortByTitle(ActionEvent event) {
+        if (SortTitle.isSelected())
+        {
+            SortId.setDisable(true);
+            try {
+                ComboBoxOrder.setDisable(true);
+                formations=FXCollections.observableArrayList(sf.sortTitle(ComboBoxOrder.getValue()));
+                tableFormation.setItems(formations);
+                title.setCellValueFactory(new PropertyValueFactory<>("title"));
+                description.setCellValueFactory(new PropertyValueFactory<>("description"));
+                date_begin.setCellValueFactory(new PropertyValueFactory<>("dateBegin"));
+                date_end.setCellValueFactory(new PropertyValueFactory<>("dateEnd"));
+                participants_max.setCellValueFactory(new PropertyValueFactory<>("participants_Max"));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else
+        {
+            Refresh();
+            ComboBoxOrder.setValue("ASC");
+            SortId.setDisable(false);
+            ComboBoxOrder.setDisable(false);
+        }
+
+
+    }
+    @FXML
+    void SortById(ActionEvent event) {
+        if (SortId.isSelected())
+        {
+            SortTitle.setDisable(true);
+            try {
+                ComboBoxOrder.setDisable(true);
+                formations=FXCollections.observableArrayList(sf.sortId(ComboBoxOrder.getValue()));
+                tableFormation.setItems(formations);
+                title.setCellValueFactory(new PropertyValueFactory<>("title"));
+                description.setCellValueFactory(new PropertyValueFactory<>("description"));
+                date_begin.setCellValueFactory(new PropertyValueFactory<>("dateBegin"));
+                date_end.setCellValueFactory(new PropertyValueFactory<>("dateEnd"));
+                participants_max.setCellValueFactory(new PropertyValueFactory<>("participants_Max"));
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        else
+        {
+            Refresh();
+            ComboBoxOrder.setValue("ASC");
+            SortTitle.setDisable(false);
+            ComboBoxOrder.setDisable(false);
+        }
+    }
+    @FXML
+    void SearchByDate(ActionEvent event)
+    {
+        LocalDate debut = DateBegin.getValue();
+        LocalDate fin = DateEnd.getValue();
+        try {
+            formations=FXCollections.observableArrayList(sf.searchByDate(debut,fin));
+            tableFormation.setItems(formations);
+            title.setCellValueFactory(new PropertyValueFactory<>("title"));
+            description.setCellValueFactory(new PropertyValueFactory<>("description"));
+            date_begin.setCellValueFactory(new PropertyValueFactory<>("dateBegin"));
+            date_end.setCellValueFactory(new PropertyValueFactory<>("dateEnd"));
+            participants_max.setCellValueFactory(new PropertyValueFactory<>("participants_Max"));
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+    @FXML
+    void getStatView(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("StatisticFormation.fxml"));
+            Parent parent =loader.load();
+            Scene scene = new Scene(parent);
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.initStyle(StageStyle.UTILITY);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(ViewFormationController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

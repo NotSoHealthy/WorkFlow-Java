@@ -21,6 +21,7 @@ import org.controlsfx.validation.Severity;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 import services.ServiceEmployee;
+import utils.GMailer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,7 +57,7 @@ public class SignupController {
         eye2Image = new Image(stream,20,20,true,true);
     }
 
-    public void signup(ActionEvent event) throws SQLException, IOException {
+    public void signup(ActionEvent event) throws Exception {
         if (validationSupport.isInvalid()){
             return;
         }
@@ -78,8 +79,9 @@ public class SignupController {
             return;
         }
 
-        Employee employee = new Employee(nom, prenom, email, number, password, adresse, gouvernorat,"Employé");
+        Employee employee = new Employee(prenom, nom, email, number, password, adresse, gouvernorat,"Employé");
         serviceEmployee.add(employee);
+        new GMailer().sendSignUpMail(employee);
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
         Parent root = fxmlLoader.load();

@@ -1,0 +1,29 @@
+*{
+    -fx-background-primary: #F1F4F8;
+    -fx-background-secondary: #E1EAF9;
+    -fx-background-tertiary: #FFFFFF;
+    -fx-background-highlight: rgba(57, 210, 192, 0.4);
+    -fx-text-primary: #143C4E;
+    -fx-text-secondary: #57636C;
+    -fx-text-success: #39D2C0;
+    -fx-text-warning: #F9CF58;
+    -fx-text-danger: #FF5963;
+}
+
+Label, Text{
+    -fx-text-fill: -fx-text-primary;
+    -fx-fill: -fx-text-primary;
+}
+
+ImageView{
+    -fx-border-radius: 50px;
+    -fx-background-radius: 50px;
+}
+
+.dot{
+    -fx-background-radius: 20px;
+}
+
+.name, .title, .date{
+    -fx-font-weight: bold;
+}

@@ -61,6 +61,10 @@ HBox{
 
 .confirm-btn:hover{
     -fx-background-color: derive(-fx-text-success, 20%);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-scale-z: 1.1;
+    -fx-smooth: false;
 }
 
 .cancel-btn{
@@ -69,4 +73,8 @@ HBox{
 
 .cancel-btn:hover{
     -fx-background-color: derive(-fx-text-danger, 20%);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-scale-z: 1.1;
+    -fx-smooth: false;
 }
