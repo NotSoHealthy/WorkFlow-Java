@@ -58,7 +58,7 @@ public class CongeController {
         InputStream inputStream = getClass().getResourceAsStream("icons/plus.png");
         confirmImage = new Image(inputStream, 16,16,true,true);
         inputStream = getClass().getResourceAsStream("icons/x.png");
-        cancelImage = new Image(inputStream, 16,16,true,true);
+        cancelImage = new Image(inputStream, 14,14,true,true);
         inputStream = getClass().getResourceAsStream("icons/sort.png");
         sortArrow = new ImageView(new Image(inputStream, 12,12,true,true));
 
