@@ -34,6 +34,10 @@ Label{
 
 .confirm-btn:hover{
     -fx-background-color: derive(-fx-text-success,35%);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-scale-z: 1.1;
+    -fx-smooth: false;
 }
 
 .deny-btn{
@@ -43,15 +47,24 @@ Label{
 
 .deny-btn:hover{
     -fx-background-color: derive(-fx-text-danger,35%);
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-scale-z: 1.1;
+    -fx-smooth: false;
 }
 
 .edit-btn{
-    -fx-background-color: -fx-text-warning;
+    /*-fx-background-color: -fx-text-warning;*/
+    -fx-background-color: transparent;
     -fx-background-radius: 5px;
 }
 
 .edit-btn:hover{
-    -fx-background-color: derive(-fx-text-warning,35%);
+    /*-fx-background-color: derive(-fx-text-warning,35%);*/
+    -fx-scale-x: 1.1;
+    -fx-scale-y: 1.1;
+    -fx-scale-z: 1.1;
+    -fx-smooth: false;
 }
 
 ComboBox {
