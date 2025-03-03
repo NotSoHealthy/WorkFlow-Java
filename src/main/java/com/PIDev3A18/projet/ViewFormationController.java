@@ -133,8 +133,13 @@ public class ViewFormationController implements Initializable {
         ImageView imageView = new ImageView(image);
         AddFormationButton.setGraphic(imageView);
 
+        input = getClass().getResourceAsStream("icons/statistic.png");
+        image = new Image(input, 25, 25, true, true);
+        imageView = new ImageView(image);
+        StatButton.setGraphic(imageView);
         if(loggedinEmployee.getRole().equals("Employé") ){
             Hbox.getChildren().remove(AddFormationButton);
+            Hbox.getChildren().remove(StatButton);
 
         }
 
@@ -143,10 +148,7 @@ public class ViewFormationController implements Initializable {
         imageView = new ImageView(image);
         RefreshButton.setGraphic(imageView);
 
-        input = getClass().getResourceAsStream("icons/statistic.png");
-        image = new Image(input, 25, 25, true, true);
-        imageView = new ImageView(image);
-        StatButton.setGraphic(imageView);
+
 
         input = getClass().getResourceAsStream("icons/search.png");
         image = new Image(input, 25, 25, true, true);
@@ -247,12 +249,6 @@ public class ViewFormationController implements Initializable {
                         Formation formation = getTableView().getItems().get(getIndex());
 
                         registerButton.setStyle("-fx-background-color: #39D2C0; -fx-text-fill: white; -fx-font-size: 14px;");
-                        try {
-                            registerButton.setDisable(si.isRegistered(formation, loggedinEmployee));
-
-                        } catch (SQLException e) {
-                            throw new RuntimeException(e);
-                        }
                         registerButton.setOnMouseClicked((MouseEvent event)-> {
                             try {
                                 LocalDate date = LocalDate.now();
@@ -269,6 +265,17 @@ public class ViewFormationController implements Initializable {
                         manageBtn.setStyle("-fx-alignment: center;");
                         setGraphic(manageBtn);
                         setText(null);
+                        LocalDate date = LocalDate.now();
+                        LocalDate dateBegin = date_begin.getCellData(formation);
+                        try {
+                            registerButton.setDisable(dateBegin.isBefore(date));
+                            if (si.isRegistered(formation, loggedinEmployee)) {
+                                registerButton.setDisable(true);
+                            }
+                            
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
                     }
                 }
             };
