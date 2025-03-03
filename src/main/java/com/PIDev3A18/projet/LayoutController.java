@@ -29,41 +29,24 @@ public class LayoutController {
     Employee loggedinEmployee;
     UserSession userSession;
 
-    @FXML
-    private Text layoutName;
-    @FXML
-    private Button layoutDashButton;
-    @FXML
-    private Button layoutDepartmentButton;
-    @FXML
-    private Button layoutProjectsButton;
-    @FXML
-    private Button layoutTasksButton;
-    @FXML
-    private Button layoutCalendarButton;
-    @FXML
-    private Button layoutMoneyButton;
-    @FXML
-    private Button layoutLeaveButton;
-    @FXML
-    private Button layoutDisconnectButton;
-    @FXML
-    private Button layoutReclamationButton;
-    @FXML
-    private ImageView layoutProfilePicture;
-    @FXML
-    private BorderPane layoutBorderPane;
-    @FXML
-    private Button layoutEvenementsButton;
-    @FXML
-    private VBox layoutVbox;
+    @FXML private Text layoutName;
+    @FXML private Button layoutDashButton;
+    @FXML private Button layoutDepartmentButton;
+    @FXML private Button layoutProjectsButton;
+    @FXML private Button layoutTasksButton;
+    @FXML private Button layoutCalendarButton;
+    @FXML private Button layoutMoneyButton;
+    @FXML private Button layoutLeaveButton;
+    @FXML private Button layoutDisconnectButton;
+    @FXML private Button layoutReclamationButton;
+    @FXML private ImageView layoutProfilePicture;
+    @FXML private BorderPane layoutBorderPane;
+    @FXML private Button layoutEvenementsButton;
+    @FXML private VBox layoutVbox;
     @FXML private Button layoutFormationButton;
     @FXML private Button layoutEmployeListButton;
     @FXML private Button layoutJobOfferButton;
     @FXML private Button ApplicationsButton;
-
-
-
 
     @FXML
     void initialize() {
@@ -290,7 +273,6 @@ public class LayoutController {
                 }
             }
         }
-
         layoutVbox.layout();
     }
 
@@ -301,6 +283,7 @@ public class LayoutController {
                 button.getStyleClass().remove("layout-button-selected");
             }
         }
+        layoutVbox.layout();
     }
 
     public void refreshUser() {

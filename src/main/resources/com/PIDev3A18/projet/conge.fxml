@@ -16,7 +16,7 @@
             <Button mnemonicParsing="false" onAction="#addConge" styleClass="addBtn" text="Demander un congé" />
             <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" spacing="20.0">
                <children>
-                  <Label alignment="CENTER" prefWidth="120.0" styleClass="top-label" text="Nom de l'employee">
+                  <Label alignment="CENTER" prefWidth="120.0" styleClass="top-label" text="Nom de l'employé">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
