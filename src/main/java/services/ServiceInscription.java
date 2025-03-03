@@ -19,7 +19,7 @@ import java.util.*;
 
 public class ServiceInscription implements IService<Inscription> {
     Connection cnx;
-    private static final String FLAG_FILE = "D:\\work\\Java\\WorkFlow-Java\\src\\main\\resources\\com\\PIDev3A18\\projet\\Files\\smsFlags.properties";
+    private static final String FLAG_FILE = "Files/smsFlags.properties";
     public static final String ACCOUNT_SID = "AC4110bdfcaad2020468865d70dc5590de";
     public static final String AUTH_TOKEN = "bd3846619cc82ee6a9df5b980f44efe6";
     public ServiceInscription() {
