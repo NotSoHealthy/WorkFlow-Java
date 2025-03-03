@@ -28,7 +28,7 @@ module com.example.projet {
     requires java.desktop;
     requires two.factor.auth;
     requires mysql.connector.j;
-    requires activation;
+    requires jakarta.activation;
     requires org.twitter4j.core;
     requires java.net.http;
     requires scribejava.core;
