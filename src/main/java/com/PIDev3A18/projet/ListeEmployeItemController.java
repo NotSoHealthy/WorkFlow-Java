@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import services.ServiceDepartment;
 import services.ServiceEmployee;
+import utils.GMailer;
 import utils.UserSession;
 
 import java.io.IOException;
@@ -98,7 +99,7 @@ public class ListeEmployeItemController {
     }
 
     @FXML
-    void accept() throws SQLException, IOException {
+    void accept() throws Exception {
         departementBox.getStyleClass().remove("error");
         if(departementBox.getSelectionModel().getSelectedItem() == null){
             Tooltip tooltip = new Tooltip("Selectionner um département");
@@ -110,13 +111,15 @@ public class ListeEmployeItemController {
         employee.setDepartment(departementBox.getSelectionModel().getSelectedItem());
         employee.setRole(roleBox.getSelectionModel().getSelectedItem());
         serviceEmployee.update(employee);
+        new GMailer().sendConfirmationMail(employee);
         this.listeEmployeController.update();
     }
 
     @FXML
-    void deny() throws SQLException, IOException {
+    void deny() throws Exception {
         employee.setStatus("denied");
         serviceEmployee.update(employee);
+        new GMailer().sendDenialMail(employee);
         this.listeEmployeController.update();
     }
 

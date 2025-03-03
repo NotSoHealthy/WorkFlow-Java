@@ -14,34 +14,34 @@
       <VBox fx:id="vbox" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <Button mnemonicParsing="false" onAction="#addConge" styleClass="addBtn" text="Demander un congé" />
-            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" spacing="20.0">
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" spacing="20.0">
                <children>
-                  <Label alignment="CENTER" prefWidth="120.0" styleClass="top-label" text="Nom de l'employé">
+                  <Label fx:id="nameLabel" alignment="CENTER" contentDisplay="RIGHT" onMouseClicked="#sortByName" prefWidth="153.0" styleClass="top-label" text="Nom de l'employé">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Label>
-                  <Label alignment="CENTER" layoutX="30.0" layoutY="27.0" prefWidth="120.0" styleClass="top-label" text="Raison">
+                  <Label fx:id="reasonLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="30.0" layoutY="27.0" onMouseClicked="#sortByReason" prefWidth="153.0" styleClass="top-label" text="Raison">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Label>
-                  <Label alignment="CENTER" layoutX="200.0" layoutY="27.0" prefWidth="120.0" styleClass="top-label" text="Date requete">
+                  <Label fx:id="requestDateLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="200.0" layoutY="27.0" onMouseClicked="#sortByRequestDate" prefWidth="153.0" styleClass="top-label" text="Date requete">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Label>
-                  <Label alignment="CENTER" layoutX="370.0" layoutY="27.0" prefWidth="120.0" styleClass="top-label" text="Date debut">
+                  <Label fx:id="startDateLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="370.0" layoutY="27.0" onMouseClicked="#sortByStartDate" prefWidth="153.0" styleClass="top-label" text="Date debut">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Label>
-                  <Label alignment="CENTER" layoutX="528.0" layoutY="27.0" prefWidth="120.0" styleClass="top-label" text="Date fin">
+                  <Label fx:id="endDateLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="528.0" layoutY="27.0" onMouseClicked="#sortByEndDate" prefWidth="153.0" styleClass="top-label" text="Date fin">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Label>
-                  <Label alignment="CENTER" layoutX="582.0" layoutY="27.0" prefWidth="120.0" styleClass="top-label" text="Etat">
+                  <Label fx:id="statusLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="582.0" layoutY="27.0" onMouseClicked="#sortByStatus" prefWidth="153.0" styleClass="top-label" text="Etat">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -54,17 +54,17 @@
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </padding>
             </HBox>
-            <HBox fx:id="addBox" alignment="CENTER_LEFT" layoutX="30.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" spacing="20.0" stylesheets="@css/conge_item.css">
+            <HBox fx:id="addBox" alignment="CENTER_LEFT" layoutX="30.0" layoutY="75.0" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" spacing="20.0" stylesheets="@css/conge_item.css">
                <children>
-                  <TextField fx:id="nameField" disable="false" editable="false" layoutX="170.0" layoutY="23.0" prefWidth="120.0" />
-                  <TextField fx:id="raisonField" onKeyPressed="#changeRaison" prefWidth="120.0" promptText="Raison" />
-                  <DatePicker fx:id="requestDateField" disable="true" prefWidth="120.0" promptText="Date Requete" />
-                  <DatePicker fx:id="startDateField" layoutX="339.0" layoutY="23.0" onAction="#changeDebut" prefWidth="120.0" promptText="Date Debut" />
-                  <DatePicker fx:id="endDateField" layoutX="533.0" layoutY="23.0" onAction="#changeFin" prefWidth="120.0" promptText="Date Fin" />
-                  <HBox alignment="CENTER" prefWidth="120.0" spacing="30.0" style="-fx-background-color: transparent;">
+                  <TextField fx:id="nameField" disable="false" editable="false" layoutX="170.0" layoutY="23.0" prefWidth="153.0" />
+                  <TextField fx:id="raisonField" onKeyPressed="#changeRaison" prefWidth="153.0" promptText="Raison" />
+                  <DatePicker fx:id="requestDateField" disable="true" prefWidth="153.0" promptText="Date Requete" />
+                  <DatePicker fx:id="startDateField" layoutX="339.0" layoutY="23.0" onAction="#changeDebut" prefWidth="153.0" promptText="Date Debut" />
+                  <DatePicker fx:id="endDateField" layoutX="533.0" layoutY="23.0" onAction="#changeFin" prefWidth="153.0" promptText="Date Fin" />
+                  <HBox alignment="CENTER" prefWidth="153.0" spacing="30.0" style="-fx-background-color: transparent;">
                      <children>
-                        <Button mnemonicParsing="false" onAction="#confirmConge" prefWidth="120.0" styleClass="confirm-btn" fx:id="addButton"/>
-                        <Button layoutX="30.0" layoutY="30.0" mnemonicParsing="false" onAction="#cancelConge" prefWidth="120.0" styleClass="cancel-btn" fx:id="cancelButton"/>
+                        <Button fx:id="addButton" mnemonicParsing="false" onAction="#confirmConge" prefWidth="30.0" styleClass="confirm-btn" />
+                        <Button fx:id="cancelButton" layoutX="30.0" layoutY="30.0" mnemonicParsing="false" onAction="#cancelConge" prefWidth="30.0" styleClass="cancel-btn" />
                      </children>
                   </HBox>
                </children>
