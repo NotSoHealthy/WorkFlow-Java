@@ -10,9 +10,9 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -21,13 +21,11 @@ import services.ServiceEmployee;
 import utils.ImgApi;
 import utils.UserSession;
 
-import javax.imageio.ImageIO;
-import javax.tools.Tool;
-import java.awt.image.BufferedImage;
 import java.io.*;
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.regex.Pattern;
+
+import static com.j256.twofactorauth.TimeBasedOneTimePasswordUtil.*;
 
 public class EditProfileController{
 
@@ -51,6 +49,9 @@ public class EditProfileController{
     @FXML private TextField adresseField;
     @FXML private HBox notifHbox;
     @FXML private Text notifText;
+    @FXML private ImageView qrImage;
+    @FXML private VBox qrVBox;
+    @FXML private Button qrButton;
 
     Image eye1Image;
     Image eye2Image;
@@ -59,6 +60,7 @@ public class EditProfileController{
     ServiceEmployee serviceEmployee;
     LayoutController layoutController;
     String newImageUrl;
+    String two_factor_secret;
 
     public EditProfileController(LayoutController layoutController){
         this.layoutController = layoutController;
@@ -73,7 +75,7 @@ public class EditProfileController{
     }
 
     @FXML
-    public void initialize(){
+    public void initialize() throws SQLException {
         comboBox.setItems(FXCollections.observableArrayList("Ariana Ville", "Bab El Bhar", "Bab Souika", "Ben Arous", "Bou Mhel el-Bassatine",
                 "Carthage", "Cité El Khadra", "Djebel Jelloud", "El Kabaria", "El Menzah",
                 "El Mourouj", "El Omrane", "El Omrane supérieur", "El Ouardia", "Ettadhamen",
@@ -86,7 +88,16 @@ public class EditProfileController{
         passwordBtn.setGraphic(new ImageView(eye1Image));
         confirmationBtn.setGraphic(new ImageView(eye1Image));
 
-        Image image = new Image(loggedInEmployee.getImageUrl());
+        qrButton.setText((loggedInEmployee.getTwo_factor_secret() == null) ? "Activer" : "Désactiver");
+        qrVBox.setVisible(loggedInEmployee.getTwo_factor_secret() != null);
+        if (loggedInEmployee.getTwo_factor_secret() != null){
+            qrButton.setOnAction(event -> disable2FA());
+            String qrCode = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+generateOtpAuthUrl("WorkFlow: "+loggedInEmployee.getEmail(),two_factor_secret);
+            Image qrCodeImage = new Image(qrCode,true);
+            qrImage.setImage(qrCodeImage);
+        }
+
+        Image image = new Image(loggedInEmployee.getImageUrl(), true);
         double imageWidth = image.getWidth();
         double imageHeight = image.getHeight();
         double minSize = Math.min(imageWidth, imageHeight);
@@ -382,6 +393,35 @@ public class EditProfileController{
         // Play fade-in first, then fade-out after delay
         fadeIn.setOnFinished(event -> fadeOut.play());
         fadeIn.play();
+    }
+
+    public void enable2FA() {
+        two_factor_secret = generateBase32Secret();
+        loggedInEmployee.setTwo_factor_secret(two_factor_secret);
+        try {
+            serviceEmployee.set2FASecret(loggedInEmployee);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        String qrCode = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data="+generateOtpAuthUrl("WorkFlow: "+loggedInEmployee.getEmail(),two_factor_secret);
+        Image qrCodeImage = new Image(qrCode,true);
+        qrImage.setImage(qrCodeImage);
+        qrVBox.setVisible(true);
+        qrButton.setText("Désactiver");
+        qrButton.setOnAction(event -> disable2FA());
+    }
+
+    public void disable2FA() {
+        loggedInEmployee.setTwo_factor_secret(null);
+        try {
+            serviceEmployee.remove2FASecret(loggedInEmployee);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        qrImage.setImage(null);
+        qrVBox.setVisible(false);
+        qrButton.setText("Activer");
+        qrButton.setOnAction(event -> enable2FA());
     }
 
 }

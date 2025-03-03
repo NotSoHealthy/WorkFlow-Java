@@ -1,6 +1,7 @@
 package services;
 
 import entity.Conge;
+import entity.Employee;
 import utils.DBConnection;
 
 import java.sql.*;
@@ -75,5 +76,14 @@ public class ServiceConge implements IService<Conge> {
             return new Conge(rs.getInt("id"),serviceEmployee.readById(rs.getInt("employee_id")),rs.getDate("request_date").toLocalDate(),rs.getDate("start_date").toLocalDate(),rs.getDate("end_date").toLocalDate(), rs.getString("reason"),rs.getString("status"));
         }
         return null;
+    }
+
+    public int getCongeThisYear(Employee employee) throws SQLException {
+        ServiceEmployee serviceEmployee = new ServiceEmployee();
+        String query = "select * from conges where employee_id=? AND status='approved' AND YEAR(start_date) = YEAR(CURRENT_DATE);";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, employee.getId());
+        ResultSet rs = ps.executeQuery();
+        return rs.getFetchSize();
     }
 }

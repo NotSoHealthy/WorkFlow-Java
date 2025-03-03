@@ -152,7 +152,6 @@ public class JobOfferController {
     public void setLoggedinEmployee(Employee loggedinEmployee) {
         this.loggedinEmployee = loggedinEmployee;
         SubmitBtn.setDisable(false);
-        System.out.println("Logged-in Employee set: " + loggedinEmployee.getId());
     }
 
     private boolean isValidText(String text) {

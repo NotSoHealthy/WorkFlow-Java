@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="450.0" spacing="20.0" styleClass="page" stylesheets="@css/event_item.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="date" alignment="CENTER" prefHeight="40.0" prefWidth="40.0" styleClass="date" text="27" textAlignment="CENTER" />
+      <VBox alignment="CENTER_LEFT" maxWidth="250.0">
+         <children>
+            <Label fx:id="title" maxWidth="250.0" styleClass="subtitle-text" text="Label" />
+            <Region VBox.vgrow="ALWAYS" />
+            <Label fx:id="description" layoutX="10.0" layoutY="10.0" maxWidth="250.0" styleClass="body-text" text="Label" />
+         </children>
+         <padding>
+            <Insets bottom="5.0" top="5.0" />
+         </padding>
+      </VBox>
+      <Region HBox.hgrow="ALWAYS" />
+      <Text fx:id="time" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle-text" text="Text" />
+   </children>
+</HBox>

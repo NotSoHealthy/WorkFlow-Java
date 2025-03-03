@@ -39,7 +39,7 @@ public class Main extends Application {
 
         }
         else{
-            loggedInUser = serviceEmployee.readById(loggedInUser.getId());
+            loggedInUser = serviceEmployee.readByEmailAndPassword(loggedInUser.getEmail(), loggedInUser.getPassword());
             userSession.login(loggedInUser);
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("layout.fxml"));
             root = fxmlLoader.load();
@@ -59,6 +59,7 @@ public class Main extends Application {
             Platform.exit();
             System.exit(0);
         });
+
     }
 
 

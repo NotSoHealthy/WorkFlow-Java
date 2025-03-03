@@ -29,41 +29,24 @@ public class LayoutController {
     Employee loggedinEmployee;
     UserSession userSession;
 
-    @FXML
-    private Text layoutName;
-    @FXML
-    private Button layoutDashButton;
-    @FXML
-    private Button layoutDepartmentButton;
-    @FXML
-    private Button layoutProjectsButton;
-    @FXML
-    private Button layoutTasksButton;
-    @FXML
-    private Button layoutCalendarButton;
-    @FXML
-    private Button layoutMoneyButton;
-    @FXML
-    private Button layoutLeaveButton;
-    @FXML
-    private Button layoutDisconnectButton;
-    @FXML
-    private Button layoutReclamationButton;
-    @FXML
-    private ImageView layoutProfilePicture;
-    @FXML
-    private BorderPane layoutBorderPane;
-    @FXML
-    private Button layoutEvenementsButton;
-    @FXML
-    private VBox layoutVbox;
+    @FXML private Text layoutName;
+    @FXML private Button layoutDashButton;
+    @FXML private Button layoutDepartmentButton;
+    @FXML private Button layoutProjectsButton;
+    @FXML private Button layoutTasksButton;
+    @FXML private Button layoutCalendarButton;
+    @FXML private Button layoutMoneyButton;
+    @FXML private Button layoutLeaveButton;
+    @FXML private Button layoutDisconnectButton;
+    @FXML private Button layoutReclamationButton;
+    @FXML private ImageView layoutProfilePicture;
+    @FXML private BorderPane layoutBorderPane;
+    @FXML private Button layoutEvenementsButton;
+    @FXML private VBox layoutVbox;
     @FXML private Button layoutFormationButton;
     @FXML private Button layoutEmployeListButton;
     @FXML private Button layoutJobOfferButton;
     @FXML private Button ApplicationsButton;
-
-
-
 
     @FXML
     void initialize() {
@@ -71,7 +54,7 @@ public class LayoutController {
         userSession = UserSession.getInstance();
         loggedinEmployee = userSession.getLoggedInEmployee();
         layoutName.setText(loggedinEmployee.getFirstName() + " " + loggedinEmployee.getLastName());
-        Image image = new Image(loggedinEmployee.getImageUrl());
+        Image image = new Image(loggedinEmployee.getImageUrl(), true);
         double imageWidth = image.getWidth();
         double imageHeight = image.getHeight();
         double minSize = Math.min(imageWidth, imageHeight);
@@ -180,10 +163,13 @@ public class LayoutController {
 
     }
 
-    public void layoutGoToDashboard(ActionEvent actionEvent) {
+    public void layoutGoToDashboard(ActionEvent actionEvent) throws IOException {
         setSelected(layoutDashButton);
-        loadFXML(getClass().getResource("dashboard.fxml"));
-
+//        loadFXML(getClass().getResource("dashboard.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
+        DashboardController dashboardController = new DashboardController(this);
+        fxmlLoader.setController(dashboardController);
+        layoutBorderPane.setCenter(fxmlLoader.load());
     }
     public void layoutGoToDepartment(ActionEvent actionEvent) {
         setSelected(layoutDepartmentButton);
@@ -198,19 +184,16 @@ public class LayoutController {
     public void layoutGoToTasks(ActionEvent actionEvent) {
         setSelected(layoutTasksButton);
         loadFXML(getClass().getResource("tasks.fxml"));
-
     }
 
     public void layoutGoToCalendar(ActionEvent actionEvent) {
         setSelected(layoutCalendarButton);
         loadFXML(getClass().getResource("calendar.fxml"));
-
     }
 
     public void layoutGoToMoney(ActionEvent actionEvent) {
         setSelected(layoutMoneyButton);
         loadFXML(getClass().getResource("money.fxml"));
-
     }
 
     public void layoutGoToConge(ActionEvent actionEvent) {
@@ -294,7 +277,6 @@ public class LayoutController {
                 }
             }
         }
-
         layoutVbox.layout();
     }
 
@@ -305,6 +287,7 @@ public class LayoutController {
                 button.getStyleClass().remove("layout-button-selected");
             }
         }
+        layoutVbox.layout();
     }
 
     public void refreshUser() {

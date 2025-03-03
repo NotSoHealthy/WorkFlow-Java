@@ -2,7 +2,11 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
@@ -20,33 +24,53 @@
 
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.EvenementsController">
    <center>
-      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <StackPane prefHeight="150.0" prefWidth="200.0" style="-fx-background-color: #F1F4F8;" BorderPane.alignment="CENTER">
          <children>
             <AnchorPane fx:id="EventDisplay" prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <Label layoutX="30.0" layoutY="6.0" prefHeight="57.0" prefWidth="196.0" text="Evenements">
+                  <Label fx:id="empty" alignment="CENTER" contentDisplay="BOTTOM" layoutX="307.0" layoutY="98.0" prefHeight="140.0" prefWidth="370.0" text="Aucun événement" visible="false">
+                     <font>
+                        <Font name="System Bold" size="36.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="120.0" layoutY="6.0" prefHeight="57.0" prefWidth="196.0" text="Evenements">
                      <font>
                         <Font size="30.0" />
                      </font>
                   </Label>
-                  <ScrollPane hbarPolicy="NEVER" layoutX="40.0" layoutY="71.0" prefHeight="543.0" prefWidth="847.0" style="-fx-border-color: #F1F4F8;">
+                  <ScrollPane fx:id="SC" hbarPolicy="NEVER" layoutX="104.0" layoutY="89.0" prefHeight="543.0" prefWidth="847.0" style="-fx-border-color: #F1F4F8; -fx-background-color: #F1F4F8;" vbarPolicy="NEVER">
                      <content>
-                        <VBox fx:id="eventHolder" prefHeight="15.0" prefWidth="845.0" styleClass="Evenements-back" stylesheets="@css/Evenements.css">
+                        <VBox fx:id="eventHolder" prefHeight="15.0" prefWidth="845.0" stylesheets="@css/Evenements.css">
                            <padding>
                               <Insets bottom="15.0" />
                            </padding>
                         </VBox>
                      </content>
                   </ScrollPane>
-                  <Button fx:id="creer" layoutX="200.0" layoutY="644.0" mnemonicParsing="false" onAction="#layoutGoToAddEvenements" prefHeight="45.0" prefWidth="404.0" styleClass="btn" stylesheets="@css/Evenements.css" text="Creer un Evenement" />
-                  <Button layoutX="688.0" layoutY="16.0" mnemonicParsing="false" onAction="#populateReservations" prefHeight="38.0" prefWidth="139.0" styleClass="UserReservation" stylesheets="@css/Evenements.css" text="Mes Réservations" />
+                  <Button fx:id="creer" layoutX="330.0" layoutY="644.0" mnemonicParsing="false" onAction="#layoutGoToAddEvenements" prefHeight="45.0" prefWidth="404.0" styleClass="btn" stylesheets="@css/Evenements.css" text="Creer un Evenement" />
+                  <Button layoutX="778.0" layoutY="16.0" mnemonicParsing="false" onAction="#populateReservations" prefHeight="38.0" prefWidth="139.0" styleClass="UserReservation" stylesheets="@css/Evenements.css" text="Mes Réservations" />
+                  <TextField fx:id="SearchTitle" layoutX="328.0" layoutY="18.0" onKeyTyped="#SearchByTitle" prefHeight="34.0" prefWidth="402.0" promptText="Event" />
+                  <CheckBox fx:id="SortDate" layoutX="676.0" layoutY="59.0" mnemonicParsing="false" onAction="#SortByDate" prefHeight="16.0" prefWidth="90.0" text="Date">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </CheckBox>
+                  <ComboBox fx:id="TypeListSort" layoutX="328.0" layoutY="56.0" onAction="#SortByType" prefHeight="18.0" prefWidth="338.0" promptText="Type" styleClass="cmbx" stylesheets="@css/Evenements.css" />
+                  <ImageView fx:id="StatisticsImage" fitHeight="29.0" fitWidth="30.0" layoutX="296.0" layoutY="55.0" onMouseClicked="#layoutGoToStatistics" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/statistics.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
                </children>
             </AnchorPane>
             <AnchorPane fx:id="AddEvent" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
-                  <Pane layoutX="81.0" layoutY="52.0" prefHeight="617.0" prefWidth="665.0" styleClass="Evenements-back" stylesheets="@css/Evenements.css">
+                  <Pane layoutX="181.0" layoutY="43.0" prefHeight="648.0" prefWidth="665.0" styleClass="Evenements-back" stylesheets="@css/Evenements.css">
                      <children>
-                        <Pane layoutX="129.0" layoutY="38.0" prefHeight="554.0" prefWidth="420.0" style="-fx-background-color: white; -fx-background-radius: 20px;" stylesheets="@css/AddEvent.css">
+                        <Pane layoutX="129.0" layoutY="38.0" prefHeight="591.0" prefWidth="420.0" style="-fx-background-color: white; -fx-background-radius: 20px;" stylesheets="@css/AddEvent.css">
                            <children>
                               <TextField fx:id="Titre" layoutX="46.0" layoutY="22.0" prefHeight="25.0" prefWidth="333.0" promptText="Titre" />
                               <TextArea fx:id="Description" layoutX="49.0" layoutY="81.0" prefHeight="96.0" prefWidth="330.0" promptText="Description" />
@@ -56,7 +80,8 @@
                               <TextField fx:id="Adresse" layoutX="50.0" layoutY="317.0" prefWidth="329.0" promptText="Adresse" />
                               <ComboBox fx:id="TypeList" layoutX="50.0" layoutY="376.0" prefHeight="25.0" prefWidth="328.0" promptText="Type" />
                               <TextField fx:id="Nbplace" layoutX="49.0" layoutY="434.0" prefWidth="329.0" promptText="Nombre de Place" />
-                              <Button layoutX="141.0" layoutY="495.0" mnemonicParsing="false" onAction="#AddEvenements" prefHeight="45.0" prefWidth="138.0" styleClass="btn" stylesheets="@css/Evenements.css" text="Creer" />
+                              <Button layoutX="141.0" layoutY="528.0" mnemonicParsing="false" onAction="#AddEvenements" prefHeight="45.0" prefWidth="138.0" styleClass="btn" stylesheets="@css/Evenements.css" text="Creer" />
+                              <CheckBox fx:id="online" layoutX="50.0" layoutY="491.0" mnemonicParsing="false" onAction="#changeAddress" text="En Ligne" />
                               <Label fx:id="TitreError" layoutX="50.0" layoutY="62.0" textFill="#f50000" />
                               <Label fx:id="DescriptionError" layoutX="50.0" layoutY="177.0" textFill="RED" />
                               <Label fx:id="DateError" layoutX="50.0" layoutY="237.0" textFill="RED" />
@@ -74,7 +99,7 @@
                         </Label>
                      </children>
                   </Pane>
-                  <ImageView fx:id="back" fitHeight="36.0" fitWidth="47.0" layoutX="25.0" layoutY="14.0" onMouseClicked="#layoutGoBack" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="back" fitHeight="36.0" fitWidth="47.0" layoutX="35.0" layoutY="14.0" onMouseClicked="#layoutGoBack" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@icons/arrow-left-solid.png" />
                      </image>
@@ -86,9 +111,9 @@
             </AnchorPane>
             <AnchorPane fx:id="UpdateEvent" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
-                  <Pane layoutX="81.0" layoutY="52.0" prefHeight="617.0" prefWidth="665.0" styleClass="Evenements-back" stylesheets="@css/Evenements.css">
+                  <Pane layoutX="181.0" layoutY="52.0" prefHeight="638.0" prefWidth="665.0" styleClass="Evenements-back" stylesheets="@css/Evenements.css">
                      <children>
-                        <Pane layoutX="129.0" layoutY="38.0" prefHeight="554.0" prefWidth="420.0" style="-fx-background-color: white; -fx-background-radius: 20px;" stylesheets="@css/AddEvent.css">
+                        <Pane layoutX="129.0" layoutY="38.0" prefHeight="582.0" prefWidth="420.0" style="-fx-background-color: white; -fx-background-radius: 20px;" stylesheets="@css/AddEvent.css">
                            <children>
                               <TextField fx:id="TitreUpdate" layoutX="46.0" layoutY="22.0" prefHeight="25.0" prefWidth="333.0" promptText="Titre" />
                               <TextArea fx:id="DescriptionUpdate" layoutX="49.0" layoutY="81.0" prefHeight="96.0" prefWidth="330.0" promptText="Description" />
@@ -98,7 +123,8 @@
                               <TextField fx:id="AdresseUpdate" layoutX="50.0" layoutY="317.0" prefWidth="329.0" promptText="Adresse" />
                               <ComboBox fx:id="TypeListUpdate" layoutX="50.0" layoutY="376.0" prefHeight="25.0" prefWidth="328.0" promptText="Type" />
                               <TextField fx:id="NbplaceUpdate" layoutX="49.0" layoutY="434.0" prefWidth="329.0" promptText="Nombre de Place" />
-                              <Button layoutX="141.0" layoutY="495.0" mnemonicParsing="false" onAction="#UpdateEvenements" prefHeight="45.0" prefWidth="138.0" styleClass="update" stylesheets="@css/Evenements.css" text="Mise à jour" />
+                              <Button layoutX="141.0" layoutY="515.0" mnemonicParsing="false" onAction="#UpdateEvenements" prefHeight="45.0" prefWidth="138.0" styleClass="update" stylesheets="@css/Evenements.css" text="Mise à jour" />
+                              <CheckBox fx:id="onlineUpdate" layoutX="49.0" layoutY="491.0" mnemonicParsing="false" onAction="#changeAddressUpdate" text="En Ligne" />
                               <Label fx:id="TitreErrorUpdate" layoutX="50.0" layoutY="62.0" textFill="#f50000" />
                               <Label fx:id="DescriptionErrorUpdate" layoutX="50.0" layoutY="177.0" textFill="RED" />
                               <Label fx:id="DateErrorUpdate" layoutX="50.0" layoutY="237.0" textFill="RED" />
@@ -128,7 +154,7 @@
             </AnchorPane>
             <AnchorPane fx:id="ReserverPage" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
-                  <Pane layoutX="81.0" layoutY="52.0" prefHeight="617.0" prefWidth="665.0" styleClass="Evenements-back" stylesheets="@css/Evenements.css">
+                  <Pane layoutX="201.0" layoutY="52.0" prefHeight="617.0" prefWidth="665.0" styleClass="Evenements-back" stylesheets="@css/Evenements.css">
                      <children>
                         <Pane layoutX="123.0" layoutY="125.0" prefHeight="368.0" prefWidth="420.0" style="-fx-background-color: white; -fx-background-radius: 20px;" stylesheets="@css/AddEvent.css">
                            <children>
@@ -173,7 +199,7 @@
                         <Cursor fx:constant="HAND" />
                      </cursor>
                   </ImageView>
-                  <ScrollPane hbarPolicy="NEVER" layoutX="40.0" layoutY="71.0" prefHeight="543.0" prefWidth="847.0" style="-fx-border-color: #F1F4F8;">
+                  <ScrollPane hbarPolicy="NEVER" layoutX="120.0" layoutY="71.0" prefHeight="543.0" prefWidth="847.0" style="-fx-border-color: #F1F4F8;">
                      <content>
                         <VBox fx:id="ReservationHolder" prefHeight="15.0" prefWidth="845.0" styleClass="Evenements-back" stylesheets="@css/Evenements.css">
                            <padding>
@@ -182,6 +208,26 @@
                         </VBox>
                      </content>
                   </ScrollPane>
+               </children>
+            </AnchorPane>
+            <AnchorPane fx:id="DisplayStatistics" prefHeight="200.0" prefWidth="200.0" visible="false">
+               <children>
+                  <BarChart fx:id="barChart" animated="false" categoryGap="20.0" layoutX="132.0" layoutY="71.0" legendSide="TOP" prefHeight="592.0" prefWidth="819.0">
+                    <xAxis>
+                      <CategoryAxis side="BOTTOM" />
+                    </xAxis>
+                    <yAxis>
+                      <NumberAxis side="LEFT" />
+                    </yAxis>
+                  </BarChart>
+                  <ImageView fx:id="backDisplayStatistics" fitHeight="36.0" fitWidth="47.0" layoutX="29.0" layoutY="27.0" onMouseClicked="#layoutGoBack" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@icons/arrow-left-solid.png" />
+                     </image>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </ImageView>
                </children>
             </AnchorPane>
          </children>
