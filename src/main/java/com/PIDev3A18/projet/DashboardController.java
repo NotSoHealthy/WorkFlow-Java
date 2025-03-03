@@ -128,7 +128,7 @@ public class DashboardController {
         int gap = 10;
         double margin = 0;
 //        String baseStyle = "-fx-background-color: linear-gradient(to top, #007CFF %s%%, transparent %s%%);";
-        LocalDate lastDate = null;
+        LocalDate lastDate = LocalDate.now();
 
         for (Attendance attendance : attendanceList) {
             textList.get(i).setText(StringUtils.capitalize(attendance.getDate().format(DateTimeFormatter.ofPattern("E d", Locale.FRENCH))));
