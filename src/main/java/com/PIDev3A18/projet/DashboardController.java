@@ -5,7 +5,11 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
@@ -14,11 +18,13 @@ import services.*;
 import utils.UserSession;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.sql.SQLException;
 import java.time.DayOfWeek;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -48,9 +54,12 @@ public class DashboardController {
     @FXML private VBox calendar5VBox;
     @FXML private VBox calendar6VBox;
     @FXML private VBox calendar7VBox;
-    @FXML private Text congeNumber;
+    @FXML private Label congeNumber;
     @FXML private Button congeButton;
     @FXML private VBox eventVBox;
+    @FXML private Label reclamationNumber;
+    @FXML private Label formationNumber;
+    @FXML private Label eventNumber;
 
     private Employee loggedInEmployee;
     private ServiceEmployee serviceEmployee;
@@ -61,14 +70,22 @@ public class DashboardController {
     private List<VBox> calendarVBoxList;
     private ServiceEvent serviceEvent;
     private ServiceTask serviceTask;
+    private ServiceReclamation serviceReclamation;
+    private LayoutController layoutController;
+    private ServiceInscription serviceInscription;
+    private ServiceReservation serviceReservation;
 
-    public DashboardController(){
+    public DashboardController(LayoutController layoutController) {
+        this.layoutController = layoutController;
         loggedInEmployee = UserSession.getInstance().getLoggedInEmployee();
         serviceAttendance = new ServiceAttendance();
         serviceEmployee = new ServiceEmployee();
         serviceConge = new ServiceConge();
         serviceEvent = new ServiceEvent();
         serviceTask = new ServiceTask();
+        serviceReclamation = new ServiceReclamation();
+        serviceInscription = new ServiceInscription();
+        serviceReservation = new ServiceReservation();
     }
 
     public void initialize() throws Exception {
@@ -76,10 +93,28 @@ public class DashboardController {
         regionList = Arrays.asList(day1Region, day2Region, day3Region, day4Region, day5Region, day6Region, day7Region);
         calendarVBoxList = Arrays.asList(calendar1VBox, calendar2VBox, calendar3VBox, calendar4VBox, calendar5VBox, calendar6VBox, calendar7VBox);
 
+        InputStream inputStream = getClass().getResourceAsStream("icons/conge.png");
+        Image img = new Image(inputStream,16,16,true,true);
+        congeNumber.setGraphic(new ImageView(img));
+
+        inputStream = getClass().getResourceAsStream("icons/pen.png");
+        img = new Image(inputStream,14,14,true,true);
+        reclamationNumber.setGraphic(new ImageView(img));
+
+        inputStream = getClass().getResourceAsStream("icons/event.png");
+        img = new Image(inputStream,14,14,true,true);
+        eventNumber.setGraphic(new ImageView(img));
+
+        inputStream = getClass().getResourceAsStream("icons/Formation.png");
+        img = new Image(inputStream,14,14,true,true);
+        formationNumber.setGraphic(new ImageView(img));
+
         titleText.setText("Bonjour, "+loggedInEmployee.getFirstName());
         loadHours();
         loadTasks();
         loadConge();
+        loadReclamation();
+        loadFormation();
         loadCalendar();
         loadEvents();
     }
@@ -140,6 +175,10 @@ public class DashboardController {
         }
     }
 
+    public void goToTasks(){
+        layoutController.layoutGoToProjects(null);
+    }
+
     public void loadConge() throws SQLException {
         int conge = 30-serviceConge.getCongeThisYear(loggedInEmployee);
         congeNumber.setText(String.valueOf(conge));
@@ -147,7 +186,25 @@ public class DashboardController {
     }
 
     public void goToConge(){
+        layoutController.layoutGoToConge(null);
+    }
 
+    public void loadReclamation() throws SQLException {
+        List<Reclamation> reclamationList = serviceReclamation.readAll().stream().filter(r -> r.getEmployee().getId()==loggedInEmployee.getId() && r.getEtat().equals("IN PROGRESS")).toList();
+        reclamationNumber.setText(String.valueOf(reclamationList.size()));
+    }
+
+    public void goToReclamation(){
+        layoutController.layoutGoToReclamation(null);
+    }
+
+    public void loadFormation() throws SQLException {
+        List<Inscription> inscriptionList = serviceInscription.readAll().stream().filter(i-> i.getEmployee().getId()==loggedInEmployee.getId() && i.getFormation().getDateEnd().isAfter(LocalDate.now())).toList();
+        formationNumber.setText(String.valueOf(inscriptionList.size()));
+    }
+
+    public void goToFormation(){
+        layoutController.layoutGoToFormation(null);
     }
 
     public void loadCalendar() throws SQLException {
@@ -176,6 +233,13 @@ public class DashboardController {
             fxmlLoader.setController(controller);
             eventVBox.getChildren().add(fxmlLoader.load());
         }
+
+        List<Reservation> reservationList = serviceReservation.readAll().stream().filter(r -> r.getEmployee().getId()==loggedInEmployee.getId() && r.getEvent().getDateetheure().isAfter(LocalDateTime.now())).toList();
+        eventNumber.setText(String.valueOf(reservationList.stream().mapToInt(Reservation::getNombreDePlaces).sum()));
+    }
+
+    public void goToEvent() throws SQLException {
+        layoutController.layoutGoToEvenements(null);
     }
 
 }

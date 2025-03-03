@@ -10,11 +10,11 @@
 
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1080.0" stylesheets="@css/liste_employe.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.ListeEmployeController">
    <center>
-      <VBox fx:id="listVbox" fillWidth="false" spacing="10.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="listVbox" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
-            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" spacing="10.0">
+            <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" spacing="10.0">
                <children>
-                  <Label fx:id="nameLabel" alignment="CENTER" contentDisplay="RIGHT" onMouseClicked="#sortByName" prefWidth="120.0" styleClass="top-label" text="Nom de l'employee">
+                  <Label fx:id="nameLabel" alignment="CENTER" contentDisplay="RIGHT" onMouseClicked="#sortByName" prefWidth="170.0" styleClass="top-label" text="Nom de l'employee">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -26,19 +26,19 @@
                      </HBox.margin>
                   </Label>
                   <Region prefHeight="0.0" prefWidth="2.0" style="-fx-background-color: black;" />
-                  <Label fx:id="depLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="370.0" layoutY="27.0" onMouseClicked="#sortByDep" prefWidth="120.0" styleClass="top-label" text="Département">
+                  <Label fx:id="depLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="370.0" layoutY="27.0" onMouseClicked="#sortByDep" prefWidth="170.0" styleClass="top-label" text="Département">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Label>
                   <Region prefHeight="0.0" prefWidth="2.0" style="-fx-background-color: black;" />
-                  <Label fx:id="roleLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="200.0" layoutY="27.0" onMouseClicked="#sortByRole" prefWidth="120.0" styleClass="top-label" text="Role">
+                  <Label fx:id="roleLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="200.0" layoutY="27.0" onMouseClicked="#sortByRole" prefWidth="170.0" styleClass="top-label" text="Role">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Label>
                   <Region prefHeight="0.0" prefWidth="2.0" style="-fx-background-color: black;" />
-                  <Label fx:id="etatLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="582.0" layoutY="27.0" onMouseClicked="#sortByEtat" prefWidth="120.0" styleClass="top-label" text="Etat">
+                  <Label fx:id="etatLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="582.0" layoutY="27.0" onMouseClicked="#sortByEtat" prefWidth="170.0" styleClass="top-label" text="Etat">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>

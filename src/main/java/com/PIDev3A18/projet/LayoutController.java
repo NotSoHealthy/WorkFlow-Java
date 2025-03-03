@@ -163,10 +163,13 @@ public class LayoutController {
 
     }
 
-    public void layoutGoToDashboard(ActionEvent actionEvent) {
+    public void layoutGoToDashboard(ActionEvent actionEvent) throws IOException {
         setSelected(layoutDashButton);
-        loadFXML(getClass().getResource("dashboard.fxml"));
-
+//        loadFXML(getClass().getResource("dashboard.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dashboard.fxml"));
+        DashboardController dashboardController = new DashboardController(this);
+        fxmlLoader.setController(dashboardController);
+        layoutBorderPane.setCenter(fxmlLoader.load());
     }
     public void layoutGoToDepartment(ActionEvent actionEvent) {
         setSelected(layoutDepartmentButton);

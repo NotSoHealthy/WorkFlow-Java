@@ -29,6 +29,7 @@ Text{
 
 .leave-day{
     -fx-fill: #5887FF;
+    -fx-text-fill: #5887FF;
 }
 
 .link-text{

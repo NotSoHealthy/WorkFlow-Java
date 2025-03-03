@@ -3,6 +3,7 @@
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -13,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@css/dashboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.DashboardController">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@css/dashboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <center>
       <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -32,7 +33,7 @@
                               <Insets />
                            </VBox.margin>
                            <children>
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="link-text" text="Voir Tous Mes Tâches" underline="true" />
+                              <Text onMouseClicked="#goToTasks" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="link-text" text="Voir Tous Mes Tâches" underline="true" />
                            </children>
                         </HBox>
                      </children>
@@ -155,32 +156,100 @@
                   </VBox>
                </children>
             </VBox>
-            <VBox fillWidth="false" maxWidth="540.0" spacing="20.0" HBox.hgrow="ALWAYS">
+            <VBox maxWidth="540.0" spacing="20.0" HBox.hgrow="ALWAYS">
                <padding>
                   <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
                </padding>
                <children>
                   <Text fx:id="titleText1" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-text" />
-                  <VBox alignment="TOP_CENTER" spacing="10.0" styleClass="container-vbox">
+                  <HBox alignment="CENTER" spacing="55.0">
                      <children>
-                        <HBox alignment="TOP_CENTER" spacing="5.0">
+                        <VBox alignment="TOP_CENTER" fillWidth="false" maxWidth="200.0" prefWidth="200.0" spacing="10.0" styleClass="container-vbox">
                            <children>
-                              <Text fx:id="congeNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="20">
-                                 <styleClass>
-                                    <String fx:value="subtitle-text" />
-                                    <String fx:value="leave-day" />
-                                 </styleClass>
-                              </Text>
-                              <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle-text" text="Jours" />
+                              <HBox alignment="TOP_CENTER" spacing="5.0">
+                                 <children>
+                                    <Label fx:id="congeNumber" graphicTextGap="5.0" text="20">
+                                       <styleClass>
+                                          <String fx:value="subtitle-text" />
+                                          <String fx:value="leave-day" />
+                                       </styleClass>
+                                    </Label>
+                                    <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle-text" text="Jours" />
+                                 </children>
+                              </HBox>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body-text" text="Congés disponible" />
+                              <Button fx:id="congeButton" mnemonicParsing="false" onAction="#goToConge" text="Demander un congé" />
                            </children>
-                        </HBox>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body-text" text="Congés disponible" />
-                        <Button fx:id="congeButton" mnemonicParsing="false" onAction="#goToConge" text="Demander un congé" />
+                           <padding>
+                              <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" fillWidth="false" layoutX="10.0" layoutY="10.0" maxWidth="200.0" prefWidth="200.0" spacing="10.0" styleClass="container-vbox">
+                           <children>
+                              <HBox alignment="TOP_CENTER" spacing="5.0">
+                                 <children>
+                                    <Label fx:id="reclamationNumber" graphicTextGap="5.0" text="20">
+                                       <styleClass>
+                                          <String fx:value="subtitle-text" />
+                                          <String fx:value="leave-day" />
+                                       </styleClass>
+                                    </Label>
+                                    <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle-text" text="Réclamations" />
+                                 </children>
+                              </HBox>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body-text" text="Ouvertes" />
+                              <Button mnemonicParsing="false" onAction="#goToReclamation" text="Créer une réclamation" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                           </padding>
+                        </VBox>
                      </children>
-                     <padding>
-                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
-                     </padding>
-                  </VBox>
+                  </HBox>
+                  <HBox alignment="CENTER" layoutX="30.0" layoutY="74.0" spacing="55.0">
+                     <children>
+                        <VBox alignment="TOP_CENTER" fillWidth="false" maxWidth="200.0" prefWidth="200.0" spacing="10.0" styleClass="container-vbox">
+                           <children>
+                              <HBox alignment="TOP_CENTER" spacing="5.0">
+                                 <children>
+                                    <Label fx:id="eventNumber" graphicTextGap="5.0" text="20">
+                                       <styleClass>
+                                          <String fx:value="subtitle-text" />
+                                          <String fx:value="leave-day" />
+                                       </styleClass>
+                                    </Label>
+                                    <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle-text" text="Evénements" />
+                                 </children>
+                              </HBox>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body-text" text="Réservés" />
+                              <Button mnemonicParsing="false" onAction="#goToEvent" text="Réservé une place" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                        <VBox alignment="TOP_CENTER" fillWidth="false" layoutX="10.0" layoutY="10.0" maxWidth="200.0" prefWidth="200.0" spacing="10.0" styleClass="container-vbox">
+                           <children>
+                              <HBox alignment="TOP_CENTER" spacing="5.0">
+                                 <children>
+                                    <Label fx:id="formationNumber" graphicTextGap="5.0" text="20">
+                                       <styleClass>
+                                          <String fx:value="subtitle-text" />
+                                          <String fx:value="leave-day" />
+                                       </styleClass>
+                                    </Label>
+                                    <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle-text" text="Formations" />
+                                 </children>
+                              </HBox>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body-text" text="Inscrits" />
+                              <Button mnemonicParsing="false" onAction="#goToFormation" text="S'inscrire à une formation" />
+                           </children>
+                           <padding>
+                              <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                           </padding>
+                        </VBox>
+                     </children>
+                  </HBox>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-text" text="Mars 2025" />
                   <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefWidth="540.0">
                      <children>
