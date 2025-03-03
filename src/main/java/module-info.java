@@ -4,7 +4,6 @@ module com.example.projet {
     requires java.sql;
     requires com.google.gson;
     requires org.controlsfx.controls;
-    requires java.desktop;
     requires java.compiler;
     requires okhttp3;
     requires com.google.api.client;
@@ -19,6 +18,10 @@ module com.example.projet {
     requires org.apache.commons.codec;
     requires com.google.auth.oauth2;
     requires com.google.auth;
+    requires annotations;
+    requires org.apache.commons.lang3;
+    requires java.desktop;
+    requires two.factor.auth;
 
 
     opens com.PIDev3A18.projet to javafx.fxml;

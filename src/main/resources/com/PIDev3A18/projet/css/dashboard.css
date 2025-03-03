@@ -1,0 +1,82 @@
+*{
+    -fx-background-primary: #F1F4F8;
+    -fx-background-secondary: #E1EAF9;
+    -fx-background-tertiary: #FFFFFF;
+    -fx-background-highlight: rgba(57, 210, 192, 0.4);
+    -fx-text-primary: #143C4E;
+    -fx-text-secondary: #57636C;
+    -fx-text-success: #39D2C0;
+    -fx-text-warning: #F9CF58;
+    -fx-text-danger: #FF5963;
+}
+
+BorderPane{
+    -fx-background-color: -fx-background-primary;
+}
+
+Text{
+    -fx-fill: -fx-text-primary;
+}
+
+.title-text{
+    -fx-font-weight: bold;
+    -fx-font-size: 18px;
+}
+
+.subtitle-text{
+    -fx-font-weight: bold;
+}
+
+.leave-day{
+    -fx-fill: #5887FF;
+}
+
+.link-text{
+    -fx-font-weight: normal;
+}
+
+.hour-back-region{
+    -fx-background-color: #C6E1FF;
+    -fx-background-radius: 20px;
+}
+
+.hour-region{
+    -fx-background-color: #007CFF;;
+    -fx-background-radius: 20px;
+}
+
+.line-region{
+    -fx-background-color: rgba(0, 0, 0, .1);
+}
+
+.container-vbox{
+    -fx-background-color: -fx-background-tertiary;
+    -fx-background-radius: 10px;
+    -fx-effect: dropshadow( two-pass-box , rgba(0, 0, 0, 0.15) , 8, 0, 2, 2 );
+}
+
+Button{
+    -fx-background-color: #3742FA;
+    -fx-text-fill: white;
+    -fx-background-radius: 5px;
+    -fx-padding: 5px 10px;
+    -fx-effect: dropshadow( two-pass-box , rgba(0, 0, 0, 0.15) , 8, 0, 2, 2 );
+}
+
+Button:hover{
+    -fx-background-color: derive(#3742FA, 20%);
+}
+
+.calendar-vbox{
+    -fx-background-color: -fx-background-primary;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow( two-pass-box , rgba(0, 0, 0, 0.15) , 8, 0, 2, 2 );
+}
+
+.calendar-text{
+    -fx-fill: black;
+}
+
+.calendar-current-day{
+    -fx-background-color: -fx-background-tertiary;
+}

@@ -128,7 +128,7 @@ public class ServiceEmployee implements IService<Employee> {
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
             return new Employee(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"),
-                    email, rs.getString("phone"),password,serviceDepartment.readById(rs.getInt("department_id")), rs.getString("adresse"), rs.getString("gouvernorat"), rs.getString("image_url"), rs.getString("role"), rs.getString("status"));
+                    email, rs.getString("phone"),password,serviceDepartment.readById(rs.getInt("department_id")), rs.getString("adresse"), rs.getString("gouvernorat"), rs.getString("image_url"), rs.getString("role"), rs.getString("status"), rs.getString("two_factor_secret"));
         }
         return null;
     }
@@ -158,5 +158,20 @@ public class ServiceEmployee implements IService<Employee> {
 
         }
         return null;
+    }
+
+    public void set2FASecret(Employee employee) throws SQLException {
+        String query = "update employees set two_factor_secret = ? where id = ?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, employee.getTwo_factor_secret());
+        ps.setInt(2, employee.getId());
+        ps.executeUpdate();
+    }
+
+    public void remove2FASecret(Employee employee) throws SQLException {
+        String query = "update employees set two_factor_secret = null where id = ?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, employee.getId());
+        ps.executeUpdate();
     }
 }

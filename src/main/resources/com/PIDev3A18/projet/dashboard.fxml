@@ -1,11 +1,290 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-
-<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1080.0" stylesheets="@css/dashboard.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.DashboardController">
+   <center>
+      <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <VBox maxWidth="540.0" spacing="20.0" HBox.hgrow="ALWAYS">
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+               <children>
+                  <Text fx:id="titleText" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-text" text="Bonjour, " />
+                  <VBox spacing="10.0" styleClass="container-vbox">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle-text" text="Mes Tâches" />
+                        <VBox fx:id="taskVBox" spacing="10.0" />
+                        <HBox alignment="CENTER">
+                           <VBox.margin>
+                              <Insets />
+                           </VBox.margin>
+                           <children>
+                              <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="link-text" text="Voir Tous Mes Tâches" underline="true" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+                  <VBox fillWidth="false" spacing="20.0" styleClass="container-vbox">
+                     <children>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle-text" text="Heures de travail" />
+                        <StackPane VBox.vgrow="NEVER">
+                           <children>
+                              <GridPane hgap="30.0" layoutX="10.0" layoutY="10.0" prefWidth="400.0" vgap="10.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="NEVER" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Region maxHeight="2.0" prefHeight="2.0" prefWidth="500.0" styleClass="line-region" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.hgrow="ALWAYS" GridPane.valignment="CENTER" />
+                                    <Region layoutX="63.0" layoutY="24.0" maxHeight="2.0" prefHeight="2.0" prefWidth="500.0" styleClass="line-region" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="1" />
+                                    <Region layoutX="63.0" layoutY="64.0" maxHeight="2.0" prefHeight="2.0" prefWidth="500.0" styleClass="line-region" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="2" />
+                                    <Region layoutX="63.0" layoutY="104.0" maxHeight="2.0" prefHeight="2.0" prefWidth="500.0" styleClass="line-region" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="3" />
+                                    <Region layoutX="63.0" layoutY="144.0" maxHeight="2.0" prefHeight="2.0" prefWidth="500.0" styleClass="line-region" GridPane.columnIndex="1" GridPane.columnSpan="2147483647" GridPane.rowIndex="4" />
+                                 </children>
+                              </GridPane>
+                              <GridPane hgap="30.0" layoutX="10.0" layoutY="10.0" prefWidth="400.0" style="-fx-background-color: transparent;" vgap="10.0">
+                                 <columnConstraints>
+                                    <ColumnConstraints hgrow="NEVER" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                 </columnConstraints>
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                 </rowConstraints>
+                                 <children>
+                                    <Region prefWidth="500.0" styleClass="hour-back-region" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowSpan="5" GridPane.vgrow="ALWAYS" />
+                                    <Region layoutX="63.0" layoutY="10.0" prefWidth="500.0" styleClass="hour-back-region" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowSpan="5" GridPane.vgrow="ALWAYS" />
+                                    <Region layoutX="115.0" layoutY="10.0" prefWidth="500.0" styleClass="hour-back-region" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowSpan="5" GridPane.vgrow="ALWAYS" />
+                                    <Region layoutX="168.0" layoutY="10.0" prefWidth="500.0" styleClass="hour-back-region" GridPane.columnIndex="4" GridPane.hgrow="ALWAYS" GridPane.rowSpan="5" GridPane.vgrow="ALWAYS" />
+                                    <Region layoutX="220.0" layoutY="10.0" prefWidth="500.0" styleClass="hour-back-region" GridPane.columnIndex="5" GridPane.hgrow="ALWAYS" GridPane.rowSpan="5" GridPane.vgrow="ALWAYS" />
+                                    <Region layoutX="273.0" layoutY="10.0" prefWidth="500.0" styleClass="hour-back-region" GridPane.columnIndex="6" GridPane.hgrow="ALWAYS" GridPane.rowSpan="5" GridPane.vgrow="ALWAYS" />
+                                    <Region layoutX="325.0" layoutY="10.0" prefWidth="500.0" styleClass="hour-back-region" GridPane.columnIndex="7" GridPane.hgrow="ALWAYS" GridPane.rowSpan="5" GridPane.vgrow="ALWAYS" />
+                                 </children>
+                              </GridPane>
+                              <GridPane fx:id="hourGridPane" hgap="30.0" prefWidth="400.0" style="-fx-background-color: transparent;" vgap="10.0">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="NEVER" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                    <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="ALWAYS" minWidth="20.0" percentWidth="12.5" prefWidth="20.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle-text" text="8H" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                                    <Text layoutX="19.0" layoutY="30.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle-text" text="6H" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                                    <Text layoutX="19.0" layoutY="70.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle-text" text="4H" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER" />
+                                    <Text layoutX="10.0" layoutY="110.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle-text" text="2H" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER" />
+                                    <Text layoutX="10.0" layoutY="150.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle-text" text="0H" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER" />
+                                    <Text fx:id="day1Text" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle-text" text="Day1" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                                    <Text fx:id="day2Text" layoutX="68.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle-text" text="Day2" GridPane.columnIndex="2" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                                    <Text fx:id="day3Text" layoutX="120.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle-text" text="Day3" GridPane.columnIndex="3" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                                    <Text fx:id="day4Text" layoutX="173.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle-text" text="Day4" GridPane.columnIndex="4" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                                    <Text fx:id="day5Text" layoutX="225.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle-text" text="Day5" GridPane.columnIndex="5" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                                    <Text fx:id="day6Text" layoutX="278.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle-text" text="Day6" GridPane.columnIndex="6" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                                    <Text fx:id="day7Text" layoutX="330.0" layoutY="230.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle-text" text="Day7" GridPane.columnIndex="7" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.valignment="CENTER" />
+                                    <Region fx:id="day1Region" prefWidth="500.0" styleClass="hour-region" GridPane.columnIndex="1" GridPane.hgrow="ALWAYS" GridPane.rowSpan="5" GridPane.vgrow="ALWAYS">
+                                       <GridPane.margin>
+                                          <Insets />
+                                       </GridPane.margin>
+                                    </Region>
+                                    <Region fx:id="day2Region" layoutX="63.0" layoutY="10.0" prefWidth="500.0" styleClass="hour-region" GridPane.columnIndex="2" GridPane.hgrow="ALWAYS" GridPane.rowSpan="5" GridPane.vgrow="ALWAYS" />
+                                    <Region fx:id="day3Region" layoutX="115.0" layoutY="10.0" prefWidth="500.0" styleClass="hour-region" GridPane.columnIndex="3" GridPane.hgrow="ALWAYS" GridPane.rowSpan="5" GridPane.vgrow="ALWAYS" />
+                                    <Region fx:id="day4Region" layoutX="168.0" layoutY="10.0" prefWidth="500.0" styleClass="hour-region" GridPane.columnIndex="4" GridPane.hgrow="ALWAYS" GridPane.rowSpan="5" GridPane.vgrow="ALWAYS" />
+                                    <Region fx:id="day5Region" layoutX="220.0" layoutY="10.0" prefWidth="500.0" styleClass="hour-region" GridPane.columnIndex="5" GridPane.hgrow="ALWAYS" GridPane.rowSpan="5" GridPane.vgrow="ALWAYS" />
+                                    <Region fx:id="day6Region" layoutX="273.0" layoutY="10.0" prefWidth="500.0" styleClass="hour-region" GridPane.columnIndex="6" GridPane.hgrow="ALWAYS" GridPane.rowSpan="5" GridPane.vgrow="ALWAYS" />
+                                    <Region fx:id="day7Region" layoutX="325.0" layoutY="10.0" prefWidth="500.0" styleClass="hour-region" GridPane.columnIndex="7" GridPane.hgrow="ALWAYS" GridPane.rowSpan="5" GridPane.vgrow="ALWAYS" />
+                                 </children>
+                              </GridPane>
+                           </children>
+                        </StackPane>
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                     </padding>
+                  </VBox>
+               </children>
+            </VBox>
+            <VBox fillWidth="false" maxWidth="540.0" spacing="20.0" HBox.hgrow="ALWAYS">
+               <padding>
+                  <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+               </padding>
+               <children>
+                  <Text fx:id="titleText1" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-text" />
+                  <VBox alignment="TOP_CENTER" spacing="10.0" styleClass="container-vbox">
+                     <children>
+                        <HBox alignment="TOP_CENTER" spacing="5.0">
+                           <children>
+                              <Text fx:id="congeNumber" strokeType="OUTSIDE" strokeWidth="0.0" text="20">
+                                 <styleClass>
+                                    <String fx:value="subtitle-text" />
+                                    <String fx:value="leave-day" />
+                                 </styleClass>
+                              </Text>
+                              <Text layoutX="10.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="subtitle-text" text="Jours" />
+                           </children>
+                        </HBox>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="body-text" text="Congés disponible" />
+                        <Button fx:id="congeButton" mnemonicParsing="false" onAction="#goToConge" text="Demander un congé" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
+                     </padding>
+                  </VBox>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-text" text="Mars 2025" />
+                  <HBox alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" prefWidth="540.0">
+                     <children>
+                        <GridPane hgap="10.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="13.6" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="2.0" minWidth="2.0" prefWidth="2.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="13.6" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="2.0" minWidth="2.0" prefWidth="2.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="13.6" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="2.0" minWidth="2.0" prefWidth="2.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="13.6" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="2.0" minWidth="2.0" prefWidth="2.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="13.6" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="2.0" minWidth="2.0" prefWidth="2.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="13.6" prefWidth="100.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" maxWidth="2.0" minWidth="2.0" prefWidth="2.0" />
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" percentWidth="13.6" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="-Infinity" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Region styleClass="line-region" GridPane.columnIndex="1" />
+                              <Region layoutX="69.0" layoutY="10.0" styleClass="line-region" GridPane.columnIndex="3" />
+                              <Region layoutX="10.0" layoutY="10.0" styleClass="line-region" GridPane.columnIndex="5" />
+                              <Region layoutX="10.0" layoutY="10.0" styleClass="line-region" GridPane.columnIndex="7" />
+                              <Region layoutX="10.0" layoutY="10.0" styleClass="line-region" GridPane.columnIndex="9" />
+                              <Region layoutX="10.0" layoutY="10.0" styleClass="line-region" GridPane.columnIndex="11" />
+                              <VBox fx:id="calendar1VBox" alignment="CENTER" spacing="10.0" styleClass="calendar-vbox">
+                                 <children>
+                                    <Text fx:id="calendar1Day" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-text" text="Lun" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-text" text="27" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox fx:id="calendar2VBox" alignment="CENTER" layoutX="10.0" layoutY="10.0" spacing="10.0" styleClass="calendar-vbox" GridPane.columnIndex="2">
+                                 <children>
+                                    <Text fx:id="calendar1Day1" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-text" text="Mar" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-text" text="27" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox fx:id="calendar3VBox" alignment="CENTER" layoutX="10.0" layoutY="10.0" spacing="10.0" styleClass="calendar-vbox" GridPane.columnIndex="4">
+                                 <children>
+                                    <Text fx:id="calendar1Day11" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-text" text="Mer" />
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-text" text="27" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox fx:id="calendar4VBox" alignment="CENTER" layoutX="10.0" layoutY="10.0" spacing="10.0" styleClass="calendar-vbox" GridPane.columnIndex="6">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-text" text="Jeu" />
+                                    <Text fx:id="calendar1Date111" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-text" text="27" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox fx:id="calendar5VBox" alignment="CENTER" spacing="10.0" styleClass="calendar-vbox" GridPane.columnIndex="8">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-text" text="Ven" />
+                                    <Text fx:id="calendar1Date1111" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-text" text="27" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox fx:id="calendar6VBox" alignment="CENTER" spacing="10.0" styleClass="calendar-vbox" GridPane.columnIndex="10">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-text" text="Sam" />
+                                    <Text fx:id="calendar1Date1112" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-text" text="27" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </VBox>
+                              <VBox fx:id="calendar7VBox" alignment="CENTER" spacing="10.0" styleClass="calendar-vbox" GridPane.columnIndex="12">
+                                 <children>
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-text" text="Dim" />
+                                    <Text fx:id="calendar1Date1113" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="calendar-text" text="27" />
+                                 </children>
+                                 <padding>
+                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                                 </padding>
+                              </VBox>
+                           </children>
+                        </GridPane>
+                     </children>
+                     <padding>
+                        <Insets right="20.0" />
+                     </padding>
+                  </HBox>
+                  <Text layoutX="30.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="title-text" text="Evénements à venir" />
+                  <VBox fx:id="eventVBox" prefWidth="540.0" spacing="10.0" />
+               </children>
+            </VBox>
+         </children>
+      </HBox>
+   </center>
 </BorderPane>

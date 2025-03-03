@@ -89,6 +89,13 @@ public class LoginController {
                     throw new RuntimeException(e);
                 }
             }
+            if(employee.getTwo_factor_secret() != null){
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("two_factor_login.fxml"));
+                TwoFactorLoginController controller = new TwoFactorLoginController(employee);
+                loader.setController(controller);
+                emailField.getScene().setRoot(loader.load());
+                return;
+            }
 
             userSession.login(employee);
 
@@ -160,6 +167,7 @@ public class LoginController {
     public void goToJobOffer() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("JobOfferList.fxml"));
         Parent root = loader.load();
+        System.out.println(emailField.getScene());
         emailField.getScene().setRoot(root);
     }
 

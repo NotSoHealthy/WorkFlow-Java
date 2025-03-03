@@ -13,8 +13,26 @@ public class Employee {
     private String imageUrl;
     private String role;
     private String status;
+    private String two_factor_secret;
 
     //All attributes
+    public Employee(int id, String firstName, String lastName, String email, String phone, String password, Department department, String adresse, String gouvernorat, String imageUrl, String role, String status, String two_factor_secret) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.phone = phone;
+        this.password = password;
+        this.department = department;
+        this.adresse = adresse;
+        this.gouvernorat = gouvernorat;
+        this.imageUrl = imageUrl;
+        this.role = role;
+        this.status = status;
+        this.two_factor_secret = two_factor_secret;
+    }
+
+    //All attributes except two_factor_secret
     public Employee(int id, String firstName, String lastName, String email, String phone, String password, Department department, String adresse, String gouvernorat, String imageUrl, String role, String status) {
         this.id = id;
         this.firstName = firstName;
@@ -30,7 +48,7 @@ public class Employee {
         this.status = status;
     }
 
-    //All attributes except id and status
+    //All attributes except id, status and two_factor_secret
     public Employee(String firstName, String lastName, String email, String phone, String password, Department department, String adresse, String gouvernorat, String imageUrl, String role) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -44,7 +62,7 @@ public class Employee {
         this.role = role;
     }
 
-    //All attributes except id, department, imageUrl and status
+    //All attributes except id, department, imageUrl, status and two_factor_secret
     public Employee(String firstName, String lastName, String email, String phone, String password, String adresse, String gouvernorat, String role) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -56,7 +74,7 @@ public class Employee {
         this.role = role;
     }
 
-    //Only firstname, lastname, email and phone
+    //Only firstname, lastname, email, phone and two_factor_secret
     public Employee(String firstName, String lastName, String email, String phone) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -64,7 +82,7 @@ public class Employee {
         this.phone = phone;
     }
 
-    //All attributes except id
+    //All attributes except id and two_factor_secret
     public Employee(String firstName, String lastName, String email, String phone, String password, Department department, String adresse, String gouvernorat, String imageUrl, String role, String status) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -79,7 +97,7 @@ public class Employee {
         this.status = status;
     }
 
-    //All attributes except password
+    //All attributes except password and two_factor_secret
     public Employee(int id, String firstName, String lastName, String email, String phone, Department department, String adresse, String gouvernorat, String imageUrl, String role, String status) {
         this.id = id;
         this.firstName = firstName;
@@ -189,6 +207,14 @@ public class Employee {
         this.gouvernorat = gouvernorat;
     }
 
+    public String getTwo_factor_secret() {
+        return two_factor_secret;
+    }
+
+    public void setTwo_factor_secret(String two_factor_secret) {
+        this.two_factor_secret = two_factor_secret;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +
@@ -204,6 +230,7 @@ public class Employee {
                 ", imageUrl='" + imageUrl + '\'' +
                 ", role='" + role + '\'' +
                 ", status='" + status + '\'' +
+                ", two_factor_secret='" + two_factor_secret + '\'' +
                 '}';
     }
 }

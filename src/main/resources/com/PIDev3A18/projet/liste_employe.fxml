@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
@@ -9,35 +10,35 @@
 
 <BorderPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1080.0" stylesheets="@css/liste_employe.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.ListeEmployeController">
    <center>
-      <VBox fx:id="listVbox" spacing="10.0" BorderPane.alignment="CENTER">
+      <VBox fx:id="listVbox" fillWidth="false" spacing="10.0" BorderPane.alignment="CENTER">
          <children>
             <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" spacing="10.0">
                <children>
-                  <Label alignment="CENTER" prefWidth="120.0" styleClass="top-label" text="Nom de l'employee">
+                  <Label fx:id="nameLabel" alignment="CENTER" contentDisplay="RIGHT" onMouseClicked="#sortByName" prefWidth="120.0" styleClass="top-label" text="Nom de l'employee">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Label>
                   <Region prefHeight="50.0" prefWidth="2.0" style="-fx-background-color: black;" />
-                  <Label alignment="CENTER" layoutX="30.0" layoutY="27.0" prefWidth="250.0" styleClass="top-label" text="Email">
+                  <Label fx:id="emailLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="30.0" layoutY="27.0" onMouseClicked="#sortByEmail" prefWidth="250.0" styleClass="top-label" text="Email">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Label>
                   <Region prefHeight="0.0" prefWidth="2.0" style="-fx-background-color: black;" />
-                  <Label alignment="CENTER" layoutX="370.0" layoutY="27.0" prefWidth="120.0" styleClass="top-label" text="Département">
+                  <Label fx:id="depLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="370.0" layoutY="27.0" onMouseClicked="#sortByDep" prefWidth="120.0" styleClass="top-label" text="Département">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Label>
                   <Region prefHeight="0.0" prefWidth="2.0" style="-fx-background-color: black;" />
-                  <Label alignment="CENTER" layoutX="200.0" layoutY="27.0" prefWidth="120.0" styleClass="top-label" text="Role">
+                  <Label fx:id="roleLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="200.0" layoutY="27.0" onMouseClicked="#sortByRole" prefWidth="120.0" styleClass="top-label" text="Role">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </Label>
                   <Region prefHeight="0.0" prefWidth="2.0" style="-fx-background-color: black;" />
-                  <Label alignment="CENTER" layoutX="582.0" layoutY="27.0" prefWidth="120.0" styleClass="top-label" text="Etat">
+                  <Label fx:id="etatLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="582.0" layoutY="27.0" onMouseClicked="#sortByEtat" prefWidth="120.0" styleClass="top-label" text="Etat">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
@@ -50,6 +51,7 @@
                   <Insets bottom="10.0" left="20.0" right="20.0" top="10.0" />
                </padding>
             </HBox>
+            <TextField fx:id="searchBar" onKeyTyped="#update" prefWidth="860.0" promptText="Recherche" />
             <HBox alignment="CENTER_LEFT" layoutX="20.0" layoutY="30.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" spacing="20.0">
                <children>
                   <Label alignment="CENTER" prefWidth="120.0" styleClass="top-label" text="Comptes en attente">

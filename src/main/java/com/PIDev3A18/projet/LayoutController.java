@@ -54,7 +54,7 @@ public class LayoutController {
         userSession = UserSession.getInstance();
         loggedinEmployee = userSession.getLoggedInEmployee();
         layoutName.setText(loggedinEmployee.getFirstName() + " " + loggedinEmployee.getLastName());
-        Image image = new Image(loggedinEmployee.getImageUrl());
+        Image image = new Image(loggedinEmployee.getImageUrl(), true);
         double imageWidth = image.getWidth();
         double imageHeight = image.getHeight();
         double minSize = Math.min(imageWidth, imageHeight);

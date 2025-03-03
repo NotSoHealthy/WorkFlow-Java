@@ -71,30 +71,8 @@ public class CongeController {
         addButton.setGraphic(new ImageView(confirmImage));
         cancelButton.setGraphic(new ImageView(cancelImage));
 
-        ObservableList<Node> nodeList = vbox.getChildren();
-        List<Node> nodesToRemove = new ArrayList<>();
-
-        for (Node node : nodeList) {
-            if (node instanceof HBox hbox) {
-                if (hbox.getId() != null && hbox.getId().equals("congeItem")) {
-                    nodesToRemove.add(hbox);
-                }
-            }
-        }
-        vbox.getChildren().removeAll(nodesToRemove);
-
         addBox.setManaged(false);
         addBox.setVisible(false);
-
-        List<Conge> congeList;
-        if (loggedInEmployee.getRole().equals("Employé")) {
-            congeList = serviceConge.readAll().stream().filter(conge -> conge.getEmployee().getId() == loggedInEmployee.getId()).collect(Collectors.toList());
-        }
-        else {
-            congeList = serviceConge.readAll();
-        }
-
-        congeList.stream().sorted(Comparator.comparing((Conge c)->!c.getStatus().equals("Pending")).thenComparing(Conge::getRequest_date)).collect(Collectors.toList());
 
         sortByRequestDate();
 
@@ -104,6 +82,9 @@ public class CongeController {
 
     public void showList(List<Conge> congeList) throws IOException {
         clearList();
+        if (loggedInEmployee.getRole().equals("Employé")) {
+            congeList = congeList.stream().filter(conge -> conge.getEmployee().getId() == loggedInEmployee.getId()).collect(Collectors.toList());
+        }
         for (Conge conge : congeList) {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("conge_item.fxml"));
             CongeItemController congeItemController = new CongeItemController(conge);
@@ -133,7 +114,6 @@ public class CongeController {
     void cancelConge(ActionEvent event) {
         addBox.setVisible(false);
         addBox.setManaged(false);
-        nameField.clear();
         raisonField.clear();
         endDateField.setValue(null);
         startDateField.setValue(null);
@@ -144,7 +124,7 @@ public class CongeController {
 
     @FXML
     void confirmConge(ActionEvent event) throws SQLException, IOException {
-        Boolean verif=true;
+        boolean verif=true;
         startDateField.getStyleClass().remove("error");
         endDateField.getStyleClass().remove("error");
         raisonField.getStyleClass().remove("error");
@@ -170,7 +150,7 @@ public class CongeController {
         if (verif) {
             Conge conge = new Conge(loggedInEmployee,LocalDate.now(),startDateField.getValue(),endDateField.getValue(),raisonField.getText(),"pending");
             serviceConge.add(conge);
-            this.initialize();
+            this.showList(serviceConge.readAll());
         }
     }
 
@@ -213,11 +193,8 @@ public class CongeController {
         sortArrow.setRotate(sortDirection.equals("desc") ? 0 : 180);
         clearSortArrow();
         nameLabel.setGraphic(sortArrow);
-        if (sortDirection.equals("desc")) {
-            congeList = serviceConge.readAll().stream().sorted(Comparator.comparing(c -> c.getEmployee().getFirstName()+c.getEmployee().getLastName())).collect(Collectors.toList());
-        }
-        else{
-            congeList = serviceConge.readAll().stream().sorted(Comparator.comparing(c -> c.getEmployee().getFirstName()+c.getEmployee().getLastName())).collect(Collectors.toList());
+        congeList = serviceConge.readAll().stream().sorted(Comparator.comparing(c -> c.getEmployee().getFirstName()+c.getEmployee().getLastName())).collect(Collectors.toList());
+        if (sortDirection.equals("asc")) {
             congeList = congeList.reversed();
         }
         showList(congeList);
@@ -235,11 +212,9 @@ public class CongeController {
         sortArrow.setRotate(sortDirection.equals("desc") ? 0 : 180);
         clearSortArrow();
         requestDateLabel.setGraphic(sortArrow);
-        if (sortDirection.equals("asc")) {
-            congeList = serviceConge.readAll().stream().sorted(Comparator.comparing(Conge::getRequest_date)).collect(Collectors.toList());
-        }
-        else{
-            congeList = serviceConge.readAll().stream().sorted(Comparator.comparing(Conge::getRequest_date).reversed()).collect(Collectors.toList());
+        congeList = serviceConge.readAll().stream().sorted(Comparator.comparing(Conge::getRequest_date)).collect(Collectors.toList());
+        if (sortDirection.equals("desc")) {
+            congeList = congeList.reversed();
         }
         showList(congeList);
     }
@@ -256,11 +231,9 @@ public class CongeController {
         sortArrow.setRotate(sortDirection.equals("desc") ? 0 : 180);
         clearSortArrow();
         startDateLabel.setGraphic(sortArrow);
-        if (sortDirection.equals("asc")) {
-            congeList = serviceConge.readAll().stream().sorted(Comparator.comparing(Conge::getStart_date)).collect(Collectors.toList());
-        }
-        else{
-            congeList = serviceConge.readAll().stream().sorted(Comparator.comparing(Conge::getStart_date).reversed()).collect(Collectors.toList());
+        congeList = serviceConge.readAll().stream().sorted(Comparator.comparing(Conge::getStart_date)).collect(Collectors.toList());
+        if (sortDirection.equals("desc")) {
+            congeList = congeList.reversed();
         }
         showList(congeList);
     }
@@ -277,12 +250,11 @@ public class CongeController {
         sortArrow.setRotate(sortDirection.equals("desc") ? 0 : 180);
         clearSortArrow();
         endDateLabel.setGraphic(sortArrow);
-        if (sortDirection.equals("asc")) {
-            congeList = serviceConge.readAll().stream().sorted(Comparator.comparing(Conge::getEnd_date)).collect(Collectors.toList());
+        congeList = serviceConge.readAll().stream().sorted(Comparator.comparing(Conge::getEnd_date)).collect(Collectors.toList());
+        if (sortDirection.equals("desc")) {
+            congeList = congeList.reversed();
         }
-        else{
-            congeList = serviceConge.readAll().stream().sorted(Comparator.comparing(Conge::getEnd_date).reversed()).collect(Collectors.toList());
-        }
+
         showList(congeList);
     }
 
@@ -298,11 +270,9 @@ public class CongeController {
         sortArrow.setRotate(sortDirection.equals("desc") ? 0 : 180);
         clearSortArrow();
         statusLabel.setGraphic(sortArrow);
-        if (sortDirection.equals("desc")) {
-            congeList = serviceConge.readAll().stream().sorted(Comparator.comparing(Conge::getStatus)).collect(Collectors.toList());
-        }
-        else{
-            congeList = serviceConge.readAll().stream().sorted(Comparator.comparing(Conge::getStatus).reversed()).collect(Collectors.toList());
+        congeList = serviceConge.readAll().stream().sorted(Comparator.comparing(Conge::getStatus)).collect(Collectors.toList());
+        if (sortDirection.equals("asc")) {
+            congeList = congeList.reversed();
         }
         showList(congeList);
     }
@@ -319,11 +289,9 @@ public class CongeController {
         sortArrow.setRotate(sortDirection.equals("desc") ? 0 : 180);
         clearSortArrow();
         reasonLabel.setGraphic(sortArrow);
-        if (sortDirection.equals("desc")) {
-            congeList = serviceConge.readAll().stream().sorted(Comparator.comparing(Conge::getReason)).collect(Collectors.toList());
-        }
-        else{
-            congeList = serviceConge.readAll().stream().sorted(Comparator.comparing(Conge::getReason).reversed()).collect(Collectors.toList());
+        congeList = serviceConge.readAll().stream().sorted(Comparator.comparing(Conge::getReason)).collect(Collectors.toList());
+        if (sortDirection.equals("asc")) {
+            congeList = congeList.reversed();
         }
         showList(congeList);
     }

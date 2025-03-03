@@ -1,6 +1,7 @@
 package services;
 
 import entity.Attendance;
+import entity.Employee;
 import utils.DBConnection;
 
 import java.sql.*;
@@ -72,5 +73,18 @@ public class ServiceAttendance implements IService<Attendance> {
         }
         System.out.println("Attendance not found");
         return null;
+    }
+
+    public List<Attendance> readAllByEmployee(Employee employee) throws SQLException {
+        List<Attendance> attendances = new ArrayList<>();
+        ServiceEmployee serviceEmployee = new ServiceEmployee();
+        String query = "select * from attendance where employee_id = ? ORDER BY date DESC";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1,employee.getId());
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            attendances.add(new Attendance(rs.getInt("id"),serviceEmployee.readById(rs.getInt("employee_id")),rs.getDate("date").toLocalDate(),rs.getTime("entry_time").toLocalTime(),rs.getTime("exit_time").toLocalTime()));
+        }
+        return attendances;
     }
 }
