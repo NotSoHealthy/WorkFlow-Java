@@ -524,7 +524,7 @@ public class EvenementsController {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy, HH:mm", Locale.FRENCH);
             String formattedDate = reservation.getEvent().getDateetheure().format(formatter);
             String text = "Evenement: " + reservation.getEvent().getTitre() + "\nType: " + reservation.getType() + "\nNombre de places: " + reservation.getNombreDePlaces() +"\nTotale: " + reservation.getPrice() +"TND\nDate: " + formattedDate;  // The text to encode
-            File qrFile = new File("C:/Users/elite/IdeaProjects/WorkFlow-Java/src/main/resources/com/PIDev3A18/projet/images/qrcode.png");
+            File qrFile = new File("qrcode.png");
             try {
                 Writer writer = new QRCodeWriter();
                 BitMatrix bitMatrix = writer.encode(text, BarcodeFormat.QR_CODE, 300, 300);
