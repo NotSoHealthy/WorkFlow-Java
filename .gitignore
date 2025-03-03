@@ -42,3 +42,4 @@ saved-employee.json
 /src/main/java/test/
 src/main/java/utils/DBConnection.java
 *.pdf
+CalendarTokens/StoredCredential
