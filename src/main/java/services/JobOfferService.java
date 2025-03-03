@@ -112,5 +112,4 @@ public class JobOfferService implements IService<JobOffer> {
             return jobOffers;
         }
     }
-
 }

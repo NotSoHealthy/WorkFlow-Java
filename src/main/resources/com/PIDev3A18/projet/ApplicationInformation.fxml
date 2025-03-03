@@ -10,7 +10,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane prefHeight="720.0" prefWidth="1280.0" styleClass="page" stylesheets="@css/signup.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.ApplicationInfoController">
+<StackPane prefHeight="720.0" prefWidth="1280.0" styleClass="page" stylesheets="@css/signup.css"
+           xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.PIDev3A18.projet.ApplicationInfoController">
    <children>
       <HBox alignment="CENTER">
          <children>
@@ -59,7 +61,6 @@
                      <HBox alignment="CENTER_LEFT" spacing="10.0">
                         <children>
                            <Label prefHeight="17.0" prefWidth="73.0" styleClass="form-label" text="CV:" />
-                           <!-- The label with link-text style indicates clickable info -->
                            <Label fx:id="cvLabel" styleClass="detail-value link-text" />
                            <Button fx:id="viewCvButton" onAction="#handleCvAction" prefHeight="35.0" prefWidth="129.0" styleClass="btn-connect" text="Voir/Télécharger" />
                         </children>
@@ -91,8 +92,10 @@
                      </HBox>
                   </VBox>
 
-                  <!-- Submit Button -->
+                  <!-- Update Status Button -->
                   <Button fx:id="submitButton" onAction="#submitButton" prefHeight="35.0" prefWidth="108.0" styleClass="btn-connect" text="mise à jour" />
+                  <!-- New Interview Button -->
+                  <Button fx:id="interviewButton" onAction="#handleInterviewButtonAction" prefHeight="35.0" prefWidth="108.0" styleClass="btn-connect" text="Interview" />
                </children>
                <HBox.margin>
                   <Insets bottom="80.0" top="80.0" />

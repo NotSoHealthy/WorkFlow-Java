@@ -4,6 +4,8 @@ import entity.Applications;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import services.ApplicationService;
 import javafx.fxml.FXML;
@@ -13,6 +15,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.event.ActionEvent;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.awt.Desktop;
 import java.io.File;
@@ -40,19 +44,16 @@ public class ApplicationInfoController {
     private Label submissionDateLabel;
 
     @FXML
-    private ComboBox<String> statusLabel;  // Change Label to ComboBox
+    private ComboBox<String> statusLabel;
 
     @FXML
-    private Button updateStatusButton;
+    private Button submitButton;
 
     @FXML
-    private Button deleteApplicationButton;
+    private Button viewCvButton;
 
     @FXML
-    private Button viewCvButton; // New button to view CV
-
-    @FXML
-    private Button viewCoverLetterButton; // New button to view Cover Letter
+    private Button viewCoverLetterButton;
 
     private Applications selectedApplication;
 
@@ -106,8 +107,6 @@ public class ApplicationInfoController {
         }
     }
 
-
-
     @FXML
     private void handleCvAction(ActionEvent event) {
         String cvPath = "D:\\3eme\\pidev\\WorkFlow\\WorkFlow-Java\\uploads\\cv\\" + selectedApplication.getCv();
@@ -118,6 +117,25 @@ public class ApplicationInfoController {
     private void handleCoverLetterAction(ActionEvent event) {
         String coverLetterPath = "D:\\3eme\\pidev\\WorkFlow\\WorkFlow-Java\\uploads\\coverletters\\" + selectedApplication.getCoverLetter();
         openPdfFile(coverLetterPath);
+    }
+
+    @FXML
+    private void handleInterviewButtonAction(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("InterviewInfo.fxml"));
+            Parent root = loader.load();
+            InterviewInfoController controller = loader.getController();
+            controller.setApplication(selectedApplication);
+
+            Stage stage = new Stage();
+            stage.setTitle("Interview Information");
+            stage.setScene(new Scene(root, 400, 300)); // Smaller window size
+            stage.initModality(Modality.APPLICATION_MODAL); // Makes it a modal popup
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error", "Could not open the interview information window.");
+        }
     }
 
     private void openPdfFile(String filePath) {
@@ -140,8 +158,4 @@ public class ApplicationInfoController {
         alert.setContentText(message);
         alert.showAndWait();
     }
-
-
-
-
 }

@@ -27,6 +27,12 @@ module com.example.projet {
     requires org.apache.commons.lang3;
     requires java.desktop;
     requires two.factor.auth;
+    requires mysql.connector.j;
+    requires activation;
+    requires org.twitter4j.core;
+    requires java.net.http;
+    requires scribejava.core;
+    requires scribejava.apis;
 
 
     opens com.PIDev3A18.projet to javafx.fxml;

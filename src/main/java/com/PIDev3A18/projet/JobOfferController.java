@@ -1,5 +1,12 @@
 package com.PIDev3A18.projet;
 
+import com.github.scribejava.apis.TwitterApi;
+import com.github.scribejava.core.builder.ServiceBuilder;
+import com.github.scribejava.core.model.OAuth1AccessToken;
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Response;
+import com.github.scribejava.core.model.Verb;
+import com.github.scribejava.core.oauth.OAuth10aService;
 import entity.Employee;
 import entity.JobOffer;
 import javafx.collections.FXCollections;
@@ -9,11 +16,20 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import services.JobOfferService;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.sql.SQLException;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class JobOfferController {
     private Employee loggedinEmployee;
@@ -39,15 +55,39 @@ public class JobOfferController {
     @FXML
     private DatePicker ExpirationDate;
 
+    // New controls for search, sort, and filter:
+    @FXML
+    private TextField searchTitleTextField;
+    @FXML
+    private ComboBox<String> salarySortComboBox;
+    @FXML
+    private ComboBox<String> contractFilterComboBox;
+
     private final JobOfferService jobOfferService = new JobOfferService();
 
     private JobOffer selectedJobOffer; // Store the selected job offer
+
+    // Store all job offers for filtering and sorting
+    private List<JobOffer> allJobOffers;
 
     @FXML
     void initialize() {
         SubmitBtn.setDisable(true);
         setupTable();
         loadJobOffers();
+
+        // Set up listeners for dynamic search, sort, and filter
+        searchTitleTextField.textProperty().addListener((obs, oldVal, newVal) -> updateFilteredList());
+        salarySortComboBox.valueProperty().addListener((obs, oldVal, newVal) -> updateFilteredList());
+        contractFilterComboBox.valueProperty().addListener((obs, oldVal, newVal) -> updateFilteredList());
+
+        // Set up sort options for salary
+        salarySortComboBox.getItems().clear();
+        salarySortComboBox.getItems().addAll("Ascending", "Descending");
+        salarySortComboBox.setValue("Ascending");
+
+        // Populate contract filter options based on available contract types
+        updateContractFilterOptions();
 
         // Handle row selection in the table
         ShowJobOffer.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
@@ -97,6 +137,10 @@ public class JobOfferController {
             jobOfferService.add(jobOffer);
             showAlert(Alert.AlertType.INFORMATION, "Success", "Job offer added successfully!");
 
+            // Post to Twitter using API v2 with OAuth 1.0a
+            TwitterJobPosting twitterPoster = new TwitterJobPosting();
+            twitterPoster.postJobOffer(jobTitle, description, salary, contractType);
+
             clearFields();
             loadJobOffers();
         } catch (Exception e) {
@@ -133,9 +177,11 @@ public class JobOfferController {
 
     private void loadJobOffers() {
         try {
-            List<JobOffer> jobOffers = jobOfferService.readAll();
-            ObservableList<JobOffer> observableList = FXCollections.observableArrayList(jobOffers);
+            allJobOffers = jobOfferService.readAll();
+            ObservableList<JobOffer> observableList = FXCollections.observableArrayList(allJobOffers);
             ShowJobOffer.setItems(observableList);
+            // Update contract filter options in case new types are present
+            updateContractFilterOptions();
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", "Could not load job offers.");
@@ -154,6 +200,8 @@ public class JobOfferController {
             jobOfferService.delete(selectedOffer);
             showAlert(Alert.AlertType.INFORMATION, "Success", "Job offer deleted successfully!");
             loadJobOffers();
+            clearFields();
+
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while deleting the job offer.");
@@ -161,7 +209,6 @@ public class JobOfferController {
     }
 
     @FXML
-    
     void UpdtateBtn(ActionEvent event) {
         if (selectedJobOffer == null) {
             showAlert(Alert.AlertType.ERROR, "Error", "No job offer selected for update.");
@@ -201,7 +248,6 @@ public class JobOfferController {
                 return;
             }
 
-            // Check expiration date
             if (expirationLocalDate == null) {
                 showAlert(Alert.AlertType.ERROR, "Invalid Date", "Please select an expiration date.");
                 return;
@@ -222,22 +268,96 @@ public class JobOfferController {
 
             clearFields();
             loadJobOffers();
+            // Force a refresh of the table so the updated data is visible immediately
+            ShowJobOffer.refresh();
             SubmitBtn.setVisible(true);
+            clearFields();
+
         } catch (Exception e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while updating the job offer.");
         }
     }
 
+    // --- Twitter API v2 Posting with OAuth 1.0a using ScribeJava ---
+    public class TwitterJobPosting {
+
+        private String consumerKey;
+        private String consumerSecret;
+        private String accessToken;
+        private String accessTokenSecret;
+
+        public TwitterJobPosting() {
+            try (InputStream input = getClass().getResourceAsStream("/config.properties")) {
+                if (input == null) {
+                    throw new FileNotFoundException("config.properties not found in classpath");
+                }
+                Properties prop = new Properties();
+                prop.load(input);
+                consumerKey = prop.getProperty("CONSUMER_KEY");
+                consumerSecret = prop.getProperty("CONSUMER_SECRET");
+                accessToken = prop.getProperty("ACCESS_TOKEN");
+                accessTokenSecret = prop.getProperty("ACCESS_TOKEN_SECRET");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public void postJobOffer(String title, String description, double salary, String contractType) {
+            String tweetText = "📢 Job Opening! " + title + "\n" +
+                    "💼 Type: " + contractType + "\n" +
+                    "💰 Salary: $" + salary + "\n" +
+                    "📄 Description: " + description + "\n" +
+                    "#JobOffer #Hiring";
+            // Build JSON payload with proper escaping for quotes and newline characters
+            String jsonPayload = "{\"text\":\"" + escapeJson(tweetText) + "\"}";
+
+            // Build OAuth1.0a service using ScribeJava
+            OAuth10aService service = new ServiceBuilder(consumerKey)
+                    .apiSecret(consumerSecret)
+                    .build(TwitterApi.instance());
+            OAuth1AccessToken token = new OAuth1AccessToken(accessToken, accessTokenSecret);
+
+            // Create and sign the POST request to Twitter API v2
+            OAuthRequest request = new OAuthRequest(Verb.POST, "https://api.twitter.com/2/tweets");
+            request.addHeader("Content-Type", "application/json");
+            request.setPayload(jsonPayload);
+            service.signRequest(token, request);
+            try {
+                Response response = service.execute(request);
+                if (response.getCode() == 201 || response.getCode() == 200) {
+                    System.out.println("Job offer posted successfully on Twitter!");
+                } else {
+                    System.err.println("Failed to post tweet. Response code: " + response.getCode());
+                    System.err.println("Response: " + response.getBody());
+                    JobOfferController.this.showAlert(Alert.AlertType.ERROR, "Twitter API Error",
+                            "Posting to Twitter failed: " + response.getBody());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        // Updated helper to escape quotes and newline characters for JSON
+        private String escapeJson(String text) {
+            return text.replace("\n", "\\n").replace("\"", "\\\"");
+        }
+    }
+
+
     private void fillFormWithSelectedJobOffer(JobOffer jobOffer) {
         selectedJobOffer = jobOffer;
-
         title.setText(jobOffer.getTitle());
         Description.setText(jobOffer.getDescription());
         ContractType.setText(jobOffer.getContractType());
         Salary.setText(String.valueOf(jobOffer.getSalary()));
-
-
+        if (jobOffer.getExpirationDate() != null) {
+            ExpirationDate.setValue(
+                    Instant.ofEpochMilli(jobOffer.getExpirationDate().getTime())
+                            .atZone(ZoneId.systemDefault())
+                            .toLocalDate()
+            );
+        }
     }
 
     private void clearFields() {
@@ -246,5 +366,51 @@ public class JobOfferController {
         ContractType.clear();
         Salary.clear();
         ExpirationDate.setValue(null);
+    }
+
+    /**
+     * Updates the contract filter ComboBox with unique contract types from the list of job offers.
+     */
+    private void updateContractFilterOptions() {
+        Set<String> contractTypes = new HashSet<>();
+        if (allJobOffers != null) {
+            for (JobOffer offer : allJobOffers) {
+                contractTypes.add(offer.getContractType());
+            }
+        }
+        ObservableList<String> contractOptions = FXCollections.observableArrayList();
+        contractOptions.add("All");
+        contractOptions.addAll(contractTypes);
+        contractFilterComboBox.setItems(contractOptions);
+        contractFilterComboBox.setValue("All");
+    }
+
+    /**
+     * Filters job offers based on title search, sorts by salary, and filters by contract type.
+     */
+    private void updateFilteredList() {
+        String searchText = searchTitleTextField.getText() != null ? searchTitleTextField.getText().toLowerCase().trim() : "";
+        String sortOption = salarySortComboBox.getValue();
+        String contractFilter = contractFilterComboBox.getValue();
+        if (contractFilter == null) {
+            contractFilter = "All";
+        }
+
+        String finalContractFilter = contractFilter;
+        List<JobOffer> filtered = allJobOffers.stream()
+                .filter(offer -> searchText.isEmpty() || offer.getTitle().toLowerCase().contains(searchText))
+                .filter(offer -> finalContractFilter.equals("All") || offer.getContractType().equalsIgnoreCase(finalContractFilter))
+                .collect(Collectors.toList());
+
+        // Sort by salary
+        if (sortOption != null) {
+            if (sortOption.equals("Ascending")) {
+                filtered.sort(Comparator.comparing(JobOffer::getSalary));
+            } else if (sortOption.equals("Descending")) {
+                filtered.sort(Comparator.comparing(JobOffer::getSalary).reversed());
+            }
+        }
+
+        ShowJobOffer.setItems(FXCollections.observableArrayList(filtered));
     }
 }
