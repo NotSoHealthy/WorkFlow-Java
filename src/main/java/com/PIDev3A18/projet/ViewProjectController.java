@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import services.ServiceProject;
+import services.ServiceTask;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -29,6 +30,7 @@ public class ViewProjectController {
     @FXML private Button chatbotBtn;
 
     private final ServiceProject serviceProject = new ServiceProject();
+    private final ServiceTask serviceTask = new ServiceTask();
     private ObservableList<Project> projectList;
 
     @FXML
@@ -80,7 +82,7 @@ public class ViewProjectController {
 
     private void loadProjects() throws SQLException {
         List<Project> projects = serviceProject.readAll();
-        projectList = FXCollections.observableArrayList(projects);
+        ObservableList<Project> projectList = FXCollections.observableArrayList(projects);
         ShowProject.setItems(projectList);
     }
 

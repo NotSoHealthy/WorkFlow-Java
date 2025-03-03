@@ -1,5 +1,7 @@
 package entity;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import java.util.Date;
 
 public class Project {
@@ -11,7 +13,7 @@ public class Project {
     private float Budget;
     private Employee Project_Manager;
     private Department Department_id;
-    private String State;  // New field for project state
+    private String State;
 
     public Project(String name, String description, Date start_Date, Date end_Date, float budget, Employee project_Manager, Department department_id, String state) {
         Name = name;
@@ -57,6 +59,8 @@ public class Project {
     public void setDepartment_id(Department department_id) { Department_id = department_id; }
     public String getState() { return State; }
     public void setState(String state) { State = state; }
+
+
 
     @Override
     public String toString() {

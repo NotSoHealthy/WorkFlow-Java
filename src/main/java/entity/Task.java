@@ -1,7 +1,4 @@
-package com.PIDev3A18.projet.entity;
-
-import entity.Employee;
-import entity.Project;
+package entity;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -15,8 +12,8 @@ public class Task {
     private Date startDate;
     private Date dueDate;
     private Date completionDate;
-    private Employee assignedTo;  // Assuming Employee is in the same package
-    private Project project;      // Assuming Project is in the same package
+    private Employee assignedTo;  // Employee is in the same package
+    private Project project;      // Project is in the same package
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
