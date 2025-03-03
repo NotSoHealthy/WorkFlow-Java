@@ -56,7 +56,8 @@ public class EvenementsController {
 
     private Event ToReserveEvent;
     private Event ToUpdateEvent;
-    Map<String, Integer> ReserveTypeMap = new HashMap<>();
+    private Map<String, Integer> ReserveTypeMap = new HashMap<>();
+    private String temp;
     @FXML
     private VBox eventHolder = null;
     @FXML
@@ -279,6 +280,8 @@ public class EvenementsController {
         Adresse.setText("");
         TypeList.setValue(null);
         Nbplace.setText("");
+        online.setSelected(false);
+        Adresse.setDisable(false);
         TitreUpdate.setText("");
         DescriptionUpdate.setText("");
         DateUpdate.setValue(null);
@@ -287,6 +290,8 @@ public class EvenementsController {
         AdresseUpdate.setText("");
         TypeListUpdate.setValue(null);
         NbplaceUpdate.setText("");
+        onlineUpdate.setSelected(false);
+        AdresseUpdate.setDisable(false);
         TypeListReserver.setValue(null);
         NbplaceReserver.setText("");
         PriceReserver.setText("");
@@ -674,6 +679,28 @@ public class EvenementsController {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+    public void changeAddress(ActionEvent event) {
+        if(online.isSelected()) {
+            temp=Adresse.getText();
+            Adresse.setText("Google Meet");
+            Adresse.setDisable(true);
+        }
+        else{
+            Adresse.setText(temp);
+            Adresse.setDisable(false);
+        }
+    }
+    public void changeAddressUpdate(ActionEvent event){
+        if(onlineUpdate.isSelected()){
+            temp=AdresseUpdate.getText();
+            AdresseUpdate.setText("Google Meet");
+            AdresseUpdate.setDisable(true);
+        }
+        else{
+            AdresseUpdate.setText(temp);
+            AdresseUpdate.setDisable(false);
         }
     }
 }
