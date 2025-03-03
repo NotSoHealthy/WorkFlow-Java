@@ -201,6 +201,8 @@ public class JobOfferController {
             jobOfferService.delete(selectedOffer);
             showAlert(Alert.AlertType.INFORMATION, "Success", "Job offer deleted successfully!");
             loadJobOffers();
+            clearFields();
+
         } catch (SQLException e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while deleting the job offer.");
@@ -270,6 +272,8 @@ public class JobOfferController {
             // Force a refresh of the table so the updated data is visible immediately
             ShowJobOffer.refresh();
             SubmitBtn.setVisible(true);
+            clearFields();
+
         } catch (Exception e) {
             e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while updating the job offer.");
