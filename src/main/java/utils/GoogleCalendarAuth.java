@@ -19,7 +19,7 @@ public class GoogleCalendarAuth {
 
     private static final String APPLICATION_NAME = "WorkFlow";
     private static final JacksonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-    private static final String TOKENS_DIRECTORY_PATH = "tokens";
+    private static final String TOKENS_DIRECTORY_PATH = "CalendarTokens";
     // Define the required scopes.
     private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR);
     private static final String CREDENTIALS_FILE_PATH = "/client_secret_1069682083172-6320alcp45bgmi98ip9jqrku5uoip65h.apps.googleusercontent.com.json"; // placed in resources

@@ -26,7 +26,7 @@
    <center>
       <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <AnchorPane fx:id="EventDisplay" prefHeight="200.0" prefWidth="200.0" visible="false">
+            <AnchorPane fx:id="EventDisplay" prefHeight="200.0" prefWidth="200.0">
                <children>
                   <Label fx:id="empty" alignment="CENTER" contentDisplay="BOTTOM" layoutX="247.0" layoutY="98.0" prefHeight="140.0" prefWidth="370.0" text="Aucun événement" visible="false">
                      <font>
@@ -109,7 +109,7 @@
                   </ImageView>
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="UpdateEvent" prefHeight="200.0" prefWidth="200.0">
+            <AnchorPane fx:id="UpdateEvent" prefHeight="200.0" prefWidth="200.0" visible="false">
                <children>
                   <Pane layoutX="81.0" layoutY="52.0" prefHeight="638.0" prefWidth="665.0" styleClass="Evenements-back" stylesheets="@css/Evenements.css">
                      <children>
