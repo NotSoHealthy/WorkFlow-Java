@@ -114,6 +114,7 @@
                   <TableColumn fx:id="date_begin" maxWidth="170.0" minWidth="170.0" prefWidth="170.0" resizable="false" style="-fx-alignment: center;" text="Date Début" />
                   <TableColumn fx:id="date_end" maxWidth="170.0" minWidth="170.0" prefWidth="170.0" resizable="false" style="-fx-alignment: center;" text="Date Fin" />
                   <TableColumn fx:id="participants_max" maxWidth="170.0" minWidth="170.0" prefWidth="170.0" resizable="false" style="-fx-alignment: center;" text="Participants max" />
+                  <TableColumn fx:id="ActionsColumn" maxWidth="170.0" minWidth="170.0" prefWidth="170.0" resizable="false" style="-fx-alignment: center;" text="Actions" />
                </columns>
                <columnResizePolicy>
                   <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

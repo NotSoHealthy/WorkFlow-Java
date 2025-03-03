@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 
+import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -77,6 +78,9 @@ public class ViewFormationController implements Initializable {
 
     @FXML
     private TableColumn<Formation, String> title;
+
+    @FXML
+    private TableColumn<Formation, String> ActionsColumn;
 
     @FXML
     private Button AddFormationButton;
@@ -167,9 +171,10 @@ public class ViewFormationController implements Initializable {
             date_begin.setCellValueFactory(new PropertyValueFactory<>("dateBegin"));
             date_end.setCellValueFactory(new PropertyValueFactory<>("dateEnd"));
             participants_max.setCellValueFactory(new PropertyValueFactory<>("participants_Max"));
-            Callback<TableColumn<Formation, String>, TableCell<Formation, String>> cellFactory = (TableColumn<Formation, String> param) -> new TableCell<>() {
+            ActionsColumn.setCellFactory(param -> new TableCell<Formation, String>() {
                 final Button editButton = new Button("✎");
                 final Button deleteButton = new Button("🗑");
+                final Button registerButton = new Button("S'inscrire");
 
                 @Override
                 protected void updateItem(String item, boolean empty) {
@@ -184,107 +189,78 @@ public class ViewFormationController implements Initializable {
 
                         editButton.setStyle("-fx-background-color: #00E676; -fx-text-fill: white; -fx-font-size: 14px;");
                         deleteButton.setStyle("-fx-background-color: #ff1744; -fx-text-fill: white; -fx-font-size: 14px;");
-                        if(loggedinEmployee.getRole().equals("Résponsable"))
-                        {
-                            editButton.setDisable(false);
-                            deleteButton.setDisable(false);
-                        }
-                        else {
-                            editButton.setDisable(true);
-                            deleteButton.setDisable(true);
-                        }
-                        editButton.setOnMouseClicked((MouseEvent event) -> {
-                            FXMLLoader loader = new FXMLLoader();
-                            loader.setLocation(getClass().getResource("EditFormation.fxml"));
-                            Parent parent = null;
-                            try {
-                                parent = loader.load();
-                            } catch (IOException e) {
-                                throw new RuntimeException(e);
-                            }
-                            EditFormationController controller = loader.getController();
-                            controller.setFormationData(formation);
-
-                            Stage stage = new Stage();
-                            stage.setScene(new Scene(parent));
-                            stage.initStyle(StageStyle.UTILITY);
-                            stage.show();
-                        });
-
-
-                        deleteButton.setOnAction((ActionEvent event) -> {
-                            try {
-                                sf.delete(formation);
-                                Refresh();
-
-                            } catch (SQLException e) {
-                                throw new RuntimeException(e);
-                            }
-                        });
-
-
-                        HBox manageBtn = new HBox(editButton, deleteButton);
-                        manageBtn.setSpacing(10);
-                        setGraphic(manageBtn);
-                        setText(null);
-                    }
-                }
-            };
-
-            TableColumn<Formation, String> actionCol = new TableColumn<>("Actions");
-            actionCol.setCellFactory(cellFactory);
-            tableFormation.getColumns().add(actionCol);
-            actionCol.setVisible(loggedinEmployee.getRole().equals("Résponsable"));
-            Callback<TableColumn<Formation, String>, TableCell<Formation, String>> inscriptionCellFactory = (TableColumn<Formation, String> param) -> new TableCell<>() {
-                final Button registerButton = new Button("S'inscrire");
-
-                @Override
-                protected void updateItem(String item, boolean empty) {
-                    super.updateItem(item, empty);
-
-                    if (empty) {
-                        setGraphic(null);
-                        setText(null);
-                    } else {
-                        Formation formation = getTableView().getItems().get(getIndex());
-
                         registerButton.setStyle("-fx-background-color: #39D2C0; -fx-text-fill: white; -fx-font-size: 14px;");
-                        registerButton.setOnMouseClicked((MouseEvent event)-> {
+
+                        editButton.setVisible(loggedinEmployee.getRole().equals("Résponsable"));
+                        deleteButton.setVisible(loggedinEmployee.getRole().equals("Résponsable"));
+                        editButton.setOnMouseClicked(event -> openEditFormationWindow(formation));
+                        deleteButton.setOnAction(event -> deleteFormation(formation));
+
+                        registerButton.setOnMouseClicked((MouseEvent event) -> {
                             try {
                                 LocalDate date = LocalDate.now();
-                                Inscription i= new Inscription(date,"en attente",formation,loggedinEmployee);
+                                Inscription i = new Inscription(date, "en attente", formation, loggedinEmployee);
                                 si.add(i);
                                 Refresh();
-
                             } catch (SQLException e) {
-                                showAlert(Alert.AlertType.ERROR, "Error", "An error occurred while registering!");
+                                showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur est survenue lors de l'inscription !");
                             }
                         });
 
-                        HBox manageBtn = new HBox(registerButton);
-                        manageBtn.setStyle("-fx-alignment: center;");
-                        setGraphic(manageBtn);
-                        setText(null);
-                        LocalDate date = LocalDate.now();
-                        LocalDate dateBegin = date_begin.getCellData(formation);
-                        try {
-                            registerButton.setDisable(dateBegin.isBefore(date));
-                            if (si.isRegistered(formation, loggedinEmployee)) {
-                                registerButton.setDisable(true);
-                            }
-                            
-                        } catch (SQLException e) {
-                            throw new RuntimeException(e);
+                        if(loggedinEmployee.getRole().equals("Résponsable"))
+                        {
+                            HBox manageBtn = new HBox(editButton, deleteButton);
+                            manageBtn.setAlignment(Pos.CENTER);
+                            manageBtn.setSpacing(10);
+                            setGraphic(manageBtn);
+                            setText(null);
                         }
+                        else
+                        {
+                            HBox manageBtn = new HBox(registerButton);
+                            manageBtn.setAlignment(Pos.CENTER);
+                            setGraphic(manageBtn);
+                            setText(null);
+                            LocalDate date = LocalDate.now();
+                            LocalDate dateBegin = date_begin.getCellData(formation);
+                            try {
+                                registerButton.setDisable(dateBegin.isBefore(date));
+                                if (si.isRegistered(formation, loggedinEmployee)) {
+                                    registerButton.setDisable(true);
+                                }
+                            } catch (SQLException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+
+
                     }
                 }
-            };
+                private void openEditFormationWindow(Formation formation) {
+                    try {
+                        FXMLLoader loader = new FXMLLoader(getClass().getResource("EditFormation.fxml"));
+                        Parent parent = loader.load();
 
+                        EditFormationController controller = loader.getController();
+                        controller.setFormationData(formation);
 
-            TableColumn<Formation, String> inscription = new TableColumn<>("S'inscrire");
-            inscription.setCellFactory(inscriptionCellFactory);
-            tableFormation.getColumns().add(inscription);
-            inscription.setVisible(loggedinEmployee.getRole().equals("Employé"));
+                        Stage stage = new Stage();
+                        stage.setScene(new Scene(parent));
+                        stage.initStyle(StageStyle.UTILITY);
+                        stage.show();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                private void deleteFormation(Formation formation) {
+                    try {
+                        sf.delete(formation);
+                        Refresh();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
