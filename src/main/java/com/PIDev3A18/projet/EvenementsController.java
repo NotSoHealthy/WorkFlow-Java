@@ -5,6 +5,7 @@ import entity.Event;
 import entity.Reservation;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -587,19 +588,33 @@ public class EvenementsController {
                 throw new RuntimeException("Failed to create Google Calendar event", e);
             }
             if(reservation.getEvent().isOnline()) {
-                String meetLink = calendarEvent.getConferenceData().getEntryPoints().get(0).getUri();
-                String subject = "Invitation Evenement Virtuel: " + reservation.getEvent().getTitre();
-                String body = "voici votre invitation à l'événement virtuel " + reservation.getEvent().getTitre() + "\n"
-                        + meetLink + "\n"
-                        + "Cordialement,\nWorkFlow";
-                String senderEmail = "youcef.mlaouhia@esprit.tn";
-                String senderPassword = "nhcm esgw fyox fepi";
-                JavaMailSender mailSender = new JavaMailSender(senderEmail, senderPassword);
-                try {
-                    mailSender.sendEmail(loggedinEmployee.getEmail(), subject, body);
-                } catch (MessagingException e) {
-                    throw new RuntimeException(e);
-                }
+                com.google.api.services.calendar.model.Event finalCalendarEvent = calendarEvent;
+                Task<Void> emailTask = new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        String meetLink = finalCalendarEvent.getConferenceData().getEntryPoints().get(0).getUri();
+                        String subject = "Invitation Evenement Virtuel: " + reservation.getEvent().getTitre();
+                        String body = "voici votre invitation à l'événement virtuel " + reservation.getEvent().getTitre() + "\n"
+                                + meetLink + "\n"
+                                + "Cordialement,\nWorkFlow";
+                        String senderEmail = "youcef.mlaouhia@esprit.tn";
+                        String senderPassword = "nhcm esgw fyox fepi";
+                        JavaMailSender mailSender = new JavaMailSender(senderEmail, senderPassword);
+                        try {
+                            mailSender.sendEmail(loggedinEmployee.getEmail(), subject, body);
+                        } catch (MessagingException e) {
+                            throw new RuntimeException(e);
+                        }
+                        return null;
+                    }
+                };
+                emailTask.setOnSucceeded(evente -> {
+                    System.out.println("Email sent successfully!");
+                });
+                emailTask.setOnFailed(evente -> {
+                    System.err.println("Failed to send email: " + emailTask.getException());
+                });
+                new Thread(emailTask).start();
             }
             sr.add(reservation);
             ReserverPage.setVisible(false);

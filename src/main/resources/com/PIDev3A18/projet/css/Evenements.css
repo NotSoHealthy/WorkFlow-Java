@@ -11,7 +11,7 @@
 }
 
 .Evenements-back{
-    -fx-background-color: -fx-background-secondary;
+    /*-fx-background-color: -fx-background-secondary;*/
     -fx-background-radius: 20;
 }
 .Evenement-seperator{
@@ -111,4 +111,7 @@
     -fx-border-radius: 5px;
     -fx-border-color: rgba(0,0,0,0.25);
     -fx-prompt-text-fill: derive(-fx-text-primary, 30%);
+}
+.Vbox{
+
 }
