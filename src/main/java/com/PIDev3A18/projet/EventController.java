@@ -28,6 +28,8 @@ public class EventController {
     @FXML
     private Label nbdispo;
     @FXML
+    private Label isOnline;
+    @FXML
     private Button Up;
 
     EvenementsController c;
@@ -81,5 +83,8 @@ public class EventController {
     }
     public void setUpInvisible(){
         Up.setVisible(false);
+    }
+    public void setisOnline() {
+        isOnline.setText("En Ligne");
     }
 }

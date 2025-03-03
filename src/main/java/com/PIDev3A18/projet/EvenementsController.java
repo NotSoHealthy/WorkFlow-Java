@@ -3,13 +3,17 @@ package com.PIDev3A18.projet;
 import entity.Employee;
 import entity.Event;
 import entity.Reservation;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -18,25 +22,43 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import services.ServiceEvent;
 import services.ServiceReservation;
+import utils.CalendarServiceBuilder;
+import utils.ImgApi;
+import utils.JavaMailSender;
 import utils.UserSession;
 
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
+import java.util.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import javax.imageio.ImageIO;
+import javax.mail.MessagingException;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.Writer;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+
+import com.google.api.client.util.DateTime;
+import com.google.api.services.calendar.model.EventDateTime;
+import com.google.api.services.calendar.model.ConferenceData;
+import com.google.api.services.calendar.model.CreateConferenceRequest;
+import com.google.api.services.calendar.model.ConferenceSolutionKey;
 public class EvenementsController {
 
     private Event ToReserveEvent;
     private Event ToUpdateEvent;
-    Map<String, Integer> ReserveTypeMap = new HashMap<>();
+    private Map<String, Integer> ReserveTypeMap = new HashMap<>();
+    private String temp;
     @FXML
     private VBox eventHolder = null;
     @FXML
@@ -67,6 +89,8 @@ public class EvenementsController {
     private ComboBox<String> TypeList;
     @FXML
     private TextField Nbplace;
+    @FXML
+    private CheckBox online;
     @FXML
     private ImageView back;
     @FXML
@@ -102,6 +126,8 @@ public class EvenementsController {
     @FXML
     private TextField NbplaceUpdate;
     @FXML
+    private CheckBox onlineUpdate;
+    @FXML
     private ImageView backUpdate;
     @FXML
     private Label TitreErrorUpdate;
@@ -136,9 +162,24 @@ public class EvenementsController {
     @FXML
     private Label NbplaceReserverError;
     @FXML
+    private TextField SearchTitle;
+    @FXML
+    private CheckBox SortDate;
+    @FXML
+    private ComboBox<String> TypeListSort;
+    @FXML
+    private Label empty;
+    @FXML
+    private ScrollPane SC;
+    @FXML
+    private BarChart barChart;
+    @FXML
+    private AnchorPane DisplayStatistics;
+    @FXML
     public void initialize() {
         eventHolder.getChildren().clear();
         TypeList.setItems(FXCollections.observableArrayList("Workshop", "Commerce", "Conference" , "Webinaire" , "Networking" , "Reunion","Concert"));
+        TypeListSort.setItems(FXCollections.observableArrayList("All","Workshop", "Commerce", "Conference" , "Webinaire" , "Networking" , "Reunion","Concert"));
         UserSession userSession;
         userSession = UserSession.getInstance();
         Employee loggedinEmployee = userSession.getLoggedInEmployee();
@@ -149,33 +190,9 @@ public class EvenementsController {
             creer.setVisible(false);
         }
         ServiceEvent se=new ServiceEvent();
-        for (Event event : se.readAll()) {
-            try{
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("Event.fxml"));
-                Node node = loader.load(); // Load FXML
-                EventController controller = loader.getController();
-                controller.setTitle(event.getTitre());
-                controller.setDescription(event.getDescription());
-                controller.setEvent(event);
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy, HH:mm", Locale.FRENCH);
-                String formattedDate = event.getDateetheure().format(formatter);
-                controller.setDateHeure(formattedDate);
-                controller.setAdresse("Adresse: "+event.getLieu());
-                controller.setType(event.getType());
-                controller.setNbdispo("Places disponibles: "+event.getNombredeplace());
-                controller.setController(this);
-                if(!loggedinEmployee.getRole().equals("Résponsable")){
-                    controller.setDeleteInvisible();
-                    controller.setUpInvisible();
-                }
-                eventHolder.getChildren().add(node);
-            }
-            catch(IOException e){
-                e.printStackTrace();
-            }
-        }
+        populateEventHolder(se.readAll());
     }
-    public void populateReservations(ActionEvent event) {
+    public void populateReservations(ActionEvent event){
         EventDisplay.setVisible(false);
         ReservationDisplay.setVisible(true);
         ReservationHolder.getChildren().clear();
@@ -195,6 +212,8 @@ public class EvenementsController {
                 controller.setDateHeureMyReservation(formattedDate);
                 controller.setTypeMyReservation(reservation.getEvent().getType());
                 controller.setNbplacesMyReservation("Nombre de places réservées: "+reservation.getNombreDePlaces());
+                Image image=new Image(reservation.getQr_url());
+                controller.setQr_code(image);
                 controller.setTotalMyReservation("Totale: "+reservation.getPrice() +"TND");
                 controller.setController(this);
                 ReservationHolder.getChildren().add(node);
@@ -233,6 +252,7 @@ public class EvenementsController {
         UpdateEvent.setVisible(true);
     }
     public void layoutGoToReserveEvenement() {
+        TypeListReserver.getItems().clear();
         ReserveTypeMap.put("VIP",90);
         ReserveTypeMap.put("Semi-VIP",50);
         ReserveTypeMap.put("Accès-Normal",40);
@@ -252,6 +272,7 @@ public class EvenementsController {
         back.setVisible(false);
         backUpdate.setVisible(false);
         backReserver.setVisible(false);
+        DisplayStatistics.setVisible(false);
         Titre.setText("");
         Description.setText("");
         Date.setValue(null);
@@ -260,6 +281,8 @@ public class EvenementsController {
         Adresse.setText("");
         TypeList.setValue(null);
         Nbplace.setText("");
+        online.setSelected(false);
+        Adresse.setDisable(false);
         TitreUpdate.setText("");
         DescriptionUpdate.setText("");
         DateUpdate.setValue(null);
@@ -268,10 +291,47 @@ public class EvenementsController {
         AdresseUpdate.setText("");
         TypeListUpdate.setValue(null);
         NbplaceUpdate.setText("");
+        onlineUpdate.setSelected(false);
+        AdresseUpdate.setDisable(false);
         TypeListReserver.setValue(null);
         NbplaceReserver.setText("");
         PriceReserver.setText("");
+        barChart.getData().clear();
         initialize();
+    }
+    public void layoutGoToStatistics(javafx.scene.input.MouseEvent mouseEvent){
+        ServiceEvent se = new ServiceEvent();
+        Map<String, Integer> eventData=se.getStatistics();
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+        series.setName("Nombre d'evenements par type");
+        List<String> colors = Arrays.asList(
+                "#FF5733", // Red-Orange
+                "#33FF57", // Green
+                "#3357FF", // Blue
+                "#F3FF33", // Yellow
+                "#FF33A1", // Pink
+                "#A133FF", // Purple
+                "#33FFF5", // Cyan
+                "#FF8C33", // Orange
+                "#8C33FF", // Violet
+                "#33FF8C"  // Lime Green
+        );
+        int i=0;
+        for (Map.Entry<String, Integer> entry : eventData.entrySet()) {
+            XYChart.Data<String, Number> data = new XYChart.Data<>(entry.getKey(), entry.getValue());
+            series.getData().add(data);
+            int finalI = i;
+            data.nodeProperty().addListener((obs, oldNode, newNode) -> {
+                if (newNode != null) {// Or define a color based on the entry
+                    newNode.setStyle("-fx-bar-fill: " + colors.get(finalI) + ";");
+                }
+            });
+            i++;
+        }
+        barChart.getData().clear();
+        barChart.getData().add(series);
+        EventDisplay.setVisible(false);
+        DisplayStatistics.setVisible(true);
     }
     public void AddEvenements(ActionEvent event) {
         boolean test=true;
@@ -337,7 +397,7 @@ public class EvenementsController {
             userSession = UserSession.getInstance();
             Employee loggedinEmployee = userSession.getLoggedInEmployee();
             LocalDateTime DateAndTime = LocalDateTime.of(selectedDate, LocalTime.of(hour, minute));
-            Event e = new Event(Titre.getText(), Description.getText(), DateAndTime, Adresse.getText(), TypeList.getValue(), Integer.parseInt(Nbplace.getText()), loggedinEmployee);
+            Event e = new Event(Titre.getText(), Description.getText(), DateAndTime, Adresse.getText(), TypeList.getValue(), Integer.parseInt(Nbplace.getText()),online.isSelected(), loggedinEmployee);
             se.add(e);
             AddEvent.setVisible(false);
             EventDisplay.setVisible(true);
@@ -414,7 +474,7 @@ public class EvenementsController {
         }
         if(test==true) {
             LocalDateTime DateAndTime = LocalDateTime.of(selectedDate, LocalTime.of(hour, minute));
-            Event e = new Event(ToUpdateEvent.getId(),TitreUpdate.getText(), DescriptionUpdate.getText(), DateAndTime, AdresseUpdate.getText(), TypeListUpdate.getValue(), Integer.parseInt(NbplaceUpdate.getText()), ToUpdateEvent.getEmployee());
+            Event e = new Event(ToUpdateEvent.getId(),TitreUpdate.getText(), DescriptionUpdate.getText(), DateAndTime, AdresseUpdate.getText(), TypeListUpdate.getValue(), Integer.parseInt(NbplaceUpdate.getText()),onlineUpdate.isSelected(), ToUpdateEvent.getEmployee());
             se.update(e);
             UpdateEvent.setVisible(false);
             EventDisplay.setVisible(true);
@@ -462,6 +522,100 @@ public class EvenementsController {
             Employee loggedinEmployee = userSession.getLoggedInEmployee();
             ServiceReservation sr=new ServiceReservation();
             Reservation reservation=new Reservation(Double.parseDouble(PriceReserver.getText().substring(0, PriceReserver.getText().length() - 3)),TypeListReserver.getValue(),Integer.parseInt(NbplaceReserver.getText()),loggedinEmployee,ToReserveEvent);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy, HH:mm", Locale.FRENCH);
+            String formattedDate = reservation.getEvent().getDateetheure().format(formatter);
+            String text = "Evenement: " + reservation.getEvent().getTitre() + "\nType: " + reservation.getType() + "\nNombre de places: " + reservation.getNombreDePlaces() +"\nTotale: " + reservation.getPrice() +"TND\nDate: " + formattedDate;  // The text to encode
+            File qrFile = new File("qrcode.png");
+            try {
+                Writer writer = new QRCodeWriter();
+                BitMatrix bitMatrix = writer.encode(text, BarcodeFormat.QR_CODE, 300, 300);
+                BufferedImage qrImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
+
+                // Save the QR code as an image
+                ImageIO.write(qrImage, "PNG", qrFile);
+                Alert uploadAlert = new Alert(Alert.AlertType.INFORMATION);
+                uploadAlert.setTitle("Création d'une Réservation");
+                uploadAlert.setHeaderText(null);
+                uploadAlert.setContentText("Création d'une Réservation , attendez...");
+                uploadAlert.show();
+                String qr_url= ImgApi.uploadImage(qrFile);
+                uploadAlert.close();
+                reservation.setQr_url(qr_url);
+                qrFile.delete();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            com.google.api.services.calendar.model.Event calendarEvent = new com.google.api.services.calendar.model.Event()
+                    .setSummary(reservation.getEvent().getTitre())
+                    .setLocation(reservation.getEvent().getLieu())
+                    .setDescription(reservation.getEvent().getDescription());
+            LocalDateTime eventStart = reservation.getEvent().getDateetheure();
+            LocalDateTime eventEnd = eventStart.plusHours(3);
+            ZoneId zoneId = ZoneId.of("Africa/Tunis");
+            DateTime googleStart = new DateTime(eventStart.atZone(zoneId).toInstant().toEpochMilli());
+            DateTime googleEnd = new DateTime(eventEnd.atZone(zoneId).toInstant().toEpochMilli());
+            EventDateTime start = new EventDateTime()
+                    .setDateTime(googleStart)
+                    .setTimeZone("Africa/Tunis");
+            EventDateTime end = new EventDateTime()
+                    .setDateTime(googleEnd)
+                    .setTimeZone("Africa/Tunis");
+            calendarEvent.setStart(start);
+            calendarEvent.setEnd(end);
+            if(reservation.getEvent().isOnline()) {
+                ConferenceData conferenceData = new ConferenceData()
+                        .setCreateRequest(new CreateConferenceRequest()
+                                .setRequestId(UUID.randomUUID().toString()) // Ensure uniqueness
+                                .setConferenceSolutionKey(new ConferenceSolutionKey().setType("hangoutsMeet")));
+                calendarEvent.setConferenceData(conferenceData);
+            }
+            String calendarId = "primary";
+            try {
+                if(reservation.getEvent().isOnline()) {
+                    calendarEvent = CalendarServiceBuilder.getCalendarService()
+                            .events()
+                            .insert(calendarId, calendarEvent)
+                            .setConferenceDataVersion(1)
+                            .execute();
+                }
+                else{
+                    calendarEvent = CalendarServiceBuilder.getCalendarService()
+                            .events()
+                            .insert(calendarId, calendarEvent)
+                            .execute();
+                }
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to create Google Calendar event", e);
+            }
+            if(reservation.getEvent().isOnline()) {
+                com.google.api.services.calendar.model.Event finalCalendarEvent = calendarEvent;
+                Task<Void> emailTask = new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        String meetLink = finalCalendarEvent.getConferenceData().getEntryPoints().get(0).getUri();
+                        String subject = "Invitation Evenement Virtuel: " + reservation.getEvent().getTitre();
+                        String body = "voici votre invitation à l'événement virtuel " + reservation.getEvent().getTitre() + "\n"
+                                + meetLink + "\n"
+                                + "Cordialement,\nWorkFlow";
+                        String senderEmail = "youcef.mlaouhia@esprit.tn";
+                        String senderPassword = "nhcm esgw fyox fepi";
+                        JavaMailSender mailSender = new JavaMailSender(senderEmail, senderPassword);
+                        try {
+                            mailSender.sendEmail(loggedinEmployee.getEmail(), subject, body);
+                        } catch (MessagingException e) {
+                            throw new RuntimeException(e);
+                        }
+                        return null;
+                    }
+                };
+                emailTask.setOnSucceeded(evente -> {
+                    System.out.println("Email sent successfully!");
+                });
+                emailTask.setOnFailed(evente -> {
+                    System.err.println("Failed to send email: " + emailTask.getException());
+                });
+                new Thread(emailTask).start();
+            }
             sr.add(reservation);
             ReserverPage.setVisible(false);
             EventDisplay.setVisible(true);
@@ -471,5 +625,97 @@ public class EvenementsController {
             NbplaceReserver.setText("");
         }
     }
-
+    public void SearchByTitle(KeyEvent event) {
+        ServiceEvent se=new ServiceEvent();
+        if(SearchTitle.getText().isBlank()){
+            initialize();
+        }
+        else{
+            List<Event> le=se.SearchByTitle(SearchTitle.getText());
+            populateEventHolder(le);
+        }
+    }
+    public void SortByDate(ActionEvent event) {
+        if(SortDate.isSelected()) {
+            ServiceEvent se = new ServiceEvent();
+            List<Event> le = se.SortByDate();
+            populateEventHolder(le);
+        }
+        else{
+            initialize();
+        }
+    }
+    public void SortByType(ActionEvent event){
+        ServiceEvent se = new ServiceEvent();
+        if(TypeListSort.getValue()!=null) {
+            if (TypeListSort.getValue().equals("All")) {
+                populateEventHolder(se.readAll());
+            } else {
+                populateEventHolder(se.SortByType(TypeListSort.getValue()));
+            }
+        }
+    }
+    public void populateEventHolder(List<Event> le){
+        eventHolder.getChildren().clear();
+        if(le.isEmpty()){
+            SC.setVisible(false);
+            empty.setVisible(true);
+        }
+        else {
+            SC.setVisible(true);
+            empty.setVisible(false);
+            UserSession userSession;
+            userSession = UserSession.getInstance();
+            Employee loggedinEmployee = userSession.getLoggedInEmployee();
+            for (Event evente : le) {
+                try {
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource("Event.fxml"));
+                    Node node = loader.load(); // Load FXML
+                    EventController controller = loader.getController();
+                    controller.setTitle(evente.getTitre());
+                    controller.setDescription(evente.getDescription());
+                    controller.setEvent(evente);
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMMM yyyy, HH:mm", Locale.FRENCH);
+                    String formattedDate = evente.getDateetheure().format(formatter);
+                    controller.setDateHeure(formattedDate);
+                    controller.setAdresse("Adresse: " + evente.getLieu());
+                    controller.setType(evente.getType());
+                    controller.setNbdispo("Places disponibles: " + evente.getNombredeplace());
+                    if(evente.isOnline()){
+                        controller.setisOnline();
+                    }
+                    controller.setController(this);
+                    if (!loggedinEmployee.getRole().equals("Résponsable")) {
+                        controller.setDeleteInvisible();
+                        controller.setUpInvisible();
+                    }
+                    eventHolder.getChildren().add(node);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+    public void changeAddress(ActionEvent event) {
+        if(online.isSelected()) {
+            temp=Adresse.getText();
+            Adresse.setText("Google Meet");
+            Adresse.setDisable(true);
+        }
+        else{
+            Adresse.setText(temp);
+            Adresse.setDisable(false);
+        }
+    }
+    public void changeAddressUpdate(ActionEvent event){
+        if(onlineUpdate.isSelected()){
+            temp=AdresseUpdate.getText();
+            AdresseUpdate.setText("Google Meet");
+            AdresseUpdate.setDisable(true);
+        }
+        else{
+            AdresseUpdate.setText(temp);
+            AdresseUpdate.setDisable(false);
+        }
+    }
 }
