@@ -184,19 +184,16 @@ public class LayoutController {
     public void layoutGoToTasks(ActionEvent actionEvent) {
         setSelected(layoutTasksButton);
         loadFXML(getClass().getResource("tasks.fxml"));
-
     }
 
     public void layoutGoToCalendar(ActionEvent actionEvent) {
         setSelected(layoutCalendarButton);
         loadFXML(getClass().getResource("calendar.fxml"));
-
     }
 
     public void layoutGoToMoney(ActionEvent actionEvent) {
         setSelected(layoutMoneyButton);
         loadFXML(getClass().getResource("money.fxml"));
-
     }
 
     public void layoutGoToConge(ActionEvent actionEvent) {

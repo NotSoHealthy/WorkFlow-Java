@@ -8,10 +8,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
-import javafx.stage.Stage;
+import javafx.scene.layout.VBox;
 import services.ServiceInscription;
 import utils.UserSession;
-
 import java.sql.SQLException;
 
 public class ItemsInscriptionController {
@@ -38,7 +37,7 @@ public class ItemsInscriptionController {
         userSession = UserSession.getInstance();
         loggedInEmployee = userSession.getLoggedInEmployee();
         comboBox.setDisable(!loggedInEmployee.getRole().equals("Résponsable"));
-        comboBox.setItems(FXCollections.observableArrayList("Approver", "Refuser"));
+        comboBox.setItems(FXCollections.observableArrayList("Approuver", "Refuser"));
         String status = inscription.getStatus();
         comboBox.setValue(status);
         comboBox.getStyleClass().add(inscription.getStatus());
@@ -55,12 +54,14 @@ public class ItemsInscriptionController {
     @FXML
     public void comboBoxChange(ActionEvent event) throws SQLException {
         ServiceInscription si = new ServiceInscription();
+        if(comboBox.getValue()==null) {
+            comboBox.setValue("default");
+        }
         inscription.setStatus(comboBox.getValue().toLowerCase());
         si.update(inscription);
         if(comboBox.getValue().equals("Refuser")) {
+            ((VBox) Hbox.getParent()).getChildren().remove(Hbox);
             si.delete(inscription);
-            Hbox.getChildren().clear(); // Remove all elements
-            initialize();
         }
 
     }
