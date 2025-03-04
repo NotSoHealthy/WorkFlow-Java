@@ -2,10 +2,15 @@ package com.PIDev3A18.projet;
 
 import entity.Employee;
 import entity.Reclamation;
+import javafx.animation.FadeTransition;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
@@ -13,14 +18,21 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import javafx.util.Duration;
 import services.ServiceReclamation;
 import utils.UserSession;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.stream.Collectors;
 
 import static com.PIDev3A18.projet.Main.scene;
 
@@ -29,47 +41,96 @@ public class ReclamationListController {
     public AnchorPane anchor;
     @FXML
     public Label title;
-
     @FXML
     public Button addrec;
     @FXML
-    private ListView<Reclamation> listView;
+    public ListView<Reclamation> listView;
+    @FXML
+    private ComboBox<String> statefilter;
+    @FXML
+    public Button submitsearch;
+    @FXML
+    public Button ASC;
+    @FXML
+    public Button DESC;
+    @FXML
+    public Button pieButton;
+    @FXML
+    public DatePicker datefilter;
+    @FXML
+    public TextField searchfilter;
+
 
     private ServiceReclamation RS;
-
     public ReclamationListController() {
         this.RS = new ServiceReclamation();
     }
     UserSession userSession = UserSession.getInstance();
     Employee loggedinEmployee = userSession.getLoggedInEmployee();
+
+
+    public void SendToStats()
+    {
+        try {
+
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("statsreclamation.fxml"));
+            Parent parent =loader.load();
+            Scene scene = new Scene(parent);
+
+            parent.setOpacity(0);
+
+            FadeTransition fadeIn = new FadeTransition(Duration.seconds(1), parent);
+            fadeIn.setFromValue(0);
+            fadeIn.setToValue(1);
+
+
+
+            Stage stage = new Stage();
+            stage.setScene(scene);
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("icons/Logo.png")));
+            stage.initStyle(StageStyle.DECORATED);
+            stage.show();
+            fadeIn.play();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to load the application form.", Alert.AlertType.ERROR);
+        }
+
+    }
     @FXML
     public void initialize() {
-        anchor.setPrefWidth(1080);
-        anchor.setPrefHeight(720);
 
 
-        InputStream input = getClass().getResourceAsStream("icons/plus.png");
-        Image image = new Image(input, 32, 32, true, true);
-        ImageView imageView = new ImageView(image);
-        addrec.setGraphic(imageView);
-            // Fetch all job offers
+        InputStream input = getClass().getResourceAsStream("icons/ASC.png");
+        Image image1 = new Image(input, 24, 24, true, true);
+        ImageView imageView1 = new ImageView(image1);
+        ASC.setGraphic(imageView1);
+
+        input = getClass().getResourceAsStream("icons/DESC.png");
+        Image image2 = new Image(input, 24, 24, true, true);
+        ImageView imageView2 = new ImageView(image2);
+        DESC.setGraphic(imageView2);
+
+        input = getClass().getResourceAsStream("icons/stats.png");
+        Image image3 = new Image(input, 32, 32, true, true);
+        ImageView imageView3 = new ImageView(image3);
+        pieButton.setGraphic(imageView3);
+
+
+
+
+
+        if(statefilter.getItems().isEmpty()) {
+            statefilter.getItems().addAll("Sélectionnez l'état","Pending", "In Progress", "On Hold", "Closed", "Rejected");
+        }
+        statefilter.setValue("Sélectionnez l'état");
+
+
             try {
-                List<Reclamation> rec = RS.readAll();
-            // Populate the ListView with job offers
-            listView.getItems().setAll(rec);
+                listView.getItems().setAll(RS.readAll());
             listView.setPrefHeight(3 * listView.getFixedCellSize());
-
-
-
-
-
-                    double width = scene.getWidth();
-                    double height = scene.getHeight();
-
-                    AnchorPane.setLeftAnchor(title,(width-177)/2 - title.getWidth()/2-50);
-                    AnchorPane.setTopAnchor(title,50.0);
-                    AnchorPane.setLeftAnchor(addrec,(width-177)/2 - addrec.getWidth()/2);
-                    AnchorPane.setBottomAnchor(addrec,50.0);
 
 
 
@@ -108,12 +169,23 @@ public class ReclamationListController {
                             vbox.getStyleClass().add("vbox-custom");
 
                             Label nameLabel = new Label( "Problème :  " + re.getTitle());
-
-
                             nameLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
 
                             Label positionLabel = new Label("Description : "+ re.getDescription());
-                            positionLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: gray;");
+                            positionLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+
+                            Label CategoryLabel = new Label( "Category :  " + re.getCategory());
+                            CategoryLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+                            Label TypeLabel = new Label( "Type :  " + re.getType());
+                            TypeLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+                            Label StateLabel = new Label( "Etat :  " + re.getEtat());
+
+                            StateLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+                            Label RespoLabel = new Label("");
+                            if(re.getResponsable()!=null){
+                            RespoLabel = new Label( "Traité par :  " + re.getResponsable().getFirstName() +" "+re.getResponsable().getLastName());
+                            RespoLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
+                            }
                             positionLabel.setWrapText(true);
 
                             HBox hBox2 = new HBox();
@@ -146,7 +218,6 @@ public class ReclamationListController {
                                 try {
                                     RS.delete(re);
                                     List<Reclamation> rec = RS.readAll();
-
                                     listView.getItems().setAll(rec);
 
 
@@ -159,8 +230,12 @@ public class ReclamationListController {
                             HBox.setMargin(edit, new Insets(10, 0, 0,580));
 
                             hBox2.getChildren().addAll(edit,delete);
-                            if(!loggedinEmployee.getRole().equals("Résponsable")&&loggedinEmployee.getId() != re.getEmployee().getId()) hBox2.setVisible(false);
-                            vbox.getChildren().addAll(hBox,separator,nameLabel, positionLabel,hBox2);
+                            hBox2.setVisible(false);
+                            if(loggedinEmployee.getRole().equals("Résponsable")||loggedinEmployee.getId() == re.getEmployee().getId()) hBox2.setVisible(true);
+                            vbox.getChildren().addAll(hBox,separator,nameLabel, positionLabel,CategoryLabel,TypeLabel,StateLabel,hBox2);
+
+                            vbox.getChildren().add(RespoLabel);
+
                             setGraphic(vbox);
                         }
                     }
@@ -207,17 +282,33 @@ public class ReclamationListController {
    @FXML
     private void SendToForm()
     {
+
         try {
             // Load the form.fxml file using an absolute resource path.
             FXMLLoader loader = new FXMLLoader(getClass().getResource("form.fxml"));
-            Scene scene = new Scene(loader.load());
+            Parent parent =loader.load();
+            Scene scene = new Scene(parent);
+
+            // Set initial opacity to 0 (fully transparent)
+            parent.setOpacity(0);
+
+            // Create a fade-in animation
+            FadeTransition fadeIn = new FadeTransition(Duration.seconds(1), parent);
+            fadeIn.setFromValue(0); // Start fully transparent
+            fadeIn.setToValue(1);   // End fully opaque
+            ReclamationFormController rf = loader.getController();
+            rf.getScene(title.getScene());
+            // Show the stage and play the fade-in animation
 
 
 
             // Set the new scene on the current stage.
-            Stage stage = (Stage) listView.getScene().getWindow();
+            Stage stage = new Stage();
             stage.setScene(scene);
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("icons/Logo.png")));
+            stage.initStyle(StageStyle.DECORATED);
             stage.show();
+            fadeIn.play();
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -229,22 +320,121 @@ public class ReclamationListController {
     private void SendToEdit(Reclamation r)
     {
         try {
+
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource("form.fxml"));
-            Scene scene = new Scene(loader.load());
+            Parent parent =loader.load();
+            Scene scene = new Scene(parent);
+
+            parent.setOpacity(0);
+
+            FadeTransition fadeIn = new FadeTransition(Duration.seconds(1), parent);
+            fadeIn.setFromValue(0);
+            fadeIn.setToValue(1);
+
 
             ReclamationFormController rf = loader.getController();
             rf.SetReclamation(r);
+            rf.getScene(title.getScene());
 
-            // Set the new scene on the current stage.
-            Stage stage = (Stage) listView.getScene().getWindow();
+            Stage stage = new Stage();
             stage.setScene(scene);
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("icons/Logo.png")));
+            stage.initStyle(StageStyle.DECORATED);
             stage.show();
+            fadeIn.play();
 
         } catch (IOException e) {
             e.printStackTrace();
             showAlert("Error", "Failed to load the application form.", Alert.AlertType.ERROR);
         }
     }
+   @FXML
+    public void SortASC()
+    { statefilter.setValue("Sélectionnez l'état");
+        searchfilter.setText("");
+
+        datefilter.setValue(null);
+        try {
+        listView.getItems().setAll( RS.sortTitre(1));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @FXML
+    public void SortDESC()
+    {  statefilter.setValue("Sélectionnez l'état");
+        searchfilter.setText("");
+
+        datefilter.setValue(null);
+        try {
+            listView.getItems().setAll( RS.sortTitre(0));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @FXML
+    public void SubmitFilters()
+    {
+
+        try {
+        List<Reclamation> union = RS.readAll();
+        List<Reclamation> search = new ArrayList<>();
+        List<Reclamation> state = new ArrayList<>();
+        List<Reclamation> date = new ArrayList<>();
+
+        if(!searchfilter.getText().isEmpty())
+        {
+
+            search = RS.search(searchfilter.getText());
+
+            union = EqualId(union,search);
+
+
+        }
+        if(!statefilter.getValue().equals("Sélectionnez l'état"))
+        {
+            state = RS.searchByState(statefilter.getValue());
+            union = EqualId(union,state);
+
+        }
+
+        if(datefilter.getValue() != null)
+        {
+            date = RS.searchByDate( Date.valueOf(datefilter.getValue()));
+
+            union = EqualId(union,date);
+
+
+        }
+
+
+
+        listView.getItems().setAll(union);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
+    private List<Reclamation> EqualId(List<Reclamation>l1,List<Reclamation>l2)
+    {
+        List<Reclamation> x = new ArrayList<>();
+        for (Reclamation rec1 : l1) {
+            // Compare with each element in list l2
+            for (Reclamation rec2 : l2) {
+
+                if (rec1.getReclamation_ID() == rec2.getReclamation_ID()) {
+
+                    x.add(rec1);
+                    break;
+                }
+            }
+        }
+        return x;
+    }
+
     private void showAlert(String title, String message, Alert.AlertType alertType) {
         Alert alert = new Alert(alertType);
         alert.setTitle(title);
@@ -252,4 +442,6 @@ public class ReclamationListController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+
 }

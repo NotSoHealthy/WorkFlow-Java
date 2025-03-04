@@ -34,6 +34,7 @@ module com.example.projet {
     requires scribejava.apis;
     requires java.activation;
     requires org.json;
+    requires com.google.api.services.drive;
 
 
     opens com.PIDev3A18.projet to javafx.fxml;

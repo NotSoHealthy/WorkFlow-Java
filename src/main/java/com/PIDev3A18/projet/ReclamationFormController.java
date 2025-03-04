@@ -4,11 +4,9 @@ import entity.Employee;
 import entity.Reclamation;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
@@ -17,10 +15,16 @@ import services.ServiceReclamation;
 import utils.UserSession;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.time.LocalTime;
+
+
+
 
 
 public class ReclamationFormController {
@@ -38,16 +42,29 @@ public class ReclamationFormController {
     @FXML
     private Label AttachmentLabel;
 
+    @FXML
+    private ComboBox<String> categoryC;
+    @FXML
+    private ComboBox<String> typeC;
+
     private File Attachment;
 
     private Boolean Editing = false;
 
     private Reclamation selectedR;
 
+    private Scene PreviousScene;
 
     public void SetReclamation(Reclamation r) {
         this.selectedR = r;
-        if (titre != null) {  // Check if labels are initialized before setting text
+        if (titre != null) {
+            initialize();
+        }
+    }
+    public void getScene(Scene s)
+    {
+        PreviousScene = s;
+        if (titre != null) {
             initialize();
         }
     }
@@ -55,6 +72,10 @@ public class ReclamationFormController {
     @FXML
     public void initialize()
     {
+
+
+
+
         description.setPrefRowCount(100);
         description.setPrefHeight(100);
         if(selectedR != null)
@@ -66,8 +87,16 @@ public class ReclamationFormController {
             titre.setText(selectedR.getTitle());
             description.setText(selectedR.getDescription());
         }
-        System.out.println(Editing);
 
+        if(categoryC.getItems().isEmpty()){
+            categoryC.getItems().addAll("Technical", "Facturation", "Service","Autre");
+            categoryC.setValue("Selectionnez category");}
+        if(Editing) categoryC.setValue(selectedR.getCategory());
+        if(typeC.getItems().isEmpty()){
+            typeC.getItems().addAll("Plainte", "Demande", "Feedback");
+            typeC.setValue("Selectionnez type");
+        }
+        if(Editing) typeC.setValue(selectedR.getType());
 
 
     }
@@ -77,14 +106,30 @@ public class ReclamationFormController {
     {
         FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().add(
-                new FileChooser.ExtensionFilter("PDF Files", "*.pdf")
+                new FileChooser.ExtensionFilter("All Files", "*.*")
         );
         Attachment = fileChooser.showOpenDialog(null);
         if (Attachment != null) {
+
             AttachmentLabel.setText(Attachment.getName());
         }
 
 
+    }
+    private void CopyAttachment(String destinationPath) {
+        if (Attachment == null) {
+            System.out.println("No file selected.");
+            return;
+        }
+
+        File destinationFile = new File(destinationPath + File.separator + Attachment.getName());
+
+        try {
+            Files.copy(Attachment.toPath(), destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+            System.out.println("File copied successfully to: " + destinationFile.getAbsolutePath());
+        } catch (IOException e) {
+            System.out.println("Error copying file: " + e.getMessage());
+        }
     }
     @FXML
     private void Submit()
@@ -96,10 +141,12 @@ public class ReclamationFormController {
 
          else if(description.getText().isEmpty()){
              descriptionerror.setText("Champ vide !");
-    }
-
-else {
+    } else if ("Selectionnez category".equals(categoryC.getValue()) || "Selectionnez type".equals(typeC.getValue()) ) {
+            showAlert(Alert.AlertType.ERROR, "Erreur !", "Veuillez vous assurer que toutes les zones de liste déroulante sont sélectionnées.");
+            
+        } else {
             try {
+
                 // Upload files to designated directories
                 LocalDate localDate = LocalDate.now();
                 Date sqlDate = Date.valueOf(localDate);
@@ -109,22 +156,34 @@ else {
 
                 UserSession userSession = UserSession.getInstance();
                 Employee loggedinEmployee = userSession.getLoggedInEmployee();
-                Reclamation reclamation = new Reclamation(titre.getText(), description.getText(), sqlDate, sqlTime, "PENDING", null, null, loggedinEmployee);
+                String url = null;
+                if(Attachment != null)url ="C:/Users/Mega-Pc/Documents/GitHub/WorkFlow-Java/uploads/reclamation/"+Attachment.getName();
+                Reclamation reclamation = new Reclamation(titre.getText(), description.getText(),categoryC.getValue(),typeC.getValue(),url, sqlDate, sqlTime, "PENDING", null, null, loggedinEmployee);
 
                 // Save the application using ApplicationService.
                 ServiceReclamation sr = new ServiceReclamation();
                 if(Editing)
                 {
-
-                    reclamation = new Reclamation(selectedR.getReclamation_ID(),titre.getText(), description.getText(),selectedR.getDate(),selectedR.getHeure(),selectedR.getEtat(),selectedR.getDate_resolution(),selectedR.getResponsable(),selectedR.getEmployee());
+                    CopyAttachment("C:/Users/Mega-Pc/Documents/GitHub/WorkFlow-Java/uploads/reclamation");
+                    reclamation = new Reclamation(selectedR.getReclamation_ID(),titre.getText(), description.getText(),categoryC.getValue(),typeC.getValue(),url,selectedR.getDate(),selectedR.getHeure(),selectedR.getEtat(),selectedR.getDate_resolution(),selectedR.getResponsable(),selectedR.getEmployee());
                     sr.update(reclamation);
                 }else
                 {
+                    CopyAttachment("C:/Users/Mega-Pc/Documents/GitHub/WorkFlow-Java/uploads/reclamation");
                     sr.add(reclamation);
                 }
 
 
-                showAlert(Alert.AlertType.INFORMATION, "Success", "Application submitted successfully!");
+                if(Editing)showAlert(Alert.AlertType.INFORMATION, "Success", "La Reclamation a été modifiée avec succès !");
+               else showAlert(Alert.AlertType.INFORMATION, "Success", "Reclamation soumise avec succès !");
+
+
+
+
+
+
+
+
 
                 // Clear form fields after submission.
                 titre.clear();
@@ -134,18 +193,24 @@ else {
                 AttachmentLabel.setText("No file chosen");
 
 
-
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("layout.fxml"));
-
-                Scene scene = new Scene(loader.load());
-                BorderPane retrievedPane = (BorderPane) scene.getRoot();
-                FXMLLoader loader2 = new FXMLLoader(getClass().getResource("reclamation.fxml"));
-                retrievedPane.setCenter(loader2.load());
                 Stage stage = (Stage) sp.getScene().getWindow();
-                stage.setScene(scene);
+                stage.close();
 
 
-                stage.show();
+
+                BorderPane retrievedPane = (BorderPane) PreviousScene.getRoot();
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("reclamation.fxml"));
+                retrievedPane.setCenter(loader.load());
+
+
+
+
+
+
+
+
+
+
 
 
             } catch (Exception e) {

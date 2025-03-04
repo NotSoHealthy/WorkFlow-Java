@@ -10,6 +10,34 @@ public class Reclamation {
         private int reclamation_ID;
         private String title;
         private String description;
+        private String category;
+        private String type;
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getAttachedfile() {
+        return attachedfile;
+    }
+
+    public void setAttachedfile(String attachedfile) {
+        this.attachedfile = attachedfile;
+    }
+
+    private String attachedfile;
         private java.sql.Date date;
         private java.sql.Time heure;
         private String etat;
@@ -18,6 +46,35 @@ public class Reclamation {
         private Employee employee;
 
 
+    public Reclamation(String title, String description, String category, String type, String attachedfile, Date date, Time heure, String etat, Date date_resolution, Employee responsable, Employee employee) {
+        this.title = title;
+        this.description = description;
+        this.category = category;
+        this.type = type;
+        this.attachedfile = attachedfile;
+        this.date = date;
+        this.heure = heure;
+        this.etat = etat;
+        this.date_resolution = date_resolution;
+        this.responsable = responsable;
+        this.employee = employee;
+    }
+
+
+    public Reclamation(int id,String title, String description, String category, String type, String attachedfile, Date date, Time heure, String etat, Date date_resolution, Employee responsable, Employee employee) {
+        this.reclamation_ID = id;
+        this.title = title;
+        this.description = description;
+        this.category = category;
+        this.type = type;
+        this.attachedfile = attachedfile;
+        this.date = date;
+        this.heure = heure;
+        this.etat = etat;
+        this.date_resolution = date_resolution;
+        this.responsable = responsable;
+        this.employee = employee;
+    }
 
     public Reclamation(int reclamation_ID, String title, String description, Date date, Time heure, String etat, Date date_resolution, Employee responsable, Employee employee) {
         this.reclamation_ID = reclamation_ID;
