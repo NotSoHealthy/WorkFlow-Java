@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" spacing="0" stylesheets="@css/Project.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.ChatbotController">
+    <padding>
+        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
+    </padding>
+    <children>
+        <!-- Scrollable Chat Container (messages only) -->
+        <ScrollPane fx:id="chatScrollPane" prefHeight="300" maxHeight="300" minWidth="400" styleClass="chat-scroll-pane">
+            <content>
+                <VBox fx:id="chatContainer" spacing="10" styleClass="chat-container" prefWidth="380">
+                    <children>
+                        <!-- Bot Icon (placeholder, styled in CSS) -->
+                        <HBox alignment="CENTER_LEFT" spacing="5" visible="false">
+                            <ImageView fx:id="botIcon" fitHeight="30" fitWidth="30" />
+                        </HBox>
+                        <!-- User Icon (placeholder, will be added dynamically in controller) -->
+                        <HBox alignment="CENTER_RIGHT" spacing="5" visible="false">
+                            <ImageView fx:id="userIcon" fitHeight="30" fitWidth="30" />
+                        </HBox>
+                    </children>
+                </VBox>
+            </content>
+            <padding>
+                <Insets left="10" right="10" />
+            </padding>
+        </ScrollPane>
+
+        <!-- Fixed Input Area at the Bottom -->
+        <HBox spacing="10" alignment="CENTER" styleClass="input-container" prefHeight="50">
+            <TextField fx:id="userInputField" prefWidth="300" promptText="Ask me about projects..." styleClass="input-field" />
+            <Button fx:id="sendButton" text="Send" styleClass="send-button" />
+        </HBox>
+    </children>
+</VBox>

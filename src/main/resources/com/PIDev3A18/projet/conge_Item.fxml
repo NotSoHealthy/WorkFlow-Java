@@ -5,34 +5,34 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
 
-<HBox fx:id="congeItem" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" spacing="20.0" styleClass="conge-item" stylesheets="@css/conge_item.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<HBox fx:id="congeItem" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" spacing="20.0" styleClass="conge-item" stylesheets="@css/conge_item.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="nomText" alignment="CENTER" prefWidth="120.0" text="Nom de l'employee" wrapText="true">
+      <Label fx:id="nomText" alignment="CENTER" prefWidth="153.0" text="Nom de l'employee" textAlignment="CENTER" wrapText="true">
          <HBox.margin>
             <Insets />
          </HBox.margin>
       </Label>
-      <Label fx:id="reasonField" alignment="CENTER" layoutX="30.0" layoutY="27.0" prefWidth="120.0" text="Raison">
+      <Label fx:id="reasonField" alignment="CENTER" layoutX="30.0" layoutY="27.0" prefWidth="153.0" text="Raison">
          <HBox.margin>
             <Insets />
          </HBox.margin>
       </Label>
-      <Label fx:id="requestDateField" alignment="CENTER" layoutX="200.0" layoutY="27.0" prefWidth="120.0" text="Date requete">
+      <Label fx:id="requestDateField" alignment="CENTER" layoutX="200.0" layoutY="27.0" prefWidth="153.0" text="Date requete">
          <HBox.margin>
             <Insets />
          </HBox.margin>
       </Label>
-      <Label fx:id="startDateField" alignment="CENTER" layoutX="370.0" layoutY="27.0" prefWidth="120.0" text="Date debut">
+      <Label fx:id="startDateField" alignment="CENTER" layoutX="370.0" layoutY="27.0" prefWidth="153.0" text="Date debut">
          <HBox.margin>
             <Insets />
          </HBox.margin>
       </Label>
-      <Label fx:id="endDateField" alignment="CENTER" layoutX="528.0" layoutY="27.0" prefWidth="120.0" text="Date fin">
+      <Label fx:id="endDateField" alignment="CENTER" layoutX="528.0" layoutY="27.0" prefWidth="153.0" text="Date fin">
          <HBox.margin>
             <Insets />
          </HBox.margin>
       </Label>
-      <ComboBox fx:id="comboBox" onAction="#comboBoxChange" prefWidth="120.0" />
+      <ComboBox fx:id="comboBox" onAction="#comboBoxChange" prefWidth="153.0" />
    </children>
    <opaqueInsets>
       <Insets />

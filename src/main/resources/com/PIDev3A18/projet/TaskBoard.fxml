@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox alignment="CENTER" prefHeight="700" prefWidth="940" spacing="20" stylesheets="@css/TaskBoard.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/23.0.1" fx:controller="com.PIDev3A18.projet.TaskBoardController">
+    <children>
+        <Label styleClass="title-label" text="Tableau des Tâches" />
+      <HBox prefHeight="18.0" prefWidth="860.0">
+         <children>
+                   <Label prefHeight="28.0" prefWidth="216.0" styleClass="column-header" text="En attente" />
+                   <Label prefHeight="28.0" prefWidth="230.0" styleClass="column-header" text="En Cours" />
+                   <Label prefHeight="28.0" prefWidth="214.0" styleClass="column-header" text="Fini" />
+                   <Label prefHeight="28.0" prefWidth="200.0" styleClass="column-header" text="Bloqué" />
+         </children>
+      </HBox>
+        <ScrollPane hbarPolicy="NEVER" prefHeight="600" prefWidth="860" styleClass="task-scroll-pane" vbarPolicy="ALWAYS">
+            <content>
+                <HBox alignment="CENTER" spacing="20" styleClass="task-columns">
+                    <!-- To Do Column -->
+                    <VBox fx:id="todoTasks" alignment="TOP_CENTER" minHeight="500" minWidth="200" maxWidth="200" styleClass="todo-column" />
+
+                    <!-- In Progress Column -->
+                    <VBox fx:id="inProgressTasks" alignment="TOP_CENTER" minHeight="500" minWidth="200" maxWidth="200" spacing="10" styleClass="in-progress-column" />
+
+                    <!-- Completed Column -->
+                    <VBox fx:id="completedTasks" alignment="TOP_CENTER" minHeight="500" minWidth="200" maxWidth="200" spacing="10" styleClass="completed-column" />
+
+                    <!-- Blocked Column -->
+                    <VBox fx:id="blockedTasks" alignment="TOP_CENTER" minHeight="500" minWidth="200" maxWidth="200" spacing="10" styleClass="blocked-column" />
+                </HBox>
+            </content>
+        </ScrollPane>
+        <HBox alignment="CENTER" spacing="10">
+            <Button onAction="#openAddTaskForm" styleClass="form-button" text="Ajouter une Tâche" />
+            <Button fx:id="deleteButton" styleClass="delete-button" text="Supprimer" />
+        </HBox>
+    </children>
+</VBox>

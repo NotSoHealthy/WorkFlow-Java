@@ -25,7 +25,7 @@ import java.util.List;
 
 public class AddProjectController {
     @FXML private Button SubmitBtn;
-    @FXML private ListView<Project> ShowProject;
+    @FXML private ListView<Project> ShowProject; // Note: This seems unused in this controller
     @FXML private TextField Name, Budget;
     @FXML private TextArea Description;
     @FXML private DatePicker StartDate;
@@ -41,6 +41,8 @@ public class AddProjectController {
     void initialize() throws SQLException {
         loadProjectManagers();
         loadDepartments();
+
+        // Customize how Employee names are displayed in ProjectManagerComboBox
         ProjectManagerComboBox.setCellFactory(param -> new ListCell<>() {
             @Override
             protected void updateItem(Employee employee, boolean empty) {
@@ -56,7 +58,7 @@ public class AddProjectController {
             }
         });
 
-        // Set how Department names are displayed
+        // Customize how Department names are displayed in DepartmentComboBox
         DepartmentComboBox.setCellFactory(param -> new ListCell<>() {
             @Override
             protected void updateItem(Department department, boolean empty) {
@@ -95,38 +97,49 @@ public class AddProjectController {
             LocalDate endDate = EndDate.getValue();
             Employee projectManager = ProjectManagerComboBox.getValue();
             Department department = DepartmentComboBox.getValue();
+
+            // Validation
             if (!isValidText(name) || !isValidText(description)) {
-                showAlert(Alert.AlertType.ERROR, "Entrée Invalide", "Nom et Description doivent contenir des Lettres et des Espaces Seulement .");
+                showAlert(Alert.AlertType.ERROR, "Entrée Invalide", "Nom et Description doivent contenir des Lettres et des Espaces Seulement.");
                 return;
             }
+
             float budget;
             try {
                 budget = Float.parseFloat(budgetText);
                 if (budget <= 0) {
-                    showAlert(Alert.AlertType.ERROR, "Budget Invalide", "Budget doit etre un réel positif .");
+                    showAlert(Alert.AlertType.ERROR, "Budget Invalide", "Budget doit être un réel positif.");
                     return;
                 }
             } catch (NumberFormatException e) {
-                showAlert(Alert.AlertType.ERROR, "Budget Invalide", "Budget doit etre un réel.");
+                showAlert(Alert.AlertType.ERROR, "Budget Invalide", "Budget doit être un réel.");
                 return;
             }
+
             if (startDate == null || endDate == null) {
-                showAlert(Alert.AlertType.ERROR, "Selection Invalide", "Selectionner une date debut et une date de fin .");
+                showAlert(Alert.AlertType.ERROR, "Selection Invalide", "Sélectionner une date de début et une date de fin.");
                 return;
             }
+
             if (endDate.isBefore(startDate)) {
-                showAlert(Alert.AlertType.ERROR, "Selection Invalide", "datte de fin doit etre aprés la date debut.");
+                showAlert(Alert.AlertType.ERROR, "Selection Invalide", "La date de fin doit être après la date de début.");
                 return;
             }
+
             if (projectManager == null || department == null) {
-                showAlert(Alert.AlertType.ERROR, "Selection Invalide", "Selectionner un Chef De Projet et Un Department.");
+                showAlert(Alert.AlertType.ERROR, "Selection Invalide", "Sélectionner un Chef de Projet et un Département.");
                 return;
             }
-            // Create the Project object
-            Project project = new Project(name, description, Date.valueOf(startDate), Date.valueOf(endDate), budget, projectManager, department);
+
+            // Create the Project object with State set to "Started"
+            Project project = new Project(name, description, Date.valueOf(startDate), Date.valueOf(endDate),
+                    budget, projectManager, department, "Started");
+
             // Add project to database
             serviceProject.add(project);
-            showAlert(Alert.AlertType.INFORMATION, "Success", "Projet a été ajoutter avec Succée !");
+
+            // Show success message and clear form
+            showAlert(Alert.AlertType.INFORMATION, "Succès", "Projet a été ajouté avec succès !");
             Name.clear();
             Description.clear();
             Budget.clear();
@@ -135,12 +148,15 @@ public class AddProjectController {
             ProjectManagerComboBox.setValue(null);
             DepartmentComboBox.setValue(null);
 
+            // Optionally return to the project view
+            returnToViewProject(event);
+
         } catch (SQLException e) {
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Database Error", "An error occurred while adding the project.");
+            showAlert(Alert.AlertType.ERROR, "Erreur Base de Données", "Une erreur est survenue lors de l'ajout du projet.");
         } catch (Exception e) {
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error", "An unexpected error occurred.");
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Une erreur inattendue est survenue.");
         }
     }
 
@@ -155,21 +171,34 @@ public class AddProjectController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     @FXML
     void returnToViewDepartment(ActionEvent event) {
         try {
-            // Load the ViewDepartment.fxml
             FXMLLoader loader = new FXMLLoader(getClass().getResource("layout.fxml"));
             Parent root = loader.load();
-
-            // Set the new scene
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            showAlert(Alert.AlertType.ERROR, "Error", "Failed to load the View Department page.");
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Échec du chargement de la page View Department.");
+        }
+    }
+
+    // New method to return to ViewProject.fxml
+    private void returnToViewProject(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("layout.fxml"));
+            Parent root = loader.load();
+            Scene scene = new Scene(root);
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Erreur", "Échec du chargement de la page View Project.");
         }
     }
 }

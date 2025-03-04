@@ -101,32 +101,48 @@ public class ServiceDepartment implements IService<Department> {
     }
 
     public List<Department> searchByName(String name) throws SQLException {
-        String req ="select * from departments where name = ? ";
+        String req = "SELECT * FROM departments WHERE LOWER(Name) LIKE ?";
         PreparedStatement ps = con.prepareStatement(req);
-        ps.setString(1, name);
+        ps.setString(1, "%" + name.toLowerCase() + "%");
         ResultSet rs = ps.executeQuery();
         List<Department> departments = new ArrayList<>();
         while (rs.next()) {
             int Department_Manager = rs.getInt("Department_Manager");
-            ServiceEmployee e=new ServiceEmployee();
-            Employee employee= e.readById(Department_Manager);
+            ServiceEmployee e = new ServiceEmployee();
+            Employee employee = e.readById(Department_Manager);
             departments.add(new Department(rs.getInt("Department_Id"), rs.getString("Name"), rs.getFloat("Year_Budget"),
-                    employee)) ;
+                    employee));
         }
         ps.close();
         return departments;
     }
     public List<Department> sortBudget() throws SQLException {
-        String req ="select * from projects order by Year_Budget ";
+        String req = "SELECT * FROM departments ORDER BY Year_Budget ASC";
         PreparedStatement ps = con.prepareStatement(req);
         ResultSet rs = ps.executeQuery();
         List<Department> departments = new ArrayList<>();
         while (rs.next()) {
             int Department_Manager = rs.getInt("Department_Manager");
-            ServiceEmployee e=new ServiceEmployee();
-            Employee employee= e.readById(Department_Manager);
+            ServiceEmployee e = new ServiceEmployee();
+            Employee employee = e.readById(Department_Manager);
             departments.add(new Department(rs.getInt("Department_Id"), rs.getString("Name"), rs.getFloat("Year_Budget"),
-                    employee)) ;
+                    employee));
+        }
+        ps.close();
+        return departments;
+    }
+
+    public List<Department> sortName() throws SQLException {
+        String req = "SELECT * FROM departments ORDER BY Name ASC";
+        PreparedStatement ps = con.prepareStatement(req);
+        ResultSet rs = ps.executeQuery();
+        List<Department> departments = new ArrayList<>();
+        while (rs.next()) {
+            int Department_Manager = rs.getInt("Department_Manager");
+            ServiceEmployee e = new ServiceEmployee();
+            Employee employee = e.readById(Department_Manager);
+            departments.add(new Department(rs.getInt("Department_Id"), rs.getString("Name"), rs.getFloat("Year_Budget"),
+                    employee));
         }
         ps.close();
         return departments;

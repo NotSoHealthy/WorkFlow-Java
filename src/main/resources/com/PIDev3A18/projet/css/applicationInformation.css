@@ -1,0 +1,93 @@
+/* applicationInformation.css */
+
+/* Overall Page Background */
+.page {
+    /* Soft neutral gradient background */
+    -fx-background-color: linear-gradient(to bottom, #f8f8f8, #ffffff);
+}
+
+/* Main Panel */
+.main-panel {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 12;
+    -fx-padding: 30;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 0, 5);
+}
+
+/* Title Styling */
+.title-text {
+    -fx-font-size: 26px;
+    -fx-font-weight: bold;
+    -fx-fill: #333333;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 2, 0, 0, 1);
+}
+
+/* Form Labels - For fields like Nom, Prénom, etc. */
+.form-label {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333333;  /* Neutral dark tone */
+    -fx-padding: 5 0;
+}
+
+/* Displayed Details */
+.detail-value {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 16px;
+    -fx-text-fill: #333333;
+    -fx-background-color: #f2f2f2;
+    -fx-padding: 6 10;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-border-color: #dddddd;
+    -fx-border-width: 1;
+}
+
+/* Link-Like Text (for CV and recommendation letter links) */
+.link-text {
+    -fx-font-size: 16px;
+    -fx-text-fill: #3742FA;  /* Accent color only for interactive text */
+    -fx-underline: true;
+    -fx-cursor: hand;
+}
+
+/* Button Styling - using the main accent color */
+.btn-connect {
+    -fx-background-color: linear-gradient(#3742FA, #5b65ff);
+    -fx-text-fill: white;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 6;
+    -fx-padding: 10 15;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 5, 0, 0, 2);
+}
+
+.btn-connect:hover {
+    -fx-background-color: linear-gradient(#5b65ff, #3742FA);
+}
+
+.btn-connect:pressed {
+    -fx-background-color: #2f3cd0;
+}
+
+/* ComboBox Styling */
+.combo-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+    -fx-padding: 5;
+}
+
+/* Layout Adjustments */
+.hbox {
+    -fx-spacing: 15;
+}
+
+.vbox {
+    -fx-spacing: 15;
+}

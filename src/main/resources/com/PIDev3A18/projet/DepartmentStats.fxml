@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="CENTER" prefHeight="500.0" prefWidth="800.0" spacing="20" stylesheets="@css/Department.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.DepartmentStatsController">
+    <padding>
+        <Insets top="20.0" right="20.0" bottom="20.0" left="20.0" />
+    </padding>
+    <children>
+        <Label fx:id="statsTitle" text="Statistique de Budget pour les Departments (TND)" styleClass="stats-title">
+            <font>
+                <Font name="Segoe UI Semibold" size="24.0" />
+            </font>
+        </Label>
+        <BarChart fx:id="budgetChart" title="Budget par Department" styleClass="budget-chart">
+            <xAxis>
+                <CategoryAxis fx:id="xAxis" label="Departments" />
+            </xAxis>
+            <yAxis>
+                <NumberAxis fx:id="yAxis" label="Budget (TND)" />
+            </yAxis>
+        </BarChart>
+    </children>
+</VBox>
