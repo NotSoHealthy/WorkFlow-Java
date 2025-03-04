@@ -47,7 +47,7 @@ TextField, DatePicker, ComboBox {
 
 /* Button style */
 .btn-connect {
-    -fx-background-color: #2A9D8F;
+    -fx-background-color: #3742FA;
     -fx-text-fill: white;
     -fx-background-radius: 20;
     -fx-padding: 10 20 10 20;
@@ -58,10 +58,10 @@ TextField, DatePicker, ComboBox {
 
 /* Button hover and pressed effects */
 .btn-connect:hover {
-    -fx-background-color: #23867a;
+    -fx-background-color: #3742FA;
 }
 .btn-connect:pressed {
-    -fx-background-color: #1d5a5e;
+    -fx-background-color: #3742FD;
 }
 
 /* TableView styling */

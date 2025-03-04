@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Text?>
 
 <?import javafx.scene.layout.StackPane?>
-<StackPane prefHeight="300.0" prefWidth="400.0" styleClass="page" stylesheets="@css/signup.css"
+<StackPane prefHeight="300.0" prefWidth="400.0" styleClass="page" stylesheets="@css/InterviewInfo.css"
            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="com.PIDev3A18.projet.InterviewInfoController">
    <children>
