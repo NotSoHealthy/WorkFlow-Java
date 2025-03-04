@@ -597,8 +597,8 @@ public class EvenementsController {
                         String body = "voici votre invitation à l'événement virtuel " + reservation.getEvent().getTitre() + "\n"
                                 + meetLink + "\n"
                                 + "Cordialement,\nWorkFlow";
-                        String senderEmail = "youcef.mlaouhia@esprit.tn";
-                        String senderPassword = "nhcm esgw fyox fepi";
+                        String senderEmail = "samirmlaouhia2@gmail.com";
+                        String senderPassword = "scwf lmae psem fawx";
                         JavaMailSender mailSender = new JavaMailSender(senderEmail, senderPassword);
                         try {
                             mailSender.sendEmail(loggedinEmployee.getEmail(), subject, body);
