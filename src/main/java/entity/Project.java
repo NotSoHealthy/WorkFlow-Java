@@ -1,7 +1,5 @@
 package entity;
 
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import java.util.Date;
 
 public class Project {
@@ -60,7 +58,14 @@ public class Project {
     public String getState() { return State; }
     public void setState(String state) { State = state; }
 
+    // Convert java.util.Date to java.time.LocalDate for modern date handling
+    public java.time.LocalDate getLocalEndDate() {
+        return End_Date != null ? new java.sql.Date(End_Date.getTime()).toLocalDate() : null;
+    }
 
+    public java.time.LocalDate getLocalStartDate() {
+        return Start_Date != null ? new java.sql.Date(Start_Date.getTime()).toLocalDate() : null;
+    }
 
     @Override
     public String toString() {

@@ -11,13 +11,19 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import services.ServiceProject;
 import services.ServiceTask;
 
+import java.awt.*;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class ViewProjectController {
@@ -80,11 +86,74 @@ public class ViewProjectController {
             }
         });
     }
+    private void checkEndDateNotifications(List<Project> projects) {
+        LocalDate today = LocalDate.now(); // Current date (March 04, 2025)
+        for (Project project : projects) {
+            LocalDate endDate = project.getLocalEndDate();
+            System.out.println("Project: " + project.getName() + ", End Date: " + endDate + ", Today: " + today);
+            if (endDate != null) {
+                long daysUntilEnd = ChronoUnit.DAYS.between(today, endDate);
+                System.out.println("Days until end for " + project.getName() + ": " + daysUntilEnd);
+                if (daysUntilEnd <= 7 && daysUntilEnd >= 0) { // Less than 7 days (one week) and not past due
+                    showWindowsNotification(
+                            "Project Deadline Approaching",
+                            "Project '" + project.getName() + "' ends on " + endDate + " (in " + daysUntilEnd + " days). Please review!"
+                    );
+                } else if (daysUntilEnd < 0) { // Past due
+                    showWindowsNotification(
+                            "Project Overdue",
+                            "Project '" + project.getName() + "' ended on " + endDate + " and is overdue by " + Math.abs(daysUntilEnd) + " days!"
+                    );
+                }
+            } else {
+                System.out.println("End Date is null for project: " + project.getName());
+            }
+        }
+    }
 
+    private void showWindowsNotification(String title, String message) {
+        if (SystemTray.isSupported()) {
+            try {
+                SystemTray tray = SystemTray.getSystemTray();
+                Image image = Toolkit.getDefaultToolkit().createImage("icon.png"); // Replace with your icon path
+                TrayIcon trayIcon = new TrayIcon(image, "Project Manager Notification");
+                trayIcon.setImageAutoSize(true);
+                trayIcon.setToolTip("Click for more info");
+                tray.add(trayIcon);
+                trayIcon.displayMessage(title, message, TrayIcon.MessageType.WARNING);
+                // Optional: Remove the tray icon after a delay (e.g., 5 seconds) to allow JVM to exit
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(5000); // Wait 5 seconds
+                        tray.remove(trayIcon);
+                    } catch (InterruptedException e) {
+                        System.err.println("Error removing tray icon: " + e.getMessage());
+                    }
+                }).start();
+            } catch (AWTException e) {
+                System.err.println("Error displaying Windows notification: " + e.getMessage());
+                // Fallback to JavaFX alert if Windows notification fails
+                showNotification(title, message);
+            }
+        } else {
+            System.err.println("System tray not supported on this platform!");
+            // Fallback to JavaFX alert if system tray isn’t supported
+            showNotification(title, message);
+        }
+    }
+
+    private void showNotification(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.WARNING);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
     private void loadProjects() throws SQLException {
         List<Project> projects = serviceProject.readAll();
         projectList = FXCollections.observableArrayList(projects);
         ShowProject.setItems(projectList);
+        checkEndDateNotifications(projects);
     }
 
     @FXML
@@ -187,7 +256,7 @@ public class ViewProjectController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/PIDev3A18/projet/Chatbot.fxml"));
             Parent root = loader.load();
             Stage stage = new Stage();
-            stage.setTitle("Project Chatbot");
+            stage.setTitle("Project Chat    ");
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {

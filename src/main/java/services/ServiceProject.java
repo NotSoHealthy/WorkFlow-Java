@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ServiceProject implements IService<Project> {
@@ -38,6 +39,44 @@ public class ServiceProject implements IService<Project> {
         int r = ps.executeUpdate();
         ps.close();
         System.out.println(r + " rows affected");
+    }
+
+    public List<Project> getProjectsByManagerId(int managerId) throws SQLException {
+        List<Project> projects = new ArrayList<>();
+        String query = "SELECT project_id, name, description, start_date, end_date, budget, state, project_manager, department_id " +
+                "FROM projects WHERE manager_id = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setInt(1, managerId);
+            ResultSet rs = pstmt.executeQuery();
+            ServiceEmployee serviceEmployee = new ServiceEmployee();
+            ServiceDepartment serviceDepartment = new ServiceDepartment();
+            while (rs.next()) {
+                int projectId = rs.getInt("project_id");
+                String name = rs.getString("name");
+                String description = rs.getString("description");
+                Date startDate = rs.getDate("start_date");
+                Date endDate = rs.getDate("end_date");
+                float budget = rs.getFloat("budget");
+                String state = rs.getString("state");
+                int managerIdFromDB = rs.getInt("project_manager");
+                int deptId = rs.getInt("department_id");
+
+                // Fetch Employee (Project_Manager) from the database
+                Employee manager = serviceEmployee.readById(managerIdFromDB);
+                if (manager == null) {
+                    manager = new Employee(managerIdFromDB); // Fallback if not found (minimal data)
+                }
+
+                // Fetch Department from the database
+                Department dept = serviceDepartment.readById(deptId);
+                if (dept == null) {
+                    dept = new Department(); // Fallback if not found (minimal data)
+                }
+
+                projects.add(new Project(projectId, name, description, startDate, endDate, budget, manager, dept, state));
+            }
+        }
+        return projects;
     }
 
     @Override
@@ -72,9 +111,9 @@ public class ServiceProject implements IService<Project> {
         PreparedStatement ps = con.prepareStatement(query);
         ResultSet rs = ps.executeQuery();
         List<Project> projects = new ArrayList<>();
+        ServiceEmployee serviceEmployee = new ServiceEmployee();
+        ServiceDepartment serviceDepartment = new ServiceDepartment();
         while (rs.next()) {
-            ServiceEmployee serviceEmployee = new ServiceEmployee();
-            ServiceDepartment serviceDepartment = new ServiceDepartment();
             Employee employee = serviceEmployee.readById(rs.getInt("Project_Manager"));
             Department department = serviceDepartment.readById(rs.getInt("Department_Id"));
             projects.add(new Project(rs.getInt("Project_Id"), rs.getString("Name"), rs.getString("Description"),
@@ -105,6 +144,7 @@ public class ServiceProject implements IService<Project> {
         ps.close();
         return null;
     }
+
     public List<Project> searchByName(String name) throws SQLException {
         String req = "SELECT * FROM projects WHERE Name = ?"; // Fixed query to use a single parameter
         PreparedStatement ps = con.prepareStatement(req);
