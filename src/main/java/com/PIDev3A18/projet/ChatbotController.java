@@ -28,12 +28,12 @@ import java.util.List;
 
 public class ChatbotController {
 
-    @FXML private ScrollPane chatScrollPane;  // Reference to ScrollPane
-    @FXML private VBox chatContainer;  // Changed from TextArea to VBox
+    @FXML private ScrollPane chatScrollPane;
+    @FXML private VBox chatContainer;
     @FXML private TextField userInputField;
     @FXML private Button sendButton;
-    @FXML private ImageView botIcon;   // Bot icon
-    @FXML private ImageView userIcon;  // User icon
+    @FXML private ImageView botIcon;
+    @FXML private ImageView userIcon;
 
     private final HttpClient httpClient = HttpClient.newHttpClient();
     private final String apiKey = "AIzaSyBWjh26eCEQGl1M8DxaFY5xtIa1ZtgtlKA"; // Fetch from environment variable
@@ -57,9 +57,9 @@ public class ChatbotController {
         // Load bot icon with multiple path attempts for debugging
         try {
             String[] possiblePaths = {
-                    "/icons/bot.png",    // Absolute path from resources root
-                    "icons/bot.png",     // Relative path
-                    "/images/bot.png"    // Alternative directory
+                    "/icons/bot.png",
+                    "icons/bot.png",
+                    "/images/bot.png"
             };
 
             boolean iconLoaded = false;
@@ -83,7 +83,6 @@ public class ChatbotController {
             e.printStackTrace();
         }
 
-        // Load user icon (profile picture) from UserSession
         try {
             UserSession userSession = UserSession.getInstance();
             Employee loggedInEmployee = userSession.getLoggedInEmployee();
@@ -93,18 +92,16 @@ public class ChatbotController {
                 double imageHeight = image.getHeight();
                 double minSize = Math.min(imageWidth, imageHeight);
 
-                // Crop to a square and set as user icon
                 userIcon.setImage(image);
                 userIcon.setViewport(new Rectangle2D(
-                        (imageWidth - minSize) / 2, // Center X
-                        (imageHeight - minSize) / 2, // Center Y
-                        minSize, minSize // Crop size (square)
+                        (imageWidth - minSize) / 2,
+                        (imageHeight - minSize) / 2,
+                        minSize, minSize
                 ));
                 userIcon.setFitWidth(30);
                 userIcon.setFitHeight(30);
 
-                // Apply circular clip to make it a circular icon
-                Circle clip = new Circle(15); // Radius of 15 for a 30x30 circle
+                Circle clip = new Circle(15);
                 clip.setCenterX(15);
                 clip.setCenterY(15);
                 userIcon.setClip(clip);
@@ -116,13 +113,10 @@ public class ChatbotController {
             e.printStackTrace();
         }
 
-        // Configure ScrollPane for manual scrolling
         chatScrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         chatScrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
 
-        // Listen for scroll events to detect manual scrolling
         chatScrollPane.vvalueProperty().addListener((obs, oldValue, newValue) -> {
-            // If the user scrolls up (value < 1.0), mark they’ve scrolled manually
             isUserScrolled = newValue.doubleValue() < 1.0;
         });
     }
@@ -131,20 +125,16 @@ public class ChatbotController {
         String userInput = userInputField.getText().trim();
         if (userInput.isEmpty()) return;
 
-        // Add user message (right-aligned bubble with user icon)
-        addMessage("You", userInput, true);  // true for right alignment
+        addMessage("You", userInput, true);
         conversationHistory.add(new Message("user", userInput));
 
-        // Check for API key
         if (apiKey == null || apiKey.isEmpty()) {
-            addMessage("Bot", "API key is missing. Please set GEMINI_API_KEY.", false);  // false for left alignment
+            addMessage("Bot", "API key is missing. Please set GEMINI_API_KEY.", false);
             return;
         }
 
-        // Prepare the API request with full history
         String requestBody = buildRequestBody();
 
-        // Call the API asynchronously
         Task<String> task = new Task<>() {
             @Override
             protected String call() throws Exception {
@@ -174,43 +164,37 @@ public class ChatbotController {
     }
 
     private void addMessage(String sender, String content, boolean isUser) {
-        // Create a TextFlow for the message content
+
         Text messageText = new Text(content + "\n");
         messageText.setFont(new javafx.scene.text.Font("Segoe UI", 16));
         TextFlow textFlow = new TextFlow(messageText);
 
-        // Apply CSS class for bubble styling
+
         textFlow.getStyleClass().add(isUser ? "user-bubble" : "bot-bubble");
 
-        // Create an HBox for positioning
         HBox messageBox = new HBox(15);  // Increased spacing for better spacing
         if (isUser) {
             messageBox.setAlignment(javafx.geometry.Pos.CENTER_RIGHT);
-            // Add user icon before the bubble (right-aligned)
             messageBox.getChildren().addAll(textFlow, userIcon);
         } else {
             messageBox.setAlignment(javafx.geometry.Pos.CENTER_LEFT);
-            // Add bot icon before the bubble (left-aligned)
             messageBox.getChildren().addAll(botIcon, textFlow);
         }
 
-        // Add to chat container
         chatContainer.getChildren().add(messageBox);
 
-        // Scroll behavior: Only auto-scroll to bottom if user hasn’t manually scrolled
         if (!isUserScrolled) {
-            chatScrollPane.setVvalue(1.0);  // Scroll to the bottom
+            chatScrollPane.setVvalue(1.0);
         }
     }
 
     private String buildRequestBody() {
-        // Build JSON in Gemini API format (contents array)
         StringBuilder contentsJson = new StringBuilder();
         for (Message msg : conversationHistory) {
             contentsJson.append("{\"role\": \"").append(msg.role).append("\", \"parts\": [{\"text\": \"").append(msg.content).append("\"}]},");
         }
         if (contentsJson.length() > 0) {
-            contentsJson.deleteCharAt(contentsJson.length() - 1); // Remove trailing comma
+            contentsJson.deleteCharAt(contentsJson.length() - 1);
         }
         return "{\"contents\": [" + contentsJson.toString() + "]}";
     }

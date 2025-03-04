@@ -115,13 +115,13 @@ public class ViewProjectController {
         if (SystemTray.isSupported()) {
             try {
                 SystemTray tray = SystemTray.getSystemTray();
-                Image image = Toolkit.getDefaultToolkit().createImage("icon.png"); // Replace with your icon path
+                Image image = Toolkit.getDefaultToolkit().createImage("icons/Logo.png");
                 TrayIcon trayIcon = new TrayIcon(image, "Project Manager Notification");
                 trayIcon.setImageAutoSize(true);
                 trayIcon.setToolTip("Click for more info");
                 tray.add(trayIcon);
                 trayIcon.displayMessage(title, message, TrayIcon.MessageType.WARNING);
-                // Optional: Remove the tray icon after a delay (e.g., 5 seconds) to allow JVM to exit
+
                 new Thread(() -> {
                     try {
                         Thread.sleep(5000); // Wait 5 seconds
@@ -132,12 +132,12 @@ public class ViewProjectController {
                 }).start();
             } catch (AWTException e) {
                 System.err.println("Error displaying Windows notification: " + e.getMessage());
-                // Fallback to JavaFX alert if Windows notification fails
+
                 showNotification(title, message);
             }
         } else {
             System.err.println("System tray not supported on this platform!");
-            // Fallback to JavaFX alert if system tray isn’t supported
+
             showNotification(title, message);
         }
     }

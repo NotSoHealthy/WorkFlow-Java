@@ -190,7 +190,7 @@ public class AddProjectController {
     // New method to return to ViewProject.fxml
     private void returnToViewProject(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("ViewProject.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("layout.fxml"));
             Parent root = loader.load();
             Scene scene = new Scene(root);
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

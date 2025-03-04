@@ -112,6 +112,34 @@ public class ServiceTask implements IService<Task> {
             return tasks;
         }
     }
+    public List<Task> getTaskByEmployee(Employee employee) throws SQLException {
+        String query = "SELECT * FROM task WHERE assigned_to = ?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, employee.getId());
+        ResultSet rs = ps.executeQuery();
+        List<Task> tasks = new ArrayList<>();
+        ServiceEmployee serviceEmployee = new ServiceEmployee();
+        ServiceProject serviceProject = new ServiceProject();
+        while (rs.next()) {
+            Employee employee1 = serviceEmployee.readById(rs.getInt("assigned_to"));
+            Project project = serviceProject.readById(rs.getInt("project_id"));
+            tasks.add(new Task(
+                    rs.getInt("task_id"),
+                    rs.getString("title"),
+                    rs.getString("description"),
+                    rs.getString("status"),
+                    rs.getString("priority"),
+                    rs.getDate("start_date"),
+                    rs.getDate("due_date"),
+                    rs.getDate("completion_date"),
+                    employee,
+                    project,
+                    rs.getTimestamp("created_at"),
+                    rs.getTimestamp("updated_at")
+            ));
+        }
+        return tasks;
+    }
 
     @Override
     public Task readById(int id) throws SQLException {
