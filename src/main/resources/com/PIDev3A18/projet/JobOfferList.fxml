@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<StackPane prefHeight="720.0" prefWidth="1080.0" styleClass="page" stylesheets="@css/signup.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.JobOfferListController">
+<StackPane prefHeight="720.0" prefWidth="1080.0" styleClass="page" stylesheets="@css/signup.css"
+           xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.PIDev3A18.projet.JobOfferListController">
    <children>
       <HBox alignment="CENTER">
          <children>
-            <ImageView fx:id="returnBtn" fitHeight="39.0" fitWidth="43.0" onMouseClicked="#returnBtn" pickOnBounds="true" preserveRatio="true">
+            <!-- Return Button -->
+            <ImageView fx:id="returnBtn" fitHeight="39.0" fitWidth="43.0" onMouseClicked="#returnBtn"
+                       pickOnBounds="true" preserveRatio="true">
                <HBox.margin>
                   <Insets bottom="650.0" right="100.0" />
                </HBox.margin>
@@ -21,6 +27,7 @@
                   <Image url="@icons/arrow-left-solid.png" />
                </image>
             </ImageView>
+            <!-- Main Panel -->
             <VBox alignment="CENTER" prefWidth="800" spacing="20.0" styleClass="main-panel">
                <padding>
                   <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
@@ -28,7 +35,13 @@
                <children>
                   <!-- Page Title -->
                   <Label styleClass="title-text" text="Offres d'emploi" />
-
+                  <!-- Search and Sort Controls -->
+                  <HBox spacing="10">
+                     <children>
+                        <TextField fx:id="searchTextField" promptText="Search by Title" />
+                        <ComboBox fx:id="dateSortComboBox" promptText="Sort by Date" />
+                     </children>
+                  </HBox>
                   <!-- Job Offers List -->
                   <ListView fx:id="listView" prefHeight="600" prefWidth="800" styleClass="list-view" />
                </children>

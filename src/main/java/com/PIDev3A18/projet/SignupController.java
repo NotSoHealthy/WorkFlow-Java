@@ -7,6 +7,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -15,12 +16,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import org.controlsfx.validation.Severity;
 import org.controlsfx.validation.ValidationSupport;
 import org.controlsfx.validation.Validator;
 import services.ServiceEmployee;
+import utils.GMailer;
+import utils.PasswordChecker;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,6 +48,10 @@ public class SignupController {
     @FXML private Text notifText;
     @FXML private TextField adresseField;
     @FXML private ComboBox<String> comboBox;
+    @FXML private Region passwordLevel;
+    @FXML private Text passwordLevelText;
+    @FXML private Text compromised;
+    @FXML private HBox passwordLevelHBox;
 
     ValidationSupport validationSupport;
     Image eye1Image;
@@ -56,7 +65,7 @@ public class SignupController {
         eye2Image = new Image(stream,20,20,true,true);
     }
 
-    public void signup(ActionEvent event) throws SQLException, IOException {
+    public void signup(ActionEvent event) throws Exception {
         if (validationSupport.isInvalid()){
             return;
         }
@@ -78,8 +87,9 @@ public class SignupController {
             return;
         }
 
-        Employee employee = new Employee(nom, prenom, email, number, password, adresse, gouvernorat,"Employé");
+        Employee employee = new Employee(prenom, nom, email, number, password, adresse, gouvernorat,"Employé");
         serviceEmployee.add(employee);
+        new GMailer().sendSignUpMail(employee);
 
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
         Parent root = fxmlLoader.load();
@@ -110,6 +120,11 @@ public class SignupController {
 
         passwordButton.setGraphic(new ImageView(eye1Image));
         confirmationButton.setGraphic(new ImageView(eye1Image));
+
+        passwordLevelHBox.setVisible(false);
+        passwordLevelHBox.setManaged(false);
+        compromised.setVisible(false);
+        compromised.setManaged(false);
     }
 
     public void showNotification(String text, int duration, boolean success) {
@@ -200,5 +215,36 @@ public class SignupController {
             validationSupport.registerValidator(confirmationField, Validator.createEqualsValidator("Confirmation invalide", Collections.singletonList(passwordField.getText())));
             confirmationButton.setGraphic(new ImageView(eye1Image));
         }
+    }
+
+    public void checkPassword() throws IOException {
+        if(passwordField.getText().isBlank()) return;
+        passwordLevelHBox.setVisible(true);
+        passwordLevelHBox.setManaged(true);
+        compromised.setVisible(true);
+        compromised.setManaged(true);
+        compromised.setText(PasswordChecker.isPasswordCompromised(passwordField.getText()) ? "Ce mot de passe est compromis" : "Ce mot de passe est sécurisé");
+        int level = PasswordChecker.checkPasswordLevel(passwordField.getText());
+        String color;
+        if (level>8){
+            color = "#36C565";
+            passwordLevelText.setText("Excellent");
+        }
+        else if (level>5) {
+            color = "#1493FF";
+            passwordLevelText.setText("Bon");
+        }
+        else if (level>3){
+            color = "#F99F4A";
+            passwordLevelText.setText("Moyen");
+        }
+        else{
+            color = "#E44242";
+            passwordLevelText.setText("Faible");
+        }
+//        String style ="-fx-background-color: linear-gradient(to top, "+color+" "+level+"0%, transparent "+(10-level)+"0%)";
+        String style ="-fx-background-color:"+color;
+        StackPane.setMargin(passwordLevel, new Insets(0,((double) (10 - level) / 10) * 270,0,0));
+        passwordLevel.setStyle(style);
     }
 }

@@ -34,6 +34,11 @@ public class JobOffer {
         this.employeeId = employeeId;
     }
 
+    public JobOffer(int jobId, String title) {
+        this.jobId = jobId;
+        this.title = title;
+    }
+
     // Getters and Setters
     public int getJobId() {
         return jobId;
@@ -112,4 +117,21 @@ public class JobOffer {
                 ", employeeId=" + employeeId +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        JobOffer other = (JobOffer) obj;
+        return this.jobId == other.jobId;
+    }
+
+    // Override hashCode() so that equal objects have the same hash.
+    @Override
+    public int hashCode() {
+        return Integer.hashCode(jobId);
+    }
+
 }

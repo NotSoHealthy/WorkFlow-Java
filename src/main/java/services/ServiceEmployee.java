@@ -128,8 +128,50 @@ public class ServiceEmployee implements IService<Employee> {
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
             return new Employee(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"),
-                    email, rs.getString("phone"),password,serviceDepartment.readById(rs.getInt("department_id")), rs.getString("adresse"), rs.getString("gouvernorat"), rs.getString("image_url"), rs.getString("role"), rs.getString("status"));
+                    email, rs.getString("phone"),password,serviceDepartment.readById(rs.getInt("department_id")), rs.getString("adresse"), rs.getString("gouvernorat"), rs.getString("image_url"), rs.getString("role"), rs.getString("status"), rs.getString("two_factor_secret"));
         }
         return null;
+    }
+
+    public Employee readByEmail(String email) throws SQLException {
+        ServiceDepartment serviceDepartment = new ServiceDepartment();
+        String query = "select * from employees where email = ?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, email);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()){
+            return new Employee(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"),
+                    rs.getString("email"), rs.getString("phone"),rs.getString("password"),serviceDepartment.readById(rs.getInt("department_id")), rs.getString("adresse"), rs.getString("gouvernorat"), rs.getString("image_url"),rs.getString("role"), rs.getString("status"));
+
+        }
+        return null;
+    }
+    public Employee readByNumber(String number) throws SQLException {
+        ServiceDepartment serviceDepartment = new ServiceDepartment();
+        String query = "select * from employees where phone = ?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, number);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()){
+            return new Employee(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"),
+                    rs.getString("email"), rs.getString("phone"),rs.getString("password"),serviceDepartment.readById(rs.getInt("department_id")), rs.getString("adresse"), rs.getString("gouvernorat"), rs.getString("image_url"),rs.getString("role"), rs.getString("status"));
+
+        }
+        return null;
+    }
+
+    public void set2FASecret(Employee employee) throws SQLException {
+        String query = "update employees set two_factor_secret = ? where id = ?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setString(1, employee.getTwo_factor_secret());
+        ps.setInt(2, employee.getId());
+        ps.executeUpdate();
+    }
+
+    public void remove2FASecret(Employee employee) throws SQLException {
+        String query = "update employees set two_factor_secret = null where id = ?";
+        PreparedStatement ps = con.prepareStatement(query);
+        ps.setInt(1, employee.getId());
+        ps.executeUpdate();
     }
 }
