@@ -3,39 +3,89 @@
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="border" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1080.0" stylesheets="@css/reclamation.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.ReclamationListController">
-   <center>
+   <top>
       <AnchorPane fx:id="anchor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1080.0" BorderPane.alignment="CENTER">
          <children>
-            <Label fx:id="title" alignment="CENTER" layoutY="71.0" prefHeight="62.0" prefWidth="420.0" stylesheets="@css/reclamation.css" text="Liste De Reclamations" AnchorPane.leftAnchor="0.0">
+            <Label fx:id="title" alignment="CENTER" layoutX="20.0" layoutY="11.0" prefHeight="62.0" prefWidth="443.0" stylesheets="@css/reclamation.css" text="Liste De Reclamations :" AnchorPane.leftAnchor="20.0">
                <font>
                   <Font size="42.0" />
                </font>
             </Label>
-            <Separator layoutX="18.0" layoutY="132.0" prefHeight="14.0" prefWidth="1051.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
-            <ListView fx:id="listView" layoutX="75.0" layoutY="139.0" prefHeight="524.0" prefWidth="780.0" styleClass="listview" stylesheets="@css/reclamation.css" AnchorPane.bottomAnchor="120.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="225.0" AnchorPane.topAnchor="139.0" />
-            <Button fx:id="addrec" layoutX="453.0" layoutY="625.0" mnemonicParsing="false" onAction="#SendToForm">
-               <graphic>
-                  <ImageView fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" />
-               </graphic>
-               <styleClass>
-                  <String fx:value="addbutton" />
-                  <String fx:value="btn" />
-               </styleClass></Button>
-            <Separator layoutX="20.0" layoutY="553.0" prefHeight="16.0" prefWidth="1055.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+            <Separator layoutX="20.0" layoutY="130.0" prefHeight="14.0" prefWidth="1051.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+            <ListView fx:id="listView" layoutX="75.0" layoutY="139.0" prefHeight="437.0" prefWidth="780.0" styleClass="listview" stylesheets="@css/reclamation.css" AnchorPane.bottomAnchor="144.0" AnchorPane.leftAnchor="75.0" AnchorPane.rightAnchor="225.0" AnchorPane.topAnchor="139.0" />
+            <Separator layoutX="26.0" layoutY="526.0" prefHeight="16.0" prefWidth="1055.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="14.0">
                <padding>
                   <Insets top="50.0" />
                </padding>
             </Separator>
+            <Button fx:id="addrec" layoutX="452.0" layoutY="579.0" mnemonicParsing="false" onAction="#SendToForm" prefHeight="83.0" prefWidth="244.0" text="Ajouter Reclamation" textFill="WHITE" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="50.0">
+               <styleClass>
+                  <String fx:value="addbutton" />
+                  <String fx:value="btn" />
+               </styleClass>
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font></Button>
+            <HBox layoutX="20.0" layoutY="83.0" prefHeight="53.0" prefWidth="713.0">
+               <children>
+                  <TextField fx:id="searchfilter">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </TextField>
+                  <ComboBox fx:id="statefilter" prefWidth="150.0" styleClass="btn">
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </ComboBox>
+                  <DatePicker fx:id="datefilter" prefHeight="40.0" prefWidth="176.0">
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
+                  </DatePicker>
+                  <Button fx:id="submitsearch" mnemonicParsing="false" onAction="#SubmitFilters" styleClass="btn" text="Rechercher" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets right="10.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="ASC" mnemonicParsing="false" onAction="#SortASC" styleClass="btn">
+                     <HBox.margin>
+                        <Insets right="15.0" top="5.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button fx:id="DESC" mnemonicParsing="false" onAction="#SortDESC" styleClass="btn">
+                     <HBox.margin>
+                        <Insets top="5.0" />
+                     </HBox.margin>
+                  </Button>
+               </children>
+            </HBox>
+            <Button fx:id="pieButton" layoutX="320.0" layoutY="649.0" mnemonicParsing="false" onAction="#SendToStats" prefHeight="25.0" prefWidth="45.0" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="22.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="addbutton" />
+                  <String fx:value="btn" />
+               </styleClass>
+            </Button>
+            <Separator layoutX="12.0" layoutY="60.0" prefHeight="14.0" prefWidth="1051.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
          </children>
       </AnchorPane>
-   </center>
+   </top>
 </BorderPane>
