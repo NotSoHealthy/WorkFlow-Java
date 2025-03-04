@@ -21,8 +21,8 @@ public class GmailService {
 
     private static final String APPLICATION_NAME = "WorkFlow";
     private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
-    private static final String TOKENS_DIRECTORY_PATH = "tokens";
-    private static final String CREDENTIALS_FILE_PATH = "/com/PIDev3A18/projet/credentials.json"; // Updated path
+    private static final String TOKENS_DIRECTORY_PATH = "tokens_ker";
+    private static final String CREDENTIALS_FILE_PATH = "/credentials_ker.json"; // Updated path
 
     public static Gmail getGmailService() throws Exception {
         // Build the HTTP transport
