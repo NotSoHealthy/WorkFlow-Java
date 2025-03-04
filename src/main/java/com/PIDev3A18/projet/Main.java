@@ -36,10 +36,14 @@ public class Main extends Application {
         if (loggedInUser == null) {
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
             root = fxmlLoader.load();
-
         }
         else{
             loggedInUser = serviceEmployee.readByEmailAndPassword(loggedInUser.getEmail(), loggedInUser.getPassword());
+            if (loggedInUser == null) {
+                FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
+                root = fxmlLoader.load();
+                return;
+            }
             userSession.login(loggedInUser);
             FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("layout.fxml"));
             root = fxmlLoader.load();

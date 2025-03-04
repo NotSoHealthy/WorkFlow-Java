@@ -5,15 +5,13 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane prefHeight="720.0" prefWidth="1080.0" styleClass="main-page" stylesheets="@css/main.css"
-            xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.PIDev3A18.projet.ApplicationListController">
+<BorderPane prefHeight="720.0" prefWidth="1080.0" styleClass="main-page" stylesheets="@css/main.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.ApplicationListController">
 
    <!-- Top Section: Title Bar with Filter, Search and Sort -->
    <top>
@@ -46,7 +44,7 @@
 
    <!-- Center Section: SplitPane with ListView and PieChart -->
    <center>
-      <SplitPane dividerPositions="0.6">
+      <SplitPane dividerPositions="0.5" maxWidth="1080.0" prefWidth="1080.0">
          <items>
             <!-- Applications ListView -->
             <ListView fx:id="listView" styleClass="applications-list">
