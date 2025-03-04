@@ -27,7 +27,7 @@ import com.google.api.services.drive.model.File;
 public class ServiceGoogleDrive {
     public static final String APPLICATION_NAME = "Workflow";
     public static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-    public static final String TOKENS_DIRECTORY_PATH = "tokens";
+    public static final String TOKENS_DIRECTORY_PATH = "tokens_mehdi_drive";
     public static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
     public static final String CREDENTIALS_FILE_PATH = "C:/Users/Mega-Pc/Documents/GitHub/WorkFlow-Java/credentials/googledrive.json";
 

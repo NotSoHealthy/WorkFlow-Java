@@ -79,8 +79,10 @@ public class ServiceReclamation implements IService<Reclamation> {
             ResultSet rs = ps.executeQuery();
             List<Reclamation> reclamations = new ArrayList<>();
             while (rs.next()) {
-
-                reclamations.add(new Reclamation(rs.getInt("id"),rs.getString("titre"),rs.getString("description"),rs.getString("category"),rs.getString("type"),rs.getString("attachedfile"),rs.getDate("date"),rs.getTime("heure"),rs.getString("etat"),rs.getDate("date_resolution"),se.readById(rs.getInt("id_responsable")),se.readById(rs.getInt("id_employee"))));
+                Reclamation r = new Reclamation(rs.getInt("id"),rs.getString("titre"),rs.getString("description"),rs.getString("category"),rs.getString("type"),rs.getString("attachedfile"),rs.getDate("date"),rs.getTime("heure"),rs.getString("etat"),rs.getDate("date_resolution"),null,null);
+                if(rs.getInt("id_responsable")!= 0) r.setResponsable(se.readById(rs.getInt("id_responsable")));
+                if(rs.getInt("id_employee")!= 0) r.setEmployee(se.readById(rs.getInt("id_employee")));
+                reclamations.add(r);
             }
             ps.close();
             return reclamations;
@@ -94,8 +96,10 @@ public class ServiceReclamation implements IService<Reclamation> {
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                return new Reclamation(rs.getInt("id"),rs.getString("titre"),rs.getString("description"),rs.getString("category"),rs.getString("type"),rs.getString("attachedfile"),rs.getDate("date"),rs.getTime("heure"),rs.getString("etat"),rs.getDate("date_resolution"),se.readById(rs.getInt("id_responsable")),se.readById(rs.getInt("id_employee")));
-            }
+                Reclamation r = new Reclamation(rs.getInt("id"),rs.getString("titre"),rs.getString("description"),rs.getString("category"),rs.getString("type"),rs.getString("attachedfile"),rs.getDate("date"),rs.getTime("heure"),rs.getString("etat"),rs.getDate("date_resolution"),null,null);
+                if(rs.getInt("id_responsable")!= 0) r.setResponsable(se.readById(rs.getInt("id_responsable")));
+                if(rs.getInt("id_employee")!= 0) r.setEmployee(se.readById(rs.getInt("id_employee")));
+                return r; }
             ps.close();
             return null;
         }
@@ -107,8 +111,10 @@ public class ServiceReclamation implements IService<Reclamation> {
             ResultSet rs = ps.executeQuery();
             List<Reclamation> reclamations = new ArrayList<>();
             while (rs.next()) {
-                reclamations.add(new Reclamation(rs.getInt("id"),rs.getString("titre"),rs.getString("description"),rs.getString("category"),rs.getString("type"),rs.getString("attachedfile"),rs.getDate("date"),rs.getTime("heure"),rs.getString("etat"),rs.getDate("date_resolution"),se.readById(rs.getInt("id_responsable")),se.readById(rs.getInt("id_employee"))));
-            }
+                Reclamation r = new Reclamation(rs.getInt("id"),rs.getString("titre"),rs.getString("description"),rs.getString("category"),rs.getString("type"),rs.getString("attachedfile"),rs.getDate("date"),rs.getTime("heure"),rs.getString("etat"),rs.getDate("date_resolution"),null,null);
+                if(rs.getInt("id_responsable")!= 0) r.setResponsable(se.readById(rs.getInt("id_responsable")));
+                if(rs.getInt("id_employee")!= 0) r.setEmployee(se.readById(rs.getInt("id_employee")));
+                reclamations.add(r);   }
             ps.close();
             return reclamations;
         }
@@ -119,8 +125,10 @@ public class ServiceReclamation implements IService<Reclamation> {
             ResultSet rs = ps.executeQuery();
             List<Reclamation> reclamations = new ArrayList<>();
             while (rs.next()) {
-                reclamations.add(new Reclamation(rs.getInt("id"),rs.getString("titre"),rs.getString("description"),rs.getString("category"),rs.getString("type"),rs.getString("attachedfile"),rs.getDate("date"),rs.getTime("heure"),rs.getString("etat"),rs.getDate("date_resolution"),se.readById(rs.getInt("id_responsable")),se.readById(rs.getInt("id_employee"))));
-            }
+                Reclamation r = new Reclamation(rs.getInt("id"),rs.getString("titre"),rs.getString("description"),rs.getString("category"),rs.getString("type"),rs.getString("attachedfile"),rs.getDate("date"),rs.getTime("heure"),rs.getString("etat"),rs.getDate("date_resolution"),null,null);
+                if(rs.getInt("id_responsable")!= 0) r.setResponsable(se.readById(rs.getInt("id_responsable")));
+                if(rs.getInt("id_employee")!= 0) r.setEmployee(se.readById(rs.getInt("id_employee")));
+                reclamations.add(r);    }
             ps.close();
             return reclamations;
         }
@@ -132,8 +140,10 @@ public class ServiceReclamation implements IService<Reclamation> {
         ResultSet rs = ps.executeQuery();
         List<Reclamation> reclamations = new ArrayList<>();
         while (rs.next()) {
-            reclamations.add(new Reclamation(rs.getInt("id"),rs.getString("titre"),rs.getString("description"),rs.getString("category"),rs.getString("type"),rs.getString("attachedfile"),rs.getDate("date"),rs.getTime("heure"),rs.getString("etat"),rs.getDate("date_resolution"),se.readById(rs.getInt("id_responsable")),se.readById(rs.getInt("id_employee"))));
-        }
+            Reclamation r = new Reclamation(rs.getInt("id"),rs.getString("titre"),rs.getString("description"),rs.getString("category"),rs.getString("type"),rs.getString("attachedfile"),rs.getDate("date"),rs.getTime("heure"),rs.getString("etat"),rs.getDate("date_resolution"),null,null);
+            if(rs.getInt("id_responsable")!= 0) r.setResponsable(se.readById(rs.getInt("id_responsable")));
+            if(rs.getInt("id_employee")!= 0) r.setEmployee(se.readById(rs.getInt("id_employee")));
+            reclamations.add(r);  }
         ps.close();
         return reclamations;
     }
@@ -146,8 +156,10 @@ public class ServiceReclamation implements IService<Reclamation> {
            ResultSet rs = ps.executeQuery();
            List<Reclamation> reclamations = new ArrayList<>();
            while (rs.next()) {
-                reclamations.add(new Reclamation(rs.getInt("id"),rs.getString("titre"),rs.getString("description"),rs.getString("category"),rs.getString("type"),rs.getString("attachedfile"),rs.getDate("date"),rs.getTime("heure"),rs.getString("etat"),rs.getDate("date_resolution"),se.readById(rs.getInt("id_responsable")),se.readById(rs.getInt("id_employee"))));
-           }
+               Reclamation r = new Reclamation(rs.getInt("id"),rs.getString("titre"),rs.getString("description"),rs.getString("category"),rs.getString("type"),rs.getString("attachedfile"),rs.getDate("date"),rs.getTime("heure"),rs.getString("etat"),rs.getDate("date_resolution"),null,null);
+               if(rs.getInt("id_responsable")!= 0) r.setResponsable(se.readById(rs.getInt("id_responsable")));
+               if(rs.getInt("id_employee")!= 0) r.setEmployee(se.readById(rs.getInt("id_employee")));
+               reclamations.add(r);   }
            ps.close();
            return reclamations;
         }

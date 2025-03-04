@@ -22,10 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
-import services.ServiceGmail;
-import services.ServiceGoogleDrive;
-import services.ServiceMessage;
-import services.ServiceReclamation;
+import services.*;
 import utils.UserSession;
 
 import java.awt.*;
@@ -93,6 +90,7 @@ public class ReclamationFocusController {
 
     private ServiceReclamation sr = new ServiceReclamation();
     private ServiceMessage sm = new ServiceMessage();
+    NotificationService ns = new NotificationService();
 
     public void SetReclamation(Reclamation r) {
         this.selectedR = r;
@@ -316,7 +314,7 @@ public class ReclamationFocusController {
                             }
                         });
 
-                        HBox.setMargin(delete, new javafx.geometry.Insets(10, 10, 0, 500));
+                        HBox.setMargin(delete, new javafx.geometry.Insets(10, 10, 0, 650));
                         HBox.setMargin(edit,new javafx.geometry.Insets(10, 10, 0, 180));
 
                         if(!loggedinEmployee.getRole().equals("Résponsable"))delete.setVisible(false);
@@ -356,6 +354,10 @@ public class ReclamationFocusController {
         {
             Message m = new Message(message.getText(),sqlDate,sqlTime,selectedR,loggedinEmployee);
             message.setText("");
+            submiterror.setText("");
+            if("Résponsable".equals(loggedinEmployee.getRole()))
+            ns.sendnotification(loggedinEmployee.getFirstName()+" "+loggedinEmployee.getLastName() +" "+ "vous a envoyé un nouveau message :\n" +
+                    m.getContenu());
             try {
 
                 sm.add(m);

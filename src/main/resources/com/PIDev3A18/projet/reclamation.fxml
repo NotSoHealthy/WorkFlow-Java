@@ -38,24 +38,48 @@
                <font>
                   <Font name="System Bold" size="22.0" />
                </font></Button>
-            <HBox layoutX="20.0" layoutY="83.0" prefHeight="53.0" prefWidth="713.0">
+            <HBox layoutX="20.0" layoutY="83.0" prefHeight="53.0" prefWidth="816.0">
                <children>
-                  <TextField fx:id="searchfilter">
+                  <Label prefHeight="19.0" prefWidth="97.0" text="Recherche :">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="5.0" top="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <TextField fx:id="searchfilter" prefWidth="133.0">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
                   </TextField>
+                  <Label prefHeight="19.0" prefWidth="64.0" text="Etat :">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="5.0" top="10.0" />
+                     </HBox.margin>
+                  </Label>
                   <ComboBox fx:id="statefilter" prefWidth="150.0" styleClass="btn">
                      <HBox.margin>
                         <Insets />
                      </HBox.margin>
                   </ComboBox>
-                  <DatePicker fx:id="datefilter" prefHeight="40.0" prefWidth="176.0">
+                  <Label prefHeight="17.0" prefWidth="77.0" text="Date :">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                     <HBox.margin>
+                        <Insets left="5.0" top="10.0" />
+                     </HBox.margin>
+                  </Label>
+                  <DatePicker fx:id="datefilter" prefHeight="40.0" prefWidth="143.0">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
                   </DatePicker>
-                  <Button fx:id="submitsearch" mnemonicParsing="false" onAction="#SubmitFilters" styleClass="btn" text="Rechercher" textFill="WHITE">
+                  <Button fx:id="submitsearch" mnemonicParsing="false" onAction="#SubmitFilters" prefHeight="31.0" prefWidth="115.0" styleClass="btn" text="Rechercher" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>

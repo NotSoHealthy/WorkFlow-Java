@@ -123,7 +123,7 @@ public class ReclamationListController {
 
 
         if(statefilter.getItems().isEmpty()) {
-            statefilter.getItems().addAll("Pending", "In Progress", "On Hold", "Closed", "Rejected");
+            statefilter.getItems().addAll("Sélectionnez l'état","Pending", "In Progress", "On Hold", "Closed", "Rejected");
         }
         statefilter.setValue("Sélectionnez l'état");
 
@@ -351,8 +351,10 @@ public class ReclamationListController {
     }
    @FXML
     public void SortASC()
-    {
+    { statefilter.setValue("Sélectionnez l'état");
+        searchfilter.setText("");
 
+        datefilter.setValue(null);
         try {
         listView.getItems().setAll( RS.sortTitre(1));
         } catch (SQLException e) {
@@ -361,8 +363,10 @@ public class ReclamationListController {
     }
     @FXML
     public void SortDESC()
-    {
+    {  statefilter.setValue("Sélectionnez l'état");
+        searchfilter.setText("");
 
+        datefilter.setValue(null);
         try {
             listView.getItems().setAll( RS.sortTitre(0));
         } catch (SQLException e) {
@@ -372,6 +376,7 @@ public class ReclamationListController {
     @FXML
     public void SubmitFilters()
     {
+
         try {
         List<Reclamation> union = RS.readAll();
         List<Reclamation> search = new ArrayList<>();
@@ -380,15 +385,17 @@ public class ReclamationListController {
 
         if(!searchfilter.getText().isEmpty())
         {
-         
+
             search = RS.search(searchfilter.getText());
 
+            union = EqualId(union,search);
 
 
         }
         if(!statefilter.getValue().equals("Sélectionnez l'état"))
         {
             state = RS.searchByState(statefilter.getValue());
+            union = EqualId(union,state);
 
         }
 
@@ -396,15 +403,11 @@ public class ReclamationListController {
         {
             date = RS.searchByDate( Date.valueOf(datefilter.getValue()));
 
+            union = EqualId(union,date);
+
+
         }
 
-            if(!search.isEmpty())
-             union = EqualId(union,search);
-
-            if(!state.isEmpty())
-                union = EqualId(union,state);
-            if(!date.isEmpty())
-                union = EqualId(union,state);
 
 
         listView.getItems().setAll(union);

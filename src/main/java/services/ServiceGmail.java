@@ -27,9 +27,9 @@ import java.util.List;
 import java.util.Properties;
 
 public class ServiceGmail {
-    private static final String APPLICATION_NAME = "Gmail API Java Quickstart";
+    private static final String APPLICATION_NAME = "Workflow";
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-    private static final String TOKENS_DIRECTORY_PATH = "tokens";
+    private static final String TOKENS_DIRECTORY_PATH = "tokens_mehdi";
     private static final List<String> SCOPES = List.of(GmailScopes.GMAIL_SEND, GmailScopes.GMAIL_COMPOSE);
     private static final String CREDENTIALS_FILE_PATH = "C:/Users/Mega-Pc/Documents/GitHub/WorkFlow-Java/credentials/gmail.json";
 
@@ -51,7 +51,7 @@ public class ServiceGmail {
                 .setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
                 .setAccessType("offline")
                 .build();
-
+        flow.getCredentialDataStore().delete("user");
 
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
