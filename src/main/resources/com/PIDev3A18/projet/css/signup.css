@@ -15,6 +15,11 @@
     -fx-text-fill: -fx-text-primary;
 }
 
+Text, Label{
+    -fx-text-fill: -fx-text-primary;
+    -fx-fill: -fx-text-primary;
+}
+
 .main-panel{
     -fx-background-color: -fx-background-main;
     -fx-background-radius: 5px;
@@ -71,4 +76,13 @@ TextField, PasswordField, TextArea{
     -fx-border-radius: 8px;
     -fx-background-radius: 8px;
     -fx-padding: 10px;
+}
+
+.password-level-bg{
+    -fx-background-radius: 10px;
+    -fx-background-color: #CFD6DB;
+}
+
+.password-level{
+    -fx-background-radius: 10px;
 }
