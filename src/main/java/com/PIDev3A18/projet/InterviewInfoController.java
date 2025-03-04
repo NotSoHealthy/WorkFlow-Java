@@ -132,7 +132,7 @@ public class InterviewInfoController {
             String bodyText = "Dear Applicant,\n\n" +
                     interviewDetails + "\n\n" +
                     "You can also scan the attached QR code to access this information.\n\n" +
-                    "Best regards,\nYour Company";
+                    "Best regards,\nWorkFlow";
 
             // Generate QR code with **all** interview details
             byte[] qrCodeBytes = generateQRCodeImage(interviewDetails);

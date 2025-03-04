@@ -1,0 +1,62 @@
+/* interview.css */
+
+/* Overall Page Styling */
+.page {
+    -fx-background-color: linear-gradient(to bottom, #f0f4ff, #ffffff);
+}
+
+/* Title Styling */
+.title-text {
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+    -fx-fill: #333333;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.15), 2, 0, 0, 1);
+}
+
+/* Label Styling */
+.label {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+    -fx-text-fill: #555555;
+}
+
+/* Input Field Styling for TextField, DatePicker, TextArea, ComboBox */
+.text-field, .date-picker, .text-area, .combo-box {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cccccc;
+    -fx-border-radius: 4;
+    -fx-background-radius: 4;
+    -fx-padding: 4;
+}
+
+/* Button Styling */
+.btn-connect {
+    -fx-background-color: linear-gradient(#3742FA, #5b65ff);
+    -fx-text-fill: white;
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-background-radius: 4;
+    -fx-padding: 8 16;
+    -fx-cursor: hand;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.25), 5, 0, 0, 2);
+}
+
+.btn-connect:hover {
+    -fx-background-color: linear-gradient(#5b65ff, #3742FA);
+}
+
+.btn-connect:pressed {
+    -fx-background-color: #2f3cd0;
+}
+
+/* Additional Layout Enhancements */
+.hbox {
+    -fx-spacing: 10;
+}
+
+.vbox {
+    -fx-spacing: 15;
+}
