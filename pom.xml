@@ -74,9 +74,9 @@
       <version>v3-rev20240927-2.0.0</version>
     </dependency>
     <dependency>
-      <groupId>mysql</groupId>
-      <artifactId>mysql-connector-java</artifactId>
-      <version>8.0.33</version>
+      <groupId>com.mysql</groupId>
+      <artifactId>mysql-connector-j</artifactId>
+      <version>9.0.0</version>
     </dependency>
     <dependency>
       <groupId>org.twitter4j</groupId>
