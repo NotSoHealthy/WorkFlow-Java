@@ -36,7 +36,7 @@ public class ChatbotController {
     @FXML private ImageView userIcon;  // User icon
 
     private final HttpClient httpClient = HttpClient.newHttpClient();
-    private final String apiKey = System.getenv("GEMINI_API_KEY"); // Fetch from environment variable
+    private final String apiKey = "AIzaSyBWjh26eCEQGl1M8DxaFY5xtIa1ZtgtlKA"; // Fetch from environment variable
     private final String apiUrl = "https://generativelanguage.googleapis.com/v1/models/gemini-1.5-pro-002:generateContent?key=" + apiKey;    private List<Message> conversationHistory = new ArrayList<>();
     private boolean isUserScrolled = false;  // Track if the user has manually scrolled
 

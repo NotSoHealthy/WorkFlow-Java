@@ -29,11 +29,6 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.openjfx</groupId>
-      <artifactId>javafx</artifactId>
-      <version>23.0.2</version>
-    </dependency>
-    <dependency>
       <groupId>name.wramner.httpclient</groupId>
       <artifactId>HttpClient</artifactId>
       <version>1.1</version>
