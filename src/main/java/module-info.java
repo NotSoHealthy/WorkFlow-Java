@@ -33,6 +33,7 @@ module com.example.projet {
     requires scribejava.core;
     requires scribejava.apis;
     requires java.activation;
+    requires org.json;
 
 
     opens com.PIDev3A18.projet to javafx.fxml;

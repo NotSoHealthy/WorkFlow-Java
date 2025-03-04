@@ -29,6 +29,21 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>org.openjfx</groupId>
+      <artifactId>javafx</artifactId>
+      <version>23.0.2</version>
+    </dependency>
+    <dependency>
+      <groupId>name.wramner.httpclient</groupId>
+      <artifactId>HttpClient</artifactId>
+      <version>1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20231013</version>
+    </dependency>
+    <dependency>
       <groupId>com.squareup.okhttp3</groupId>
       <artifactId>okhttp</artifactId>
       <version>4.12.0</version>
