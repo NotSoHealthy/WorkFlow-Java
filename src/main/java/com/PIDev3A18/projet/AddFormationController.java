@@ -7,10 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 
 import javafx.stage.Stage;
 import org.controlsfx.validation.Severity;
@@ -89,6 +86,27 @@ public class AddFormationController {
     }
     @FXML
     public void initialize(){
+        dateDebut.setDayCellFactory(dayCell -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                if (date.isBefore(LocalDate.now())) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #ffcccc;");
+                }
+            }
+        });
+        dateFin.setDayCellFactory(dayCell -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                LocalDate oneWeekFromToday = LocalDate.now().plusWeeks(1);
+                if (date.isBefore(oneWeekFromToday)) {
+                    setDisable(true);
+                    setStyle("-fx-background-color: #ffcccc;");
+                }
+            }
+        });
         dateDebut.setValue(LocalDate.now());
         validationSupport.registerValidator(TxtTitle, Validator.createEmptyValidator("Titre ne peut pas être vide"));
         validationSupport.registerValidator(TxtDescription, Validator.createEmptyValidator("Description ne peut pas être vide"));

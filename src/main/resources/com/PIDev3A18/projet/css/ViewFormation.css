@@ -52,11 +52,58 @@ TextField {
 .table-cell {
     -fx-alignment: CENTER;
     -fx-font-size: 14px;
-    -fx-text-fill: white;
+    -fx-text-fill: black;
 }
 .table-row-cell {
-    -fx-background-color: #143C4E;
+    -fx-background-color: #E1EAF9;
 }
 .btn{
     -fx-background-color: transparent;
+}
+.check-box {
+    -fx-font-size: 16px;
+    -fx-text-fill: #333;
+    -fx-font-weight: bold;
+    -fx-padding: 5px 10px;
+}
+.combo-box {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-background-color: white;
+    -fx-border-color: #39D2C0;
+    -fx-border-width: 2px;
+    -fx-padding: 5px;
+    -fx-text-fill: #333;
+}
+.combo-box:hover {
+    -fx-background-color: #E1EAF9;
+}
+
+.combo-box .arrow {
+    -fx-background-color: #39D2C0;
+}
+
+.combo-box-popup .list-cell {
+    -fx-padding: 10px;
+    -fx-font-size: 14px;
+}
+
+.combo-box-popup .list-cell:hover {
+    -fx-background-color: #39D2C0;
+    -fx-text-fill: white;
+}
+
+.date-picker {
+    -fx-background-color: white;
+    -fx-font-size: 14px;
+    -fx-border-radius: 5px;
+
+}
+
+.date-picker .arrow-button {
+    -fx-background-color: #39D2C0;
+}
+
+.date-picker .arrow-button:hover {
+    -fx-background-color: #143C4E;
 }
