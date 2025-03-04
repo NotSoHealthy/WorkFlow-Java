@@ -1,6 +1,7 @@
 package com.PIDev3A18.projet;
 
 import entity.Project;
+import entity.Task;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -63,7 +64,7 @@ public class ViewProjectController {
                                     "End Date: " + project.getEnd_Date() + "\n" +
                                     "Budget: " + project.getBudget() + "\n" +
                                     "Manager: " + project.getProject_Manager().getFirstName() + " " + project.getProject_Manager().getLastName() + "\n" +
-                                    "State: " + project.getState()); // Added State
+                                    "State: " + project.getState());
                         }
                     }
                 };
@@ -72,7 +73,7 @@ public class ViewProjectController {
 
         searchField.textProperty().addListener((observable, oldValue, newValue) -> {
             try {
-                searchProjects(null); // Trigger search on text change
+                searchProjects(null);
             } catch (SQLException e) {
                 showAlert(Alert.AlertType.ERROR, "Search Error", "Failed to search projects.");
                 e.printStackTrace();
@@ -82,7 +83,7 @@ public class ViewProjectController {
 
     private void loadProjects() throws SQLException {
         List<Project> projects = serviceProject.readAll();
-        ObservableList<Project> projectList = FXCollections.observableArrayList(projects);
+        projectList = FXCollections.observableArrayList(projects);
         ShowProject.setItems(projectList);
     }
 
@@ -92,7 +93,7 @@ public class ViewProjectController {
         if (selectedProject != null) {
             try {
                 serviceProject.delete(selectedProject);
-                loadProjects(); // Reload the list of projects after deletion
+                loadProjects();
                 showAlert(Alert.AlertType.INFORMATION, "Success", "Project deleted successfully.");
             } catch (SQLException e) {
                 showAlert(Alert.AlertType.ERROR, "Database Error", "Failed to delete the project.");
@@ -144,9 +145,8 @@ public class ViewProjectController {
     void searchProjects(ActionEvent event) throws SQLException {
         String searchText = searchField.getText().trim();
         if (searchText.isEmpty()) {
-            loadProjects(); // Show all projects if search is empty
+            loadProjects();
         } else {
-            // Use the searchByName method from ServiceProject
             List<Project> searchedProjects = serviceProject.searchByName(searchText);
             projectList.setAll(searchedProjects);
         }
@@ -167,7 +167,7 @@ public class ViewProjectController {
                     projectList.setAll(serviceProject.sortBudget());
                     break;
                 default:
-                    loadProjects(); // Default to unsorted list
+                    loadProjects(); 
                     break;
             }
         }
@@ -180,6 +180,7 @@ public class ViewProjectController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     @FXML
     private void openChatbot() {
         try {
@@ -191,6 +192,30 @@ public class ViewProjectController {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void viewProjectTask() {
+        Project selectedProject = ShowProject.getSelectionModel().getSelectedItem();
+        if (selectedProject != null) {
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("TaskBoard.fxml"));
+                Parent root = loader.load();
+                TaskBoardController controller = loader.getController();
+                controller.setProject(selectedProject); // Set the project before loading tasks
+                System.out.println("Opening TaskBoard for project: " + selectedProject.getName());
+                Scene scene = new Scene(root);
+                Stage stage = new Stage();
+                stage.setTitle("Tâches du Projet: " + selectedProject.getName());
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                showAlert(Alert.AlertType.ERROR, "Error", "Failed to load TaskBoard.");
+            }
+        } else {
+            showAlert(Alert.AlertType.WARNING, "Sélection requise", "Veuillez sélectionner un projet avant d'afficher les tâches.");
         }
     }
 }

@@ -29,6 +29,8 @@
                         <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
                         <Button fx:id="AddBtn" onAction="#addProject" prefHeight="50.0" prefWidth="220.0" styleClass="add-button" text="Ajouter" />
                         <Button fx:id="chatbotBtn" text="Chatbot" onAction="#openChatbot" styleClass="chatbot-button" />
+                        <Button fx:id="viewTasksBtn" text="Voir les tâches" onAction="#viewProjectTask" styleClass="tasks-button" />
+
                     </children>
                 </HBox>
 

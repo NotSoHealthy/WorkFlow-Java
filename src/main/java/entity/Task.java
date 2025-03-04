@@ -1,5 +1,6 @@
 package entity;
 
+
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -12,8 +13,8 @@ public class Task {
     private Date startDate;
     private Date dueDate;
     private Date completionDate;
-    private Employee assignedTo;  // Employee is in the same package
-    private Project project;      // Project is in the same package
+    private Employee assignedTo;
+    private Project project;
     private Timestamp createdAt;
     private Timestamp updatedAt;
 
@@ -23,7 +24,7 @@ public class Task {
 
     // Parameterized constructor (without IDs, for creating new tasks)
     public Task(String title, String description, String status, String priority, Date startDate, Date dueDate,
-                Date completionDate, Employee assignedTo, Project project) {
+                Date completionDate, Employee assignedTo, Project project,Timestamp createdAt, Timestamp updatedAt) {
         this.title = title;
         this.description = description;
         this.status = status;
@@ -33,8 +34,8 @@ public class Task {
         this.completionDate = completionDate;
         this.assignedTo = assignedTo;
         this.project = project;
-        this.createdAt = new Timestamp(System.currentTimeMillis());
-        this.updatedAt = new Timestamp(System.currentTimeMillis());
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 
     // Parameterized constructor (with IDs, for existing tasks)

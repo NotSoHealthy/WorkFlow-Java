@@ -142,13 +142,13 @@ public class ServiceTask implements IService<Task> {
         }
     }
 
-    public List<Task> readByProjectId(int projectId) throws SQLException {
-        Project project = serviceProject.readById(projectId); // Fetch project once
+    public List<Task> getTasksByProjectId(int projectId) throws SQLException {
+        List<Task> tasks = new ArrayList<>();
         String query = "SELECT * FROM task WHERE project_id = ?";
-        try (PreparedStatement ps = con.prepareStatement(query)) {
-            ps.setInt(1, projectId);
-            try (ResultSet rs = ps.executeQuery()) {
-                List<Task> tasks = new ArrayList<>();
+        Project project = serviceProject.readById(projectId);
+        try (PreparedStatement stmt = con.prepareStatement(query)) {
+            stmt.setInt(1, projectId);
+            try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     Employee assignedTo = serviceEmployee.readById(rs.getInt("assigned_to"));
                     Task task = new Task(
@@ -167,8 +167,19 @@ public class ServiceTask implements IService<Task> {
                     );
                     tasks.add(task);
                 }
-                return tasks;
             }
+        }
+        System.out.println("Fetched " + tasks.size() + " tasks for project ID: " + projectId);
+        return tasks;
+    }
+
+    public void updateStatus(int taskId, String newStatus) throws SQLException {
+        String query = "UPDATE task SET status = ? WHERE task_id = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(query)) {
+            pstmt.setString(1, newStatus);
+            pstmt.setInt(2, taskId);
+            int rowsAffected = pstmt.executeUpdate();
+            System.out.println(rowsAffected + " row(s) updated for task " + taskId + " to status: " + newStatus);
         }
     }
 }

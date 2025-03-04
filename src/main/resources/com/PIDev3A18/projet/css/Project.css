@@ -1685,3 +1685,26 @@ TextField, PasswordField, TextArea{
 .send-button:hover {
     -fx-background-color: #2980b9; /* Darker blue on hover */
 }
+.task-scroll-pane {
+    -fx-background-color: transparent;
+    -fx-border-color: #ffffff;
+    -fx-border-width: 1;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.task-scroll-pane .scroll-bar:vertical {
+    -fx-pref-width: 10;
+    -fx-background-color: #ffffff;
+}
+
+.task-scroll-pane .scroll-bar:vertical .thumb {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 5;
+}
+
+.task-scroll-pane .scroll-bar:vertical .track {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-background-radius: 5;
+}
