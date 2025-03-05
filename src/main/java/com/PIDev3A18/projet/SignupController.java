@@ -67,6 +67,7 @@ public class SignupController {
 
     public void signup(ActionEvent event) throws Exception {
         if (validationSupport.isInvalid()){
+            System.out.println("Validation Error");
             return;
         }
         ServiceEmployee serviceEmployee = new ServiceEmployee();

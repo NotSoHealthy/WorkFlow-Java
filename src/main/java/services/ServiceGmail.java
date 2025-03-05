@@ -17,10 +17,7 @@ import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
@@ -31,7 +28,7 @@ public class ServiceGmail {
     private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     private static final String TOKENS_DIRECTORY_PATH = "tokens_mehdi";
     private static final List<String> SCOPES = List.of(GmailScopes.GMAIL_SEND, GmailScopes.GMAIL_COMPOSE);
-    private static final String CREDENTIALS_FILE_PATH = "C:/Users/Mega-Pc/Documents/GitHub/WorkFlow-Java/credentials/gmail.json";
+    private static final String CREDENTIALS_FILE_PATH = "/credentials_mahdi_gmail.json";
 
     /**
      * Creates an authorized Credential object.
@@ -42,8 +39,8 @@ public class ServiceGmail {
      */
     private static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws Exception {
         // Load client secrets
-        java.io.File credentialsFile = new java.io.File(CREDENTIALS_FILE_PATH);
-        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(new FileInputStream(credentialsFile)));
+        InputStream credentialsStream = GmailService.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(credentialsStream));
 
         // Build flow and trigger user authorization request
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(

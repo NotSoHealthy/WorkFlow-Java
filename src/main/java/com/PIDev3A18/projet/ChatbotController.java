@@ -57,9 +57,7 @@ public class ChatbotController {
         // Load bot icon with multiple path attempts for debugging
         try {
             String[] possiblePaths = {
-                    "/icons/bot.png",
-                    "icons/bot.png",
-                    "/images/bot.png"
+                    "icons/bot.png"
             };
 
             boolean iconLoaded = false;

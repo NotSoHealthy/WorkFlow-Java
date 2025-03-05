@@ -49,7 +49,7 @@ public class LayoutController {
     @FXML private Button ApplicationsButton;
 
     @FXML
-    void initialize() {
+    void initialize() throws IOException {
         //Initialization User
         userSession = UserSession.getInstance();
         loggedinEmployee = userSession.getLoggedInEmployee();
@@ -154,6 +154,8 @@ public class LayoutController {
         layoutJobOfferButton.setManaged(loggedinEmployee.getRole().equals("Résponsable"));
         ApplicationsButton.setVisible(loggedinEmployee.getRole().equals("Résponsable"));
         ApplicationsButton.setManaged(loggedinEmployee.getRole().equals("Résponsable"));
+
+        layoutGoToDashboard(null);
     }
 
     @FXML

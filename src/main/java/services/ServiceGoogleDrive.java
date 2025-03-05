@@ -17,6 +17,7 @@ import java.awt.*;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.util.Collections;
@@ -29,12 +30,12 @@ public class ServiceGoogleDrive {
     public static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
     public static final String TOKENS_DIRECTORY_PATH = "tokens_mehdi_drive";
     public static final List<String> SCOPES = Collections.singletonList(DriveScopes.DRIVE);
-    public static final String CREDENTIALS_FILE_PATH = "C:/Users/Mega-Pc/Documents/GitHub/WorkFlow-Java/credentials/googledrive.json";
+    public static final String CREDENTIALS_FILE_PATH = "/credentials_mahdi_googledrive.json";
 
     public static Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws Exception {
         // Load client secrets
-        java.io.File credentialsFile = new java.io.File(CREDENTIALS_FILE_PATH);
-        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(new FileInputStream(credentialsFile)));
+        InputStream credentialsStream = GmailService.class.getResourceAsStream(CREDENTIALS_FILE_PATH);
+        GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(credentialsStream));
 
         // Build flow and trigger user authorization request
         GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(
