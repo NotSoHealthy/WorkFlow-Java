@@ -13,7 +13,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="583.0" spacing="20" stylesheets="@css/Project.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.AddProjectController">
+<VBox alignment="CENTER" maxHeight="720" maxWidth="1280" minHeight="-Infinity" minWidth="-Infinity" prefHeight="683.0" prefWidth="583.0" spacing="20" stylesheets="@css/Project.css" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.PIDev3A18.projet.AddProjectController">
     <padding>
         <Insets bottom="30" left="30" right="30" top="30" />
     </padding>

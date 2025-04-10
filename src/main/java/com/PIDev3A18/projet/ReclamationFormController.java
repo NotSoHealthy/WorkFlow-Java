@@ -157,19 +157,19 @@ public class ReclamationFormController {
                 UserSession userSession = UserSession.getInstance();
                 Employee loggedinEmployee = userSession.getLoggedInEmployee();
                 String url = null;
-                if(Attachment != null)url ="C:/Users/Mega-Pc/Documents/GitHub/WorkFlow-Java/uploads/reclamation/"+Attachment.getName();
+                if(Attachment != null)url ="C:\\Users\\Med Amin\\Documents\\PIDev\\WorkFlow-Java\\reclamation\\"+Attachment.getName();
                 Reclamation reclamation = new Reclamation(titre.getText(), description.getText(),categoryC.getValue(),typeC.getValue(),url, sqlDate, sqlTime, "PENDING", null, null, loggedinEmployee);
 
                 // Save the application using ApplicationService.
                 ServiceReclamation sr = new ServiceReclamation();
                 if(Editing)
                 {
-                    CopyAttachment("C:/Users/Mega-Pc/Documents/GitHub/WorkFlow-Java/uploads/reclamation");
+                    CopyAttachment("C:\\Users\\Med Amin\\Documents\\PIDev\\WorkFlow-Java\\reclamation");
                     reclamation = new Reclamation(selectedR.getReclamation_ID(),titre.getText(), description.getText(),categoryC.getValue(),typeC.getValue(),url,selectedR.getDate(),selectedR.getHeure(),selectedR.getEtat(),selectedR.getDate_resolution(),selectedR.getResponsable(),selectedR.getEmployee());
                     sr.update(reclamation);
                 }else
                 {
-                    CopyAttachment("C:/Users/Mega-Pc/Documents/GitHub/WorkFlow-Java/uploads/reclamation");
+                    CopyAttachment("C:\\Users\\Med Amin\\Documents\\PIDev\\WorkFlow-Java\\reclamation");
                     sr.add(reclamation);
                 }
 
