@@ -15,7 +15,7 @@ public class ServiceConge implements IService<Conge> {
 
     @Override
     public void add(Conge conge) throws SQLException {
-        String query = "insert into conges (employee_id, request_date, start_date, end_date, reason, status) values(?,?,?,?,?,?)";
+        String query = "insert into conge (user, request_date, start_date, end_date, reason, status) values(?,?,?,?,?,?)";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1,conge.getEmployee().getId());
         ps.setDate(2, Date.valueOf(conge.getRequest_date()));
@@ -29,7 +29,7 @@ public class ServiceConge implements IService<Conge> {
 
     @Override
     public void update(Conge conge) throws SQLException {
-        String query = "update conges set employee_id=?, request_date=?,start_date=?,end_date=?,reason=?,status=? where id=?";
+        String query = "update conge set user=?, request_date=?,start_date=?,end_date=?,reason=?,status=? where id=?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1,conge.getEmployee().getId());
         ps.setDate(2, Date.valueOf(conge.getRequest_date()));
@@ -44,7 +44,7 @@ public class ServiceConge implements IService<Conge> {
 
     @Override
     public void delete(Conge conge) throws SQLException {
-        String query = "delete from conges where id=?";
+        String query = "delete from conge where id=?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, conge.getId());
         int r = ps.executeUpdate();
@@ -55,11 +55,11 @@ public class ServiceConge implements IService<Conge> {
     public List<Conge> readAll() throws SQLException {
         ServiceEmployee serviceEmployee = new ServiceEmployee();
         List<Conge> conges = new ArrayList<Conge>();
-        String query = "select * from conges";
+        String query = "select * from conge";
         PreparedStatement ps = con.prepareStatement(query);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            Conge conge = new Conge(rs.getInt("id"),serviceEmployee.readById(rs.getInt("employee_id")),rs.getDate("request_date").toLocalDate(),rs.getDate("start_date").toLocalDate(),rs.getDate("end_date").toLocalDate(), rs.getString("reason"),rs.getString("status"));
+            Conge conge = new Conge(rs.getInt("id"),serviceEmployee.readById(rs.getInt("user")),rs.getDate("request_date").toLocalDate(),rs.getDate("start_date").toLocalDate(),rs.getDate("end_date").toLocalDate(), rs.getString("reason"),rs.getString("status"));
             conges.add(conge);
         }
         return conges;
@@ -68,19 +68,19 @@ public class ServiceConge implements IService<Conge> {
     @Override
     public Conge readById(int id) throws SQLException {
         ServiceEmployee serviceEmployee = new ServiceEmployee();
-        String query = "select * from conges where id=?";
+        String query = "select * from conge where id=?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
-            return new Conge(rs.getInt("id"),serviceEmployee.readById(rs.getInt("employee_id")),rs.getDate("request_date").toLocalDate(),rs.getDate("start_date").toLocalDate(),rs.getDate("end_date").toLocalDate(), rs.getString("reason"),rs.getString("status"));
+            return new Conge(rs.getInt("id"),serviceEmployee.readById(rs.getInt("user")),rs.getDate("request_date").toLocalDate(),rs.getDate("start_date").toLocalDate(),rs.getDate("end_date").toLocalDate(), rs.getString("reason"),rs.getString("status"));
         }
         return null;
     }
 
     public int getCongeThisYear(Employee employee) throws SQLException {
         ServiceEmployee serviceEmployee = new ServiceEmployee();
-        String query = "select * from conges where employee_id=? AND status='approved' AND YEAR(start_date) = YEAR(CURRENT_DATE);";
+        String query = "select * from conge where user=? AND status='approved' AND YEAR(start_date) = YEAR(CURRENT_DATE);";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1, employee.getId());
         ResultSet rs = ps.executeQuery();

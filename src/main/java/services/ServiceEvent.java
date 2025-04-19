@@ -22,7 +22,7 @@ public class ServiceEvent implements IService<Event> {
     }
     @Override
     public void add(Event evenement) {
-        String requete="insert into events(Title,Description,DateAndTime,Location,Type,NumberOfPlaces,isOnline,UID) values (?,?,?,?,?,?,?,?)";
+        String requete="insert into event(Title,Description,DateAndTime,Location,Type,NumberOfPlaces,isOnline,user) values (?,?,?,?,?,?,?,?)";
         try {
             pst= cnx.prepareStatement(requete);
             pst.setString(1, evenement.getTitre());
@@ -41,7 +41,7 @@ public class ServiceEvent implements IService<Event> {
 
     @Override
     public void delete(Event event) {
-        String requete="delete from events where ID_Event=?";
+        String requete="delete from event where id=?";
         try {
             pst=cnx.prepareStatement(requete);
             pst.setInt(1, event.getId());
@@ -54,7 +54,7 @@ public class ServiceEvent implements IService<Event> {
 
     @Override
     public void update(Event evenement) {
-        String requete="update events set Title=?,Description=?,DateAndTime=?,Location=?,Type=?,NumberOfPlaces=?,isOnline=? where ID_Event=?";
+        String requete="update event set Title=?,Description=?,DateAndTime=?,Location=?,Type=?,NumberOfPlaces=?,isOnline=? where id=?";
         try {
             pst= cnx.prepareStatement(requete);
             pst.setString(1, evenement.getTitre());
@@ -73,14 +73,14 @@ public class ServiceEvent implements IService<Event> {
 
     @Override
     public List<Event> readAll() {
-        String requete="select * from events";
+        String requete="select * from event";
         ServiceEmployee emp=new ServiceEmployee();
         List<Event> evenements=new ArrayList<Event>();
         try {
             ste=cnx.createStatement();
             rs=ste.executeQuery(requete);
             while(rs.next()){
-                evenements.add(new Event(rs.getInt("ID_Event"),rs.getString("Title"),rs.getString("Description"),rs.getTimestamp("DateAndTime").toLocalDateTime(),rs.getString("Location"),rs.getString("Type"),rs.getInt("NumberOfPlaces"),rs.getBoolean("isOnline"),emp.readById(rs.getInt("UID"))));
+                evenements.add(new Event(rs.getInt("id"),rs.getString("Title"),rs.getString("Description"),rs.getTimestamp("DateAndTime").toLocalDateTime(),rs.getString("Location"),rs.getString("Type"),rs.getInt("NumberOfPlaces"),rs.getBoolean("isOnline"),emp.readById(rs.getInt("user"))));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -90,14 +90,14 @@ public class ServiceEvent implements IService<Event> {
 
     @Override
     public Event readById(int id) {
-        String requete="select * from events where ID_Event = '"+id+"'";
+        String requete="select * from event where id = '"+id+"'";
         ServiceEmployee emp=new ServiceEmployee();
         Event event=new Event();
         try {
             ste=cnx.createStatement();
             rs=ste.executeQuery(requete);
             rs.next();
-            event.setId( rs.getInt("ID_Event"));
+            event.setId( rs.getInt("id"));
             event.setTitre(rs.getString("Title"));
             event.setDescription(rs.getString("Description"));
             event.setDateetheure(rs.getTimestamp("DateAndTime").toLocalDateTime());
@@ -105,14 +105,14 @@ public class ServiceEvent implements IService<Event> {
             event.setType(rs.getString("Type"));
             event.setNombredeplace(rs.getInt("NumberOfPlaces"));
             event.setOnline(rs.getBoolean("isOnline"));
-            event.setEmployee(emp.readById(rs.getInt("UID")));
+            event.setEmployee(emp.readById(rs.getInt("user")));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return event;
     }
     public void decrementNumber(Reservation r){
-        String requete="update events set NumberOfPlaces=GREATEST(NumberOfPlaces - ?, 0) where ID_Event = ?";
+        String requete="update event set NumberOfPlaces=GREATEST(NumberOfPlaces - ?, 0) where id = ?";
         try {
             pst=cnx.prepareStatement(requete);
             pst.setInt(1,r.getNombreDePlaces());
@@ -123,7 +123,7 @@ public class ServiceEvent implements IService<Event> {
         }
     }
     public void incrementtNumber(Reservation r){
-        String requete="update events set NumberOfPlaces=NumberOfPlaces+? where ID_Event = ?";
+        String requete="update event set NumberOfPlaces=NumberOfPlaces+? where id = ?";
         try {
             pst=cnx.prepareStatement(requete);
             pst.setInt(1,r.getNombreDePlaces());
@@ -134,14 +134,14 @@ public class ServiceEvent implements IService<Event> {
         }
     }
     public List<Event> SearchByTitle(String title){
-        String requete="select * from events where Title like '%"+title+"%'";
+        String requete="select * from event where Title like '%"+title+"%'";
         ServiceEmployee emp=new ServiceEmployee();
         List<Event> evenements=new ArrayList<Event>();
         try {
             ste=cnx.createStatement();
             rs=ste.executeQuery(requete);
             while(rs.next()){
-                evenements.add(new Event(rs.getInt("ID_Event"),rs.getString("Title"),rs.getString("Description"),rs.getTimestamp("DateAndTime").toLocalDateTime(),rs.getString("Location"),rs.getString("Type"),rs.getInt("NumberOfPlaces"),rs.getBoolean("isOnline"),emp.readById(rs.getInt("UID"))));
+                evenements.add(new Event(rs.getInt("id"),rs.getString("Title"),rs.getString("Description"),rs.getTimestamp("DateAndTime").toLocalDateTime(),rs.getString("Location"),rs.getString("Type"),rs.getInt("NumberOfPlaces"),rs.getBoolean("isOnline"),emp.readById(rs.getInt("user"))));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -149,14 +149,14 @@ public class ServiceEvent implements IService<Event> {
         return evenements;
     }
     public List<Event> SortByDate(){
-        String requete="select * from events ORDER BY DateAndTime asc ";
+        String requete="select * from event ORDER BY DateAndTime asc ";
         ServiceEmployee emp=new ServiceEmployee();
         List<Event> evenements=new ArrayList<Event>();
         try {
             ste=cnx.createStatement();
             rs=ste.executeQuery(requete);
             while(rs.next()){
-                evenements.add(new Event(rs.getInt("ID_Event"),rs.getString("Title"),rs.getString("Description"),rs.getTimestamp("DateAndTime").toLocalDateTime(),rs.getString("Location"),rs.getString("Type"),rs.getInt("NumberOfPlaces"),rs.getBoolean("isOnline"),emp.readById(rs.getInt("UID"))));
+                evenements.add(new Event(rs.getInt("id"),rs.getString("Title"),rs.getString("Description"),rs.getTimestamp("DateAndTime").toLocalDateTime(),rs.getString("Location"),rs.getString("Type"),rs.getInt("NumberOfPlaces"),rs.getBoolean("isOnline"),emp.readById(rs.getInt("user"))));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -164,14 +164,14 @@ public class ServiceEvent implements IService<Event> {
         return evenements;
     }
     public List<Event> SortByType(String type){
-        String requete="select * from events where type like '%"+type+"%'";
+        String requete="select * from event where type like '%"+type+"%'";
         ServiceEmployee emp=new ServiceEmployee();
         List<Event> evenements=new ArrayList<Event>();
         try {
             ste=cnx.createStatement();
             rs=ste.executeQuery(requete);
             while(rs.next()){
-                evenements.add(new Event(rs.getInt("ID_Event"),rs.getString("Title"),rs.getString("Description"),rs.getTimestamp("DateAndTime").toLocalDateTime(),rs.getString("Location"),rs.getString("Type"),rs.getInt("NumberOfPlaces"),rs.getBoolean("isOnline"),emp.readById(rs.getInt("UID"))));
+                evenements.add(new Event(rs.getInt("id"),rs.getString("Title"),rs.getString("Description"),rs.getTimestamp("DateAndTime").toLocalDateTime(),rs.getString("Location"),rs.getString("Type"),rs.getInt("NumberOfPlaces"),rs.getBoolean("isOnline"),emp.readById(rs.getInt("user"))));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -179,7 +179,7 @@ public class ServiceEvent implements IService<Event> {
         return evenements;
     }
     public Map<String, Integer> getStatistics(){
-        String requete="select type,count(*) from events group by type";
+        String requete="select type,count(*) from event group by type";
         Map<String, Integer> eventData = new HashMap<>();
         try {
             ste=cnx.createStatement();

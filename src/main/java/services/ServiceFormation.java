@@ -22,7 +22,7 @@ public class ServiceFormation implements IService<Formation> {
     }
     @Override
     public void add(Formation formation) throws SQLException {
-        String req ="insert into formation  (title,description,date_begin,date_end,participants_max,responsable_id) values(?,?,?,?,?,?)";
+        String req ="insert into formation  (title,description,date_begin,date_end,participants_max,responsable) values(?,?,?,?,?,?)";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setString(1, formation.getTitle());
         ps.setString(2, formation.getDescription());
@@ -36,7 +36,7 @@ public class ServiceFormation implements IService<Formation> {
 
     @Override
     public void update(Formation formation) throws SQLException {
-        String req ="update formation set title=?, description=?, date_begin=?, date_end=?, participants_max=?,responsable_id=? where id=?";
+        String req ="update formation set title=?, description=?, date_begin=?, date_end=?, participants_max=?,responsable=? where id=?";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setString(1, formation.getTitle());
         ps.setString(2, formation.getDescription());
@@ -65,7 +65,7 @@ public class ServiceFormation implements IService<Formation> {
         ResultSet rs = ps.executeQuery();
         List<Formation> formations = new ArrayList<>();
         while (rs.next()) {
-            int responsable_id = rs.getInt("responsable_id");
+            int responsable_id = rs.getInt("responsable");
             LocalDate begin = rs.getDate("date_begin").toLocalDate();
             LocalDate end = rs.getDate("date_end").toLocalDate();
             ServiceEmployee e=new ServiceEmployee();
@@ -84,7 +84,7 @@ public class ServiceFormation implements IService<Formation> {
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            int responsable_id = rs.getInt("responsable_id");
+            int responsable_id = rs.getInt("responsable");
             LocalDate begin = rs.getDate("date_begin").toLocalDate();
             LocalDate end = rs.getDate("date_end").toLocalDate();
             ServiceEmployee e=new ServiceEmployee();
@@ -102,7 +102,7 @@ public class ServiceFormation implements IService<Formation> {
         ResultSet rs = ps.executeQuery();
         List<Formation> formations = new ArrayList<>();
         while (rs.next()) {
-            int responsable_id = rs.getInt("responsable_id");
+            int responsable_id = rs.getInt("responsable");
             ServiceEmployee e=new ServiceEmployee();
             LocalDate begin = rs.getDate("date_begin").toLocalDate();
             LocalDate end = rs.getDate("date_end").toLocalDate();
@@ -120,7 +120,7 @@ public class ServiceFormation implements IService<Formation> {
         ResultSet rs = ps.executeQuery();
         List<Formation> formations = new ArrayList<>();
         while (rs.next()) {
-            int responsable_id = rs.getInt("responsable_id");
+            int responsable_id = rs.getInt("responsable");
             LocalDate begin = rs.getDate("date_begin").toLocalDate();
             LocalDate end = rs.getDate("date_end").toLocalDate();
             ServiceEmployee e=new ServiceEmployee();
@@ -136,7 +136,7 @@ public class ServiceFormation implements IService<Formation> {
         ResultSet rs = ps.executeQuery();
         List<Formation> formations = new ArrayList<>();
         while (rs.next()) {
-            int responsable_id = rs.getInt("responsable_id");
+            int responsable_id = rs.getInt("responsable");
             LocalDate begin = rs.getDate("date_begin").toLocalDate();
             LocalDate end = rs.getDate("date_end").toLocalDate();
             ServiceEmployee e=new ServiceEmployee();
@@ -152,7 +152,7 @@ public class ServiceFormation implements IService<Formation> {
         ResultSet rs = ps.executeQuery();
         List<Formation> formations = new ArrayList<>();
         while (rs.next()) {
-            int responsable_id = rs.getInt("responsable_id");
+            int responsable_id = rs.getInt("responsable");
             LocalDate begin = rs.getDate("date_begin").toLocalDate();
             LocalDate end = rs.getDate("date_end").toLocalDate();
             ServiceEmployee e=new ServiceEmployee();

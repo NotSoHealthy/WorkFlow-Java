@@ -26,7 +26,7 @@ public class ServiceTask implements IService<Task> {
             return;
         }
         String query = "INSERT INTO task (title, description, status, priority, start_date, due_date, " +
-                "completion_date, assigned_to, project_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                "completion_date, assigned_to, project, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = con.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, task.getTitle());
             ps.setString(2, task.getDescription());
@@ -55,7 +55,7 @@ public class ServiceTask implements IService<Task> {
     @Override
     public void update(Task task) throws SQLException {
         String query = "UPDATE task SET title = ?, description = ?, status = ?, priority = ?, start_date = ?, " +
-                "due_date = ?, completion_date = ?, assigned_to = ?, project_id = ?, updated_at = ? WHERE task_id = ?";
+                "due_date = ?, completion_date = ?, assigned_to = ?, project = ?, updated_at = ? WHERE id = ?";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setString(1, task.getTitle());
             ps.setString(2, task.getDescription());
@@ -76,7 +76,7 @@ public class ServiceTask implements IService<Task> {
 
     @Override
     public void delete(Task task) throws SQLException {
-        String query = "DELETE FROM task WHERE task_id = ?";
+        String query = "DELETE FROM task WHERE id = ?";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, task.getTaskId());
             int rowsAffected = ps.executeUpdate();
@@ -92,9 +92,9 @@ public class ServiceTask implements IService<Task> {
             List<Task> tasks = new ArrayList<>();
             while (rs.next()) {
                 Employee employee = serviceEmployee.readById(rs.getInt("assigned_to"));
-                Project project = serviceProject.readById(rs.getInt("project_id"));
+                Project project = serviceProject.readById(rs.getInt("project"));
                 Task task = new Task(
-                        rs.getInt("task_id"),
+                        rs.getInt("id"),
                         rs.getString("title"),
                         rs.getString("description"),
                         rs.getString("status"),
@@ -122,9 +122,9 @@ public class ServiceTask implements IService<Task> {
         ServiceProject serviceProject = new ServiceProject();
         while (rs.next()) {
             Employee employee1 = serviceEmployee.readById(rs.getInt("assigned_to"));
-            Project project = serviceProject.readById(rs.getInt("project_id"));
+            Project project = serviceProject.readById(rs.getInt("project"));
             tasks.add(new Task(
-                    rs.getInt("task_id"),
+                    rs.getInt("id"),
                     rs.getString("title"),
                     rs.getString("description"),
                     rs.getString("status"),
@@ -143,15 +143,15 @@ public class ServiceTask implements IService<Task> {
 
     @Override
     public Task readById(int id) throws SQLException {
-        String query = "SELECT * FROM task WHERE task_id = ?";
+        String query = "SELECT * FROM task WHERE id = ?";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     Employee employee = serviceEmployee.readById(rs.getInt("assigned_to"));
-                    Project project = serviceProject.readById(rs.getInt("project_id"));
+                    Project project = serviceProject.readById(rs.getInt("project"));
                     return new Task(
-                            rs.getInt("task_id"),
+                            rs.getInt("id"),
                             rs.getString("title"),
                             rs.getString("description"),
                             rs.getString("status"),
@@ -172,7 +172,7 @@ public class ServiceTask implements IService<Task> {
 
     public List<Task> getTasksByProjectId(int projectId) throws SQLException {
         List<Task> tasks = new ArrayList<>();
-        String query = "SELECT * FROM task WHERE project_id = ?";
+        String query = "SELECT * FROM task WHERE project = ?";
         Project project = serviceProject.readById(projectId);
         try (PreparedStatement stmt = con.prepareStatement(query)) {
             stmt.setInt(1, projectId);
@@ -180,7 +180,7 @@ public class ServiceTask implements IService<Task> {
                 while (rs.next()) {
                     Employee assignedTo = serviceEmployee.readById(rs.getInt("assigned_to"));
                     Task task = new Task(
-                            rs.getInt("task_id"),
+                            rs.getInt("id"),
                             rs.getString("title"),
                             rs.getString("description"),
                             rs.getString("status"),
@@ -202,7 +202,7 @@ public class ServiceTask implements IService<Task> {
     }
 
     public void updateStatus(int taskId, String newStatus) throws SQLException {
-        String query = "UPDATE task SET status = ? WHERE task_id = ?";
+        String query = "UPDATE task SET status = ? WHERE id = ?";
         try (PreparedStatement pstmt = con.prepareStatement(query)) {
             pstmt.setString(1, newStatus);
             pstmt.setInt(2, taskId);

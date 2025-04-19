@@ -18,7 +18,7 @@ public class ApplicationService implements IService<Applications> {
 
     @Override
     public void add(Applications application) throws SQLException {
-        String query = "INSERT INTO applications (Job_ID, CV, Cover_Letter, Submission_Date, Status, Employe_ID, First_Name, Last_Name, mail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO application (job, CV, Cover_Letter, Submission_Date, Status, user, First_Name, Last_Name, mail) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             if (isJobOfferValid(application.getJobId().getJobId())) {
                 ps.setInt(1, application.getJobId().getJobId());
@@ -42,7 +42,7 @@ public class ApplicationService implements IService<Applications> {
 
     @Override
     public void update(Applications application) throws SQLException {
-        String query = "UPDATE applications SET Job_ID = ?, CV = ?, Cover_Letter = ?, Submission_Date = ?, Status = ?, Employe_ID = ?, First_Name = ?, Last_Name = ?, mail = ? WHERE Application_ID = ?";
+        String query = "UPDATE application SET job = ?, CV = ?, Cover_Letter = ?, Submission_Date = ?, Status = ?, user = ?, First_Name = ?, Last_Name = ?, mail = ? WHERE id = ?";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             if (isJobOfferValid(application.getJobId().getJobId())) {
                 ps.setInt(1, application.getJobId().getJobId());
@@ -64,7 +64,7 @@ public class ApplicationService implements IService<Applications> {
     }
 
     private boolean isJobOfferValid(int jobId) throws SQLException {
-        String query = "SELECT COUNT(*) FROM job_offer WHERE Job_ID = ?";
+        String query = "SELECT COUNT(*) FROM job_offer WHERE id = ?";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, jobId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -78,7 +78,7 @@ public class ApplicationService implements IService<Applications> {
 
     @Override
     public void delete(Applications application) throws SQLException {
-        String query = "DELETE FROM applications WHERE Application_ID = ?";
+        String query = "DELETE FROM application WHERE id = ?";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, application.getApplicationId());
             int rowsAffected = ps.executeUpdate();
@@ -87,7 +87,7 @@ public class ApplicationService implements IService<Applications> {
     }
 
     public List<Applications> readAll() throws SQLException {
-        String query = "SELECT * FROM applications";
+        String query = "SELECT * FROM application";
         try (PreparedStatement ps = con.prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {
 
@@ -96,11 +96,11 @@ public class ApplicationService implements IService<Applications> {
                 JobOfferService serviceJobOffer = new JobOfferService();
                 ServiceEmployee serviceEmployee = new ServiceEmployee();
 
-                JobOffer jobOffer = serviceJobOffer.readById(rs.getInt("Job_ID"));
-                Employee employee = serviceEmployee.readById(rs.getInt("Employe_ID"));
+                JobOffer jobOffer = serviceJobOffer.readById(rs.getInt("job"));
+                Employee employee = serviceEmployee.readById(rs.getInt("user"));
 
                 Applications app = new Applications(
-                        rs.getInt("Application_ID"),
+                        rs.getInt("id"),
                         jobOffer,
                         employee,
                         rs.getString("CV"),
@@ -119,7 +119,7 @@ public class ApplicationService implements IService<Applications> {
 
     @Override
     public Applications readById(int id) throws SQLException {
-        String query = "SELECT * FROM applications WHERE Application_ID = ?";
+        String query = "SELECT * FROM application WHERE id = ?";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
@@ -127,11 +127,11 @@ public class ApplicationService implements IService<Applications> {
                     JobOfferService serviceJobOffer = new JobOfferService();
                     ServiceEmployee serviceEmployee = new ServiceEmployee();
 
-                    JobOffer jobOffer = serviceJobOffer.readById(rs.getInt("Job_ID"));
-                    Employee employee = serviceEmployee.readById(rs.getInt("Employe_ID"));
+                    JobOffer jobOffer = serviceJobOffer.readById(rs.getInt("job"));
+                    Employee employee = serviceEmployee.readById(rs.getInt("user"));
 
                     Applications app = new Applications(
-                            rs.getInt("Application_ID"),
+                            rs.getInt("id"),
                             jobOffer,
                             employee,
                             rs.getString("CV"),
@@ -150,7 +150,7 @@ public class ApplicationService implements IService<Applications> {
     }
 
     public List<Applications> filterByJob(int jobId) throws SQLException {
-        String query = "SELECT * FROM applications WHERE Job_ID = ?";
+        String query = "SELECT * FROM application WHERE job = ?";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, jobId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -159,11 +159,11 @@ public class ApplicationService implements IService<Applications> {
                 ServiceEmployee serviceEmployee = new ServiceEmployee();
 
                 while (rs.next()) {
-                    JobOffer jobOffer = serviceJobOffer.readById(rs.getInt("Job_ID"));
-                    Employee employee = serviceEmployee.readById(rs.getInt("Employe_ID"));
+                    JobOffer jobOffer = serviceJobOffer.readById(rs.getInt("job"));
+                    Employee employee = serviceEmployee.readById(rs.getInt("user"));
 
                     Applications app = new Applications(
-                            rs.getInt("Application_ID"),
+                            rs.getInt("id"),
                             jobOffer,
                             employee,
                             rs.getString("CV"),
