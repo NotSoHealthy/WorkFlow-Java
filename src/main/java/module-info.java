@@ -1,7 +1,6 @@
 module com.example.projet {
     requires javafx.controls;
     requires javafx.fxml;
-    requires java.sql;
     requires com.google.gson;
     requires org.controlsfx.controls;
     requires java.compiler;
@@ -25,7 +24,6 @@ module com.example.projet {
     requires com.google.auth;
     requires annotations;
     requires org.apache.commons.lang3;
-    requires java.desktop;
     requires two.factor.auth;
     requires mysql.connector.j;
     requires org.twitter4j.core;
@@ -35,6 +33,10 @@ module com.example.projet {
     requires java.activation;
     requires org.json;
     requires com.google.api.services.drive;
+    requires jbcrypt;
+    requires com.fasterxml.jackson.databind;
+    requires java.sql;
+    requires java.desktop;
 
 
     opens com.PIDev3A18.projet to javafx.fxml;

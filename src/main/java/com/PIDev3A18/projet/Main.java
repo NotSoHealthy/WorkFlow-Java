@@ -38,7 +38,7 @@ public class Main extends Application {
             root = fxmlLoader.load();
         }
         else{
-            loggedInUser = serviceEmployee.readByEmailAndPassword(loggedInUser.getEmail(), loggedInUser.getPassword());
+            loggedInUser = serviceEmployee.readByEmailFull(loggedInUser.getEmail());
             if (loggedInUser == null) {
                 FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("login.fxml"));
                 root = fxmlLoader.load();

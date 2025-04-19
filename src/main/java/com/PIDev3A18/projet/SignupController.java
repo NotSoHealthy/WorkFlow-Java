@@ -26,6 +26,7 @@ import org.controlsfx.validation.Validator;
 import services.ServiceEmployee;
 import utils.GMailer;
 import utils.PasswordChecker;
+import utils.PasswordHasher;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -75,7 +76,7 @@ public class SignupController {
         String prenom = prenomField.getText();
         String email = emailField.getText();
         String number = numberField.getText();
-        String password = passwordField.getText();
+        String plainPassword = passwordField.getText();
         String adresse = adresseField.getText();
         String gouvernorat = comboBox.getSelectionModel().getSelectedItem();
 
@@ -87,7 +88,7 @@ public class SignupController {
             showNotification("Numéro déja utilisé",1, false);
             return;
         }
-
+        String password = PasswordHasher.hashPassword(plainPassword);
         Employee employee = new Employee(prenom, nom, email, number, password, adresse, gouvernorat,"Employé");
         serviceEmployee.add(employee);
         new GMailer().sendSignUpMail(employee);

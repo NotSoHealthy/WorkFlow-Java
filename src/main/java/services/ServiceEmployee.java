@@ -1,7 +1,12 @@
 package services;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import entity.Employee;
 import utils.DBConnection;
+import utils.PasswordHasher;
+import utils.RoleConverter;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,7 +36,7 @@ public class ServiceEmployee implements IService<Employee> {
         ps.setString(5, employee.getPassword());
         ps.setString(6, employee.getAdresse());
         ps.setString(7, employee.getGouvernorat());
-        ps.setString(8, employee.getRole());
+        ps.setString(8, RoleConverter.convertToSymfony(employee.getRole()));
         ps.setString(9, "pending");
         int r = ps.executeUpdate();
         ps.close();
@@ -60,7 +65,7 @@ public class ServiceEmployee implements IService<Employee> {
         ps.setString(7, employee.getAdresse());
         ps.setString(8, employee.getGouvernorat());
         ps.setString(9, employee.getImageUrl());
-        ps.setString(10, employee.getRole());
+        ps.setString(10, RoleConverter.convertToSymfony(employee.getRole()));
         ps.setString(11, employee.getStatus());
         ps.setInt(12, employee.getId());
         ps.executeUpdate();
@@ -75,7 +80,7 @@ public class ServiceEmployee implements IService<Employee> {
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
             return new Employee(id, rs.getString("first_name"), rs.getString("last_name"),
-                    rs.getString("email"), rs.getString("phone"),rs.getString("password"),serviceDepartment.readByIdWithoutManager(rs.getInt("department_id")), rs.getString("adresse"), rs.getString("gouvernorat"), rs.getString("image_url"), rs.getString("role"), rs.getString("status"));
+                    rs.getString("email"), rs.getString("phone"),rs.getString("password"),serviceDepartment.readByIdWithoutManager(rs.getInt("department_id")), rs.getString("adresse"), rs.getString("gouvernorat"), rs.getString("image_url"), RoleConverter.convertToJava(rs.getString("role")), rs.getString("status"));
         }
         System.out.println("no employee found");
         return null;
@@ -89,18 +94,20 @@ public class ServiceEmployee implements IService<Employee> {
         List<Employee> employees = new ArrayList<>();
         while (rs.next()) {
             employees.add(new Employee(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"),
-                    rs.getString("email"), rs.getString("phone"),rs.getString("password"),serviceDepartment.readById(rs.getInt("department_id")), rs.getString("adresse"), rs.getString("gouvernorat"), rs.getString("image_url"),rs.getString("role"), rs.getString("status")));
+                    rs.getString("email"), rs.getString("phone"),rs.getString("password"),serviceDepartment.readById(rs.getInt("department_id")), rs.getString("adresse"), rs.getString("gouvernorat"), rs.getString("image_url"),RoleConverter.convertToJava(rs.getString("role")), rs.getString("status")));
         }
         return employees;
     }
 
-    public Boolean verifPassword(String email, String password) throws SQLException {
-        String query = "select * from employees where email = ? and password = ?";
+    public Boolean verifPassword(String email, String plainpassword) throws SQLException {
+        String query = "select * from employees where email = ?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, email);
-        ps.setString(2, password);
         ResultSet rs = ps.executeQuery();
-        return rs.next();
+        if (!rs.next()) {
+            return false;
+        }
+        return PasswordHasher.isPasswordValid(plainpassword,rs.getString("password"));
     }
 
     public Boolean verifEmail(String email) throws SQLException {
@@ -119,16 +126,15 @@ public class ServiceEmployee implements IService<Employee> {
         return rs.next();
     }
 
-    public Employee readByEmailAndPassword(String email, String password) throws SQLException {
+    public Employee readByEmailFull(String email) throws SQLException {
         ServiceDepartment serviceDepartment = new ServiceDepartment();
-        String query = "select * from employees where email = ? and password = ?";
+        String query = "select * from employees where email = ?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, email);
-        ps.setString(2, password);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
             return new Employee(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"),
-                    email, rs.getString("phone"),password,serviceDepartment.readById(rs.getInt("department_id")), rs.getString("adresse"), rs.getString("gouvernorat"), rs.getString("image_url"), rs.getString("role"), rs.getString("status"), rs.getString("two_factor_secret"));
+                    email, rs.getString("phone"),rs.getString("password"),serviceDepartment.readById(rs.getInt("department_id")), rs.getString("adresse"), rs.getString("gouvernorat"), rs.getString("image_url"), RoleConverter.convertToJava(rs.getString("role")), rs.getString("status"), rs.getString("two_factor_secret"));
         }
         return null;
     }
@@ -141,7 +147,7 @@ public class ServiceEmployee implements IService<Employee> {
         ResultSet rs = ps.executeQuery();
         if (rs.next()){
             return new Employee(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"),
-                    rs.getString("email"), rs.getString("phone"),rs.getString("password"),serviceDepartment.readById(rs.getInt("department_id")), rs.getString("adresse"), rs.getString("gouvernorat"), rs.getString("image_url"),rs.getString("role"), rs.getString("status"));
+                    rs.getString("email"), rs.getString("phone"),rs.getString("password"),serviceDepartment.readById(rs.getInt("department_id")), rs.getString("adresse"), rs.getString("gouvernorat"), rs.getString("image_url"),RoleConverter.convertToJava(rs.getString("role")), rs.getString("status"));
 
         }
         return null;
@@ -154,7 +160,7 @@ public class ServiceEmployee implements IService<Employee> {
         ResultSet rs = ps.executeQuery();
         if (rs.next()){
             return new Employee(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name"),
-                    rs.getString("email"), rs.getString("phone"),rs.getString("password"),serviceDepartment.readById(rs.getInt("department_id")), rs.getString("adresse"), rs.getString("gouvernorat"), rs.getString("image_url"),rs.getString("role"), rs.getString("status"));
+                    rs.getString("email"), rs.getString("phone"),rs.getString("password"),serviceDepartment.readById(rs.getInt("department_id")), rs.getString("adresse"), rs.getString("gouvernorat"), rs.getString("image_url"),RoleConverter.convertToJava(rs.getString("role")), rs.getString("status"));
 
         }
         return null;
