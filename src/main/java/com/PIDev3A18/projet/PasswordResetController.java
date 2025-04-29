@@ -1,6 +1,7 @@
 package com.PIDev3A18.projet;
 
 import entity.Employee;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,8 +20,17 @@ import services.ServiceEmployee;
 import utils.GMailer;
 import utils.SMSApi;
 
-import java.io.IOException;
-import java.io.InputStream;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+import java.io.*;
+import java.net.URI;
+import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.security.cert.X509Certificate;
 import java.sql.SQLException;
 import java.util.Collections;
 import java.util.Random;
@@ -71,7 +81,7 @@ public class PasswordResetController {
     }
 
     @FXML
-    void send(ActionEvent event) throws Exception {
+    void sendWithoutApi(ActionEvent event) throws Exception {
         code = 100000 + random.nextInt(900000);
 
         emailField.getStyleClass().remove("error");
@@ -116,6 +126,107 @@ public class PasswordResetController {
         }
     }
 
+    @FXML
+    void send(ActionEvent event) throws Exception {
+        emailField.getStyleClass().remove("error");
+        numberField.getStyleClass().remove("error");
+        if (emailVBox.isVisible()){
+            if(!Pattern.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$",emailField.getText())){
+                emailField.getStyleClass().add("error");
+                Tooltip tooltip = new Tooltip("Email invalide");
+                emailField.setTooltip(tooltip);
+                return;
+            }
+            else if (!serviceEmployee.verifEmail(emailField.getText())){
+                emailField.getStyleClass().add("error");
+                Tooltip tooltip = new Tooltip("Email inéxistant");
+                emailField.setTooltip(tooltip);
+                return;
+            }
+        }
+        else{
+            if(!Pattern.matches("^[0-9]{8}$",numberField.getText())){
+                numberField.getStyleClass().add("error");
+                Tooltip tooltip = new Tooltip("Numero invalide");
+                numberField.setTooltip(tooltip);
+                return;
+            }
+            else if (!serviceEmployee.verifPhone(numberField.getText())){
+                numberField.getStyleClass().add("error");
+                Tooltip tooltip = new Tooltip("Numero inéxistant");
+                numberField.setTooltip(tooltip);
+                return;
+            }
+        }
+        try {
+            // Prepare method and identifier
+            String method = emailVBox.isVisible() ? "email" : "number";
+            String identifier = emailVBox.isVisible() ? emailField.getText() : numberField.getText();
+
+            URL url = new URL("https://127.0.0.1/reset-password/api/request-password-reset");
+            HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
+
+            // Disable hostname verification
+            conn.setHostnameVerifier((hostname, session) -> true);
+
+            // Trust all certificates
+            SSLContext sslContext = SSLContext.getInstance("TLS");
+            TrustManager[] trustAllCerts = new TrustManager[] {
+                    new X509TrustManager() {
+                        public X509Certificate[] getAcceptedIssuers() { return new X509Certificate[0]; }
+                        public void checkClientTrusted(X509Certificate[] certs, String authType) {}
+                        public void checkServerTrusted(X509Certificate[] certs, String authType) {}
+                    }
+            };
+            sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
+            conn.setSSLSocketFactory(sslContext.getSocketFactory());
+
+            // Set request properties
+            conn.setRequestMethod("POST");
+            conn.setRequestProperty("Content-Type", "application/json");
+            conn.setRequestProperty("X-API-KEY", "JAVA-APP");
+            conn.setDoOutput(true);
+
+            // Write body
+            String json = String.format("{\"method\": \"%s\", \"identifier\": \"%s\"}", method, identifier);
+            try (OutputStream os = conn.getOutputStream()) {
+                os.write(json.getBytes("utf-8"));
+            }
+
+            int statusCode = conn.getResponseCode();
+            StringBuilder response = new StringBuilder();
+
+            try (BufferedReader br = new BufferedReader(
+                    new InputStreamReader(
+                            statusCode == 200 ? conn.getInputStream() : conn.getErrorStream(), "utf-8"))) {
+                String line;
+                while ((line = br.readLine()) != null) {
+                    response.append(line.trim());
+                }
+            }
+
+            if (statusCode == 200) {
+                Platform.runLater(() -> {
+                    try {
+                        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("login.fxml"));
+                        Parent root = fxmlLoader.load();
+                        LoginController controller = fxmlLoader.getController();
+                        controller.showNotification("Lien de réinitialisation envoyé", 2, true);
+                        emailButton.getScene().setRoot(root);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                });
+            } else {
+                sendWithoutApi(null);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            sendWithoutApi(null);
+        }
+
+    }
     @FXML
     void swapToPhone(ActionEvent event) {
         emailVBox.setVisible(false);
