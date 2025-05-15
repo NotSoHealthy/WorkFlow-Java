@@ -20,8 +20,8 @@ import java.util.*;
 public class ServiceInscription implements IService<Inscription> {
     Connection cnx;
     private static final String FLAG_FILE = "src/main/resources/com/PIDev3A18/projet/Files/smsFlags.properties";
-    public static final String ACCOUNT_SID = "AC4110bdfcaad2020468865d70dc5590de";
-    public static final String AUTH_TOKEN = "bd3846619cc82ee6a9df5b980f44efe6";
+    public static final String ACCOUNT_SID = "ACf58b64d8837f5e20b2370ec00de7bd5b";
+    public static final String AUTH_TOKEN = "4b61be820cdea45f4c4e82d02c5a90dc";
     public ServiceInscription() {
         cnx = DBConnection.getInstance().getConnection();
 
@@ -292,7 +292,7 @@ public class ServiceInscription implements IService<Inscription> {
             return;
         }
         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-        String fromNumber = "+18782905902";
+        String fromNumber = "+12184293335";
         String toNumber = "+21698264250";
         String body = "";
         String query ="SELECT f.title,e.last_name,e.first_name FROM formation f JOIN inscription i ON f.ID = i.formation JOIN user e ON i.user = e.id  WHERE f.date_begin = CURDATE() AND i.user = ? AND i.status='approuver'";
