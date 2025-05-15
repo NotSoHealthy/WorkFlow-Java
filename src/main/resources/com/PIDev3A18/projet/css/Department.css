@@ -1,304 +1,302 @@
-/* General Styles */
-.root {
-    -fx-background-color: #f4f4f4;
+/* Main container */
+.main-pane {
+    -fx-background-color: #f8f9fa;
+    -fx-background-radius: 10;
 }
 
-/* Title Text */
+/* Title styling (Bigger and Centered) */
+.title-label {
+    -fx-text-fill: #2c3e50;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 48px; /* Increased from 40px for a bigger title */
+    -fx-font-weight: bold;
+    -fx-alignment: center; /* Ensure text is centered */
+}
+
+/* Search and Sort Container */
+.search-sort-container {
+    -fx-background-color: transparent;
+    -fx-padding: 10 0 10 0;
+    -fx-alignment: center;
+    -fx-opacity: 1.0; /* Ensure visibility */
+}
+
+/* Search and Sort Bar */
+.search-sort-bar {
+    -fx-background-color: transparent;
+    -fx-padding: 5 0 5 0;
+    -fx-alignment: center;
+    -fx-opacity: 1.0; /* Ensure visibility */
+}
+
+/* Search field */
+.search-field {
+    -fx-background-color: rgba(255, 255, 255, 0.85); /* Glassmorphism effect */
+    -fx-border-color: #4DB6AC; /* Soft teal border for harmony with design */
+    -fx-border-width: 2;
+    -fx-border-radius: 25;
+    -fx-background-radius: 25;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 16px;
+    -fx-effect: dropshadow(gaussian, rgba(77, 182, 172, 0.3), 12, 0, 0, 6); /* Subtle teal shadow */
+    -fx-opacity: 1.0; /* Ensure visibility */
+    -fx-padding: 10 20 10 20;
+    -fx-alignment: center;
+    -fx-transition: -fx-background-color 0.3s, -fx-border-color 0.3s, -fx-effect 0.3s; /* Smooth transitions */
+}
+.search-field:focused {
+    -fx-border-color: #009688; /* Darker teal on focus */
+    -fx-background-color: rgba(255, 255, 255, 0.95); /* Slightly more opaque for focus */
+    -fx-effect: dropshadow(gaussian, rgba(0, 150, 136, 0.4), 12, 0, 0, 8); /* Enhanced shadow on focus */
+}
+
+/* Sort combo box */
+.sort-combo {
+    -fx-background-color: rgba(255, 255, 255, 0.85); /* Glassmorphism effect */
+    -fx-border-color: #4DB6AC; /* Gold border for a luxurious, beautiful touch */
+    -fx-border-width: 2;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 16px;
+    -fx-effect: dropshadow(gaussian, rgba(255, 215, 0, 0.3), 15, 0, 0, 8); /* Subtle gold shadow */
+    -fx-opacity: 1.0; /* Ensure visibility */
+    -fx-padding: 8 20 8 20;
+    -fx-alignment: center;
+    -fx-transition: -fx-background-color 0.3s, -fx-border-color 0.3s, -fx-effect 0.3s; /* Smooth transitions */
+}
+.sort-combo .list-cell {
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-text-fill: #2c3e50;
+    -fx-background-color: transparent;
+    -fx-padding: 8 10 8 10;
+    -fx-background-radius: 25;
+}
+.sort-combo .list-cell:filled:hover {
+    -fx-background-color: rgba(255, 215, 0, 0.1); /* Light gold hover for list items */
+    -fx-text-fill: #2c3e50;
+}
+.sort-combo:focused {
+    -fx-border-color: #4DB6AC; /* Slightly darker gold on focus */
+    -fx-background-color: rgba(255, 255, 255, 0.95); /* Slightly more opaque for focus */
+    -fx-effect: dropshadow(gaussian, rgba(255, 202, 40, 0.4), 15, 0, 0, 10); /* Enhanced shadow on focus */
+}
+.sort-combo .arrow-button {
+    -fx-background-color: transparent;
+    -fx-padding: 0 15 0 0;
+}
+.sort-combo .arrow {
+    -fx-background-color: #4DB6AC; /* Gold arrow to match border */
+    -fx-shape: "M 0 0 L 10 5 L 0 10 Z"; /* Custom arrow shape for a sleek look */
+}
+
+/* Statistics Icon */
+.stats-icon {
+    -fx-image: url("icons/Stat.png"); /* Ensure the path matches exactly */
+    -fx-fit-width: 30;
+    -fx-fit-height: 30;
+    -fx-effect: dropshadow(gaussian, rgba(255, 215, 0, 0.3), 5, 0, 0, 2); /* Gold shadow to match combo box */
+    -fx-cursor: hand;
+    -fx-opacity: 1.0; /* Ensure visibility */
+    -fx-transition: -fx-effect 0.3s; /* Smooth transition for hover effect */
+}
+.stats-icon:hover {
+    -fx-effect: dropshadow(gaussian, rgba(255, 215, 0, 0.4), 8, 0, 0, 4); /* Enhanced gold shadow on hover */
+}
+
+/* ListView styling */
+.list-view {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #dfe6e9;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);
+    -fx-padding: 10 15 10 15;
+}
+.list-view .list-cell {
+    -fx-padding: 10;
+    -fx-background-color: #ffffff;
+    -fx-text-fill: #2c3e50;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+}
+.list-view .list-cell:filled:hover {
+    -fx-background-color: #ecf0f1;
+}
+
+/* Buttons */
+.update-button {
+    -fx-background-color: #f39c12;
+    -fx-text-fill: white;
+    -fx-background-radius: 25;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 18px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);
+}
+.update-button:hover {
+    -fx-background-color: #e67e22;
+}
+
+.delete-button {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-background-radius: 25;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 18px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);
+}
+.delete-button:hover {
+    -fx-background-color: #c0392b;
+}
+
+.add-button {
+    -fx-background-color: #2ecc71;
+    -fx-text-fill: white;
+    -fx-background-radius: 25;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 18px;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 5, 0, 0, 2);
+}
+.add-button:hover {
+    -fx-background-color: #27ae60;
+}
+
+/* Separator */
+.separator .line {
+    -fx-border-color: #b2bec3;
+    -fx-border-width: 1;
+}
+
+/* Button bar */
+.button-bar {
+    -fx-background-color: transparent;
+    -fx-padding: 10;
+}
+
+/* Stats Title and Label for DepartmentStats.fxml */
+.stats-title {
+    -fx-text-fill: #2c3e50;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 24px;
+    -fx-font-weight: bold;
+}
+
+/* Budget Chart Styling (Flat, Aligned 2D Version) */
+.budget-chart {
+    -fx-background-color: transparent;
+    -fx-bar-fill: linear-gradient(to bottom, #3c2263, #3a2563); /* Orange gradient for bars (matching your image) */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 2); /* Subtle shadow for flat 2D look */
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-border-radius: 0; /* Remove border radius for flat look */
+    -fx-background-radius: 0; /* Remove background radius for flat look */
+    -fx-alignment: center; /* Ensure flat alignment */
+}
+
+.budget-chart .axis {
+    -fx-tick-label-fill: #2c3e50;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+}
+
+.budget-chart .chart-title {
+    -fx-text-fill: #2c3e50;
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+}
+
+.budget-chart .chart-legend {
+    -fx-text-fill: #2c3e50;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 14px;
+    -fx-background-color: rgba(255, 255, 255, 0.8);
+    -fx-background-radius: 5;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1;
+}
+
+/* 2D Bar Styling (Flat and Aligned) */
+.budget-chart .chart-bar {
+    -fx-bar-size: 30; /* Wider bars for better visibility, flat and aligned */
+    -fx-background-radius: 0; /* No rounding for flat bars */
+    -fx-alignment: center; /* Ensure bars are centered and aligned */
+}
+.return-button {
+    -fx-background-color: #ff4444; /* Red for return/cancel button */
+    -fx-text-fill: white;
+    -fx-background-radius: 8; /* Rounded corners */
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 16px; /* Match FXML size */
+    -fx-effect: dropshadow(gaussian, rgba(255, 68, 68, 0.3), 5, 0, 0, 2); /* Red shadow for depth */
+    -fx-padding: 10 15; /* Slightly smaller padding for consistency with FXML prefWidth */
+    -fx-transition: -fx-background-color 0.2s ease-in-out; /* Smooth transition for hover */
+}
+.return-button:hover {
+    -fx-background-color: #cc3333; /* Darker red on hover */
+}
+
+.return-button:pressed {
+    -fx-background-color: #a20000; /* Even darker red when pressed */
+}
+
+/* HBox Containers */
+HBox {
+    -fx-alignment: center;
+    -fx-spacing: 20; /* Match FXML spacing */
+    -fx-padding: 0;
+}
+.submit-button {
+    -fx-background-color: #1a73e8; /* Bright blue for submit buttons */
+    -fx-text-fill: white;
+    -fx-background-radius: 8; /* Rounded corners */
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-font-size: 16px; /* Match FXML size */
+    -fx-effect: dropshadow(gaussian, rgba(26, 115, 232, 0.3), 5, 0, 0, 2); /* Blue shadow for depth */
+    -fx-padding: 10 20; /* Padding for a larger, clickable button */
+    -fx-transition: -fx-background-color 0.2s ease-in-out; /* Smooth transition for hover */
+}
+
+.submit-button:hover {
+    -fx-background-color: #1557b0; /* Darker blue on hover */
+}
+
+.submit-button:pressed {
+    -fx-background-color: #10438a; /* Even darker blue when pressed */
+}
+.form-field:focused {
+    -fx-background-color: #f5f5f5; /* Light gray when focused, matching root */
+    -fx-border-color: #1a73e8; /* Bright blue border when focused, matching title */
+    -fx-effect: dropshadow(gaussian, rgba(26, 115, 232, 0.4), 6, 0, 0, 3); /* Enhanced shadow when focused */
+}
+.form-field {
+    -fx-background-color: #ffffff; /* White background for input fields */
+    -fx-background-radius: 6; /* Rounded corners */
+    -fx-border-color: #e0e0e0; /* Light gray border for fields */
+    -fx-border-width: 1; /* Border width */
+    -fx-border-radius: 6; /* Rounded border for fields */
+    -fx-text-fill: #333333; /* Dark gray for text */
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 16px; /* Match FXML size */
+    -fx-padding: 8; /* Padding for better spacing */
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 5, 0, 0, 2); /* Subtle shadow for depth */
+    -fx-transition: -fx-background-color 0.2s ease-in-out; /* Smooth transition for focus */
+}
 .title-text {
-    -fx-font-size: 36px;
-    -fx-fill: #2c3e50; /* Dark blue */
+    -fx-font-family: "Berlin Sans FB"; /* Match FXML font for titles */
+    -fx-font-size: 36px; /* Match FXML size */
+    -fx-text-fill: #1a73e8; /* Vibrant blue for titles */
+    -fx-effect: dropshadow(gaussian, rgba(26, 115, 232, 0.3), 5, 0, 0, 2); /* Subtle blue shadow for depth */
 }
 
 /* Form Labels */
 .form-label {
-    -fx-font-size: 16px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #34495e; /* Dark gray */
-}
-
-/* Form Fields */
-.form-field {
-    -fx-font-size: 16px;
-    -fx-padding: 5px;
-    -fx-background-color: #ecf0f1; /* Light gray */
-    -fx-border-color: #bdc3c7; /* Gray */
-    -fx-border-radius: 5px;
-}
-
-/* Submit Button */
-.submit-button {
-    -fx-font-size: 16px;
-    -fx-background-color: #3498db; /* Blue */
-    -fx-text-fill: white;
-    -fx-padding: 10px 20px;
-    -fx-border-radius: 5px;
-}
-
-.submit-button:hover {
-    -fx-background-color: #2980b9; /* Darker blue */
-}
-
-/* Delete Button */
-.delete-button {
-    -fx-font-size: 16px;
-    -fx-background-color: #e74c3c; /* Red */
-    -fx-text-fill: white;
-    -fx-padding: 10px 20px;
-    -fx-border-radius: 5px;
-}
-
-.delete-button:hover {
-    -fx-background-color: #c0392b; /* Darker red */
-}
-
-/* Update Button */
-.update-button {
-    -fx-font-size: 16px;
-    -fx-background-color: #2ecc71; /* Green */
-    -fx-text-fill: white;
-    -fx-padding: 10px 20px;
-    -fx-border-radius: 5px;
-}
-
-.update-button:hover {
-    -fx-background-color: #27ae60; /* Darker green */
-}
-
-/* List View */
-.list-view {
-    -fx-background-color: #ecf0f1; /* Light gray */
-    -fx-border-color: #bdc3c7; /* Gray */
-    -fx-border-radius: 5px;
-}
-.listview{
-    -fx-border-color: transparent;
-    -fx-background-color: transparent;
-}
-
-.vbox-custom {
-
-    -fx-border-width: 0;
-    -fx-border-color: transparent;
-
-
-    -fx-background-color: white;
-    -fx-background-radius: 5px;
-
-
-    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.5), 10, 0.5, 0, 0);
-
-    -fx-padding: 10;
-
-
-
-    -fx-pref-height: 50;
-
-}
-.ErrorText
-{
-    -fx-text-fill: red;
-}
-
-.list-view .scroll-bar:vertical,
-.list-view .scroll-bar:horizontal {
-    -fx-opacity: 0;
-    -fx-padding: 0;
-    -fx-pref-width: 0;
-    -fx-pref-height: 0;
-}
-
-.list-cell {
-    -fx-background-color: transparent;
-    -fx-border-color: transparent;
-    -fx-padding: 10 15 10 15;
-}
-.addbutton
-{
-    -fx-border-radius: 10px;
-    -fx-effect: dropshadow(gaussian, rgba(20,60,78), 10, 0, 0, 0);
-}
-
-TextField, PasswordField, TextArea{
-    -fx-background-color: transparent;
-
-    -fx-control-inner-background: transparent;
-
-    -fx-border-radius: 5px;
-    -fx-border-color: rgba(0,0,0,0.25);
-    -fx-prompt-text-fill: derive(-fx-text-primary, 30%);
-    -fx-text-fill: black;
-    -fx-pref-height: 40px;
-    -fx-focus-color: transparent;
-    -fx-faint-focus-color: transparent;
-
-}
-.text-area .scroll-pane {
-    -fx-hbar-policy: NEVER;  /* Hide horizontal scrollbar */
-    -fx-vbar-policy: NEVER;  /* Hide vertical scrollbar */
-}
-.btn{
-    -fx-background-color: -fx-text-success;
-    -fx-background-radius: 10px;
-}
-.delete{
-    -fx-background-color: #ee4d2b;
-    -fx-background-radius: 10px;
-    -fx-padding: 10 10 10 10;
-    -fx-pref-height: 40px;
-    -fx-pref-width: 40px;
-}
-.edit{
-    -fx-background-color: -fx-text-success;
-    -fx-background-radius: 10px;
-    -fx-padding: 10 10 10 10;
-}
-.page{
-    -fx-background-color: -fx-background-main;
-    -fx-text-fill: -fx-text-primary;
-}
-*{
-    -fx-background-main: #F1F4F8;
-    -fx-background-secondary: #E1EAF9;
-    -fx-background-tertiary: #FFFFFF;
-    -fx-background-highlight: rgba(57, 210, 192, 0.4);
-    -fx-text-primary: #143C4E;
-    -fx-text-secondary: #57636C;
-    -fx-text-success: #39D2C0;
-    -fx-text-warning: #F9CF58;
-    -fx-text-danger: #FF5963;
-}
-.main-panel{
-    -fx-background-color: -fx-background-main;
-    -fx-background-radius: 5px;
-    -fx-effect: dropshadow(gaussian, rgba(20,60,78), 10, 0, 0, 0);
-}
-/* Add Button */
-.add-button {
-    -fx-font-size: 16px;
-    -fx-background-color: #3498db; /* Blue */
-    -fx-text-fill: white;
-    -fx-padding: 10px 20px;
-    -fx-border-radius: 5px;
-}
-
-.add-button:hover {
-    -fx-background-color: #2980b9; /* Darker blue */
-}
-
-/* Update Button */
-.update-button {
-    -fx-font-size: 16px;
-    -fx-background-color: #2ecc71; /* Green */
-    -fx-text-fill: white;
-    -fx-padding: 10px 20px;
-    -fx-border-radius: 5px;
-}
-
-.update-button:hover {
-    -fx-background-color: #27ae60; /* Darker green */
-}
-
-/* Delete Button */
-.delete-button {
-    -fx-font-size: 16px;
-    -fx-background-color: #e74c3c; /* Red */
-    -fx-text-fill: white;
-    -fx-padding: 10px 20px;
-    -fx-border-radius: 5px;
-}
-
-.delete-button:hover {
-    -fx-background-color: #c0392b; /* Darker red */
-}
-
-/* Title Text */
-.title-text {
-    -fx-font-size: 42px; /* Bigger title */
-    -fx-text-fill: #2c3e50; /* Dark blue */
-    -fx-alignment: CENTER; /* Center the title */
-}
-
-/* List View */
-.list-view {
-    -fx-background-color: #ecf0f1; /* Light gray */
-    -fx-border-color: #bdc3c7; /* Gray */
-    -fx-border-radius: 5px;
-    -fx-padding: 10px; /* Add padding around the list */
-}
-
-/* List Cell */
-.list-cell {
-    -fx-padding: 15px; /* More space between departments */
-    -fx-font-size: 16px; /* Bigger font size for department details */
-    -fx-background-color: #ffffff; /* White */
-    -fx-border-color: #bdc3c7; /* Gray */
-    -fx-border-radius: 5px;
-    -fx-margin: 10px; /* Add margin between cells */
-}
-
-/* Department Title in List Cell */
-.list-cell .department-title {
-    -fx-font-size: 20px; /* Bigger font size for department title */
-    -fx-font-weight: bold; /* Make the title bold */
-}
-
-/* Add Button */
-.add-button {
-    -fx-font-size: 16px;
-    -fx-background-color: #3498db; /* Blue */
-    -fx-text-fill: white;
-    -fx-padding: 10px 20px;
-    -fx-border-radius: 5px;
-}
-
-.add-button:hover {
-    -fx-background-color: #2980b9; /* Darker blue */
-}
-
-/* Update Button */
-.update-button {
-    -fx-font-size: 16px;
-    -fx-background-color: #2ecc71; /* Green */
-    -fx-text-fill: white;
-    -fx-padding: 10px 20px;
-    -fx-border-radius: 5px;
-}
-
-.update-button:hover {
-    -fx-background-color: #27ae60; /* Darker green */
-}
-
-/* Delete Button */
-.delete-button {
-    -fx-font-size: 16px;
-    -fx-background-color: #e74c3c; /* Red */
-    -fx-text-fill: white;
-    -fx-padding: 10px 20px;
-    -fx-border-radius: 5px;
-}
-
-.delete-button:hover {
-    -fx-background-color: #c0392b; /* Darker red */
-}
-.list-cell {
-    -fx-font-size: 14px;
-    -fx-padding: 10px;
-    -fx-background-color: #f4f4f4;
-    -fx-border-color: #ddd;
-    -fx-border-width: 0 0 1 0;
-}
-
-.list-cell:filled:selected {
-    -fx-background-color: #0078d7;
-    -fx-text-fill: white;
-}
-.return-button {
-    -fx-background-color: #6c757d; /* Gray color */
-    -fx-text-fill: white;
-    -fx-font-size: 16px;
-    -fx-padding: 10px 20px;
-}
-
-.return-button:hover {
-    -fx-background-color: #5a6268; /* Darker gray on hover */
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 16px; /* Match FXML size */
+    -fx-text-fill: #333333; /* Dark gray for labels */
+    -fx-font-weight: bold; /* Bold for emphasis */
+    -fx-alignment: center-right; /* Align labels to the right */
 }

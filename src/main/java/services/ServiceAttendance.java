@@ -15,7 +15,7 @@ public class ServiceAttendance implements IService<Attendance> {
 
     @Override
     public void add(Attendance attendance) throws SQLException {
-        String query = "insert into attendance (employee_id, date, entry_time, exit_time) values(?,?,?,?)";
+        String query = "insert into attendance (user, date, entry_time, exit_time) values(?,?,?,?)";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1,attendance.getEmployee().getId());
         ps.setDate(2, Date.valueOf(attendance.getDate()));
@@ -27,7 +27,7 @@ public class ServiceAttendance implements IService<Attendance> {
 
     @Override
     public void update(Attendance attendance) throws SQLException {
-        String query = "update attendance set employee_id = ?, date = ?, entry_time = ?, exit_time = ? where id = ?";
+        String query = "update attendance set user = ?, date = ?, entry_time = ?, exit_time = ? where id = ?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1,attendance.getEmployee().getId());
         ps.setDate(2, Date.valueOf(attendance.getDate()));
@@ -55,7 +55,7 @@ public class ServiceAttendance implements IService<Attendance> {
         PreparedStatement ps = con.prepareStatement(query);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            Attendance attendance = new Attendance(rs.getInt("id"),serviceEmployee.readById(rs.getInt("employee_id")),rs.getDate("date").toLocalDate(),rs.getTime("entry_time").toLocalTime(),rs.getTime("exit_time").toLocalTime());
+            Attendance attendance = new Attendance(rs.getInt("id"),serviceEmployee.readById(rs.getInt("user")),rs.getDate("date").toLocalDate(),rs.getTime("entry_time").toLocalTime(),rs.getTime("exit_time").toLocalTime());
             attendances.add(attendance);
         }
         return attendances;
@@ -69,7 +69,7 @@ public class ServiceAttendance implements IService<Attendance> {
         ps.setInt(1,id);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
-            return new Attendance(rs.getInt("id"),serviceEmployee.readById(rs.getInt("employee_id")),rs.getDate("date").toLocalDate(),rs.getTime("entry_time").toLocalTime(),rs.getTime("exit_time").toLocalTime());
+            return new Attendance(rs.getInt("id"),serviceEmployee.readById(rs.getInt("user")),rs.getDate("date").toLocalDate(),rs.getTime("entry_time").toLocalTime(),rs.getTime("exit_time").toLocalTime());
         }
         System.out.println("Attendance not found");
         return null;
@@ -78,12 +78,12 @@ public class ServiceAttendance implements IService<Attendance> {
     public List<Attendance> readAllByEmployee(Employee employee) throws SQLException {
         List<Attendance> attendances = new ArrayList<>();
         ServiceEmployee serviceEmployee = new ServiceEmployee();
-        String query = "select * from attendance where employee_id = ? ORDER BY date DESC";
+        String query = "select * from attendance where user = ? ORDER BY date DESC";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setInt(1,employee.getId());
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            attendances.add(new Attendance(rs.getInt("id"),serviceEmployee.readById(rs.getInt("employee_id")),rs.getDate("date").toLocalDate(),rs.getTime("entry_time").toLocalTime(),rs.getTime("exit_time").toLocalTime()));
+            attendances.add(new Attendance(rs.getInt("id"),serviceEmployee.readById(rs.getInt("user")),rs.getDate("date").toLocalDate(),rs.getTime("entry_time").toLocalTime(),rs.getTime("exit_time").toLocalTime()));
         }
         return attendances;
     }

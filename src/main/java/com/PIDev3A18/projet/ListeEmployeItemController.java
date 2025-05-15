@@ -87,14 +87,14 @@ public class ListeEmployeItemController {
             }
         }
 
-        InputStream stream = getClass().getResourceAsStream("icons/edit.png");
-        Image image = new Image(stream,16,16,true,true);
+        InputStream stream = getClass().getResourceAsStream("icons/pen.png");
+        Image image = new Image(stream,14,14,true,false);
         editButton.setGraphic(new ImageView(image));
         stream = getClass().getResourceAsStream("icons/check.png");
-        image = new Image(stream,16,16,true,true);
+        image = new Image(stream,16,14,true,false);
         acceptButton.setGraphic(new ImageView(image));
         stream = getClass().getResourceAsStream("icons/x.png");
-        image = new Image(stream,16,16,true,true);
+        image = new Image(stream,14,14,true,false);
         denyButton.setGraphic(new ImageView(image));
     }
 

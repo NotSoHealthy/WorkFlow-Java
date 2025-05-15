@@ -19,9 +19,9 @@
       <AnchorPane fx:id="anchor" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="720.0" prefWidth="1080.0" BorderPane.alignment="CENTER">
          <children>
             <Separator layoutX="20.0" layoutY="117.0" prefHeight="14.0" prefWidth="1051.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" />
-            <Separator layoutX="14.0" layoutY="213.0" prefHeight="16.0" prefWidth="1055.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="213.0">
+            <Separator layoutX="14.0" layoutY="214.0" prefHeight="16.0" prefWidth="1055.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="26.0" AnchorPane.topAnchor="214.0">
                <padding>
-                  <Insets bottom="10.0" top="50.0" />
+                  <Insets bottom="10.0" top="55.0" />
                </padding>
             </Separator>
             <VBox fx:id="hboxedit" layoutX="24.0" layoutY="134.0" prefHeight="97.0" prefWidth="604.0">
@@ -30,10 +30,13 @@
                      <children>
                         <HBox prefHeight="100.0" prefWidth="200.0">
                            <children>
-                              <Label text="Problème">
+                              <Label prefHeight="19.0" prefWidth="70.0" text="Problème :">
                                  <HBox.margin>
                                     <Insets top="10.0" />
                                  </HBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
                               </Label>
                               <Label fx:id="titre" text="label">
                                  <opaqueInsets>
@@ -58,12 +61,15 @@
                               </Label>
                            </children>
                         </HBox>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
+                        <HBox prefHeight="100.0" prefWidth="628.0">
                            <children>
-                              <Label text="Description">
+                              <Label text="Description :">
                                  <HBox.margin>
                                     <Insets top="10.0" />
                                  </HBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
                               </Label>
                               <Label fx:id="description" text="Label">
                                  <HBox.margin>
@@ -78,6 +84,9 @@
                                  <HBox.margin>
                                     <Insets top="10.0" />
                                  </HBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
                               </Label>
                               <Label fx:id="etat" prefHeight="18.0" prefWidth="76.0" text="Label">
                                  <HBox.margin>
@@ -86,13 +95,31 @@
                               </Label>
                               <ComboBox fx:id="dropdown" prefHeight="40.0" prefWidth="128.0" styleClass="btn">
                                  <HBox.margin>
-                                    <Insets left="270.0" />
+                                    <Insets />
                                  </HBox.margin>
                               </ComboBox>
                               <Button fx:id="close" mnemonicParsing="false" onAction="#closeState" prefHeight="30.0" prefWidth="88.0" styleClass="close" text="Fermer">
                                  <HBox.margin>
+                                    <Insets left="10.0" right="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Button fx:id="uploadtodrive" minHeight="13.0" minWidth="38.0" mnemonicParsing="false" onAction="#Upload" prefHeight="38.0" prefWidth="38.0" styleClass="btn">
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <Label fx:id="filename" prefHeight="18.0" prefWidth="95.0" text="Label">
+                                 <HBox.margin>
+                                    <Insets top="10.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Button fx:id="respo" mnemonicParsing="false" onAction="#UpdateAdmin" prefHeight="39.0" prefWidth="85.0" styleClass="btn" text="Gérer">
+                                 <HBox.margin>
                                     <Insets left="10.0" />
                                  </HBox.margin>
+                                 <font>
+                                    <Font name="System Bold" size="13.0" />
+                                 </font>
                               </Button>
                            </children>
                         </HBox>
@@ -100,7 +127,7 @@
                   </VBox>
                </children>
             </VBox>
-            <VBox layoutX="23.0" layoutY="279.0" prefHeight="100.0" prefWidth="606.0" styleClass="vbox-custom">
+            <VBox layoutX="23.0" layoutY="279.0" prefHeight="120.0" prefWidth="752.0" styleClass="vbox-custom">
                <children>
                   <Label prefHeight="46.0" prefWidth="368.0" text="Envoyer un Message :">
                      <font>
@@ -109,17 +136,20 @@
                   </Label>
                   <HBox prefHeight="100.0" prefWidth="200.0">
                      <children>
-                        <TextArea fx:id="message" prefHeight="34.0" prefWidth="283.0" styleClass="text-area" wrapText="true">
+                        <TextArea fx:id="message" prefHeight="19.0" prefWidth="425.0" styleClass="text-area" wrapText="true">
                            <HBox.margin>
-                              <Insets right="10.0" />
+                              <Insets bottom="10.0" right="10.0" top="10.0" />
                            </HBox.margin>
+                           <padding>
+                              <Insets top="20.0" />
+                           </padding>
                         </TextArea>
-                        <Label fx:id="submiterror" prefHeight="18.0" prefWidth="116.0" styleClass="ErrorText">
+                        <Label fx:id="submiterror" prefHeight="41.0" prefWidth="165.0" styleClass="ErrorText">
                            <HBox.margin>
-                              <Insets top="10.0" />
+                              <Insets top="5.0" />
                            </HBox.margin>
                         </Label>
-                        <Button fx:id="send" mnemonicParsing="false" onAction="#sendmessage" prefHeight="34.0" prefWidth="156.0" stylesheets="@css/reclamation.css" text="Enovyer">
+                        <Button fx:id="send" mnemonicParsing="false" onAction="#sendmessage" prefHeight="54.0" prefWidth="117.0" stylesheets="@css/reclamation.css" text="Enovyer" textFill="WHITE">
                            <styleClass>
                               <String fx:value="btn" />
                               <String fx:value="addbutton" />
@@ -127,6 +157,9 @@
                            <HBox.margin>
                               <Insets left="10.0" />
                            </HBox.margin>
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
                         </Button>
                      </children>
                   </HBox>
@@ -136,18 +169,21 @@
                <font>
                   <Font size="31.0" />
                </font>
+               <padding>
+                  <Insets top="10.0" />
+               </padding>
             </Label>
-            <ListView fx:id="listView" layoutX="22.0" layoutY="458.0" prefHeight="252.0" prefWidth="604.0" styleClass="listview" />
+            <ListView fx:id="listView" layoutX="22.0" layoutY="467.0" prefHeight="243.0" prefWidth="753.0" styleClass="listview" />
             <HBox layoutX="37.0" layoutY="31.0" prefHeight="100.0" prefWidth="507.0">
                <children>
                   <Label alignment="CENTER" prefHeight="62.0" prefWidth="314.0" stylesheets="@css/reclamation.css" text="Reclamation N°:">
                      <font>
-                        <Font size="42.0" />
+                        <Font name="System Bold" size="40.0" />
                      </font>
                   </Label>
                   <Label fx:id="recid" prefHeight="62.0" prefWidth="175.0" text="Label">
                      <font>
-                        <Font size="42.0" />
+                        <Font name="System Bold" size="42.0" />
                      </font>
                      <HBox.margin>
                         <Insets />
@@ -155,9 +191,9 @@
                   </Label>
                </children>
             </HBox>
-            <Separator layoutX="13.0" layoutY="346.0" prefHeight="16.0" prefWidth="1055.0">
+            <Separator layoutX="13.0" layoutY="356.0" prefHeight="16.0" prefWidth="1055.0">
                <padding>
-                  <Insets bottom="10.0" top="50.0" />
+                  <Insets bottom="10.0" top="60.0" />
                </padding>
             </Separator>
          </children>

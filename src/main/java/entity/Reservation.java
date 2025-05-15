@@ -5,6 +5,7 @@ public class Reservation {
     double price;
     String type;
     int NombreDePlaces;
+    String qr_url;
     Employee employee;
     Event e;
     public Reservation() {}
@@ -13,6 +14,15 @@ public class Reservation {
         this.price = price;
         this.type = type;
         this.NombreDePlaces = NombreDePlaces;
+        this.employee = employee;
+        this.e = e;
+    }
+    public Reservation(int id, double price, String type, int NombreDePlaces,String qr_url,Employee employee, Event e) {
+        this.id = id;
+        this.price = price;
+        this.type = type;
+        this.NombreDePlaces = NombreDePlaces;
+        this.qr_url = qr_url;
         this.employee = employee;
         this.e = e;
     }
@@ -65,6 +75,14 @@ public class Reservation {
     }
 
     public void setEvent(Event e) { this.e = e; }
+
+    public String getQr_url() {
+        return qr_url;
+    }
+
+    public void setQr_url(String qr_url) {
+        this.qr_url = qr_url;
+    }
 
     @Override
     public String toString() {

@@ -19,7 +19,7 @@ public class InterviewService implements IService<Interviews> {
     @Override
     public void add(Interviews interview) throws SQLException {
         if (isApplicationValid(interview.getApplicationId().getApplicationId())) {
-            String query = "INSERT INTO interviews (Application_ID, Interview_Date, Location, Feedback, Status, Employe_ID) VALUES (?, ?, ?, ?, ?, ?)";
+            String query = "INSERT INTO interview (application, Interview_Date, Location, Feedback, Status, user) VALUES (?, ?, ?, ?, ?, ?)";
             try (PreparedStatement ps = con.prepareStatement(query)) {
                 ps.setInt(1, interview.getApplicationId().getApplicationId());
                 ps.setDate(2, new java.sql.Date(interview.getInterviewDate().getTime()));
@@ -38,7 +38,7 @@ public class InterviewService implements IService<Interviews> {
     @Override
     public void update(Interviews interview) throws SQLException {
         if (isApplicationValid(interview.getApplicationId().getApplicationId())) {
-            String query = "UPDATE interviews SET Application_ID = ?, Interview_Date = ?, Location = ?, Feedback = ?, Status = ?, Employee_ID = ? WHERE Interview_ID = ?";
+            String query = "UPDATE interview SET application = ?, Interview_Date = ?, Location = ?, Feedback = ?, Status = ?, user = ? WHERE id = ?";
             try (PreparedStatement ps = con.prepareStatement(query)) {
                 ps.setInt(1, interview.getApplicationId().getApplicationId());
                 ps.setDate(2, new java.sql.Date(interview.getInterviewDate().getTime()));
@@ -56,7 +56,7 @@ public class InterviewService implements IService<Interviews> {
     }
 
     private boolean isApplicationValid(int applicationId) throws SQLException {
-        String query = "SELECT COUNT(*) FROM applications WHERE Application_ID = ?";
+        String query = "SELECT COUNT(*) FROM application WHERE id = ?";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, applicationId);
             try (ResultSet rs = ps.executeQuery()) {
@@ -70,7 +70,7 @@ public class InterviewService implements IService<Interviews> {
 
     @Override
     public void delete(Interviews interview) throws SQLException {
-        String query = "DELETE FROM interviews WHERE Interview_ID = ?";
+        String query = "DELETE FROM interview WHERE id = ?";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, interview.getInterviewId());
             int rowsAffected = ps.executeUpdate();
@@ -79,7 +79,7 @@ public class InterviewService implements IService<Interviews> {
     }
 
     public Interviews readById(int id) throws SQLException {
-        String query = "SELECT * FROM interviews WHERE Interview_ID = ?";
+        String query = "SELECT * FROM interview WHERE id = ?";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
@@ -87,11 +87,11 @@ public class InterviewService implements IService<Interviews> {
                     ApplicationService applicationService = new ApplicationService();
                     ServiceEmployee serviceEmployee = new ServiceEmployee();
 
-                    Applications application = applicationService.readById(rs.getInt("Application_ID"));
+                    Applications application = applicationService.readById(rs.getInt("application"));
                     Employee employee = serviceEmployee.readById(rs.getInt("Employee_ID"));
 
                     return new Interviews(
-                            rs.getInt("Interview_ID"),
+                            rs.getInt("id"),
                             application,
                             employee,
                             rs.getDate("Interview_Date"),
@@ -106,7 +106,7 @@ public class InterviewService implements IService<Interviews> {
     }
 
     public List<Interviews> readAll() throws SQLException {
-        String query = "SELECT * FROM interviews";
+        String query = "SELECT * FROM interview";
         try (PreparedStatement ps = con.prepareStatement(query);
              ResultSet rs = ps.executeQuery()) {
 
@@ -115,11 +115,11 @@ public class InterviewService implements IService<Interviews> {
                 ApplicationService applicationService = new ApplicationService();
                 ServiceEmployee serviceEmployee = new ServiceEmployee();
 
-                Applications application = applicationService.readById(rs.getInt("Application_ID"));
-                Employee employee = serviceEmployee.readById(rs.getInt("Employe_id"));
+                Applications application = applicationService.readById(rs.getInt("application"));
+                Employee employee = serviceEmployee.readById(rs.getInt("user"));
 
                 Interviews interview = new Interviews(
-                        rs.getInt("Interview_ID"),
+                        rs.getInt("id"),
                         application,
                         employee,
                         rs.getDate("Interview_Date"),

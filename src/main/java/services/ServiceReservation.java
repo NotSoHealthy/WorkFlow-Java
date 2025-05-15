@@ -25,14 +25,15 @@ public class ServiceReservation implements IService<Reservation> {
             System.out.println("Event is full");
         }
         else{
-            String requete="insert into reservation(Price,Type,NombreDePlaces,UID,ID_Event) values(?,?,?,?,?)";
+            String requete="insert into reservation(Price,Type,NombreDePlaces,qr_url,user,event) values(?,?,?,?,?,?)";
             try {
                 pst= cnx.prepareStatement(requete);
                 pst.setDouble(1,reservation.getPrice());
                 pst.setString(2,reservation.getType());
                 pst.setInt(3,reservation.getNombreDePlaces());
-                pst.setInt(4,reservation.getEmployee().getId());
-                pst.setInt(5,reservation.getEvent().getId());
+                pst.setString(4,reservation.getQr_url());
+                pst.setInt(5,reservation.getEmployee().getId());
+                pst.setInt(6,reservation.getEvent().getId());
                 pst.executeUpdate();
                 es.decrementNumber(reservation);
             } catch (SQLException ex) {
@@ -44,7 +45,7 @@ public class ServiceReservation implements IService<Reservation> {
     @Override
     public void delete(Reservation r) {
         ServiceEvent es=new ServiceEvent();
-        String requete="delete from reservation where ID_Reservation=?";
+        String requete="delete from reservation where id=?";
         try {
             pst=cnx.prepareStatement(requete);
             pst.setInt(1, r.getId());
@@ -57,7 +58,7 @@ public class ServiceReservation implements IService<Reservation> {
 
     @Override
     public void update(Reservation reservation) {
-        String requete="update reservation set Price=?,Type=?,NombreDePlaces = ? ,UID=? where ID_Reservation=?";
+        String requete="update reservation set Price=?,Type=?,NombreDePlaces = ? ,user=? where id=?";
         try {
             pst=cnx.prepareStatement(requete);
             pst.setDouble(1,reservation.getPrice());
@@ -81,7 +82,7 @@ public class ServiceReservation implements IService<Reservation> {
             ste=cnx.createStatement();
             rs=ste.executeQuery(requete);
             while(rs.next()){
-                reservations.add(new Reservation(rs.getInt("ID_Reservation"),rs.getDouble("price"),rs.getString("Type"),rs.getInt("NombreDePlaces"),es1.readById(rs.getInt("UID")),es.readById(rs.getInt("ID_Event"))));
+                reservations.add(new Reservation(rs.getInt("id"),rs.getDouble("price"),rs.getString("Type"),rs.getInt("NombreDePlaces"),rs.getString("qr_url"),es1.readById(rs.getInt("user")),es.readById(rs.getInt("event"))));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -99,12 +100,13 @@ public class ServiceReservation implements IService<Reservation> {
             ste=cnx.createStatement();
             rs=ste.executeQuery(requete);
             rs.next();
-            r.setId(rs.getInt("ID_Reservation"));
+            r.setId(rs.getInt("id"));
             r.setPrice(rs.getFloat("price"));
             r.setType(rs.getString("Type"));
             r.setNombreDePlaces(rs.getInt("NombreDePlaces"));
-            r.setEmployee(es1.readById(rs.getInt("UID")));
-            r.setEvent(es.readById(rs.getInt("ID_Event")));
+            r.setQr_url(rs.getString("qr_url"));
+            r.setEmployee(es1.readById(rs.getInt("user")));
+            r.setEvent(es.readById(rs.getInt("event")));
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -119,7 +121,7 @@ public class ServiceReservation implements IService<Reservation> {
             ste=cnx.createStatement();
             rs=ste.executeQuery(requete);
             while(rs.next()){
-                reservations.add(new Reservation(rs.getInt("ID_Reservation"),rs.getDouble("price"),rs.getString("Type"),rs.getInt("NombreDePlaces"),es1.readById(rs.getInt("UID")),es.readById(rs.getInt("ID_Event"))));
+                reservations.add(new Reservation(rs.getInt("id"),rs.getDouble("price"),rs.getString("Type"),rs.getInt("NombreDePlaces"),rs.getString("qr_url"),es1.readById(rs.getInt("user")),es.readById(rs.getInt("event"))));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

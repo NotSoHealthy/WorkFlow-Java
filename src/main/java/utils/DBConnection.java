@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DBConnection {
-    private final String url = "jdbc:mysql://localhost:3306/workflow";
+    private final String url = "jdbc:mysql://localhost:3306/workflow_web";
     private final String username = "root";
     private final String password = "";
 

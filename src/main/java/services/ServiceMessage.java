@@ -24,7 +24,7 @@ public class ServiceMessage implements IService<Message> {
 
     @Override
     public void add(Message message) throws SQLException {
-        String req ="insert into messages  (contenu,date,heure,id_reclamation,id_user) values(?,?,?,?,?)";
+        String req ="insert into message  (contenu,date,heure,reclamation,user) values(?,?,?,?,?)";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setString(1, message.getContenu());
         ps.setDate(2, message.getDate());
@@ -37,7 +37,7 @@ public class ServiceMessage implements IService<Message> {
 
     @Override
     public void update(Message messages) throws SQLException {
-        String req ="update messages set contenu=?,date=?,heure=? where id=?";
+        String req ="update message set contenu=?,date=?,heure=? where id=?";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setString(1, messages.getContenu());
         ps.setDate(2, messages.getDate());
@@ -49,7 +49,7 @@ public class ServiceMessage implements IService<Message> {
 
     @Override
     public void delete(Message message) throws SQLException {
-        String req ="delete from messages where id = ?";
+        String req ="delete from message where id = ?";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setInt(1, message.getMessage_ID());
         ps.executeUpdate();
@@ -58,12 +58,12 @@ public class ServiceMessage implements IService<Message> {
 
     @Override
     public List<Message> readAll() throws SQLException {
-        String req ="select * from messages";
+        String req ="select * from message";
         PreparedStatement ps = cnx.prepareStatement(req);
         ResultSet rs = ps.executeQuery();
         List<Message> messages = new ArrayList<>();
         while (rs.next()) {
-            messages.add(new Message(rs.getInt("id"),rs.getString("contenu"),rs.getDate("date"),rs.getTime("heure"),new ServiceReclamation().readById(rs.getInt("id_reclamation")),new ServiceEmployee().readById(rs.getInt("id_user"))));
+            messages.add(new Message(rs.getInt("id"),rs.getString("contenu"),rs.getDate("date"),rs.getTime("heure"),new ServiceReclamation().readById(rs.getInt("reclamation")),new ServiceEmployee().readById(rs.getInt("user"))));
         }
         ps.close();
         return messages;
@@ -72,12 +72,12 @@ public class ServiceMessage implements IService<Message> {
 
     @Override
     public Message readById(int id) throws SQLException {
-        String req ="select * from messages where id=?";
+        String req ="select * from message where id=?";
         PreparedStatement ps = cnx.prepareStatement(req);
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            return new Message(rs.getInt("id"),rs.getString("contenu"),rs.getDate("date"),rs.getTime("heure"),new ServiceReclamation().readById(rs.getInt("id_reclamation")),new ServiceEmployee().readById(rs.getInt("id_user")));
+            return new Message(rs.getInt("id"),rs.getString("contenu"),rs.getDate("date"),rs.getTime("heure"),new ServiceReclamation().readById(rs.getInt("reclamation")),new ServiceEmployee().readById(rs.getInt("user")));
         }
         ps.close();
         return null;

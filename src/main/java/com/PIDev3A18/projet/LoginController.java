@@ -69,10 +69,10 @@ public class LoginController {
 
     public void login(ActionEvent event) throws SQLException, IOException {
         String email = emailField.getText();
-        String password = passwordField.getText();
-        if (serviceEmployee.verifPassword(email, password)){
+        String plainPassword = passwordField.getText();
+        if (serviceEmployee.verifPassword(email, plainPassword)){
             System.out.println("Password verified");
-            Employee employee = serviceEmployee.readByEmailAndPassword(email, password);
+            Employee employee = serviceEmployee.readByEmailFull(email);
             if (employee.getStatus().equals("pending")){
                 showNotification("Votre compte est toujours en cours de vérification",2, false);
                 return;

@@ -19,6 +19,7 @@ import javafx.stage.FileChooser;
 import javafx.util.Duration;
 import services.ServiceEmployee;
 import utils.ImgApi;
+import utils.PasswordHasher;
 import utils.UserSession;
 
 import java.io.*;
@@ -184,7 +185,7 @@ public class EditProfileController{
                 loggedInEmployee.setFirstName(prenomField.getText());
                 loggedInEmployee.setEmail(emailField.getText());
                 loggedInEmployee.setPhone(numField.getText());
-                loggedInEmployee.setPassword(passwordField.getText());
+                loggedInEmployee.setPassword(PasswordHasher.hashPassword(passwordField.getText()));
                 loggedInEmployee.setAdresse(adresseField.getText());
                 loggedInEmployee.setGouvernorat(comboBox.getSelectionModel().getSelectedItem());
 

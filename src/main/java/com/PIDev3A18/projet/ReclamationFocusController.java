@@ -1,5 +1,9 @@
 package com.PIDev3A18.projet;
 
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.services.drive.Drive;
+import com.google.api.services.gmail.Gmail;
 import entity.Employee;
 import entity.Message;
 import entity.Reclamation;
@@ -18,8 +22,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
-import services.ServiceMessage;
-import services.ServiceReclamation;
+import services.*;
 import utils.UserSession;
 
 import java.awt.*;
@@ -35,6 +38,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 import static com.PIDev3A18.projet.Main.scene;
+
 
 public class ReclamationFocusController {
 
@@ -56,6 +60,10 @@ public class ReclamationFocusController {
     @FXML
     private Button close;
     @FXML
+    private Button uploadtodrive;
+    @FXML
+    private Button respo;
+    @FXML
     private Label etat;  // New field for email
 
     @FXML
@@ -69,15 +77,20 @@ public class ReclamationFocusController {
     private Label closetext;
     @FXML
     private Label datereso;
+    @FXML
+    private Label filename;
 
 
     private Reclamation selectedR;
 
     UserSession userSession = UserSession.getInstance();
+    ServiceGoogleDrive sgd = new ServiceGoogleDrive();
+    ServiceGmail sg = new ServiceGmail();
     Employee loggedinEmployee = userSession.getLoggedInEmployee();
 
     private ServiceReclamation sr = new ServiceReclamation();
     private ServiceMessage sm = new ServiceMessage();
+    NotificationService ns = new NotificationService();
 
     public void SetReclamation(Reclamation r) {
         this.selectedR = r;
@@ -85,12 +98,43 @@ public class ReclamationFocusController {
             initialize();
         }
     }
+
+    @FXML
+    public void UpdateAdmin()
+    {
+        selectedR.setResponsable(this.loggedinEmployee);
+        try {
+            sr.update(selectedR);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        initialize();
+    }
+    @FXML
+    public void Upload() throws Exception {
+       sgd.UploadToDrive(selectedR.getAttachedfile());
+    }
     @FXML
     public void initialize()
     {
-
-
         if(selectedR !=null ) {
+            uploadtodrive.setVisible(false);
+            filename.setVisible(false);
+            if(selectedR.getResponsable() != null||!"Résponsable".equals(loggedinEmployee.getRole()))
+                respo.setVisible(false);
+
+            if(selectedR.getAttachedfile() != null){
+                uploadtodrive.setVisible(true);
+                filename.setVisible(true);
+                filename.setText( selectedR.getAttachedfile().substring(selectedR.getAttachedfile().lastIndexOf("/") + 1));
+            }
+
+            InputStream input = getClass().getResourceAsStream("icons/drive.png");
+            Image image1 = new Image(input, 24, 24, true, true);
+            ImageView imageView1 = new ImageView(image1);
+            uploadtodrive.setGraphic(imageView1);
+
+
 
             if(selectedR.getDate_resolution()!=null){
                 datereso.setText("résolu : "+selectedR.getDate_resolution().toString());
@@ -98,7 +142,8 @@ public class ReclamationFocusController {
                 dropdown.setVisible(false);
                 close.setVisible(false);
             }
-            if("Résponsable".equals(loggedinEmployee.getRole()) && selectedR.getDate_resolution()==null )
+
+            if("Résponsable".equals(loggedinEmployee.getRole()) && selectedR.getDate_resolution()==null && selectedR.getResponsable() != null && loggedinEmployee.getId() == selectedR.getResponsable().getId())
             {
                 dropdown.setVisible(true);
                 close.setVisible(true);
@@ -110,8 +155,19 @@ public class ReclamationFocusController {
             }
             if(dropdown.getItems().isEmpty()){
         dropdown.getItems().addAll("Pending", "In Progress", "On Hold","Closed","Rejected");
-        dropdown.setValue("Pending");
-        hboxedit.getStyleClass().add("orange");
+        dropdown.setValue(selectedR.getEtat());
+                if ("Pending".equals(dropdown.getValue())) hboxedit.getStyleClass().add("orange");
+
+                 else if ("In Progress".equals(dropdown.getValue())) hboxedit.getStyleClass().add("purple");
+
+
+                else if ("On Hold".equals(dropdown.getValue())) hboxedit.getStyleClass().add("yellow");
+
+                else if ("Closed".equals(dropdown.getValue())) hboxedit.getStyleClass().add("green");
+
+                else hboxedit.getStyleClass().add("red");
+
+
             }
 
 
@@ -130,26 +186,26 @@ public class ReclamationFocusController {
             if ("Pending".equals(selectedValue)) {
                 hboxedit.getStyleClass().clear();
                 hboxedit.getStyleClass().add("orange");
-                selectedR.setEtat("PENDING");
+                selectedR.setEtat("Pending");
                 etat.setText(selectedR.getEtat());
 
             } else if ("In Progress".equals(selectedValue)) {
                 hboxedit.getStyleClass().clear();
                 hboxedit.getStyleClass().add("purple");
-                selectedR.setEtat("IN PROGRESS");
+                selectedR.setEtat("In Progress");
                 etat.setText(selectedR.getEtat());
 
             }else if ("On Hold".equals(selectedValue)) {
                 hboxedit.getStyleClass().clear();
                 hboxedit.getStyleClass().add("yellow");
-                selectedR.setEtat("ON HOLD");
+                selectedR.setEtat("On Hold");
                 etat.setText(selectedR.getEtat());
 
             }
             else if ("Closed".equals(selectedValue)) {
                 hboxedit.getStyleClass().clear();
                 hboxedit.getStyleClass().add("green");
-                selectedR.setEtat("CLOSED");
+                selectedR.setEtat("Closed");
                 etat.setText(selectedR.getEtat());
 
             }
@@ -157,7 +213,7 @@ public class ReclamationFocusController {
             {
                 hboxedit.getStyleClass().clear();
                 hboxedit.getStyleClass().add("red");
-                selectedR.setEtat("REJECTED");
+                selectedR.setEtat("Rejected");
                 etat.setText(selectedR.getEtat());
 
             }
@@ -224,7 +280,7 @@ public class ReclamationFocusController {
 
 
                         Label positionLabel = new Label(me.getContenu());
-                        positionLabel.setStyle("-fx-font-size: 12px; -fx-text-fill: gray;");
+                        positionLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
                         positionLabel.setWrapText(true);
                         InputStream input = getClass().getResourceAsStream("icons/delete.png");
                         javafx.scene.image.Image image3 = new Image(input, 16, 16, true, true);
@@ -258,11 +314,11 @@ public class ReclamationFocusController {
                             }
                         });
 
-                        HBox.setMargin(delete, new javafx.geometry.Insets(10, 10, 0, 10));
+                        HBox.setMargin(delete, new javafx.geometry.Insets(10, 10, 0, 650));
                         HBox.setMargin(edit,new javafx.geometry.Insets(10, 10, 0, 180));
 
                         if(!loggedinEmployee.getRole().equals("Résponsable"))delete.setVisible(false);
-                        hbox2.getChildren().addAll(edit,delete);
+                        hbox2.getChildren().addAll(delete);
                         vbox.getChildren().addAll(hBox,separator, positionLabel, hbox2);
                         setGraphic(vbox);
                     }
@@ -284,8 +340,9 @@ public class ReclamationFocusController {
         LocalTime localTime = LocalTime.now();
         Time sqlTime = Time.valueOf(localTime);
 
-
-        if(selectedR.getDate_resolution()!=null)
+        if(loggedinEmployee.getId() != selectedR.getEmployee().getId() && loggedinEmployee.getId() != selectedR.getResponsable().getId())
+            submiterror.setText("Vous n'avez pas accès à cette discussion !");
+        else if(selectedR.getDate_resolution()!=null)
         {submiterror.setText("Reclamation Fermé !");
 
         }
@@ -296,6 +353,11 @@ public class ReclamationFocusController {
         else
         {
             Message m = new Message(message.getText(),sqlDate,sqlTime,selectedR,loggedinEmployee);
+            message.setText("");
+            submiterror.setText("");
+            if("Résponsable".equals(loggedinEmployee.getRole()))
+            ns.sendnotification(loggedinEmployee.getFirstName()+" "+loggedinEmployee.getLastName() +" "+ "vous a envoyé un nouveau message :\n" +
+                    m.getContenu());
             try {
 
                 sm.add(m);
@@ -310,25 +372,58 @@ public class ReclamationFocusController {
     private void closeState()
     {
 
-     if("CLOSED".equals(selectedR.getEtat()))
+     if("Closed".equals(selectedR.getEtat()))
      {
 
          try {
+             sg.sendGmail(selectedR.getEmployee().getEmail(),"Mise à jour de votre réclamation","Madame, Monsieur "+selectedR.getEmployee().getFirstName()+" "+selectedR.getEmployee().getLastName()+"\n" +
+                     "\n" +
+                     "Nous avons le plaisir de vous informer que votre réclamation a été examinée et approuvée. Après une analyse approfondie, nous avons constaté que votre demande répond aux critères requis, et les mesures appropriées ont été prises pour résoudre le problème.\n" +
+                     "\n" +
+                     "Si vous avez des questions supplémentaires ou besoin d'une assistance complémentaire, n'hésitez pas à nous contacter. Nous accordons une grande importance à vos commentaires et nous nous engageons à garantir votre satisfaction.\n" +
+                     "\n" +
+                     "Nous vous remercions d'avoir porté cette question à notre attention.\nCordialement,\n" +
+                     selectedR.getResponsable().getFirstName()+" "+selectedR.getResponsable().getLastName()+"\n" +
+
+                     "Workflow\n" +
+                     selectedR.getResponsable().getPhone()+"\n" +
+                     "\n");
          etat.setText(selectedR.getEtat());
          LocalDate localDate = LocalDate.now();
          Date sqlDate = Date.valueOf(localDate);
          selectedR.setDate_resolution(sqlDate);
 
          sr.update(selectedR);
-     } catch (SQLException e) {
-        throw new RuntimeException(e);
-    }
+
+
+    } catch (Exception e) {
+             throw new RuntimeException(e);
+         }
 
      }
      else
      {
-         selectedR.setEtat("REJECTED");
          try {
+             sg.sendGmail(selectedR.getEmployee().getEmail(),"Mise à jour de votre réclamation","Madame, Monsieur "+selectedR.getEmployee().getFirstName()+" "+selectedR.getEmployee().getLastName()+",\n" +
+                     "\n" +
+                     "Après un examen approfondi de votre réclamation, nous regrettons de vous informer que votre demande a été refusée. Sur la base des informations fournies et de nos politiques internes, nous n'avons pas pu approuver votre réclamation à ce stade.\n" +
+                     "\n" +
+                     "Nous comprenons que cette décision peut être décevante, et nous vous encourageons à nous contacter si vous disposez d'informations ou de documents supplémentaires qui pourraient soutenir votre dossier. Notre équipe reste à votre disposition pour vous assister et vous fournir des éclaircissements concernant cette décision.\n" +
+                     "\n" +
+                     "Nous vous remercions de votre compréhension et vous remercions de nous avoir donné l'opportunité de traiter votre demande.\n" +
+                     "\n" +
+                     "Cordialement,\n" +
+                     selectedR.getResponsable().getFirstName()+" "+selectedR.getResponsable().getLastName()+ "\n" +
+
+                     "Workflow\n" +
+                     selectedR.getResponsable().getPhone());
+         } catch (Exception e) {
+             throw new RuntimeException(e);
+         }
+         selectedR.setEtat("Rejected");
+         try {
+
+
              LocalDate localDate = LocalDate.now();
              Date sqlDate = Date.valueOf(localDate);
 
@@ -350,5 +445,7 @@ public class ReclamationFocusController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+
+
 
 }

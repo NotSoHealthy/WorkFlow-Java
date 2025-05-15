@@ -17,7 +17,7 @@ public class JobOfferService implements IService<JobOffer> {
 
     @Override
     public void add(JobOffer jobOffer) throws SQLException {
-        String query = "INSERT INTO job_offer (Title, Description, Publication_Date, Expiration_Date, Contract_Type, Salary, Employe_ID) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO job_offer (Title, Description, Publication_Date, Expiration_Date, Contract_Type, Salary, user) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setString(1, jobOffer.getTitle());
             ps.setString(2, jobOffer.getDescription());
@@ -33,7 +33,7 @@ public class JobOfferService implements IService<JobOffer> {
 
     @Override
     public void update(JobOffer jobOffer) throws SQLException {
-        String query = "UPDATE job_offer SET Title = ?, Description = ?, Publication_Date = ?, Expiration_Date = ?, Contract_Type = ?, Salary = ?, Employe_ID = ? WHERE Job_ID = ?";
+        String query = "UPDATE job_offer SET Title = ?, Description = ?, Publication_Date = ?, Expiration_Date = ?, Contract_Type = ?, Salary = ?, user = ? WHERE id = ?";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setString(1, jobOffer.getTitle());
             ps.setString(2, jobOffer.getDescription());
@@ -50,7 +50,7 @@ public class JobOfferService implements IService<JobOffer> {
 
     @Override
     public void delete(JobOffer jobOffer) throws SQLException {
-        String query = "DELETE FROM job_offer WHERE Job_ID = ?";
+        String query = "DELETE FROM job_offer WHERE id = ?";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, jobOffer.getJobId());
             int rowsAffected = ps.executeUpdate();
@@ -60,17 +60,17 @@ public class JobOfferService implements IService<JobOffer> {
 
     @Override
     public JobOffer readById(int id) throws SQLException {
-        String query = "SELECT * FROM job_offer WHERE Job_ID = ?";
+        String query = "SELECT * FROM job_offer WHERE id = ?";
         try (PreparedStatement ps = con.prepareStatement(query)) {
             ps.setInt(1, id);
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     ServiceEmployee serviceEmployee = new ServiceEmployee();
 
-                    Employee employee = serviceEmployee.readById(rs.getInt("Employe_ID"));
+                    Employee employee = serviceEmployee.readById(rs.getInt("user"));
 
                     return new JobOffer(
-                            rs.getInt("Job_ID"),
+                            rs.getInt("id"),
                             rs.getString("Title"),
                             rs.getString("Description"),
                             rs.getDate("Publication_Date"),
@@ -95,10 +95,10 @@ public class JobOfferService implements IService<JobOffer> {
             while (rs.next()) {
                 ServiceEmployee serviceEmployee = new ServiceEmployee();
 
-                Employee employee = serviceEmployee.readById(rs.getInt("Employe_ID"));
+                Employee employee = serviceEmployee.readById(rs.getInt("user"));
 
                 JobOffer jobOffer = new JobOffer(
-                        rs.getInt("Job_ID"),
+                        rs.getInt("id"),
                         rs.getString("Title"),
                         rs.getString("Description"),
                         rs.getDate("Publication_Date"),
@@ -112,5 +112,4 @@ public class JobOfferService implements IService<JobOffer> {
             return jobOffers;
         }
     }
-
 }
